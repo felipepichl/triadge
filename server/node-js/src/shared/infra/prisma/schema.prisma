@@ -1,0 +1,118 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// enum UserRole {
+//   ADMIN
+//   MEMBER
+//   GUEST
+// }
+
+// enum UserLevel {
+//   BEGINNER
+//   INTERMEDIATE
+//   EXPERT
+// }
+
+model User {
+  id          String    @id @default(uuid())
+  name        String
+  email       String?   @unique
+  password    String?
+  phoneNumber String
+  avatar      String?
+  role        String?
+  level       String?
+  startDate   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  UsersTokens UserTokens[]
+  Attendances Attendance[]
+
+  Address     Address? @relation(fields: [fkAddressId], references: [id])
+  fkAddressId String?
+
+  lodgeId     String?
+  memberLodge Lodge?  @relation("MemberLodgeRelation", fields: [lodgeId], references: [id])
+
+  administeredLodgeId String? @unique
+  administeredLodge   Lodge?  @relation("AdminLodgeRelation")
+}
+
+model UserTokens {
+  id            String   @id @default(uuid())
+  refresh_token String
+  expires_date  DateTime
+
+  users      User   @relation(fields: [fk_user_id], references: [id])
+  fk_user_id String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Meeting {
+  id   String   @id @default(uuid())
+  date DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  attendances Attendance[]
+}
+
+model Attendance {
+  id        String @id @default(uuid())
+  userId    String
+  meetingId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id])
+  meeting Meeting @relation(fields: [meetingId], references: [id])
+}
+
+model Lodge {
+  id           String   @id @default(uuid())
+  name         String
+  avatar       String?
+  latitude     Float?
+  longitude    Float?
+  foundingDate DateTime
+  isActive     Boolean  @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Address     Address? @relation(fields: [fkAddressId], references: [id])
+  fkAddressId String?
+
+  adminUserId String? @unique
+  admin       User?   @relation("AdminLodgeRelation", fields: [adminUserId], references: [id])
+
+  members User[] @relation("MemberLodgeRelation")
+}
+
+model Address {
+  id           String  @id @default(uuid())
+  zipCode      String
+  street       String
+  number       String
+  city         String
+  neighborhood String
+  complement   String?
+
+  users User[]
+  lodge Lodge[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
