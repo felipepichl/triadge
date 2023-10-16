@@ -38,3 +38,63 @@ model UserTokens {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Product {
+  id          String  @id @default(uuid())
+  name        String
+  description String
+  costPrice   Decimal
+  salePrice   Decimal
+  stock       Int
+  stockLimit  Int
+  avatar      String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
+
+  subcategory   Subcategory? @relation(fields: [subcategoryId], references: [id])
+  subcategoryId String?
+
+  brand   Brand?  @relation(fields: [brandId], references: [id])
+  brandId String?
+}
+
+model Category {
+  id          String @id @default(uuid())
+  name        String
+  description String
+
+  products      Product[]
+  subcategories Subcategory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Subcategory {
+  id          String @id @default(uuid())
+  name        String
+  description String
+
+  products Product[]
+
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Brand {
+  id          String @id @default(uuid())
+  name        String
+  description String
+
+  products Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
