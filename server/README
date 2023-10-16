@@ -1,0 +1,69 @@
+# ERP System - Entity Specification
+
+## 📦 Entities
+
+### 1️⃣ **Product**
+
+**Description:** Represents a specific item or product sold or stored.
+
+#### Attributes:
+- **id:** Unique identifier for the product.
+- **name:** Product name.
+- **description:** Optional product description.
+- **costPrice:** Cost price of the product.
+- **salePrice:** Sale price of the product.
+- **stock:** Current stock quantity.
+- **stockLimit:** Maximum stock limit.
+- **avatar:** Link for the product image or avatar.
+
+#### Relations:
+- **Category:** Each product belongs to a single category.
+- **SubCategory:** Each product belongs to a single subcategory.
+- **Brand:** Each product is associated with a single brand.
+
+---
+
+### 2️⃣ **Category**
+
+**Description:** Represents a main category of products.
+
+#### Attributes:
+- **id:** Unique identifier for the category.
+- **name:** Category name.
+
+#### Relations:
+- **Product:** A category can have multiple associated products.
+- **SubCategory:** A category can have multiple subcategories.
+
+---
+
+### 3️⃣ **SubCategory**
+
+**Description:** Represents a subcategory of products, falling under a main category.
+
+#### Attributes:
+- **id:** Unique identifier for the subcategory.
+- **name:** Subcategory name.
+
+#### Relations:
+- **Category:** Each subcategory belongs to a single category.
+- **Product:** A subcategory can have multiple associated products.
+
+---
+
+### 4️⃣ **Brand**
+
+**Description:** Represents a brand or manufacturer associated with products.
+
+#### Attributes:
+- **id:** Unique identifier for the brand.
+- **name:** Brand name.
+
+#### Relations:
+- **Product:** A brand can have multiple associated products.
+
+---
+
+## 🔚 Final Remarks
+
+This specification serves as an initial guide for the development of entities and their relationships in the ERP system. Development might require adjustments and updates as implementation progresses and new requirements are identified.
