@@ -8,11 +8,6 @@ interface IUserProps {
   password?: string
   phoneNumber: string
   avatar?: string
-  role?: string
-  level?: string
-  fk_lodge_id?: string
-  fk_address_id?: string
-  startDate?: Date
 }
 
 class User extends AggregateRoot<IUserProps> {
@@ -38,26 +33,6 @@ class User extends AggregateRoot<IUserProps> {
 
   get phoneNumber(): string {
     return this.props.phoneNumber
-  }
-
-  get role(): string {
-    return this.props.role
-  }
-
-  get level(): string {
-    return this.props.level
-  }
-
-  get fk_lodge_id(): string {
-    return this.props.fk_lodge_id
-  }
-
-  get fk_address_id(): string {
-    return this.props.fk_address_id
-  }
-
-  get startDate(): Date {
-    return this.props.startDate
   }
 
   public static createUser({
