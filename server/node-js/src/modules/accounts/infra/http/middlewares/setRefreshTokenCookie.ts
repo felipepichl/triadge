@@ -3,13 +3,12 @@ import { sign } from 'jsonwebtoken'
 
 import { authConfig } from '@config/auth'
 
-function setRefreshTokenCookieMiddleware(
+function setRefreshTokenCookie(
   request: Request,
   response: Response,
   next: NextFunction,
 ) {
-  const { secretRefreshToken, expiresInRefreshToken, expiresRefreshTokenDays } =
-    authConfig
+  const { secretRefreshToken, expiresInRefreshToken } = authConfig
 
   const { user } = request
   const { email } = user
@@ -19,14 +18,10 @@ function setRefreshTokenCookieMiddleware(
     expiresIn: expiresInRefreshToken,
   })
 
-  const refreshTokenExpiresDate = this.dateProvider.addDays(
-    expiresRefreshTokenDays,
-  )
-
   const cookieOptions = {
-    httpOnly: true,
-    expires: refreshTokenExpiresDate,
+    path: '/',
     secure: true,
+    httpOnly: true,
     sameSite: true,
   }
 
@@ -35,4 +30,4 @@ function setRefreshTokenCookieMiddleware(
   next()
 }
 
-export { setRefreshTokenCookieMiddleware }
+export { setRefreshTokenCookie }
