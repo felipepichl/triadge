@@ -13,9 +13,9 @@ class UsersTokensRepository implements IUsersTokensRepository {
   }: UserTokens): Promise<UserTokens> {
     const result = await PrismaSingleton.getInstance().userTokens.create({
       data: {
-        fk_user_id: userId,
-        expires_date: expiresDate,
-        refresh_token: refreshToken,
+        userId,
+        expiresDate,
+        refreshToken,
       },
     })
 
@@ -27,7 +27,7 @@ class UsersTokensRepository implements IUsersTokensRepository {
     refreshToken: string,
   ): Promise<UserTokens> {
     const result = await PrismaSingleton.getInstance().userTokens.findFirst({
-      where: { fk_user_id: userId, refresh_token: refreshToken },
+      where: { userId, refreshToken },
     })
 
     return UserTokensMappers.getMapper().toDomain(result)

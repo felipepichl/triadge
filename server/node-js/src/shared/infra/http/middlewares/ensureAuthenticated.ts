@@ -9,6 +9,7 @@ interface ITokenPayload {
   iat: number
   exp: number
   sub: string
+  email: string
 }
 
 async function ensureAuthenticated(
@@ -29,7 +30,7 @@ async function ensureAuthenticated(
   try {
     const decoded = verify(token, secretToken)
 
-    const { sub: userId } = decoded as ITokenPayload
+    const { sub: userId, email } = decoded as ITokenPayload
 
     // const usersRepository = new UsersRepository();
     // const user = await usersRepository.findById(user_id);
@@ -40,6 +41,7 @@ async function ensureAuthenticated(
 
     request.user = {
       id: userId,
+      email,
     }
 
     return next()

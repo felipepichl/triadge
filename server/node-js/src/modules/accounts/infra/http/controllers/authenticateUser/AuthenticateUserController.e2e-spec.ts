@@ -20,6 +20,6 @@ describe('[E2E] = Authenticate User', () => {
 
     expect(responseToken.status).toBe(200)
     expect(responseToken.body).toHaveProperty('token')
-    expect(responseToken.body).toHaveProperty('refreshToken')
+    // expect(responseToken.body).toHaveProperty('refreshToken')
   })
 })
