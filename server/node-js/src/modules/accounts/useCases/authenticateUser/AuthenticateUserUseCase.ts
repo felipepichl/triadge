@@ -67,10 +67,10 @@ class AuthenticateUserUseCase implements IUseCase<IRequest, IResponse> {
       expiresIn: expiresInToken,
     })
 
-    const refreshToken = sign({ email }, secretRefreshToken, {
-      subject: user.id.toString(),
-      expiresIn: expiresInRefreshToken,
-    })
+    // const refreshToken = sign({ email }, secretRefreshToken, {
+    //   subject: user.id.toString(),
+    //   expiresIn: expiresInRefreshToken,
+    // })
 
     const refreshTokenExpiresDate = this.dateProvider.addDays(
       expiresRefreshTokenDays,
