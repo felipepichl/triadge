@@ -11,6 +11,8 @@ function setRefreshTokenCookie(
   const { secretRefreshToken, expiresInRefreshToken } = authConfig
 
   const { user } = request
+  console.log('RefreshToken => ', user)
+
   const { email } = user
 
   const refreshToken = sign({ email }, secretRefreshToken, {
