@@ -1,4 +1,3 @@
-import { sign } from 'jsonwebtoken'
 import { inject, injectable } from 'tsyringe'
 import { authConfig } from '@config/auth'
 
@@ -65,18 +64,18 @@ class AuthenticateUserUseCase implements IUseCase<IRequest, IResponse> {
       // expiresRefreshTokenDays,
     } = authConfig
 
-    // const t = this.tokenProvider.encodeToken(
-    //   { sub: user.id.toString(), email },
-    //   secretToken,
-    //   expiresInToken,
-    // )
+    const token = this.tokenProvider.encodeToken(
+      { sub: user.id.toString(), email },
+      secretToken,
+      expiresInToken,
+    )
 
-    const token = sign({ email: user.email }, secretToken, {
-      subject: user.id.toString(),
-      expiresIn: expiresInToken,
-    })
+    // const token = sign({ email: user.email }, secretToken, {
+    //   subject: user.id.toString(),
+    //   expiresIn: expiresInToken,
+    // })
 
-    console.log(token)
+    // console.log(token)
 
     // const refreshToken = sign({ email }, secretRefreshToken, {
     //   subject: user.id.toString(),
