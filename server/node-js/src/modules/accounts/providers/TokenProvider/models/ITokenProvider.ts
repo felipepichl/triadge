@@ -5,10 +5,10 @@ interface IPayload {
 
 interface ITokenProvider {
   encodeToken(
-    data: string,
+    payload: IPayload,
     secret: string,
     expiresIn: string | number,
-  ): Promise<string>
+  ): string
   decodeToken(token: string): IPayload
 }
 

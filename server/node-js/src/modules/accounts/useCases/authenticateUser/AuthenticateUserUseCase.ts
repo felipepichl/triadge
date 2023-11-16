@@ -2,11 +2,13 @@ import { sign } from 'jsonwebtoken'
 import { inject, injectable } from 'tsyringe'
 import { authConfig } from '@config/auth'
 
-import { UserTokens } from '@modules/accounts/domain/UserTokens'
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository'
-import { IHashProvider } from '@modules/accounts/providers/HashProvider/models/IHashProvider'
 import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository'
+import { IHashProvider } from '@modules/accounts/providers/HashProvider/models/IHashProvider'
 import { IDateProvider } from '@shared/container/providers/DateProvider/models/IDateProvider'
+import { ITokenProvider } from '@modules/accounts/providers/TokenProvider/models/ITokenProvider'
+
+// import { UserTokens } from '@modules/accounts/domain/UserTokens'
 
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
@@ -31,6 +33,8 @@ class AuthenticateUserUseCase implements IUseCase<IRequest, IResponse> {
     private usersRepository: IUsersRepository,
     @inject('HashProvider')
     private hashProvider: IHashProvider,
+    @inject('TokenProvider')
+    private tokenProvider: ITokenProvider,
     @inject('UsersTokensRepository')
     private usersTokensRepository: IUsersTokensRepository,
     @inject('DateProvider')
@@ -56,15 +60,23 @@ class AuthenticateUserUseCase implements IUseCase<IRequest, IResponse> {
     const {
       secretToken,
       expiresInToken,
-      secretRefreshToken,
-      expiresInRefreshToken,
-      expiresRefreshTokenDays,
+      // secretRefreshToken,
+      // expiresInRefreshToken,
+      // expiresRefreshTokenDays,
     } = authConfig
+
+    // const t = this.tokenProvider.encodeToken(
+    //   { sub: user.id.toString(), email },
+    //   secretToken,
+    //   expiresInToken,
+    // )
 
     const token = sign({ email: user.email }, secretToken, {
       subject: user.id.toString(),
       expiresIn: expiresInToken,
     })
+
+    console.log(token)
 
     // const refreshToken = sign({ email }, secretRefreshToken, {
     //   subject: user.id.toString(),

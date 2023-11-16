@@ -1,12 +1,12 @@
 import { ITokenProvider, IPayload } from '../models/ITokenProvider'
 
 class TokenProviderInMemory implements ITokenProvider {
-  async encodeToken(
-    data: string,
+  encodeToken(
+    payload: IPayload,
     secret: string,
     expiresIn: string | number,
-  ): Promise<string> {
-    const fakeToken = `${data}.${secret}-${expiresIn}`
+  ): string {
+    const fakeToken = `${payload}.${secret}-${expiresIn}`
     return Buffer.from(JSON.stringify(fakeToken)).toString('base64')
   }
 
