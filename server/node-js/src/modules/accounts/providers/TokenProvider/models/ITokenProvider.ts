@@ -4,11 +4,7 @@ interface IPayload {
 }
 
 interface ITokenProvider {
-  encodeToken(
-    payload: IPayload,
-    secret: string,
-    expiresIn: string | number,
-  ): string
+  encodeToken(payload: IPayload): string
   decodeToken(token: string): IPayload
 }
 

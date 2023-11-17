@@ -1,5 +1,4 @@
 import { inject, injectable } from 'tsyringe'
-import { authConfig } from '@config/auth'
 
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository'
 import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository'
@@ -56,21 +55,10 @@ class AuthenticateUserUseCase implements IUseCase<IRequest, IResponse> {
       throw new AppError('Incorret email/password combination')
     }
 
-    const {
-      secretToken,
-      expiresInToken,
-      // secretRefreshToken,
-      // expiresInRefreshToken,
-      // expiresRefreshTokenDays,
-    } = authConfig
-
-    const token = this.tokenProvider.encodeToken(
-      { sub: user.id.toString(), email },
-      secretToken,
-      expiresInToken,
-    )
-
-    console.log(secretToken)
+    const token = this.tokenProvider.encodeToken({
+      sub: user.id.toString(),
+      email,
+    })
 
     // const token = sign({ email: user.email }, secretToken, {
     //   subject: user.id.toString(),
