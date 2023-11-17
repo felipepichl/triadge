@@ -1,9 +1,9 @@
 const authConfig = {
-  secretToken: 'db262b92aeaae0774cf15ff17e18ee36',
-  expiresInToken: '15m',
-  secretRefreshToken: '3c8f770297c8cd604feba12bb6f52ba0',
-  expiresInRefreshToken: '30d',
-  expiresRefreshTokenDays: 30,
+  secretToken: process.env.SECRET_TOKEN,
+  expiresInToken: process.env.EXPIRES_IN_TOKEN,
+  secretRefreshToken: process.env.SECRET_REFRESH_TOKEN,
+  expiresInRefreshToken: process.env.EXPIRES_IN_REFRESH_TOKEN,
+  expiresRefreshTokenDays: process.env.EXPIRES_IN_REFRESH_TOKEN_DAYS,
 }
 
 export { authConfig }

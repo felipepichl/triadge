@@ -70,6 +70,8 @@ class AuthenticateUserUseCase implements IUseCase<IRequest, IResponse> {
       expiresInToken,
     )
 
+    console.log(secretToken)
+
     // const token = sign({ email: user.email }, secretToken, {
     //   subject: user.id.toString(),
     //   expiresIn: expiresInToken,
