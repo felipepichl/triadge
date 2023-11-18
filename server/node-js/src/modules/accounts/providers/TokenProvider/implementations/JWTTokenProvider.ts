@@ -2,14 +2,16 @@ import { sign, verify } from 'jsonwebtoken'
 import { ITokenProvider, IPayload } from '../models/ITokenProvider'
 
 class JWTTokenProvider implements ITokenProvider {
-  encodeToken(payload: IPayload): string {
-    return sign(payload, process.env.SECRET_TOKEN, {
-      expiresIn: process.env.EXPIRES_IN_TOKEN,
-    })
+  encodeToken(
+    payload: IPayload,
+    secret: string,
+    expiresIn: string | number,
+  ): string {
+    return sign(payload, secret, { expiresIn })
   }
 
-  decodeToken(token: string): IPayload {
-    return verify(token, process.env.SECRET_TOKEN || '') as IPayload
+  decodeToken(token: string, secret: string): IPayload {
+    return verify(token, secret) as IPayload
   }
 }
 

@@ -4,8 +4,12 @@ interface IPayload {
 }
 
 interface ITokenProvider {
-  encodeToken(payload: IPayload): string
-  decodeToken(token: string): IPayload
+  encodeToken(
+    payload: IPayload,
+    secret: string,
+    expiresIn: string | number,
+  ): string
+  decodeToken(token: string, secret: string): IPayload
 }
 
 export { ITokenProvider, IPayload }

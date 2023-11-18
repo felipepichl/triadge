@@ -11,6 +11,8 @@ import { ITokenProvider } from '@modules/accounts/providers/TokenProvider/models
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
 
+import { authConfig } from '@config/auth'
+
 interface IRequest {
   email: string
   password: string
@@ -55,17 +57,16 @@ class AuthenticateUserUseCase implements IUseCase<IRequest, IResponse> {
       throw new AppError('Incorret email/password combination')
     }
 
-    const token = this.tokenProvider.encodeToken({
-      sub: user.id.toString(),
-      email,
-    })
+    const { secretToken, expiresInToken } = authConfig
 
-    // const token = sign({ email: user.email }, secretToken, {
-    //   subject: user.id.toString(),
-    //   expiresIn: expiresInToken,
-    // })
-
-    // console.log(token)
+    const token = this.tokenProvider.encodeToken(
+      {
+        sub: user.id.toString(),
+        email,
+      },
+      secretToken,
+      expiresInToken,
+    )
 
     // const refreshToken = sign({ email }, secretRefreshToken, {
     //   subject: user.id.toString(),

@@ -10,8 +10,10 @@ class TokenProviderInMemory implements ITokenProvider {
     return Buffer.from(JSON.stringify(fakeToken)).toString('base64')
   }
 
-  decodeToken(token: string): IPayload {
-    return JSON.parse(Buffer.from(token, 'base64').toString('ascii'))
+  decodeToken(token: string, secret: string): IPayload {
+    return JSON.parse(
+      Buffer.from(`${token}.${secret}`, 'base64').toString('ascii'),
+    )
   }
 }
 
