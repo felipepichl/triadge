@@ -12,6 +12,12 @@ import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
 
 import { authConfig } from '@config/auth'
+const {
+  secretToken,
+  expiresInToken,
+  secretRefreshToken,
+  expiresInRefreshToken,
+} = authConfig
 
 interface IRequest {
   email: string
@@ -57,35 +63,18 @@ class AuthenticateUserUseCase implements IUseCase<IRequest, IResponse> {
       throw new AppError('Incorret email/password combination')
     }
 
-    const { secretToken, expiresInToken } = authConfig
+    const { id, name } = user
 
     const token = this.tokenProvider.encodeToken(
       {
-        sub: user.id.toString(),
+        sub: id.toString(),
         email,
       },
       secretToken,
       expiresInToken,
     )
 
-    // const refreshToken = sign({ email }, secretRefreshToken, {
-    //   subject: user.id.toString(),
-    //   expiresIn: expiresInRefreshToken,
-    // })
-
-    // const refreshTokenExpiresDate = this.dateProvider.addDays(
-    //   expiresRefreshTokenDays,
-    // )
-
-    // const userTokens = UserTokens.createUserTokens({
-    //   userId: user.id.toString(),
-    //   expiresDate: refreshTokenExpiresDate,
-    //   refreshToken,
-    // })
-
-    // await this.usersTokensRepository.create(userTokens)
-
-    const { name } = user
+    this.generateRefreshToken(id.toString(), email)
 
     const returnResponse: IResponse = {
       user: {
@@ -96,6 +85,19 @@ class AuthenticateUserUseCase implements IUseCase<IRequest, IResponse> {
     }
 
     return returnResponse
+  }
+
+  generateRefreshToken(sub?: string, email?: string): string {
+    const refreshToken = this.tokenProvider.encodeToken(
+      {
+        sub,
+        email,
+      },
+      secretRefreshToken,
+      expiresInRefreshToken,
+    )
+
+    return refreshToken
   }
 }
 

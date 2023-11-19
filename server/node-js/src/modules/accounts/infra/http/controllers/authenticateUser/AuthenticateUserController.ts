@@ -14,6 +14,17 @@ class AuthenticateUserController {
       password,
     })
 
+    const refreshToken = authenticateUserUseCase.generateRefreshToken()
+
+    const cookieOptions = {
+      path: '/',
+      secure: true,
+      httpOnly: true,
+      sameSite: true,
+    }
+
+    response.cookie('refreshToken', refreshToken, cookieOptions)
+
     return response.json(result)
   }
 }
