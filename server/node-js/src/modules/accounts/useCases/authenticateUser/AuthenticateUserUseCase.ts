@@ -30,6 +30,7 @@ interface IResponse {
     email: string
   }
   token: string
+  refreshToken: string
 }
 
 @injectable()
@@ -74,9 +75,14 @@ class AuthenticateUserUseCase implements IUseCase<IRequest, IResponse> {
       expiresInToken,
     )
 
-    const refreshToken = this.generateRefreshToken(id.toString(), email)
-
-    console.log('UseCase =. ', refreshToken)
+    const refreshToken = this.tokenProvider.encodeToken(
+      {
+        sub: id.toString(),
+        email,
+      },
+      secretRefreshToken,
+      expiresInRefreshToken,
+    )
 
     const returnResponse: IResponse = {
       user: {
@@ -84,22 +90,10 @@ class AuthenticateUserUseCase implements IUseCase<IRequest, IResponse> {
         email,
       },
       token,
+      refreshToken,
     }
 
     return returnResponse
-  }
-
-  generateRefreshToken(sub?: string, email?: string): string {
-    const refreshToken = this.tokenProvider.encodeToken(
-      {
-        sub,
-        email,
-      },
-      secretRefreshToken,
-      expiresInRefreshToken,
-    )
-
-    return refreshToken
   }
 }
 

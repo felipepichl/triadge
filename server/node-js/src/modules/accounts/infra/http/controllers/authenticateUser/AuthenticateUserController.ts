@@ -9,17 +9,19 @@ class AuthenticateUserController {
 
     const authenticateUserUseCase = container.resolve(AuthenticateUserUseCase)
 
-    const result = await authenticateUserUseCase.execute({
-      email,
-      password,
-    })
+    const { user, token, refreshToken } = await authenticateUserUseCase.execute(
+      {
+        email,
+        password,
+      },
+    )
 
-    const refreshToken = authenticateUserUseCase.generateRefreshToken()
     AuthenticateUserController.setRefreshTokenCookie(response, refreshToken)
 
-    console.log('Controller => ', refreshToken)
-
-    return response.json(result)
+    return response.json({
+      user,
+      token,
+    })
   }
 
   private static setRefreshTokenCookie(
