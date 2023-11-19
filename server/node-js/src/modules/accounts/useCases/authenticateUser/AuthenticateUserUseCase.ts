@@ -74,7 +74,9 @@ class AuthenticateUserUseCase implements IUseCase<IRequest, IResponse> {
       expiresInToken,
     )
 
-    this.generateRefreshToken(id.toString(), email)
+    const refreshToken = this.generateRefreshToken(id.toString(), email)
+
+    console.log('UseCase =. ', refreshToken)
 
     const returnResponse: IResponse = {
       user: {

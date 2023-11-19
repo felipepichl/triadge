@@ -15,7 +15,17 @@ class AuthenticateUserController {
     })
 
     const refreshToken = authenticateUserUseCase.generateRefreshToken()
+    AuthenticateUserController.setRefreshTokenCookie(response, refreshToken)
 
+    console.log('Controller => ', refreshToken)
+
+    return response.json(result)
+  }
+
+  private static setRefreshTokenCookie(
+    response: Response,
+    refreshToken: string,
+  ): void {
     const cookieOptions = {
       path: '/',
       secure: true,
@@ -24,8 +34,6 @@ class AuthenticateUserController {
     }
 
     response.cookie('refreshToken', refreshToken, cookieOptions)
-
-    return response.json(result)
   }
 }
 
