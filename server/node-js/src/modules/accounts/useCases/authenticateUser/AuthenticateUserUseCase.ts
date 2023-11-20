@@ -6,17 +6,19 @@ import { IHashProvider } from '@modules/accounts/providers/HashProvider/models/I
 import { IDateProvider } from '@shared/container/providers/DateProvider/models/IDateProvider'
 import { ITokenProvider } from '@modules/accounts/providers/TokenProvider/models/ITokenProvider'
 
-// import { UserTokens } from '@modules/accounts/domain/UserTokens'
+import { UserTokens } from '@modules/accounts/domain/UserTokens'
 
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
 
 import { authConfig } from '@config/auth'
+
 const {
   secretToken,
   expiresInToken,
   secretRefreshToken,
   expiresInRefreshToken,
+  expiresRefreshTokenDays,
 } = authConfig
 
 interface IRequest {
@@ -83,6 +85,18 @@ class AuthenticateUserUseCase implements IUseCase<IRequest, IResponse> {
       secretRefreshToken,
       expiresInRefreshToken,
     )
+
+    const refreshTokenExpiresDate = this.dateProvider.addDays(
+      expiresRefreshTokenDays,
+    )
+
+    const userTokens = UserTokens.createUserTokens({
+      userId: id.toString(),
+      expiresDate: refreshTokenExpiresDate,
+      refreshToken,
+    })
+
+    await this.usersTokensRepository.create(userTokens)
 
     const returnResponse: IResponse = {
       user: {
