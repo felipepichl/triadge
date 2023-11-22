@@ -3,6 +3,7 @@ import 'reflect-metadata'
 import { User } from '@modules/accounts/domain/User'
 import { UsersRepositoryInMemory } from '@modules/accounts/repositories/in-memory/UsersRepositoryInMemory'
 import { HashProviderInMemory } from '@modules/accounts/providers/HashProvider/in-memory/HashProviderInMemory'
+import { TokenProviderInMemory } from '@modules/accounts/providers/TokenProvider/in-memory/TokenProviderInMemory'
 import { UsersTokenRepositoryInMemory } from '@modules/accounts/repositories/in-memory/UsersTokenRepositoryInMemory'
 import { DateProviderInMemory } from '@shared/container/providers/DateProvider/in-memory/DateProviderInMemory'
 
@@ -13,6 +14,7 @@ import { AuthenticateUserUseCase } from './AuthenticateUserUseCase'
 
 let usersRepositoryInMemory: UsersRepositoryInMemory
 let hashProviderInMemory: HashProviderInMemory
+let tokenProviderInMemory: TokenProviderInMemory
 let dateProviderInMemory: DateProviderInMemory
 let userTokensInMemory: UsersTokenRepositoryInMemory
 let createUserUseCase: CreateUserUseCase
@@ -22,6 +24,7 @@ describe('[Account] - Authenticate User', () => {
   beforeEach(() => {
     usersRepositoryInMemory = new UsersRepositoryInMemory()
     hashProviderInMemory = new HashProviderInMemory()
+    tokenProviderInMemory = new TokenProviderInMemory()
     dateProviderInMemory = new DateProviderInMemory()
     userTokensInMemory = new UsersTokenRepositoryInMemory()
 
@@ -32,6 +35,7 @@ describe('[Account] - Authenticate User', () => {
     authenticateUserUseCase = new AuthenticateUserUseCase(
       usersRepositoryInMemory,
       hashProviderInMemory,
+      tokenProviderInMemory,
       userTokensInMemory,
       dateProviderInMemory,
     )
