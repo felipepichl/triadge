@@ -28,25 +28,13 @@ describe('[Account] - Refresh Token', () => {
   })
 
   it('should be able to create a new refreshtoken', async () => {
-    const user = User.createUser({
-      name: 'name',
-      email: 'name@email.com',
-      phoneNumber: '9999999999',
-    })
-
-    const usersRepositoryInMemory = new UsersRepositoryInMemory()
-
-    await usersRepositoryInMemory.create(user)
-
-    const { id, email } = user
-
     const userToken = UserTokens.createUserTokens({
-      userId: id.toString(),
+      userId: 'userId',
       expiresDate: new Date(),
       refreshToken: tokenProviderInMemory.encodeToken(
         {
-          email,
-          sub: id.toString(),
+          email: 'user@example.com',
+          sub: 'userId',
         },
         'secret',
         'expiresIn',
@@ -55,19 +43,14 @@ describe('[Account] - Refresh Token', () => {
 
     const userTokenCreated = await usersTokensRepository.create(userToken)
 
-    console.log(userTokenCreated)
+    const token = tokenProviderInMemory.decodeToken('', '')
 
-    // const fakeToken = tokenProviderInMemory.encodeToken(
-    //   {
-    //     email: 'example@email.com',
-    //     sub: 'hash_123',
-    //   },
-    //   'secret',
-    //   'expiresIn',
-    // )
+    // console.log(token)
+
+    // console.log(userTokenCreated)
 
     const response = await refreshTokenUseCase.execute({
-      token: userToken.refreshToken,
+      token: 'encodeToken',
     })
 
     console.log(response)
