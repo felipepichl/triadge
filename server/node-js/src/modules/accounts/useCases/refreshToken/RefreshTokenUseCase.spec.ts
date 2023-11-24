@@ -1,7 +1,4 @@
-import { User } from '@modules/accounts/domain/User'
 import { UserTokens } from '@modules/accounts/domain/UserTokens'
-
-import { UsersRepositoryInMemory } from '@modules/accounts/repositories/in-memory/UsersRepositoryInMemory'
 
 import { TokenProviderInMemory } from '@modules/accounts/providers/TokenProvider/in-memory/TokenProviderInMemory'
 import { UsersTokenRepositoryInMemory } from '@modules/accounts/repositories/in-memory/UsersTokenRepositoryInMemory'
@@ -43,16 +40,10 @@ describe('[Account] - Refresh Token', () => {
 
     const userTokenCreated = await usersTokensRepository.create(userToken)
 
-    const token = tokenProviderInMemory.decodeToken('', '')
-
-    // console.log(token)
-
-    // console.log(userTokenCreated)
+    const { refreshToken } = userTokenCreated
 
     const response = await refreshTokenUseCase.execute({
-      token: 'encodeToken',
+      token: refreshToken,
     })
-
-    console.log(response)
   })
 })
