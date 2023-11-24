@@ -45,5 +45,8 @@ describe('[Account] - Refresh Token', () => {
     const response = await refreshTokenUseCase.execute({
       token: refreshToken,
     })
+
+    expect(response).toHaveProperty('refreshToken')
+    expect(typeof response.refreshToken).toBe('string')
   })
 })
