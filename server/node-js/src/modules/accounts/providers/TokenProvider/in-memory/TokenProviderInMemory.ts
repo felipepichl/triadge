@@ -10,13 +10,17 @@ class TokenProviderInMemory implements ITokenProvider {
   }
 
   decodeToken(token: string, _secret: string): IPayload {
-    const [encodedPayload] = token.split('-')
+    try {
+      const [encodedPayload] = token.split('-')
 
-    const decodedPayload = JSON.parse(
-      Buffer.from(encodedPayload, 'base64').toString('ascii'),
-    ) as IPayload
+      const decodedPayload = JSON.parse(
+        Buffer.from(encodedPayload, 'base64').toString('ascii'),
+      ) as IPayload
 
-    return decodedPayload
+      return decodedPayload
+    } catch {
+      return { email: '', sub: '' }
+    }
   }
 }
 

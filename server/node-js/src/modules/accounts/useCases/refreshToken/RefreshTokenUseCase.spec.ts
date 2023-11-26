@@ -5,6 +5,7 @@ import { UsersTokenRepositoryInMemory } from '@modules/accounts/repositories/in-
 import { DateProviderInMemory } from '@shared/container/providers/DateProvider/in-memory/DateProviderInMemory'
 
 import { RefreshTokenUseCase } from './RefreshTokenUseCase'
+import { AppError } from '@shared/error/AppError'
 
 let refreshTokenUseCase: RefreshTokenUseCase
 let usersTokensRepository: UsersTokenRepositoryInMemory
@@ -48,5 +49,13 @@ describe('[Account] - Refresh Token', () => {
 
     expect(response).toHaveProperty('refreshToken')
     expect(typeof response.refreshToken).toBe('string')
+  })
+
+  it('should handle invalid refresh token', async () => {
+    await expect(
+      refreshTokenUseCase.execute({
+        token: 'invalidToken',
+      }),
+    ).rejects.toEqual(new AppError('Refresh Token does not exists', 400))
   })
 })
