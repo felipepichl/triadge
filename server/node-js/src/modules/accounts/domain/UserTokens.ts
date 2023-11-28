@@ -2,6 +2,7 @@ import { AggregateRoot } from '@shared/core/domain/AggregateRoot'
 import { UniqueEntityID } from '@shared/core/domain/UniqueEntityID'
 
 interface IUserTokensProps {
+  id?: string
   userId: string
   expiresDate?: Date
   refreshToken?: string
@@ -25,6 +26,7 @@ class UserTokens extends AggregateRoot<IUserTokensProps> {
   }
 
   public static createUserTokens({
+    id,
     userId,
     expiresDate,
     refreshToken,
@@ -35,7 +37,7 @@ class UserTokens extends AggregateRoot<IUserTokensProps> {
       refreshToken,
     }
 
-    return AggregateRoot.create({ props: userTokensProps }, UserTokens)
+    return AggregateRoot.create({ props: userTokensProps, id }, UserTokens)
   }
 }
 

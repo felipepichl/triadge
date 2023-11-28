@@ -38,6 +38,8 @@ class RefreshTokenUseCase implements IUseCase<IRequest, IResponse> {
       secretRefreshToken,
     )
 
+    console.log('userId =>', userId)
+
     const userToken =
       await this.usersTokensRepository.findByUserIdAndRefreshToken(
         userId,
@@ -47,6 +49,8 @@ class RefreshTokenUseCase implements IUseCase<IRequest, IResponse> {
     if (!userToken) {
       throw new AppError('Refresh Token does not exists')
     }
+
+    console.log(userToken)
 
     await this.usersTokensRepository.deleteById(userToken.id.toString())
 

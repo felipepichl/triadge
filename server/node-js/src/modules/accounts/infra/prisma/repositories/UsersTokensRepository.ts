@@ -7,16 +7,21 @@ import { UserTokensMappers } from '../mappers/UserTokensMappers'
 
 class UsersTokensRepository implements IUsersTokensRepository {
   async create({
+    id,
     userId,
     expiresDate,
     refreshToken,
   }: UserTokens): Promise<UserTokens> {
-    const result = await PrismaSingleton.getInstance().userTokens.create({
-      data: {
-        userId,
-        expiresDate,
-        refreshToken,
-      },
+    const data = {
+      userId,
+      expiresDate,
+      refreshToken,
+    }
+
+    const result = await PrismaSingleton.getInstance().userTokens.upsert({
+      where: { id: id.toString() },
+      create: data,
+      update: data,
     })
 
     return UserTokensMappers.getMapper().toDomain(result)
@@ -34,6 +39,7 @@ class UsersTokensRepository implements IUsersTokensRepository {
   }
 
   async deleteById(id: string): Promise<void> {
+    console.log(id)
     await PrismaSingleton.getInstance().userTokens.delete({
       where: { id },
     })
