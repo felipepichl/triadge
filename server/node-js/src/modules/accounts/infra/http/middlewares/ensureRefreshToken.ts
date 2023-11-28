@@ -27,8 +27,6 @@ async function ensureRefreshToken(
     throw new AppError('RefreshToken does not exists', 401)
   }
 
-  await userTokensRepository.deleteById(userToken.id.toString())
-
   next()
 }
 
