@@ -19,7 +19,6 @@ const listAllController = new ListAllController()
 usersRouter.post('', createUserController.handle)
 
 usersRouter.use(ensureAuthenticated)
-
 usersRouter.patch(
   '/avatar',
   uploadAvatar.single('avatar'),
