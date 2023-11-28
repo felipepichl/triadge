@@ -12,4 +12,6 @@ routes.use('/sessions', authenticateRoutes)
 
 routes.use(ensureAuthenticated)
 
+// authenticated routes
+
 export { routes }

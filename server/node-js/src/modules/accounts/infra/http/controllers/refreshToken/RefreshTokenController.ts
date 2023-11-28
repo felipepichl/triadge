@@ -5,11 +5,11 @@ import { RefreshTokenUseCase } from '@modules/accounts/useCases/refreshToken/Ref
 
 class RefreshTokenController {
   async handle(request: Request, response: Response): Promise<Response> {
+    const token = request.body
+
     const refreshTokenUseCase = container.resolve(RefreshTokenUseCase)
 
-    const { refreshToken } = await refreshTokenUseCase.execute({
-      token: '',
-    })
+    const { refreshToken } = await refreshTokenUseCase.execute(token)
 
     return response.json(refreshToken)
   }
