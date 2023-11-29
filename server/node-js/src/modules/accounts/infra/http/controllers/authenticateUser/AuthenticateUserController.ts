@@ -1,6 +1,8 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 
+import { CookieService } from '@shared/services/CookiesServices'
+
 import { AuthenticateUserUseCase } from '@modules/accounts/useCases/authenticateUser/AuthenticateUserUseCase'
 
 class AuthenticateUserController {
@@ -16,26 +18,12 @@ class AuthenticateUserController {
       },
     )
 
-    AuthenticateUserController.setRefreshTokenCookie(response, refreshToken)
+    CookieService.setRefreshTokenCookie(response, refreshToken)
 
     return response.json({
       user,
       token,
     })
-  }
-
-  private static setRefreshTokenCookie(
-    response: Response,
-    refreshToken: string,
-  ): void {
-    const cookieOptions = {
-      path: '/',
-      secure: true,
-      httpOnly: true,
-      sameSite: true,
-    }
-
-    response.cookie('refreshToken', refreshToken, cookieOptions)
   }
 }
 

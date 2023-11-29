@@ -1,6 +1,8 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 
+import { CookieService } from '@shared/services/CookiesServices'
+
 import { RefreshTokenUseCase } from '@modules/accounts/useCases/refreshToken/RefreshTokenUseCase'
 
 class RefreshTokenController {
@@ -11,7 +13,9 @@ class RefreshTokenController {
 
     const { refreshToken } = await refreshTokenUseCase.execute(token)
 
-    return response.json(refreshToken)
+    CookieService.setRefreshTokenCookie(response, refreshToken)
+
+    return response.status(201).send()
   }
 }
 
