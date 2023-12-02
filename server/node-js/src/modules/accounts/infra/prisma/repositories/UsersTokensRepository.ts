@@ -39,7 +39,6 @@ class UsersTokensRepository implements IUsersTokensRepository {
   }
 
   async deleteById(id: string): Promise<void> {
-    console.log(id)
     await PrismaSingleton.getInstance().userTokens.delete({
       where: { id },
     })

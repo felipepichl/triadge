@@ -12,8 +12,10 @@ class CreateCategoryUseCase implements IUseCase<IRequest, void> {
   constructor(private categoriesRepository: ICategoryRepositry) {}
 
   async execute({ description }: IRequest): Promise<void> {
+    const standardizedDescription = description.trim().toLowerCase()
+
     const descriptionAlreadyExists =
-      await this.categoriesRepository.listByDescription(description)
+      await this.categoriesRepository.listByDescription(standardizedDescription)
 
     if (descriptionAlreadyExists) {
       throw new AppError('Description already exixts', 400)
