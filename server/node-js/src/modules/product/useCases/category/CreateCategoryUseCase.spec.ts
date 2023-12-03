@@ -19,6 +19,7 @@ describe('[Product]/[Category] - Create a category', () => {
 
   it('should be able to create a new category', async () => {
     const category = Category.createCategory({
+      name: 'Name Test',
       description: 'Description Test',
     })
 
@@ -30,18 +31,19 @@ describe('[Product]/[Category] - Create a category', () => {
       await categoriesRepositoryInMemory.listByDescription(description)
 
     expect(categoryCreated).toBeDefined()
-    expect(categoryCreated?.description).toEqual(category.description)
+    expect(categoryCreated?.name).toEqual(category.name)
   })
 
   it('should not be able to create a new category with same descripton another', async () => {
     const category = Category.createCategory({
+      name: 'Name Test',
       description: 'Description Test',
     })
 
     await createCategoryUseCase.execute(category)
 
     await expect(createCategoryUseCase.execute(category)).rejects.toEqual(
-      new AppError('Description already exixts', 400),
+      new AppError('Category name already exixts', 400),
     )
   })
 })

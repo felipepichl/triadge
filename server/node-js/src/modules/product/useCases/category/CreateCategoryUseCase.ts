@@ -5,23 +5,27 @@ import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
 
 interface IRequest {
+  name: string
   description: string
 }
 
 class CreateCategoryUseCase implements IUseCase<IRequest, void> {
   constructor(private categoriesRepository: ICategoryRepositry) {}
 
-  async execute({ description }: IRequest): Promise<void> {
-    const standardizedDescription = description.trim().toLowerCase()
+  async execute({ name, description }: IRequest): Promise<void> {
+    // const standardizedName = name.trim().toLowerCase()
 
-    const descriptionAlreadyExists =
-      await this.categoriesRepository.listByDescription(standardizedDescription)
+    const nameAlreadyExists =
+      await this.categoriesRepository.listByDescription(name)
 
-    if (descriptionAlreadyExists) {
-      throw new AppError('Description already exixts', 400)
+    if (nameAlreadyExists) {
+      throw new AppError('Category name already exixts', 400)
     }
 
-    const category = Category.createCategory({ description })
+    const category = Category.createCategory({
+      name,
+      description,
+    })
 
     await this.categoriesRepository.create(category)
   }
