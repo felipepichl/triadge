@@ -25,16 +25,15 @@ describe('[Product]/[Category] - Create a category', () => {
 
     await createCategoryUseCase.execute(category)
 
-    const { description } = category
+    const { name } = category
 
-    const categoryCreated =
-      await categoriesRepositoryInMemory.listByDescription(description)
+    const categoryCreated = await categoriesRepositoryInMemory.findByName(name)
 
     expect(categoryCreated).toBeDefined()
     expect(categoryCreated?.name).toEqual(category.name)
   })
 
-  it('should not be able to create a new category with same descripton another', async () => {
+  it('should not be able to create a new category with same name another', async () => {
     const category = Category.createCategory({
       name: 'Name Test',
       description: 'Description Test',

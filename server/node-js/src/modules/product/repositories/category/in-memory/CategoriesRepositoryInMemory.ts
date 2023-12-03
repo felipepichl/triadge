@@ -12,14 +12,12 @@ class CategoriesRepositoryInMemory implements ICategoryRepositry {
     return this.categories
   }
 
-  async listById(id: string): Promise<Category> {
+  async findById(id: string): Promise<Category> {
     return this.categories.find((category) => category.id.toString() === id)
   }
 
-  async listByDescription(description: string): Promise<Category> {
-    return this.categories.find(
-      (category) => category.description === description,
-    )
+  async findByName(name: string): Promise<Category> {
+    return this.categories.find((category) => category.name === name)
   }
 }
 

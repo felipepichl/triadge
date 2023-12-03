@@ -15,8 +15,7 @@ class CreateCategoryUseCase implements IUseCase<IRequest, void> {
   async execute({ name, description }: IRequest): Promise<void> {
     // const standardizedName = name.trim().toLowerCase()
 
-    const nameAlreadyExists =
-      await this.categoriesRepository.listByDescription(name)
+    const nameAlreadyExists = await this.categoriesRepository.findByName(name)
 
     if (nameAlreadyExists) {
       throw new AppError('Category name already exixts', 400)
