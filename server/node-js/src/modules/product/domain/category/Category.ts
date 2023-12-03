@@ -3,6 +3,7 @@ import { UniqueEntityID } from '@shared/core/domain/UniqueEntityID'
 
 interface ICategoryProps {
   id?: string
+  name: string
   description: string
 }
 
@@ -11,12 +12,21 @@ class Category extends AggregateRoot<ICategoryProps> {
     super(props, id)
   }
 
+  get name(): string {
+    return this.props.name
+  }
+
   get description(): string {
     return this.props.description
   }
 
-  public static createCategory({ id, description }: ICategoryProps): Category {
+  public static createCategory({
+    id,
+    name,
+    description,
+  }: ICategoryProps): Category {
     const categoryProps = {
+      name,
       description,
     }
 
