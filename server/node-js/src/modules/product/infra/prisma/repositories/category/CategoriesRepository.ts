@@ -6,9 +6,9 @@ import { PrismaSingleton } from '@shared/infra/prisma'
 import { CategoryMappers } from '../../mappers/category/CategoryMappers'
 
 class CategoriesRepository implements ICategoryRepositry {
-  async create({ id, description }: Category): Promise<void> {
+  async create({ id, name, description }: Category): Promise<void> {
     const data = {
-      name: '',
+      name,
       description,
     }
 
@@ -25,18 +25,26 @@ class CategoriesRepository implements ICategoryRepositry {
     return CategoryMappers.getMApper().toDomainArray(result)
   }
 
-  async listById(id: string): Promise<Category> {
+  async findById(id: string): Promise<Category> {
     const result = await PrismaSingleton.getInstance().category.findFirst({
       where: { id },
     })
 
+    if (!result) {
+      return null
+    }
+
     return CategoryMappers.getMApper().toDomain(result)
   }
 
-  async listByDescription(description: string): Promise<Category> {
+  async findByName(name: string): Promise<Category> {
     const result = await PrismaSingleton.getInstance().category.findFirst({
-      where: { description },
+      where: { name },
     })
+
+    if (!result) {
+      return null
+    }
 
     return CategoryMappers.getMApper().toDomain(result)
   }
