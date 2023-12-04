@@ -8,6 +8,9 @@ import { UsersTokensRepository } from '@modules/accounts/infra/prisma/repositori
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository'
 import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository'
 
+import { CategoriesRepository } from '@modules/product/infra/prisma/repositories/category/CategoriesRepository'
+import { ICategoryRepositry } from '@modules/product/repositories/category/ICategoryRepository'
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -16,4 +19,9 @@ container.registerSingleton<IUsersRepository>(
 container.registerSingleton<IUsersTokensRepository>(
   'UsersTokensRepository',
   UsersTokensRepository,
+)
+
+container.registerSingleton<ICategoryRepositry>(
+  'CategoriesRepository',
+  CategoriesRepository,
 )

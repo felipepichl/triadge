@@ -1,3 +1,5 @@
+import { inject, injectable } from 'tsyringe'
+
 import { Category } from '@modules/product/domain/category/Category'
 import { ICategoryRepositry } from '@modules/product/repositories/category/ICategoryRepository'
 
@@ -9,8 +11,12 @@ interface IRequest {
   description: string
 }
 
+@injectable()
 class CreateCategoryUseCase implements IUseCase<IRequest, void> {
-  constructor(private categoriesRepository: ICategoryRepositry) {}
+  constructor(
+    @inject('CategoriesRepository')
+    private categoriesRepository: ICategoryRepositry,
+  ) {}
 
   async execute({ name, description }: IRequest): Promise<void> {
     // const standardizedName = name.trim().toLowerCase()
