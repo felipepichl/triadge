@@ -17,6 +17,6 @@ routes.use('/refresh-token', refreshTokenRoutes)
 
 routes.use(ensureAuthenticated)
 
-routes.use('categories', categoriesRoutes)
+routes.use('/categories', categoriesRoutes)
 
 export { routes }
