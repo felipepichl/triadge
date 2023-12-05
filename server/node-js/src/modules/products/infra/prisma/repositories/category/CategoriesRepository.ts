@@ -1,5 +1,5 @@
-import { Category } from '@modules/product/domain/category/Category'
-import { ICategoryRepositry } from '@modules/product/repositories/category/ICategoryRepository'
+import { Category } from '@modules/products/domain/category/Category'
+import { ICategoryRepositry } from '@modules/products/repositories/category/ICategoryRepository'
 
 import { PrismaSingleton } from '@shared/infra/prisma'
 

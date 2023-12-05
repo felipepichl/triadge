@@ -2,7 +2,7 @@ import { Router } from 'express'
 
 import { usersRouter } from '@modules/accounts/infra/http/routes/users.routes'
 import { authenticateRoutes } from '@modules/accounts/infra/http/routes/authenticate.routes'
-import { categoriesRoutes } from '@modules/product/infra/http/routes/category/categories.routes'
+import { categoriesRoutes } from '@modules/products/infra/http/routes/category/categories.routes'
 
 import { refreshTokenRoutes } from '@modules/accounts/infra/http/routes/refreshToken.routes'
 

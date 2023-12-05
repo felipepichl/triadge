@@ -1,9 +1,9 @@
-import { CategoriesRepositoryInMemory } from '@modules/product/repositories/category/in-memory/CategoriesRepositoryInMemory'
+import { CategoriesRepositoryInMemory } from '@modules/products/repositories/category/in-memory/CategoriesRepositoryInMemory'
 
 import { AppError } from '@shared/error/AppError'
 
 import { CreateCategoryUseCase } from './CreateCategoryUseCase'
-import { Category } from '@modules/product/domain/category/Category'
+import { Category } from '@modules/products/domain/category/Category'
 
 let categoriesRepositoryInMemory: CategoriesRepositoryInMemory
 

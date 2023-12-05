@@ -8,8 +8,8 @@ import { UsersTokensRepository } from '@modules/accounts/infra/prisma/repositori
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository'
 import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository'
 
-import { CategoriesRepository } from '@modules/product/infra/prisma/repositories/category/CategoriesRepository'
-import { ICategoryRepositry } from '@modules/product/repositories/category/ICategoryRepository'
+import { CategoriesRepository } from '@modules/products/infra/prisma/repositories/category/CategoriesRepository'
+import { ICategoryRepositry } from '@modules/products/repositories/category/ICategoryRepository'
 
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',

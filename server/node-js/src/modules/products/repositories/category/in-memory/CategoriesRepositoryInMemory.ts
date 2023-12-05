@@ -1,4 +1,4 @@
-import { Category } from '@modules/product/domain/category/Category'
+import { Category } from '@modules/products/domain/category/Category'
 import { ICategoryRepositry } from '../ICategoryRepository'
 
 class CategoriesRepositoryInMemory implements ICategoryRepositry {
