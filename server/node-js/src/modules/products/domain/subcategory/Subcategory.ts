@@ -25,7 +25,7 @@ class Subcategory extends AggregateRoot<ISubcategoryProps> {
     return this.props.categoryId
   }
 
-  public static createCategory({
+  public static createSubcategory({
     id,
     name,
     description,
