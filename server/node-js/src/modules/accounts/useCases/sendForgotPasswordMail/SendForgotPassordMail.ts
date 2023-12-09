@@ -2,9 +2,12 @@ import { inject, injectable } from 'tsyringe'
 import { v4 as uuid } from 'uuid'
 
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository'
+import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository'
+import { IDateProvider } from '@shared/container/providers/DateProvider/models/IDateProvider'
+
+import { UserTokens } from '@modules/accounts/domain/UserTokens'
 
 import { IUseCase } from '@shared/core/domain/IUseCase'
-import { UserTokens } from '@modules/accounts/domain/UserTokens'
 
 interface IRequest {
   email: string
@@ -16,7 +19,9 @@ class SendForgotPassordMail implements IUseCase<IRequest, void> {
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
     @inject('UsersTokensRepository')
-    private usersTokensRepository: IUsersRepository,
+    private usersTokensRepository: IUsersTokensRepository,
+    @inject('DateProvider')
+    private dateProvider: IDateProvider,
   ) {}
 
   async execute({ email }: IRequest): Promise<void> {
@@ -30,11 +35,15 @@ class SendForgotPassordMail implements IUseCase<IRequest, void> {
 
     const token = uuid()
 
-    UserTokens.createUserTokens({
+    const expiresDate = this.dateProvider.addHours(3)
+
+    const userTokens = UserTokens.createUserTokens({
       userId: id.toString(),
-      expiresDate: new Date(),
+      expiresDate,
       refreshToken: token,
     })
+
+    await this.usersTokensRepository.create(userTokens)
   }
 }
 
