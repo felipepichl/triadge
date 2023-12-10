@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid'
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository'
 import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository'
 import { IDateProvider } from '@shared/container/providers/DateProvider/models/IDateProvider'
+import { IMalProvider } from '@shared/container/providers/MailProvider/models/IMalProvider'
 
 import { UserTokens } from '@modules/accounts/domain/UserTokens'
 
@@ -22,6 +23,8 @@ class SendForgotPassordMail implements IUseCase<IRequest, void> {
     private usersTokensRepository: IUsersTokensRepository,
     @inject('DateProvider')
     private dateProvider: IDateProvider,
+    @inject('MailProvider')
+    private mailProvider: IMalProvider,
   ) {}
 
   async execute({ email }: IRequest): Promise<void> {
@@ -44,6 +47,12 @@ class SendForgotPassordMail implements IUseCase<IRequest, void> {
     })
 
     await this.usersTokensRepository.create(userTokens)
+
+    await this.mailProvider.sendMail(
+      email,
+      'Password recovery',
+      `Access this link for recovery ${token}`,
+    )
   }
 }
 
