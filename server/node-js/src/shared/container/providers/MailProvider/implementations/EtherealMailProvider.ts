@@ -28,7 +28,16 @@ class EtherealMailProvider implements IMalProvider {
   }
 
   async sendMail(to: string, subject: string, body: string) {
-    throw new Error('Method not implemented.')
+    const message = await this.client.sendMail({
+      to,
+      from: 'Triadge <noreplay@triadge,io>',
+      subject,
+      text: body,
+      html: body,
+    })
+
+    console.log('Message sent: %s', message.messageId)
+    console.log('Preview URL: %s', message.getTestMessager(message))
   }
 }
 
