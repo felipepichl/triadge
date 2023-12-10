@@ -1,0 +1,11 @@
+import { IMalProvider } from '../models/IMalProvider'
+
+class IMalProviderInMemory implements IMalProvider {
+  private messages: string[] = []
+
+  async sendMail(to: string, subject: string, body: string): Promise<void> {
+    this.messages.push(`${to}-${subject}-${body}`)
+  }
+}
+
+export { IMalProviderInMemory }

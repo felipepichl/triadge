@@ -4,6 +4,8 @@ import { DayjsDateProvider } from './DateProvider/implementations/DayjsDateProvi
 import { IDateProvider } from './DateProvider/models/IDateProvider'
 import { DiskStorageProvider } from './StorageProvider/implementations/DiskStorageProvider'
 import { IStorageProvider } from './StorageProvider/models/IStorageProvider'
+import { EtherealMailProvider } from './MailProvider/implementations/EtherealMailProvider'
+import { IMalProvider } from './MailProvider/models/IMalProvider'
 
 container.registerSingleton<IStorageProvider>(
   'StorageProvider',
@@ -11,3 +13,5 @@ container.registerSingleton<IStorageProvider>(
 )
 
 container.registerSingleton<IDateProvider>('DateProvider', DayjsDateProvider)
+
+container.registerSingleton<IMalProvider>('MailProvider', EtherealMailProvider)
