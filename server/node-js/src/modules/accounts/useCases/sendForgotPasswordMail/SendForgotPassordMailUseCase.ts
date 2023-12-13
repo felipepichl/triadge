@@ -15,7 +15,7 @@ interface IRequest {
 }
 
 @injectable()
-class SendForgotPassordMail implements IUseCase<IRequest, void> {
+class SendForgotPassordMailUseCase implements IUseCase<IRequest, void> {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
@@ -56,4 +56,4 @@ class SendForgotPassordMail implements IUseCase<IRequest, void> {
   }
 }
 
-export { SendForgotPassordMail }
+export { SendForgotPassordMailUseCase }
