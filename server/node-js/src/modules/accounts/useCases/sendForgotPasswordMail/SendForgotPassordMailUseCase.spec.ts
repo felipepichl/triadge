@@ -1,11 +1,7 @@
 import { UsersRepositoryInMemory } from '@modules/accounts/repositories/in-memory/UsersRepositoryInMemory'
 import { UsersTokenRepositoryInMemory } from '@modules/accounts/repositories/in-memory/UsersTokenRepositoryInMemory'
 import { DateProviderInMemory } from '@shared/container/providers/DateProvider/in-memory/DateProviderInMemory'
-
-/**
- * Necessary fix
- */
-import { IMalProviderInMemory } from '@shared/container/providers/MailProvider/in-memory/IMalProviderInMemory'
+import { MalProviderInMemory } from '@shared/container/providers/MailProvider/in-memory/MalProviderInMemory'
 
 import { SendForgotPassordMailUseCase } from './SendForgotPassordMailUseCase'
 import { User } from '@modules/accounts/domain/User'
@@ -14,14 +10,14 @@ let sendForgotPassordMailUseCase: SendForgotPassordMailUseCase
 let usersRepositoryInMemory: UsersRepositoryInMemory
 let usersTokensRepositoryInMemory: UsersTokenRepositoryInMemory
 let dateProviderInMemory: DateProviderInMemory
-let mailProviderInMemory: IMalProviderInMemory
+let mailProviderInMemory: MalProviderInMemory
 
 describe('[Account] - Send Forgot Password Mail Use Case', () => {
   beforeEach(() => {
     usersRepositoryInMemory = new UsersRepositoryInMemory()
     usersTokensRepositoryInMemory = new UsersTokenRepositoryInMemory()
     dateProviderInMemory = new DateProviderInMemory()
-    mailProviderInMemory = new IMalProviderInMemory()
+    mailProviderInMemory = new MalProviderInMemory()
 
     sendForgotPassordMailUseCase = new SendForgotPassordMailUseCase(
       usersRepositoryInMemory,
