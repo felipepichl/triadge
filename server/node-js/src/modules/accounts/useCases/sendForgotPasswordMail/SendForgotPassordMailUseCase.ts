@@ -14,8 +14,12 @@ interface IRequest {
   email: string
 }
 
+interface IResponse {
+  message: string
+}
+
 @injectable()
-class SendForgotPassordMailUseCase implements IUseCase<IRequest, void> {
+class SendForgotPassordMailUseCase implements IUseCase<IRequest, IResponse> {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
@@ -27,11 +31,13 @@ class SendForgotPassordMailUseCase implements IUseCase<IRequest, void> {
     private mailProvider: IMalProvider,
   ) {}
 
-  async execute({ email }: IRequest): Promise<void> {
+  async execute({ email }: IRequest): Promise<IResponse> {
     const user = await this.usersRepository.findByEmail(email)
 
     if (!user) {
-      return null
+      return {
+        message: `If the provided ${email} is associated with an account, a recovery email will be sent.`,
+      }
     }
 
     const { id } = user
@@ -53,6 +59,10 @@ class SendForgotPassordMailUseCase implements IUseCase<IRequest, void> {
       'Password recovery',
       `Access this link for recovery ${token}`,
     )
+
+    return {
+      message: `If the provided ${email} is associated with an account, a recovery email will be sent.`,
+    }
   }
 }
 
