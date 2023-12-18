@@ -49,11 +49,15 @@ describe('[Account] - Send Forgot Password Mail Use Case', () => {
   it('should not be able to send an email if user does not exist', async () => {
     const sendMail = jest.spyOn(mailProviderInMemory, 'sendMail')
 
-    await expect(
-      sendForgotPassordMailUseCase.execute({
-        email: 'nonexistentuser@example.com',
-      }),
-    ).rejects.toEqual(new Error('User not found'))
+    const recoveryEmail = 'nonexistentuser@example.com'
+
+    const result = await sendForgotPassordMailUseCase.execute({
+      email: recoveryEmail,
+    })
+
+    expect(result).toEqual({
+      message: `If the provided ${recoveryEmail} is associated with an account, a recovery email will be sent.`,
+    })
 
     expect(sendMail).not.toHaveBeenCalled()
   })
