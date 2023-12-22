@@ -1,5 +1,6 @@
 import { inject, injectable } from 'tsyringe'
 import { v4 as uuid } from 'uuid'
+import { resolve } from 'path'
 
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository'
 import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository'
@@ -34,6 +35,15 @@ class SendForgotPassordMailUseCase implements IUseCase<IRequest, IResponse> {
   async execute({ email }: IRequest): Promise<IResponse> {
     const user = await this.usersRepository.findByEmail(email)
 
+    const templatePath = resolve(
+      __dirname,
+      '..',
+      '..',
+      'views',
+      'emails',
+      'forgotPassword.hbs',
+    )
+
     if (!user) {
       return {
         message: `If the provided ${email} is associated with an account, a recovery email will be sent.`,
@@ -54,10 +64,16 @@ class SendForgotPassordMailUseCase implements IUseCase<IRequest, IResponse> {
 
     await this.usersTokensRepository.create(userTokens)
 
+    const variables = {
+      name: user.name,
+      link: `${process.env.FORGOT_MAIL_URL}${token}`,
+    }
+
     await this.mailProvider.sendMail(
       email,
-      'Password recovery',
-      `Access this link for recovery ${token}`,
+      'Recuperação de Senha',
+      variables,
+      templatePath,
     )
 
     return {

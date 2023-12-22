@@ -1,6 +1,7 @@
 import { injectable } from 'tsyringe'
-
 import nodemailer, { Transporter } from 'nodemailer'
+import handlebars from 'handlebars'
+import fs from 'fs'
 
 import { IMalProvider } from '../models/IMalProvider'
 
@@ -27,13 +28,18 @@ class EtherealMailProvider implements IMalProvider {
       .catch((err) => console.error(err))
   }
 
-  async sendMail(to: string, subject: string, body: string) {
+  async sendMail(to: string, subject: string, variables: any, path: string) {
+    const templateFileContent = fs.readFileSync(path).toString('utf-8')
+
+    const templateParse = handlebars.compile(templateFileContent)
+
+    const templateHTML = templateParse(variables)
+
     const message = await this.client.sendMail({
       to,
       from: 'Triadge <noreplay@triadge,io>',
       subject,
-      text: body,
-      html: body,
+      html: templateHTML,
     })
 
     console.log('Message sent: %s', message.messageId)

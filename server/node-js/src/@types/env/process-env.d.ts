@@ -6,5 +6,6 @@ declare namespace NodeJS {
     EXPIRES_IN_TOKEN: string | number
     EXPIRES_IN_REFRESH_TOKEN: string
     EXPIRES_IN_REFRESH_TOKEN_DAYS: number
+    FORGOT_MAIL_URL: string
   }
 }
