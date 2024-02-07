@@ -1,5 +1,7 @@
+import { Button } from "./components/ui/button";
+
 export default function App() {
   return (
-    <h1>Hello Wolrd</h1>
+    <Button>Add To Cart</Button>
   )
 }
