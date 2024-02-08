@@ -1,5 +1,9 @@
-import { Button } from './components/ui/button'
+import '@/styles/global.css'
+
+import { RouterProvider } from 'react-router-dom'
+
+import { router } from './routes'
 
 export default function App() {
-  return <Button>Add To Cart</Button>
+  return <RouterProvider router={router} />
 }
