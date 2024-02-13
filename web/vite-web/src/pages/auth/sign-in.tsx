@@ -1,3 +1,4 @@
+import { CreditCard, KeyRound } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
 
 import { Button } from '@/components/ui/button'
@@ -26,6 +27,7 @@ export default function SignIn() {
                   type="email"
                   className="h-10"
                   placeholder="Matrícula"
+                  icon={<CreditCard />}
                 />
 
                 <Input
@@ -33,6 +35,7 @@ export default function SignIn() {
                   type="email"
                   className="h-10"
                   placeholder="Senha"
+                  icon={<KeyRound />}
                 />
               </div>
 
