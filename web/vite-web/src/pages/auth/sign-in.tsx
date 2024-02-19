@@ -1,10 +1,30 @@
 import { CreditCard, KeyRound } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
+const signInForm = z.object({
+  register: z.string(),
+  password: z.string(),
+})
+
+type SignInForm = z.infer<typeof signInForm>
+
 export default function SignIn() {
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<SignInForm>()
+
+  async function handleSign({ register, password }: SignInForm) {
+    console.log(register, password)
+
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+  }
   return (
     <>
       <Helmet title="Login" />
@@ -16,30 +36,34 @@ export default function SignIn() {
                 Acessar Painel
               </h1>
               <p className="text-sm text-muted-foreground">
-                Acompanhe suas vendas pelo painel parceiro!
+                Acesse com suas credenciais
               </p>
             </div>
 
             <form className="space-y-4">
               <div className="space-y-2">
                 <Input
-                  id="email"
-                  type="email"
                   className="h-10"
                   placeholder="Matrícula"
                   icon={<CreditCard />}
+                  {...register('register')}
                 />
 
                 <Input
-                  id="email"
-                  type="email"
                   className="h-10"
                   placeholder="Senha"
                   icon={<KeyRound />}
+                  type="password"
+                  {...register('password')}
                 />
               </div>
 
-              <Button className="h-10 w-full" type="submit">
+              <Button
+                onClick={handleSubmit(handleSign)}
+                disabled={isSubmitting}
+                className="h-10 w-full"
+                type="submit"
+              >
                 <span className="font-semibold">Acessar Painel</span>
               </Button>
             </form>

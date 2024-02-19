@@ -15,7 +15,8 @@ export default function AuthLayout() {
           p-5 
           text-muted-foreground 
           md:flex 
-          md:p-10"
+          md:p-10
+        "
       >
         <div className="flex items-center gap-3 text-lg text-foreground">
           <DraftingCompass className="h-5 w-5" />
