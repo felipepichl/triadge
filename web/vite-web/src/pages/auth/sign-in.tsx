@@ -1,6 +1,7 @@
 import { CreditCard, KeyRound } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
@@ -24,6 +25,8 @@ export default function SignIn() {
     console.log(register, password)
 
     await new Promise((resolve) => setTimeout(resolve, 2000))
+
+    toast.success('Test Message')
   }
   return (
     <>
