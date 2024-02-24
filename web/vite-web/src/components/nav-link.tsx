@@ -14,6 +14,7 @@ export default function NavLink(props: NavLinkProps) {
         gap-1.5
         text-sm
         font-medium
+        text-muted-foreground
         hover:text-foreground
         data-[current=true]:text-foreground
       "
