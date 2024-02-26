@@ -38,10 +38,27 @@ export default function Header() {
         {/* Menu para telas pequenas */}
         {menuOpen && (
           <div
-            className={`absolute left-0 top-16 ml-2 mt-2 rounded-md border border-gray-200 bg-white shadow-md transition-opacity duration-300 lg:hidden ${menuOpen ? 'opacity-100' : 'pointer-events-none opacity-0'}`}
+            className={`
+              absolute 
+              left-0 
+              top-16 
+              ml-2 
+              mt-2 
+              rounded-md 
+              border  
+              shadow-md 
+              transition-opacity 
+              duration-300 
+              lg:hidden ${
+                menuOpen ? 'opacity-100' : 'pointer-events-none opacity-0'
+              }`}
           >
             <nav className="flex flex-col items-start space-y-4 p-4">
-              <NavLink to="/" className="flex items-center space-x-2 pl-2">
+              <NavLink
+                to="/"
+                className="flex items-center space-x-2 pl-2"
+                onClick={toggleMenu}
+              >
                 <School className="h-4 w-4" />
                 <span>Início</span>
               </NavLink>
