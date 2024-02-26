@@ -1,6 +1,7 @@
 import { DraftingCompass, MenuSquare, School, Wallet } from 'lucide-react'
 import { useState } from 'react'
 
+import { ThemeToggle } from '@/components/theme/theme-toggle'
 import { Separator } from '@/components/ui/separator'
 
 import NavLink from './nav-link'
@@ -72,6 +73,10 @@ export default function Header() {
             </nav>
           </div>
         )}
+
+        <div className="ml-auto flex items-center gap-2">
+          <ThemeToggle />
+        </div>
 
         {/* <nav className="flex items-center space-x-4 lg:space-x-6">
           <NavLink to="/">
