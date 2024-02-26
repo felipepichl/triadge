@@ -4,7 +4,8 @@ import { useState } from 'react'
 import { ThemeToggle } from '@/components/theme/theme-toggle'
 import { Separator } from '@/components/ui/separator'
 
-import NavLink from './nav-link'
+import { CustomNavlink } from './menu/custom-nav-link'
+import { NavLink } from './nav-link'
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(true)
@@ -26,14 +27,8 @@ export default function Header() {
 
         {/* Menu para telas grandes */}
         <nav className="hidden items-center space-x-4 lg:flex lg:space-x-6">
-          <NavLink to="/">
-            <School className="h-4 w-4" />
-            Início
-          </NavLink>
-          <NavLink to="/finances">
-            <Wallet className="h-4 w-4" />
-            Finanças
-          </NavLink>
+          <CustomNavlink to="/" icon={School} description="Início" />
+          <CustomNavlink to="/finances" icon={Wallet} description="Finanças" />
         </nav>
 
         {/* Menu para telas pequenas */}
