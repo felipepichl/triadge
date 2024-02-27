@@ -1,3 +1,5 @@
+import { Summary } from '@/components/summary'
+
 export function Finances() {
-  return <h1>Finances</h1>
+  return <Summary />
 }
