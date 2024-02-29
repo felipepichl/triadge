@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from './ui/card'
 
-type SummaryProps = {
+export type SummaryProps = {
   color: 'default' | 'green'
   description: string
   icon: React.ElementType
