@@ -24,15 +24,27 @@ export function Summary({
   value,
 }: SummaryProps) {
   return (
-    <Card className={color === 'green' ? 'bg-green-500' : 'bg-gray-700'}>
+    <Card
+      className={
+        color === 'green' ? 'bg-green-500' : 'bg-gray-300 dark:bg-gray-700'
+      }
+    >
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardDescription className="font-bold text-slate-200">
+        <CardDescription
+          className="
+          font-bold 
+          text-slate-700 
+          dark:text-slate-200
+          "
+        >
           {description}
         </CardDescription>
         <Icon size={32} color={iconColor} />
       </CardHeader>
       <CardContent>
-        <CardTitle className="text-white">{value}</CardTitle>
+        <CardTitle className="text-gray-700 dark:text-slate-200">
+          {value}
+        </CardTitle>
       </CardContent>
     </Card>
   )
