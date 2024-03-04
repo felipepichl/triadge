@@ -31,18 +31,25 @@ export function Summary({
     >
       <CardHeader className="flex flex-row items-center justify-between">
         <CardDescription
-          className="
-          font-bold 
-          text-slate-700 
-          dark:text-slate-200
-          "
+          className={`font-semibold ${
+            color === 'green'
+              ? 'text-slate-200'
+              : 'text-gray-500 dark:text-slate-200'
+          }`}
         >
           {description}
         </CardDescription>
         <Icon size={32} color={iconColor} />
       </CardHeader>
       <CardContent>
-        <CardTitle className="text-gray-700 dark:text-slate-200">
+        {/* <CardTitle className="text-gray-500 dark:text-slate-200">/ */}
+        <CardTitle
+          className={
+            color === 'green'
+              ? 'text-slate-200'
+              : 'text-gray-500 dark:text-slate-200'
+          }
+        >
           {value}
         </CardTitle>
       </CardContent>
