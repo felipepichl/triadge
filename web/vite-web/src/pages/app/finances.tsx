@@ -1,5 +1,6 @@
 import { ArrowDownCircle, ArrowUpCircle, DollarSign } from 'lucide-react'
 
+import { CardTransction } from '@/components/card-transaction'
 import { Summary, SummaryProps } from '@/components/summary'
 import { Transaction } from '@/components/transaction'
 import {
@@ -65,6 +66,8 @@ export function Finances() {
       </Carousel>
 
       <Transaction />
+
+      <CardTransction />
     </>
   )
 }
