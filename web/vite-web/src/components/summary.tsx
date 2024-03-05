@@ -42,7 +42,6 @@ export function Summary({
         <Icon size={32} color={iconColor} />
       </CardHeader>
       <CardContent>
-        {/* <CardTitle className="text-gray-500 dark:text-slate-200">/ */}
         <CardTitle
           className={
             color === 'green'
