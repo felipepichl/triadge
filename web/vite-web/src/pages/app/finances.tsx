@@ -66,7 +66,6 @@ export function Finances() {
       </Carousel>
 
       <Transaction />
-
       <CardTransction />
     </>
   )
