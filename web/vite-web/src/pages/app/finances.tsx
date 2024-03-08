@@ -2,7 +2,7 @@ import { ArrowDownCircle, ArrowUpCircle, DollarSign } from 'lucide-react'
 
 import { Summary, SummaryProps } from '@/components/summary'
 import { CardTransction } from '@/components/table-transaction/card-transaction'
-import { Transaction } from '@/components/table-transaction/transaction'
+import { TableTransaction } from '@/components/table-transaction/table-transaction'
 import {
   Carousel,
   CarouselContent,
@@ -65,7 +65,7 @@ export function Finances() {
         </div>
       </Carousel>
 
-      <Transaction />
+      <TableTransaction />
       <CardTransction />
     </>
   )
