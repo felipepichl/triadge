@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from '../ui/card'
@@ -24,11 +25,11 @@ export function CardTransction() {
       </CardHeader>
       <CardContent>
         <CardTitle className={'font-bold text-green-500'}>
-          R$ 1.200,00
+          {'R$ 1.300,00'}
         </CardTitle>
       </CardContent>
 
-      <div className="flex items-center justify-between px-6 pb-6">
+      <CardFooter className="flex items-center justify-between px-6 pb-6">
         <div className="flex items-center">
           <Tag
             size={16}
@@ -58,10 +59,10 @@ export function CardTransction() {
               dark:text-gray-400
             "
           >
-            13/04/2024
+            13/03/2025
           </span>
         </div>
-      </div>
+      </CardFooter>
     </Card>
   )
 }
