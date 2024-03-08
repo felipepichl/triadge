@@ -1,8 +1,10 @@
 import { ArrowDownCircle, ArrowUpCircle, DollarSign } from 'lucide-react'
 
 import { Summary, SummaryProps } from '@/components/summary'
-import { CardTransction } from '@/components/table-transaction/card-transaction'
-import { TableTransaction } from '@/components/table-transaction/table-transaction'
+import {
+  TableTransactions,
+  TableTransactionsProps,
+} from '@/components/transactions/table-transactions'
 import {
   Carousel,
   CarouselContent,
@@ -32,6 +34,19 @@ const summaries: SummaryProps[] = [
     icon: DollarSign,
     iconColor: '#fff',
     value: 'R$ 16.000,00',
+  },
+]
+
+const transactions: TableTransactionsProps[] = [
+  {
+    descrition: 'Desenvolvimento de site',
+    value: 'R$ 1.200,00',
+    category: 'Venda',
+  },
+  {
+    descrition: 'Update de Servidor',
+    value: 'R$ 1.300,00',
+    category: 'Venda',
   },
 ]
 
@@ -65,8 +80,7 @@ export function Finances() {
         </div>
       </Carousel>
 
-      <TableTransaction />
-      <CardTransction />
+      <TableTransactions data={transactions} />
     </>
   )
 }
