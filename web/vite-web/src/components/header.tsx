@@ -8,7 +8,7 @@ import { ResponsiveMenu } from './menu/responsive-menu'
 
 export default function Header() {
   return (
-    <div className="border-b">
+    <header className="fixed z-50 w-full border-b bg-background shadow-md">
       <div className="flex h-16 items-center gap-6 px-6">
         <DraftingCompass className="h-5 w-5" />
 
@@ -25,6 +25,6 @@ export default function Header() {
           <ThemeToggle />
         </div>
       </div>
-    </div>
+    </header>
   )
 }
