@@ -9,6 +9,8 @@ import {
   CardHeader,
   CardTitle,
 } from '../ui/card'
+import { ScrollArea } from '../ui/scroll-area'
+import { Separator } from '../ui/separator'
 import { Table, TableBody, TableHead, TableRow } from '../ui/table'
 
 export type TableTransactionsProps = {
@@ -41,81 +43,82 @@ export function TableTransactions({ data }: TableTransactionsData) {
           ))}
         </TableBody>
       </Table>
-      <ul>
+
+      <ScrollArea className="h-96">
         {data.map((transaction) => (
-          <li key={transaction.descrition} className="mb-2">
-            <Card
-              className="
-              bg-gray-300 
+          <Card
+            key={transaction.descrition}
+            className="
+              mb-2 
+                bg-gray-300 
                 dark:bg-gray-700 
-                md:hidden 
+                md:hidden
                 md:basis-1/2
                 "
-            >
-              <CardHeader>
-                <CardDescription
-                  className="
+          >
+            <CardHeader>
+              <CardDescription
+                className="
                     font-semibold
                   text-gray-500 
                   dark:text-slate-200 
                   "
-                >
-                  {transaction.descrition}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <CardTitle className="font-bold text-green-500">
-                  {transaction.value}
-                </CardTitle>
-              </CardContent>
+              >
+                {transaction.descrition}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <CardTitle className="font-bold text-green-500">
+                {transaction.value}
+              </CardTitle>
+            </CardContent>
 
-              <CardFooter
-                className="
+            <CardFooter
+              className="
                   flex 
                   items-center 
                   justify-between 
                   px-6 
                   pb-6
                 "
-              >
-                <div className="flex items-center">
-                  <Tag
-                    size={16}
-                    className="mr-2 text-gray-500 dark:text-gray-400"
-                  />
-                  <span
-                    className="
+            >
+              <div className="flex items-center">
+                <Tag
+                  size={16}
+                  className="mr-2 text-gray-500 dark:text-gray-400"
+                />
+                <span
+                  className="
                       font-semibold
                     text-gray-500 
                     dark:text-gray-400
                     "
-                  >
-                    {transaction.category}
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <Calendar
-                    size={16}
-                    className="
+                >
+                  {transaction.category}
+                </span>
+              </div>
+              <div className="flex items-center">
+                <Calendar
+                  size={16}
+                  className="
                       mr-2 
                     text-gray-500 
                     dark:text-gray-400
                     "
-                  />
-                  <span
-                    className="
+                />
+                <span
+                  className="
                     font-semibold 
                     text-gray-500 
                     dark:text-gray-400"
-                  >
-                    13/03/2025
-                  </span>
-                </div>
-              </CardFooter>
-            </Card>
-          </li>
+                >
+                  13/03/2025
+                </span>
+              </div>
+            </CardFooter>
+          </Card>
         ))}
-      </ul>
+      </ScrollArea>
     </>
   )
 }

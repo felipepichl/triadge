@@ -48,6 +48,11 @@ const transactions: TableTransactionsProps[] = [
     value: 'R$ 1.300,00',
     category: 'Venda',
   },
+  {
+    descrition: 'Update de Servidor',
+    value: 'R$ 1.300,00',
+    category: 'Venda',
+  },
 ]
 
 export function Finances() {
