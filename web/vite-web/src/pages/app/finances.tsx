@@ -1,8 +1,8 @@
 import { ArrowDownCircle, ArrowUpCircle, DollarSign } from 'lucide-react'
 
-import { CardTransction } from '@/components/card-transaction'
 import { Summary, SummaryProps } from '@/components/summary'
-import { Transaction } from '@/components/transaction'
+import { CardTransction } from '@/components/table-transaction/card-transaction'
+import { Transaction } from '@/components/table-transaction/transaction'
 import {
   Carousel,
   CarouselContent,

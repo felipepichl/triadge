@@ -1,7 +1,7 @@
 import { ArrowRightCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
-import { Table, TableBody, TableHead, TableRow } from './ui/table'
+import { Table, TableBody, TableHead, TableRow } from '../ui/table'
 
 export function Transaction() {
   return (
