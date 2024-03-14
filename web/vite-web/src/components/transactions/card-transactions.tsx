@@ -13,7 +13,7 @@ import { TransactionsData } from './transactions'
 
 export function CardTransactions({ data }: TransactionsData) {
   return (
-    <ScrollArea className="h-96">
+    <ScrollArea className="h-96 pb-16">
       {data.map((transaction) => (
         <Card
           key={transaction.descrition}

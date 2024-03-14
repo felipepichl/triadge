@@ -26,7 +26,7 @@ export function Summary({
   return (
     <Card
       className={
-        color === 'green' ? 'bg-green-600' : ' bg-gray-300 dark:bg-gray-700'
+        color === 'green' ? 'bg-green-600' : 'bg-gray-300 dark:bg-gray-700'
       }
     >
       <CardHeader className="flex flex-row items-center justify-between">
