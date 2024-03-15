@@ -8,7 +8,7 @@ export default function AppLayout() {
       <Header />
 
       {/* <div className="mt-16 flex h-screen flex-1 flex-col gap-4 p-8 pt-6"> */}
-      <div className="fixed mt-16 w-full pl-8 pr-8 pt-8">
+      <div className="fixed mt-16 w-full pl-8 pr-8 pt-6">
         <Outlet />
       </div>
     </div>

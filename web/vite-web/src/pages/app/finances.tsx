@@ -5,6 +5,7 @@ import {
   Transactions,
   TransactionsProps,
 } from '@/components/transactions/transactions'
+import { Button } from '@/components/ui/button'
 import {
   Carousel,
   CarouselContent,
@@ -63,6 +64,15 @@ const transactions: TransactionsProps[] = [
 export function Finances() {
   return (
     <>
+      <div className="flex justify-end pb-2">
+        <Button
+          variant="outline"
+          className="rounded-sm bg-green-500 hover:bg-green-800"
+        >
+          Nova transação
+        </Button>
+      </div>
+
       <Carousel>
         <CarouselContent>
           {summaries.map((summary) => (
