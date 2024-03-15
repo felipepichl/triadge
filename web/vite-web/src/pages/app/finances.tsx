@@ -67,7 +67,7 @@ export function Finances() {
       <div className="flex justify-end pb-2">
         <Button
           variant="outline"
-          className="rounded-sm bg-green-500 hover:bg-green-800"
+          className="rounded-sm bg-green-500 text-slate-100 hover:bg-green-700 hover:text-slate-100"
         >
           Nova transação
         </Button>
