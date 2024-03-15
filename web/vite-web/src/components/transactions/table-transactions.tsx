@@ -6,7 +6,7 @@ import { TransactionsData } from './transactions'
 
 export function TableTransactions({ data }: TransactionsData) {
   return (
-    <Table className="mt-11 hidden md:table md:basis-1/2">
+    <Table className="hidden md:table md:basis-1/2">
       <TableBody>
         {data.map((transaction) => (
           <TableRow key={transaction.descrition}>

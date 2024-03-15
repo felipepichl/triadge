@@ -13,6 +13,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
+import { Input } from '@/components/ui/input'
 
 const summaries: SummaryProps[] = [
   {
@@ -99,6 +100,10 @@ export function Finances() {
           </div>
         </div>
       </Carousel>
+
+      <div className="mb-4 lg:pt-10">
+        <Input />
+      </div>
 
       <Transactions data={transactions} />
     </>
