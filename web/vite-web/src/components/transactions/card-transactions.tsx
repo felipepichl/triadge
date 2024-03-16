@@ -8,7 +8,13 @@ import {
   CardHeader,
   CardTitle,
 } from '../ui/card'
-import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '../ui/carousel'
 import { TransactionsData } from './transactions'
 
 export function CardTransactions({ data }: TransactionsData) {
@@ -18,10 +24,14 @@ export function CardTransactions({ data }: TransactionsData) {
         align: 'start',
       }}
       orientation="vertical"
+      className="w-full max-w-xs"
     >
-      <CarouselContent className="-mt-1 h-[200px]">
+      <CarouselContent className="-mt-1 h-[180px]">
         {data.map((transaction) => (
-          <CarouselItem key={transaction.descrition}>
+          <CarouselItem
+            key={transaction.descrition}
+            className="pt-1 md:basis-1/2"
+          >
             <Card className=" mb-2 bg-gray-300 dark:bg-gray-700">
               <CardHeader>
                 <CardDescription
@@ -87,6 +97,14 @@ export function CardTransactions({ data }: TransactionsData) {
           </CarouselItem>
         ))}
       </CarouselContent>
+      <div className="flex h-min w-full items-center justify-center lg:hidden">
+        <div className="max-w-lg p-4">
+          <div className="flex justify-between space-x-16">
+            <CarouselPrevious className="rotate-90" />
+            <CarouselNext className="rotate-90" />
+          </div>
+        </div>
+      </div>
     </Carousel>
   )
 }
