@@ -1,6 +1,7 @@
 import * as React from 'react'
+import { Link } from 'react-router-dom'
 
-import { NavLink } from './nav-link'
+import { useMenu } from './menubar-provider'
 
 type NavMenuProps = {
   to: string
@@ -9,10 +10,16 @@ type NavMenuProps = {
 }
 
 export function CustomNavlink({ to, icon: Icon, description }: NavMenuProps) {
+  const { closeMenu } = useMenu()
+
   return (
-    <NavLink to={to} className="flex items-center space-x-2 pl-2">
+    <Link
+      to={to}
+      className="flex items-center space-x-2 pl-2"
+      onClick={closeMenu}
+    >
       <Icon className="h-4 w-4" />
       <span>{description}</span>
-    </NavLink>
+    </Link>
   )
 }
