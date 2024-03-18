@@ -1,4 +1,9 @@
-import { ArrowDownCircle, ArrowUpCircle, DollarSign } from 'lucide-react'
+import {
+  ArrowDownCircle,
+  ArrowUpCircle,
+  DollarSign,
+  Search,
+} from 'lucide-react'
 
 import { Summary, SummaryProps } from '@/components/summary'
 import {
@@ -68,7 +73,7 @@ export function Finances() {
       <div className="flex justify-end pb-2">
         <Button
           variant="outline"
-          className="rounded-sm bg-green-500 text-slate-100 hover:bg-green-700 hover:text-slate-100"
+          className="w-40 min-w-40 rounded-sm bg-green-500 text-slate-100 hover:bg-green-700 hover:text-slate-100"
         >
           Nova transação
         </Button>
@@ -101,8 +106,15 @@ export function Finances() {
         </div>
       </Carousel>
 
-      <div className="mb-4 lg:pt-10">
+      <div className="mb-4 flex items-center justify-between gap-2 lg:pt-10">
         <Input />
+        <Button
+          variant="outline"
+          className="flex w-40 min-w-40 items-center justify-center rounded-sm border-green-500 text-green-500 hover:border-green-700 hover:bg-green-700 hover:text-slate-100"
+        >
+          <Search className="h5- mr-1 w-5" />
+          Buscar
+        </Button>
       </div>
 
       <Transactions data={transactions} />

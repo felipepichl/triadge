@@ -9,7 +9,7 @@ export type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, icon, ...props }, ref) => {
     return (
-      <div className="relative">
+      <div className="relative flex-1">
         {icon && (
           <span className="absolute left-3 top-1/2 -translate-y-1/2 transform text-muted-foreground">
             {icon}

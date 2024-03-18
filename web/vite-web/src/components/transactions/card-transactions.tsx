@@ -34,13 +34,7 @@ export function CardTransactions({ data }: TransactionsData) {
           >
             <Card className=" mb-2 bg-gray-300 dark:bg-gray-700">
               <CardHeader>
-                <CardDescription
-                  className="
-                   font-semibold
-                 text-gray-500
-                 dark:text-slate-200
-                 "
-                >
+                <CardDescription className="font-semiboldtext-gray-500dark:text-slate-200">
                   {transaction.descrition}
                 </CardDescription>
               </CardHeader>
@@ -50,45 +44,22 @@ export function CardTransactions({ data }: TransactionsData) {
                 </CardTitle>
               </CardContent>
 
-              <CardFooter
-                className="
-                 flex
-                 items-center
-                 justify-between
-                 px-6
-                 pb-6
-               "
-              >
+              <CardFooter className="flex items-center justify-between px-6 pb-6">
                 <div className="flex items-center">
                   <Tag
                     size={16}
                     className="mr-2 text-gray-500 dark:text-gray-400"
                   />
-                  <span
-                    className="
-                     font-semibold
-                   text-gray-500
-                   dark:text-gray-400
-                   "
-                  >
+                  <span className="font-semibold text-gray-500 dark:text-gray-400">
                     {transaction.category}
                   </span>
                 </div>
                 <div className="flex items-center">
                   <Calendar
                     size={16}
-                    className="
-                     mr-2
-                   text-gray-500
-                   dark:text-gray-400
-                   "
+                    className="mr-2text-gray-500dark:text-gray-400"
                   />
-                  <span
-                    className="
-                     font-semibold
-                   text-gray-500
-                   dark:text-gray-400"
-                  >
+                  <span className=" font-semiboldtext-gray-500dark:text-gray-400">
                     13/03/2025
                   </span>
                 </div>
