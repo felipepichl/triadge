@@ -24,7 +24,7 @@ export function CardTransactions({ data }: TransactionsData) {
         align: 'start',
       }}
       orientation="vertical"
-      className="w-full max-w-xs"
+      className="w-full"
     >
       <CarouselContent className="-mt-1 h-[180px]">
         {data.map((transaction) => (

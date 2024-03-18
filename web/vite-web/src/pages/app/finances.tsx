@@ -106,14 +106,47 @@ export function Finances() {
         </div>
       </Carousel>
 
+      {/* <div className="mb-4 flex items-center justify-between gap-2 lg:pt-10">
+        <Input />
+        <Button
+          variant="outline"
+          className={` 
+            flex
+            ${window.innerWidth < 768 ? 'w-10' : 'w-40'} 
+            items-center 
+            justify-center 
+            rounded-sm 
+            border-green-500 
+            text-green-500 
+            hover:border-green-700 
+            hover:bg-green-700 
+            hover:text-slate-100
+          `}
+        >
+          <Search className="h5- mr-1 w-5" />
+          <span className="hidden md:inline">Buscar</span>
+        </Button>
+      </div> */}
+
       <div className="mb-4 flex items-center justify-between gap-2 lg:pt-10">
         <Input />
         <Button
           variant="outline"
-          className="flex w-40 min-w-40 items-center justify-center rounded-sm border-green-500 text-green-500 hover:border-green-700 hover:bg-green-700 hover:text-slate-100"
+          className={`
+            flex 
+            items-center 
+            justify-center 
+            rounded-sm 
+            border-green-500 
+            text-green-500 
+            hover:border-green-700 
+            hover:bg-green-700 
+            hover:text-slate-100 
+            ${'w-10 md:w-40'}
+          `}
         >
-          <Search className="h5- mr-1 w-5" />
-          Buscar
+          <Search className="mr-1 h-5 w-5" />
+          <span className="hidden md:inline">Buscar</span>
         </Button>
       </div>
 
