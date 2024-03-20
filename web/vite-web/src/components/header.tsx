@@ -4,7 +4,6 @@ import { ThemeToggle } from '@/components/theme/theme-toggle'
 import { Separator } from '@/components/ui/separator'
 
 import { Manubar } from './menu/menubar'
-// import { MenuProvider } from './menu/menubar-provider'
 
 export default function Header() {
   return (
@@ -14,17 +13,7 @@ export default function Header() {
 
         <Separator orientation="vertical" className="h-6" />
 
-        {/* 
-          <MenuProvider>
-          </MenuProvider>
-        */}
-
         <Manubar />
-
-        {/* <nav className="hidden items-center space-x-4 lg:flex lg:space-x-6">
-          <CustomNavlink to="/" icon={School} description="Início" />
-          <CustomNavlink to="/finances" icon={Wallet} description="Finanças" />
-        </nav> */}
 
         <div className="ml-auto flex items-center gap-2">
           <ThemeToggle />

@@ -13,33 +13,27 @@ import { CustomNavlink } from './custom-nav-link'
 export function Manubar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-  const toggleMenu = () => {
+  function handleToggleMenu() {
     setIsMenuOpen((prevState) => !prevState)
   }
 
   return (
-    <DropdownMenu open={isMenuOpen}>
+    <DropdownMenu open={isMenuOpen} onOpenChange={handleToggleMenu}>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" onClick={toggleMenu}>
+        <Button variant="outline" size="icon">
           <MenuSquare className="h-5 w-5" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="w-50">
+      <DropdownMenuContent
+        align="start"
+        className="w-50"
+        onClick={handleToggleMenu}
+      >
         <DropdownMenuItem>
-          <CustomNavlink
-            to="/"
-            icon={School}
-            description="Início"
-            onClick={toggleMenu}
-          />
+          <CustomNavlink to="/" icon={School} description="Início" />
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <CustomNavlink
-            to="/finances"
-            icon={Wallet}
-            description="Finanças"
-            onClick={toggleMenu}
-          />
+          <CustomNavlink to="/finances" icon={Wallet} description="Finanças" />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
