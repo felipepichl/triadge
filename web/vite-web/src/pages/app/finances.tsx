@@ -4,6 +4,7 @@ import {
   DollarSign,
   Search,
 } from 'lucide-react'
+import { Helmet } from 'react-helmet-async'
 
 import { Summary, SummaryProps } from '@/components/summary'
 import {
@@ -70,7 +71,9 @@ const transactions: TransactionsProps[] = [
 export function Finances() {
   return (
     <>
-      <div className="flex justify-end pb-2">
+      <Helmet title="Finanças" />
+
+      <div className="flex justify-end pb-3">
         <Button
           variant="outline"
           className="w-40 min-w-40 rounded-sm bg-green-500 text-slate-100 hover:bg-green-700 hover:text-slate-100"
