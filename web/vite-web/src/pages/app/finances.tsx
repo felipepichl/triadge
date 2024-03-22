@@ -19,7 +19,21 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
+import {
+  Drawer,
+  DrawerContent,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/drawer'
 import { Input } from '@/components/ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 const summaries: SummaryProps[] = [
   {
@@ -74,12 +88,41 @@ export function Finances() {
       <Helmet title="Finanças" />
 
       <div className="flex justify-end pb-3">
-        <Button
-          variant="outline"
-          className="w-40 min-w-40 rounded-sm bg-green-500 text-slate-100 hover:bg-green-700 hover:text-slate-100"
-        >
-          Nova transação
-        </Button>
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button
+              variant="outline"
+              className="w-40 min-w-40 rounded-sm bg-green-500 text-slate-100 hover:bg-green-700 hover:text-slate-100"
+            >
+              Nova transação
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <div className="mt-3 p-4">
+              <DrawerTitle>Nova Transação</DrawerTitle>
+
+              <form className="mt-3 space-y-4">
+                <div className="space-y-2">
+                  <Input className="h-10" placeholder="Descrição" />
+
+                  <Input className="h-10" placeholder="Preço" />
+                  <Select>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Categoria" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectItem value="sell">Venda</SelectItem>
+                        <SelectItem value="card">Cartão de Crédito</SelectItem>
+                        <SelectItem value="work">Empresa Filial 01</SelectItem>
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </form>
+            </div>
+          </DrawerContent>
+        </Drawer>
       </div>
 
       <Carousel>
