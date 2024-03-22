@@ -118,6 +118,20 @@ export function Finances() {
                       </SelectGroup>
                     </SelectContent>
                   </Select>
+
+                  <div className="grid grid-cols-2 space-x-2">
+                    <Button
+                      className="flex h-12 items-center justify-center gap-1"
+                      variant="outline"
+                    >
+                      <ArrowDownCircle className="mr-1" color="#00b37e" />
+                      Entradas
+                    </Button>
+                    <Button variant="outline">
+                      <ArrowUpCircle color="#ff0000" />
+                      Saída
+                    </Button>
+                  </div>
                 </div>
               </form>
             </div>
