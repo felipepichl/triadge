@@ -121,16 +121,16 @@ export function Finances() {
                     </SelectContent>
                   </Select>
 
-                  <div className="grid grid-cols-2 space-x-2">
+                  <div className="mx-auto grid max-w-screen-md grid-cols-2 gap-2">
                     <Button
-                      className="h-12 min-w-44 text-base"
+                      className="h-12 w-full text-base sm:w-auto"
                       variant="outline"
                     >
                       <ArrowDownCircle className="mr-2" color="#00b37e" />
                       Entrada
                     </Button>
                     <Button
-                      className="h-12 min-w-44 text-base"
+                      className="h-12 w-full text-base sm:w-auto"
                       variant="outline"
                     >
                       <ArrowUpCircle className="mr-2" color="#ff0000" />
