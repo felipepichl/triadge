@@ -31,9 +31,11 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
+  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Separator } from '@/components/ui/separator'
 
 const summaries: SummaryProps[] = [
   {
@@ -97,7 +99,7 @@ export function Finances() {
               Nova transação
             </Button>
           </DrawerTrigger>
-          <DrawerContent>
+          <DrawerContent className="">
             <div className="mt-3 p-4">
               <DrawerTitle>Nova Transação</DrawerTitle>
 
@@ -121,17 +123,26 @@ export function Finances() {
 
                   <div className="grid grid-cols-2 space-x-2">
                     <Button
-                      className="flex h-12 items-center justify-center gap-1"
+                      className="h-12 min-w-44 text-base"
                       variant="outline"
                     >
-                      <ArrowDownCircle className="mr-1" color="#00b37e" />
-                      Entradas
+                      <ArrowDownCircle className="mr-2" color="#00b37e" />
+                      Entrada
                     </Button>
-                    <Button variant="outline">
-                      <ArrowUpCircle color="#ff0000" />
+                    <Button
+                      className="h-12 min-w-44 text-base"
+                      variant="outline"
+                    >
+                      <ArrowUpCircle className="mr-2" color="#ff0000" />
                       Saída
                     </Button>
                   </div>
+
+                  <Separator />
+
+                  <Button className="h-12 w-full bg-green-500 font-bold">
+                    Cadastrar
+                  </Button>
                 </div>
               </form>
             </div>
