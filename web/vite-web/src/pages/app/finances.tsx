@@ -1,6 +1,7 @@
 import {
   ArrowDownCircle,
   ArrowUpCircle,
+  CircleFadingPlus,
   DollarSign,
   Search,
 } from 'lucide-react'
@@ -31,7 +32,6 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
@@ -108,18 +108,43 @@ export function Finances() {
                   <Input className="h-10" placeholder="Descrição" />
 
                   <Input className="h-10" placeholder="Preço" />
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Categoria" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="sell">Venda</SelectItem>
-                        <SelectItem value="card">Cartão de Crédito</SelectItem>
-                        <SelectItem value="work">Empresa Filial 01</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
+                  <div className="flex items-center justify-center gap-2">
+                    <Select>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Categoria" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="sell">Venda</SelectItem>
+                          <SelectItem value="card">
+                            Cartão de Crédito
+                          </SelectItem>
+                          <SelectItem value="work">
+                            Empresa Filial 01
+                          </SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+
+                    <Button
+                      variant="outline"
+                      className={`
+                        flex 
+                        min-w-10 
+                        items-center 
+                        justify-center 
+                        rounded-sm 
+                        border-green-500 
+                        text-green-500 
+                        hover:border-green-700 
+                        hover:bg-green-700
+                        hover:text-slate-100 
+                      `}
+                      size="icon"
+                    >
+                      <CircleFadingPlus className="h-5 w-5" />
+                    </Button>
+                  </div>
 
                   <div className="mx-auto grid max-w-screen-md grid-cols-2 gap-2">
                     <Button
