@@ -165,7 +165,7 @@ export function Finances() {
 
                   <Separator />
 
-                  <Button className="h-12 w-full bg-green-500 font-bold">
+                  <Button className="h-12 w-full bg-green-500 font-bold hover:border-green-700 hover:bg-green-700 hover:text-slate-100">
                     Cadastrar
                   </Button>
                 </div>
