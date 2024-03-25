@@ -99,7 +99,7 @@ export function Finances() {
               Nova transação
             </Button>
           </DrawerTrigger>
-          <DrawerContent className="">
+          <DrawerContent>
             <div className="mt-3 p-4">
               <DrawerTitle>Nova Transação</DrawerTitle>
 
@@ -128,18 +128,9 @@ export function Finances() {
 
                     <Button
                       variant="outline"
-                      className={`
-                        flex 
-                        min-w-10 
-                        items-center 
-                        justify-center 
-                        rounded-sm 
-                        border-green-500 
-                        text-green-500 
-                        hover:border-green-700 
-                        hover:bg-green-700
-                        hover:text-slate-100 
-                      `}
+                      className={
+                        'flex min-w-10 items-center justify-center rounded-sm border-green-500 text-green-500 hover:border-green-700 hover:bg-green-700 hover:text-slate-100'
+                      }
                       size="icon"
                     >
                       <CircleFadingPlus className="h-5 w-5" />
