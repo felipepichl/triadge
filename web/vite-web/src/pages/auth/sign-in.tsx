@@ -1,4 +1,5 @@
 import { CreditCard, KeyRound } from 'lucide-react'
+import { useContext } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -6,6 +7,7 @@ import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { AuthContext } from '@/contexts/auth-context'
 
 const signInForm = z.object({
   register: z.string(),
@@ -21,8 +23,10 @@ export default function SignIn() {
     formState: { isSubmitting },
   } = useForm<SignInForm>()
 
+  const { signIn } = useContext(AuthContext)
+
   async function handleSign({ register, password }: SignInForm) {
-    console.log(register, password)
+    await signIn({ email: register, password })
 
     await new Promise((resolve) => setTimeout(resolve, 2000))
 
