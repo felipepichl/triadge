@@ -13,6 +13,25 @@ type PaginationProps = {
   parPage: number
 }
 
+type NavigationButtonType = {
+  icon: React.ReactElement
+  label: string
+  onClick: () => void
+}
+
+function NavigationButton({ icon, label, onClick }: NavigationButtonType) {
+  return (
+    <Button
+      variant="outline"
+      className="h-8 w-8 rounded-full p-0"
+      onClick={onClick}
+    >
+      {icon}
+      <span className="sr-only">{label}</span>
+    </Button>
+  )
+}
+
 export function Pagination({
   pageIndex,
   totalCount,
@@ -31,22 +50,26 @@ export function Pagination({
           Página {pageIndex + 1} de {pages}
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" className="h-8 w-8 rounded-full p-0">
-            <ChevronsLeft className="h-4 w-4" />
-            <span className="sr-only">Primeira Página</span>
-          </Button>
-          <Button variant="outline" className="h-8 w-8 rounded-full p-0">
-            <ChevronLeft className="h-4 w-4" />
-            <span className="sr-only">Página anterior</span>
-          </Button>
-          <Button variant="outline" className="h-8 w-8 rounded-full p-0">
-            <ChevronRight className="h-4 w-4" />
-            <span className="sr-only">Próxima página</span>
-          </Button>
-          <Button variant="outline" className="h-8 w-8 rounded-full p-0">
-            <ChevronsRight className="h-4 w-4" />
-            <span className="sr-only">Última página</span>
-          </Button>
+          <NavigationButton
+            icon={<ChevronsLeft className="h-4 w-4" />}
+            label="Primeira Página"
+            onClick={() => console.log('Primeira página')}
+          />
+          <NavigationButton
+            icon={<ChevronLeft className="h-4 w-4" />}
+            label="Página anterior"
+            onClick={() => console.log('Página anterior')}
+          />
+          <NavigationButton
+            icon={<ChevronRight className="h-4 w-4" />}
+            label="Próxima página"
+            onClick={() => console.log('Próxima página')}
+          />
+          <NavigationButton
+            icon={<ChevronsRight className="h-4 w-4" />}
+            label="Última página"
+            onClick={() => console.log('Última página')}
+          />
         </div>
       </div>
     </div>
