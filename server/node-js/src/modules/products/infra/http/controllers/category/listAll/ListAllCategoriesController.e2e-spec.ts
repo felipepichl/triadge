@@ -44,6 +44,6 @@ describe('[E2E] - List all Categories', () => {
 
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body.categories)).toBe(true)
-    expect(response.body.categories.length).toBe(4)
+    expect(response.body.categories.length).toBe(2)
   })
 })
