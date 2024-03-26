@@ -26,11 +26,11 @@ export default function SignIn() {
   const { signIn } = useContext(AuthContext)
 
   async function handleSign({ register, password }: SignInForm) {
-    await signIn({ email: register, password })
-
-    await new Promise((resolve) => setTimeout(resolve, 2000))
-
-    toast.success('Test Message')
+    try {
+      await signIn({ email: register, password })
+    } catch (err) {
+      toast.error('Verifique suas credenciais')
+    }
   }
   return (
     <>

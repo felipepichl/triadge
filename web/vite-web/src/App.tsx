@@ -10,14 +10,15 @@ import { router } from './routes'
 
 export default function App() {
   return (
-    <AuthProvider>
-      <ThemeProvider storageKey="mm-theme" defaultTheme="system">
-        <HelmetProvider>
-          <Helmet titleTemplate="%s | GOEMB" />
-          <Toaster richColors position="top-right" />
+    <ThemeProvider storageKey="mm-theme" defaultTheme="system">
+      <HelmetProvider>
+        <Helmet titleTemplate="%s | GOEMB" />
+        <Toaster richColors position="top-right" />
+
+        <AuthProvider>
           <RouterProvider router={router} />
-        </HelmetProvider>
-      </ThemeProvider>
-    </AuthProvider>
+        </AuthProvider>
+      </HelmetProvider>
+    </ThemeProvider>
   )
 }

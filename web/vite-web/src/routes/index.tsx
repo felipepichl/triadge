@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 
+import { AuthProvider } from '@/contexts/auth-context'
 import AppLayout from '@/pages/_layouts/app'
 import AuthLayout from '@/pages/_layouts/auth'
 import Dashboard from '@/pages/app/dashboard'
