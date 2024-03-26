@@ -4,7 +4,7 @@ import sweggerUi from 'swagger-ui-express'
 import { AppError } from '@shared/error/AppError'
 
 import 'express-async-errors'
-// import '@shared/infra/typeorm/';
+import cors from 'cors'
 import '@shared/container'
 
 import sweggerFile from '../../../../../swegger.json'
@@ -12,10 +12,9 @@ import { routes } from '../routes'
 
 const app = express()
 
+app.use(cors())
 app.use(express.json())
-
 app.use('/api-docs', sweggerUi.serve, sweggerUi.setup(sweggerFile))
-
 app.use(routes)
 
 app.use(
