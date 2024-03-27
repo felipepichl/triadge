@@ -1,7 +1,7 @@
 import '@/styles/global.css'
 
 import { Helmet, HelmetProvider } from 'react-helmet-async'
-import { RouterProvider } from 'react-router-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { Toaster } from 'sonner'
 
 import { ThemeProvider } from './components/theme/theme-provider'
