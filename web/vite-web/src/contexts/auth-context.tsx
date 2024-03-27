@@ -1,5 +1,4 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 import { api } from '@/services/api'
 
@@ -26,9 +25,7 @@ const AuthContext = createContext({} as AuthContextData)
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>()
-  const isAuthenticated = false
-
-  const navigate = useNavigate()
+  const isAuthenticated = !!user
 
   async function signIn({ email, password }: SignInCredentials) {
     const response = await api.post('/sessions', {
@@ -44,8 +41,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     })
 
     console.log('here', user)
-
-    navigate('/')
   }
 
   return (

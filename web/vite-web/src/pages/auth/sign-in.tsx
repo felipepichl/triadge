@@ -1,13 +1,13 @@
 import { CreditCard, KeyRound } from 'lucide-react'
-import { useContext } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { AuthContext } from '@/contexts/auth-context'
+import { useAuth } from '@/contexts/auth-context'
 
 const signInForm = z.object({
   register: z.string(),
@@ -16,18 +16,22 @@ const signInForm = z.object({
 
 type SignInForm = z.infer<typeof signInForm>
 
-export default function SignIn() {
+export function SignIn() {
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
   } = useForm<SignInForm>()
 
-  const { signIn } = useContext(AuthContext)
+  const { signIn } = useAuth()
+
+  const navigate = useNavigate()
 
   async function handleSign({ register, password }: SignInForm) {
     try {
       await signIn({ email: register, password })
+
+      navigate('/')
     } catch (err) {
       toast.error('Verifique suas credenciais')
     }

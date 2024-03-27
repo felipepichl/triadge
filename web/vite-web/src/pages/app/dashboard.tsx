@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 
-export default function Dashboard() {
+export function Dashboard() {
   return (
     <>
       <Helmet title="Dashboard" />

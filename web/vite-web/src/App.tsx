@@ -1,12 +1,12 @@
 import '@/styles/global.css'
 
 import { Helmet, HelmetProvider } from 'react-helmet-async'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 import { Toaster } from 'sonner'
 
 import { ThemeProvider } from './components/theme/theme-provider'
 import { AuthProvider } from './contexts/auth-context'
-import { router } from './routes'
+import { Routes } from './routes'
 
 export default function App() {
   return (
@@ -16,7 +16,9 @@ export default function App() {
         <Toaster richColors position="top-right" />
 
         <AuthProvider>
-          <RouterProvider router={router} />
+          <BrowserRouter>
+            <Routes />
+          </BrowserRouter>
         </AuthProvider>
       </HelmetProvider>
     </ThemeProvider>
