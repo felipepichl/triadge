@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, ReactNode, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { api } from '@/services/api'
@@ -22,7 +22,7 @@ type AuthProviderProps = {
   children: ReactNode
 }
 
-export const AuthContext = createContext({} as AuthContextData)
+const AuthContext = createContext({} as AuthContextData)
 
 export function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>()
@@ -54,3 +54,5 @@ export function AuthProvider({ children }: AuthProviderProps) {
     </AuthContext.Provider>
   )
 }
+
+export const useAuth = () => useContext(AuthContext)
