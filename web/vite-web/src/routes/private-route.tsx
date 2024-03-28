@@ -1,18 +1,23 @@
+// ProtectedRoute.tsx
 import React from 'react'
-import { Navigate, Route, RouteProps } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
 
 import { useAuth } from '@/contexts/auth-context'
 
-type PrivateRouteProps = RouteProps & {
-  element: React.ReactNode
+type PrivateRouteProps = {
+  path: string
+  element: React.ReactElement
 }
 
-export function PrivateRoute({ element, ...rest }: PrivateRouteProps) {
+export function ProtectedRoute({ element, ...rest }: PrivateRouteProps) {
   const { isAuthenticated } = useAuth()
 
-  return isAuthenticated ? (
-    <Route {...rest} element={element} />
-  ) : (
-    <Navigate to="/sign-in" />
-  )
+  return
+  {
+    isAuthenticated ? (
+      <Outlet element={element} {...rest} />
+    ) : (
+      <Navigate to="/sign-in" />
+    )
+  }
 }

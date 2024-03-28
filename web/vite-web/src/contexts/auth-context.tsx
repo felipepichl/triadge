@@ -34,14 +34,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
       password,
     })
 
-    const { name } = response.data
+    const { name } = response.data.user
 
     setUser({
-      email,
       name,
+      email,
     })
-
-    console.log('here', user)
   }
 
   return (
