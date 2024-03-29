@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom'
 
 import { useAuth } from '@/contexts/auth-context'
 /** Layouts */
@@ -9,13 +9,39 @@ import { Dashboard } from '@/pages/app/dashboard'
 import { Finances } from '@/pages/app/finances'
 import { SignIn } from '@/pages/auth/sign-in'
 
+interface PrivateRouteProps {
+  children: React.ReactNode
+}
+
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
+  const { isAuthenticated } = useAuth()
+
+  return isAuthenticated ? children : <Navigate to="/sign-in" />
+}
+
+export default PrivateRoute
+
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <AppLayout />,
     children: [
-      { path: '/', element: <Dashboard /> },
-      { path: '/finances', element: <Finances /> },
+      {
+        path: '/',
+        element: (
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: '/finances',
+        element: (
+          <PrivateRoute>
+            <Finances />
+          </PrivateRoute>
+        ),
+      },
     ],
   },
   {
