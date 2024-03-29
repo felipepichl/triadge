@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useState } from 'react'
+import { createContext, ReactNode, useState } from 'react'
 
 import { api } from '@/services/api'
 
@@ -24,7 +24,7 @@ type AuthProviderProps = {
 
 const AuthContext = createContext({} as AuthContextData)
 
-export function AuthProvider({ children }: AuthProviderProps) {
+function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User | undefined>()
   const isAuthenticated = !!user
 
@@ -49,4 +49,5 @@ export function AuthProvider({ children }: AuthProviderProps) {
   )
 }
 
-export const useAuth = () => useContext(AuthContext)
+export type { AuthContextData }
+export { AuthContext, AuthProvider }

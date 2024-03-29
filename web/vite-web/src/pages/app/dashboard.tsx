@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 
-import { useAuth } from '@/contexts/auth-context'
+import { useAuth } from '@/hooks/use-auth'
 
 export function Dashboard() {
   const { user } = useAuth()
