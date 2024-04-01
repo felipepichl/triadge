@@ -6,7 +6,7 @@ export type SignInBody = {
 }
 
 export type SignInResponse = {
-  userResponse: { name: string; email: string }
+  signInResponse: { name: string; email: string }
 }
 
 export async function apiSignIn({
@@ -17,7 +17,7 @@ export async function apiSignIn({
 
   const { name } = response.data.user
 
-  const userResponse = { name, email }
+  const signInResponse = { name, email }
 
-  return { userResponse }
+  return { signInResponse }
 }

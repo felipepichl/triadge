@@ -1,16 +1,11 @@
 import { createContext, ReactNode, useState } from 'react'
 
-import { apiSignIn, SignInBody } from '@/api/sign-in'
-
-type User = {
-  name: string
-  email: string
-}
+import { apiSignIn, SignInBody, SignInResponse } from '@/api/sign-in'
 
 type AuthContextData = {
   signIn(credentials: SignInBody): Promise<void>
   isAuthenticated: boolean
-  user: User | undefined
+  user: SignInResponse | undefined
 }
 
 type AuthProviderProps = {
@@ -20,13 +15,13 @@ type AuthProviderProps = {
 const AuthContext = createContext({} as AuthContextData)
 
 function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User | undefined>()
+  const [user, setUser] = useState<SignInResponse | undefined>()
   const isAuthenticated = !!user
 
   async function signIn({ email, password }: SignInBody) {
-    const { userResponse } = await apiSignIn({ email, password })
+    const { signInResponse } = await apiSignIn({ email, password })
 
-    setUser(userResponse)
+    setUser({ signInResponse })
   }
 
   return (
