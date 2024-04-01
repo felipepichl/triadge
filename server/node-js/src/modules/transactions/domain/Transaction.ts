@@ -1,0 +1,44 @@
+import { AggregateRoot } from '@shared/core/domain/AggregateRoot'
+import { UniqueEntityID } from '@shared/core/domain/UniqueEntityID'
+
+interface ITransactionProps {
+  id?: string
+  description: string
+  type: string
+  value: number
+}
+
+class Transaction extends AggregateRoot<ITransactionProps> {
+  constructor(props: ITransactionProps, id?: UniqueEntityID) {
+    super(props, id)
+  }
+
+  get description(): string {
+    return this.description
+  }
+
+  get type(): string {
+    return this.type
+  }
+
+  get value(): number {
+    return this.value
+  }
+
+  public static createTransaction({
+    id,
+    description,
+    type,
+    value,
+  }: ITransactionProps): Transaction {
+    const transactionProps = {
+      description,
+      type,
+      value,
+    }
+
+    return AggregateRoot.create({ props: transactionProps, id }, Transaction)
+  }
+}
+
+export { Transaction }
