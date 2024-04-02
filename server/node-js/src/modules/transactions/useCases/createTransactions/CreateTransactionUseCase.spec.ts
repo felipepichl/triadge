@@ -5,11 +5,13 @@ import { Transaction } from '@modules/transactions/domain/Transaction'
 let transactionsRepositoryInMemory: TransactionsRepositoryInMemory
 let createTransactionUseCase: CreateTransactionUseCase
 
-describe('[Account] - Create a user', () => {
+describe('[Transaction] - Create a transaction', () => {
   beforeEach(() => {
     transactionsRepositoryInMemory = new TransactionsRepositoryInMemory()
 
-    createTransactionUseCase = new CreateTransactionUseCase()
+    createTransactionUseCase = new CreateTransactionUseCase(
+      transactionsRepositoryInMemory,
+    )
   })
 
   it('should be able to create a new transaction', async () => {
@@ -23,7 +25,9 @@ describe('[Account] - Create a user', () => {
 
     const { id } = transaction
 
-    const transactionCreated = await transactionsRepositoryInMemory.listAll()
+    const transactionCreated = await transactionsRepositoryInMemory.findById(
+      id.toString(),
+    )
 
     expect(transactionCreated).toBeDefined()
     expect(transaction?.description).toEqual(transaction.description)
