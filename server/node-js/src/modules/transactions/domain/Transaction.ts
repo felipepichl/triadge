@@ -15,19 +15,19 @@ class Transaction extends AggregateRoot<ITransactionProps> {
   }
 
   get description(): string {
-    return this.description
+    return this.props.description
   }
 
   get type(): string {
-    return this.type
+    return this.props.type
   }
 
   get value(): number {
-    return this.value
+    return this.props.value
   }
 
   get date(): Date {
-    return this.date
+    return this.props.date
   }
 
   public static createTransaction({
