@@ -12,6 +12,14 @@ class TransactionsRepositoryInMemory implements ITransactionsRepository {
     return this.transactions
   }
 
+  async findById(id: string): Promise<Transaction> {
+    const transaction = this.transactions.find(
+      (transaction) => transaction.id.toString() === id,
+    )
+
+    return transaction
+  }
+
   async findByDescription(description: string): Promise<Transaction> {
     const transaction = this.transactions.find(
       (transaction) => transaction.description === description,
