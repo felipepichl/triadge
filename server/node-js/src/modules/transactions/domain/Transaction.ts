@@ -26,6 +26,10 @@ class Transaction extends AggregateRoot<ITransactionProps> {
     return this.value
   }
 
+  get date(): Date {
+    return this.date
+  }
+
   public static createTransaction({
     id,
     description,
