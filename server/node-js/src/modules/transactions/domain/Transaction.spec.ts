@@ -1,6 +1,6 @@
 import { Transaction } from './Transaction'
 
-describe('[Tranasaction] - Create a new Transaction', () => {
+describe('[Transaction] - Create a new Transaction', () => {
   it('should be able to create a new instance of transaction', () => {
     const transaction = Transaction.createTransaction({
       description: 'Transaction description',
