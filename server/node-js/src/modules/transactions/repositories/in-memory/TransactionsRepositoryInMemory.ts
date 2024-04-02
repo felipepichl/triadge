@@ -12,9 +12,9 @@ class TransactionsRepository implements ITransactionsRepository {
     return this.transactions
   }
 
-  async findByName(name: string): Promise<Transaction> {
+  async findByDescription(description: string): Promise<Transaction> {
     const transaction = this.transactions.find(
-      (transaction) => transaction.description === name,
+      (transaction) => transaction.description === description,
     )
 
     return transaction
@@ -28,8 +28,10 @@ class TransactionsRepository implements ITransactionsRepository {
     return transaction
   }
 
-  findByMonth(month: string): Promise<Transaction[]> {
-    throw new Error('Method not implemented.')
+  async findByMonth(month: number): Promise<Transaction[]> {
+    return this.transactions.filter((transaction) => {
+      return transaction.date.getMonth() + 1 === month
+    })
   }
 }
 
