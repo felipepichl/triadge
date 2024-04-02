@@ -6,6 +6,7 @@ interface ITransactionProps {
   description: string
   type: string
   value: number
+  date?: Date
 }
 
 class Transaction extends AggregateRoot<ITransactionProps> {
@@ -30,11 +31,13 @@ class Transaction extends AggregateRoot<ITransactionProps> {
     description,
     type,
     value,
+    date = new Date(),
   }: ITransactionProps): Transaction {
     const transactionProps = {
       description,
       type,
       value,
+      date,
     }
 
     return AggregateRoot.create({ props: transactionProps, id }, Transaction)
