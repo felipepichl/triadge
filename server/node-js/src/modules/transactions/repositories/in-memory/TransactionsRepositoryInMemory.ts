@@ -1,7 +1,7 @@
 import { Transaction } from '@modules/transactions/domain/Transaction'
 import { ITransactionsRepository } from '../ITransactionsRepository'
 
-class TransactionsRepository implements ITransactionsRepository {
+class TransactionsRepositoryInMemory implements ITransactionsRepository {
   private transactions: Transaction[] = []
 
   async create(transaction: Transaction): Promise<void> {
@@ -35,4 +35,4 @@ class TransactionsRepository implements ITransactionsRepository {
   }
 }
 
-export { TransactionsRepository }
+export { TransactionsRepositoryInMemory }

@@ -4,7 +4,7 @@ describe('[Transaction] - Create a new Transaction', () => {
   it('should be able to create a new instance of transaction', () => {
     const transaction = Transaction.createTransaction({
       description: 'Transaction description',
-      type: 'type',
+      type: 'income',
       value: 1000,
     })
 

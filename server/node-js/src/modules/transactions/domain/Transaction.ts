@@ -4,7 +4,7 @@ import { UniqueEntityID } from '@shared/core/domain/UniqueEntityID'
 interface ITransactionProps {
   id?: string
   description: string
-  type: string
+  type: 'income' | 'outcome'
   value: number
   date?: Date
 }
