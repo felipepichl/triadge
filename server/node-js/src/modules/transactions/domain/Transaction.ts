@@ -18,7 +18,7 @@ class Transaction extends AggregateRoot<ITransactionProps> {
     return this.props.description
   }
 
-  get type(): string {
+  get type(): 'income' | 'outcome' {
     return this.props.type
   }
 

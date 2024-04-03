@@ -1,6 +1,5 @@
 import { TransactionsRepositoryInMemory } from '@modules/transactions/repositories/in-memory/TransactionsRepositoryInMemory'
 import { CreateTransactionUseCase } from './CreateTransactionUseCase'
-import { Transaction } from '@modules/transactions/domain/Transaction'
 
 let transactionsRepositoryInMemory: TransactionsRepositoryInMemory
 let createTransactionUseCase: CreateTransactionUseCase
@@ -15,21 +14,15 @@ describe('[Transaction] - Create a transaction', () => {
   })
 
   it('should be able to create a new transaction', async () => {
-    const transaction = Transaction.createTransaction({
+    await createTransactionUseCase.execute({
       description: 'Transaction Test',
       type: 'income',
       value: 1000,
     })
 
-    await createTransactionUseCase.execute(transaction)
+    const transactionCreated = await transactionsRepositoryInMemory.listAll()
 
-    const { id } = transaction
-
-    const transactionCreated = await transactionsRepositoryInMemory.findById(
-      id.toString(),
-    )
-
-    expect(transactionCreated).toBeDefined()
-    expect(transaction?.description).toEqual(transaction.description)
+    expect(transactionCreated[0]).toBeDefined()
+    expect(transactionCreated[0].description).toEqual('Transaction Test')
   })
 })
