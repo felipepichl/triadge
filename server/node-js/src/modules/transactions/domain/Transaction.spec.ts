@@ -6,6 +6,8 @@ describe('[Transaction] - Create a new transaction', () => {
       description: 'Transaction description',
       type: 'income',
       value: 1000,
+      userId: 'userId',
+      transactionCategoryId: 'transactionCategoryId',
     })
 
     expect(transaction instanceof Transaction).toBe(true)

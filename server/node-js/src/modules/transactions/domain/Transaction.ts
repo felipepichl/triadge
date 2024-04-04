@@ -8,6 +8,9 @@ interface ITransactionProps {
   type: 'income' | 'outcome'
   value: number
   date?: Date
+
+  userId: string
+  transactionCategoryId: string
 }
 
 class Transaction extends AggregateRoot<ITransactionProps> {
@@ -35,6 +38,14 @@ class Transaction extends AggregateRoot<ITransactionProps> {
     return this.props.date
   }
 
+  get userId(): string {
+    return this.props.userId
+  }
+
+  get transactionCategoryId(): string {
+    return this.props.transactionCategoryId
+  }
+
   public static createTransaction({
     id,
     description,
@@ -42,6 +53,8 @@ class Transaction extends AggregateRoot<ITransactionProps> {
     type,
     value,
     date = new Date(),
+    userId,
+    transactionCategoryId,
   }: ITransactionProps): Transaction {
     const transactionProps = {
       description,
@@ -49,6 +62,8 @@ class Transaction extends AggregateRoot<ITransactionProps> {
       type,
       value,
       date,
+      userId,
+      transactionCategoryId,
     }
 
     return AggregateRoot.create({ props: transactionProps, id }, Transaction)
