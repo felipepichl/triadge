@@ -12,15 +12,17 @@ class TransactionsRepository implements ITransactionsRepository {
     detail,
     type,
     value,
+    userId,
+    transactionCategoryId,
   }: Transaction): Promise<void> {
-    const transaction = Transaction.createTransaction({
+    const data = {
       description,
       detail,
       type,
       value,
-    })
-
-    const data = TransactionMappers.getMapper().toPersistence(transaction)
+      userId,
+      transactionCategoryId,
+    }
 
     await PrismaSingleton.getInstance().transaction.upsert({
       where: { id: id.toString() },
