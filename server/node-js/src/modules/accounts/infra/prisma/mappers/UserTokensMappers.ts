@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 import { UserTokens } from '@modules/accounts/domain/UserTokens'
 import { UserTokens as RawUserTokens } from '@prisma/client'
-
 import { IMapper } from '@shared/core/infra/Mapper'
 
 class UserTokensMappers implements IMapper<UserTokens, RawUserTokens> {

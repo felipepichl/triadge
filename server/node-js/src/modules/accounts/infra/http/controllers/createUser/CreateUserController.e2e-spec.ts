@@ -1,6 +1,5 @@
-import request from 'supertest'
-
 import { app } from '@shared/infra/http/start/app'
+import request from 'supertest'
 
 describe('[E2E] = Create User', () => {
   it('should be able to create a new user', async () => {

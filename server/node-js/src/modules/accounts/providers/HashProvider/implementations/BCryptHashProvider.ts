@@ -1,4 +1,4 @@
-import { hash, compare } from 'bcrypt'
+import { compare, hash } from 'bcrypt'
 
 import { IHashProvider } from '../models/IHashProvider'
 

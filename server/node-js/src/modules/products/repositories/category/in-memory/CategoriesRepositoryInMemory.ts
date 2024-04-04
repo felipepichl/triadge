@@ -1,4 +1,5 @@
 import { Category } from '@modules/products/domain/category/Category'
+
 import { ICategoryRepositry } from '../ICategoryRepository'
 
 class CategoriesRepositoryInMemory implements ICategoryRepositry {

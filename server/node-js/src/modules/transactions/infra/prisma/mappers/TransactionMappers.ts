@@ -1,6 +1,5 @@
 import { Transaction } from '@modules/transactions/domain/Transaction'
 import { Transaction as RawTransaction } from '@prisma/client'
-
 import { IMapper } from '@shared/core/infra/Mapper'
 
 class TransactionMappers implements IMapper<Transaction, RawTransaction> {

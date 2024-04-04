@@ -1,10 +1,10 @@
+import { User } from '@modules/accounts/domain/User'
 import { UsersRepositoryInMemory } from '@modules/accounts/repositories/in-memory/UsersRepositoryInMemory'
 import { UsersTokenRepositoryInMemory } from '@modules/accounts/repositories/in-memory/UsersTokenRepositoryInMemory'
 import { DateProviderInMemory } from '@shared/container/providers/DateProvider/in-memory/DateProviderInMemory'
 import { MalProviderInMemory } from '@shared/container/providers/MailProvider/in-memory/MalProviderInMemory'
 
 import { SendForgotPassordMailUseCase } from './SendForgotPassordMailUseCase'
-import { User } from '@modules/accounts/domain/User'
 
 let sendForgotPassordMailUseCase: SendForgotPassordMailUseCase
 let usersRepositoryInMemory: UsersRepositoryInMemory

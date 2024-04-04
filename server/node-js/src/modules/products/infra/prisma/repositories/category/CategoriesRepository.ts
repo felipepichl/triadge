@@ -1,6 +1,5 @@
 import { Category } from '@modules/products/domain/category/Category'
 import { ICategoryRepositry } from '@modules/products/repositories/category/ICategoryRepository'
-
 import { PrismaSingleton } from '@shared/infra/prisma'
 
 import { CategoryMappers } from '../../mappers/category/CategoryMappers'

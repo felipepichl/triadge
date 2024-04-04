@@ -1,6 +1,5 @@
 import { UserTokens } from '@modules/accounts/domain/UserTokens'
 import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository'
-
 import { PrismaSingleton } from '@shared/infra/prisma'
 
 import { UserTokensMappers } from '../mappers/UserTokensMappers'

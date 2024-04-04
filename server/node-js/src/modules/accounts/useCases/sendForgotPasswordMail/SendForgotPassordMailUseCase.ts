@@ -1,15 +1,12 @@
-import { inject, injectable } from 'tsyringe'
-import { v4 as uuid } from 'uuid'
-import { resolve } from 'path'
-
+import { UserTokens } from '@modules/accounts/domain/UserTokens'
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository'
 import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository'
 import { IDateProvider } from '@shared/container/providers/DateProvider/models/IDateProvider'
 import { IMalProvider } from '@shared/container/providers/MailProvider/models/IMalProvider'
-
-import { UserTokens } from '@modules/accounts/domain/UserTokens'
-
 import { IUseCase } from '@shared/core/domain/IUseCase'
+import { resolve } from 'path'
+import { inject, injectable } from 'tsyringe'
+import { v4 as uuid } from 'uuid'
 
 interface IRequest {
   email: string

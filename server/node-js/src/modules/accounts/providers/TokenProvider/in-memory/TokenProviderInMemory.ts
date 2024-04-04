@@ -1,4 +1,4 @@
-import { ITokenProvider, IPayload } from '../models/ITokenProvider'
+import { IPayload, ITokenProvider } from '../models/ITokenProvider'
 
 class TokenProviderInMemory implements ITokenProvider {
   encodeToken(

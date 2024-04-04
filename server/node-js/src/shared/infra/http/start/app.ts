@@ -1,11 +1,10 @@
-import express, { Request, Response, NextFunction } from 'express'
-import sweggerUi from 'swagger-ui-express'
+import 'express-async-errors'
+import '@shared/container'
 
 import { AppError } from '@shared/error/AppError'
-
-import 'express-async-errors'
 import cors from 'cors'
-import '@shared/container'
+import express, { NextFunction, Request, Response } from 'express'
+import sweggerUi from 'swagger-ui-express'
 
 import sweggerFile from '../../../../../swegger.json'
 import { routes } from '../routes'

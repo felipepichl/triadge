@@ -1,7 +1,6 @@
-import { IMapper } from '@shared/core/infra/Mapper'
-
 import { Category } from '@modules/products/domain/category/Category'
 import { Category as RawCategory } from '@prisma/client'
+import { IMapper } from '@shared/core/infra/Mapper'
 
 class CategoryMappers implements IMapper<Category, RawCategory> {
   toPersistence(category: Category): Category {

@@ -1,17 +1,13 @@
-import { inject, injectable } from 'tsyringe'
-
+import { authConfig } from '@config/auth'
+import { UserTokens } from '@modules/accounts/domain/UserTokens'
+import { IHashProvider } from '@modules/accounts/providers/HashProvider/models/IHashProvider'
+import { ITokenProvider } from '@modules/accounts/providers/TokenProvider/models/ITokenProvider'
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository'
 import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository'
-import { IHashProvider } from '@modules/accounts/providers/HashProvider/models/IHashProvider'
 import { IDateProvider } from '@shared/container/providers/DateProvider/models/IDateProvider'
-import { ITokenProvider } from '@modules/accounts/providers/TokenProvider/models/ITokenProvider'
-
-import { UserTokens } from '@modules/accounts/domain/UserTokens'
-
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
-
-import { authConfig } from '@config/auth'
+import { inject, injectable } from 'tsyringe'
 
 const {
   secretToken,

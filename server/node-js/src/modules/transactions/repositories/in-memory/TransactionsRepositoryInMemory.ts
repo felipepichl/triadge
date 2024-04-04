@@ -1,4 +1,5 @@
 import { Transaction } from '@modules/transactions/domain/Transaction'
+
 import { ITransactionsRepository } from '../ITransactionsRepository'
 
 class TransactionsRepositoryInMemory implements ITransactionsRepository {

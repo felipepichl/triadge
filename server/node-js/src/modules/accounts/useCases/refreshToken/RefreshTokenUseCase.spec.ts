@@ -1,11 +1,10 @@
 import { UserTokens } from '@modules/accounts/domain/UserTokens'
-
 import { TokenProviderInMemory } from '@modules/accounts/providers/TokenProvider/in-memory/TokenProviderInMemory'
 import { UsersTokenRepositoryInMemory } from '@modules/accounts/repositories/in-memory/UsersTokenRepositoryInMemory'
 import { DateProviderInMemory } from '@shared/container/providers/DateProvider/in-memory/DateProviderInMemory'
+import { AppError } from '@shared/error/AppError'
 
 import { RefreshTokenUseCase } from './RefreshTokenUseCase'
-import { AppError } from '@shared/error/AppError'
 
 let refreshTokenUseCase: RefreshTokenUseCase
 let usersTokensRepository: UsersTokenRepositoryInMemory

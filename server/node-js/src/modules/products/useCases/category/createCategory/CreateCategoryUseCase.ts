@@ -1,10 +1,8 @@
-import { inject, injectable } from 'tsyringe'
-
 import { Category } from '@modules/products/domain/category/Category'
 import { ICategoryRepositry } from '@modules/products/repositories/category/ICategoryRepository'
-
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
+import { inject, injectable } from 'tsyringe'
 
 interface IRequest {
   name: string

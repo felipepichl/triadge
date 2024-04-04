@@ -1,7 +1,7 @@
-import { injectable } from 'tsyringe'
-import nodemailer, { Transporter } from 'nodemailer'
-import handlebars from 'handlebars'
 import fs from 'fs'
+import handlebars from 'handlebars'
+import nodemailer, { Transporter } from 'nodemailer'
+import { injectable } from 'tsyringe'
 
 import { IMalProvider } from '../models/IMalProvider'
 

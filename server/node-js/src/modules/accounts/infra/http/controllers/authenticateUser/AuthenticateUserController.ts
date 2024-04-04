@@ -1,9 +1,7 @@
+import { AuthenticateUserUseCase } from '@modules/accounts/useCases/authenticateUser/AuthenticateUserUseCase'
+import { CookieService } from '@shared/services/CookiesServices'
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
-
-import { CookieService } from '@shared/services/CookiesServices'
-
-import { AuthenticateUserUseCase } from '@modules/accounts/useCases/authenticateUser/AuthenticateUserUseCase'
 
 class AuthenticateUserController {
   async handle(request: Request, response: Response): Promise<Response> {

@@ -1,9 +1,7 @@
-import { inject, injectable } from 'tsyringe'
-
 import { Category } from '@modules/products/domain/category/Category'
 import { ICategoryRepositry } from '@modules/products/repositories/category/ICategoryRepository'
-
 import { IUseCase } from '@shared/core/domain/IUseCase'
+import { inject, injectable } from 'tsyringe'
 
 interface IResponse {
   categories: Category[]

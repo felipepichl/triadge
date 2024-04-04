@@ -1,3 +1,7 @@
+import { exec } from 'node:child_process'
+import crypto from 'node:crypto'
+import util from 'node:util'
+
 import type {
   EnvironmentContext,
   JestEnvironmentConfig,
@@ -5,9 +9,6 @@ import type {
 import dotenv from 'dotenv'
 import fs from 'fs'
 import NodeEnvironment from 'jest-environment-node'
-import { exec } from 'node:child_process'
-import crypto from 'node:crypto'
-import util from 'node:util'
 import path from 'path'
 
 dotenv.config({ path: '.env.testing' })

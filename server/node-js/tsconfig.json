@@ -16,7 +16,7 @@
       "@utils/*": ["utils/*"],
       "@tests/*": ["test-utils/*"]
     },
-    "typeRoots": ["./node_modules/@types", "./src/@types"],
+    "typeRoots": ["./node_modules/@types", "./src/@types/env"],
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

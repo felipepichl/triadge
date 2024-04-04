@@ -1,5 +1,6 @@
 import { sign, verify } from 'jsonwebtoken'
-import { ITokenProvider, IPayload } from '../models/ITokenProvider'
+
+import { IPayload, ITokenProvider } from '../models/ITokenProvider'
 
 class JWTTokenProvider implements ITokenProvider {
   encodeToken(

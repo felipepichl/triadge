@@ -1,6 +1,5 @@
-import { Request, Response, NextFunction } from 'express'
-
 import { AppError } from '@shared/error/AppError'
+import { NextFunction, Request, Response } from 'express'
 
 import { UsersTokensRepository } from '../../prisma/repositories/UsersTokensRepository'
 

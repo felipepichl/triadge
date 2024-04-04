@@ -1,4 +1,5 @@
 import { TransactionsRepositoryInMemory } from '@modules/transactions/repositories/in-memory/TransactionsRepositoryInMemory'
+
 import { CreateTransactionUseCase } from './CreateTransactionUseCase'
 
 let transactionsRepositoryInMemory: TransactionsRepositoryInMemory

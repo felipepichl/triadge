@@ -1,10 +1,8 @@
-import { injectable, inject } from 'tsyringe'
-
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository'
 import { IStorageProvider } from '@shared/container/providers/StorageProvider/models/IStorageProvider'
-
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
+import { inject, injectable } from 'tsyringe'
 
 interface IRequest {
   userId: string

@@ -1,11 +1,9 @@
-import { Router } from 'express'
-
-import { usersRouter } from '@modules/accounts/infra/http/routes/users.routes'
 import { authenticateRoutes } from '@modules/accounts/infra/http/routes/authenticate.routes'
-import { refreshTokenRoutes } from '@modules/accounts/infra/http/routes/refreshToken.routes'
 import { passwordRoutes } from '@modules/accounts/infra/http/routes/passoword.routes'
-
+import { refreshTokenRoutes } from '@modules/accounts/infra/http/routes/refreshToken.routes'
+import { usersRouter } from '@modules/accounts/infra/http/routes/users.routes'
 import { categoriesRoutes } from '@modules/products/infra/http/routes/category/categories.routes'
+import { Router } from 'express'
 
 import { ensureAuthenticated } from '../middlewares/ensureAuthenticated'
 

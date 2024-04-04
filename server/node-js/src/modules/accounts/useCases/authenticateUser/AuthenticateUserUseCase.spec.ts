@@ -1,15 +1,14 @@
 import 'reflect-metadata'
 
 import { User } from '@modules/accounts/domain/User'
-import { UsersRepositoryInMemory } from '@modules/accounts/repositories/in-memory/UsersRepositoryInMemory'
 import { HashProviderInMemory } from '@modules/accounts/providers/HashProvider/in-memory/HashProviderInMemory'
 import { TokenProviderInMemory } from '@modules/accounts/providers/TokenProvider/in-memory/TokenProviderInMemory'
+import { UsersRepositoryInMemory } from '@modules/accounts/repositories/in-memory/UsersRepositoryInMemory'
 import { UsersTokenRepositoryInMemory } from '@modules/accounts/repositories/in-memory/UsersTokenRepositoryInMemory'
+import { CreateUserUseCase } from '@modules/accounts/useCases/createUser/CreateUserUseCase'
 import { DateProviderInMemory } from '@shared/container/providers/DateProvider/in-memory/DateProviderInMemory'
-
 import { AppError } from '@shared/error/AppError'
 
-import { CreateUserUseCase } from '@modules/accounts/useCases/createUser/CreateUserUseCase'
 import { AuthenticateUserUseCase } from './AuthenticateUserUseCase'
 
 let usersRepositoryInMemory: UsersRepositoryInMemory

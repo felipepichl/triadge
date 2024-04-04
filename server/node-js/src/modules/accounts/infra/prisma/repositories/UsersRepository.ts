@@ -1,6 +1,5 @@
 import { User } from '@modules/accounts/domain/User'
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository'
-
 import { PrismaSingleton } from '@shared/infra/prisma'
 
 import { UserMappers } from '../mappers/UserMappers'

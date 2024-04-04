@@ -1,15 +1,11 @@
-import { inject, injectable } from 'tsyringe'
-
+import { authConfig } from '@config/auth'
+import { UserTokens } from '@modules/accounts/domain/UserTokens'
 import { ITokenProvider } from '@modules/accounts/providers/TokenProvider/models/ITokenProvider'
 import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository'
 import { IDateProvider } from '@shared/container/providers/DateProvider/models/IDateProvider'
-
-import { UserTokens } from '@modules/accounts/domain/UserTokens'
-
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
-
-import { authConfig } from '@config/auth'
+import { inject, injectable } from 'tsyringe'
 const { secretRefreshToken, expiresInRefreshToken, expiresRefreshTokenDays } =
   authConfig
 

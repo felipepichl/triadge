@@ -1,6 +1,5 @@
 import { User } from '@modules/accounts/domain/User'
 import { User as RawUser } from '@prisma/client'
-
 import { IMapper } from '@shared/core/infra/Mapper'
 
 class UserMappers implements IMapper<User, RawUser> {

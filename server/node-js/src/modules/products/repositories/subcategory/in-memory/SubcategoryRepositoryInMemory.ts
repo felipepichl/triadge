@@ -1,4 +1,5 @@
 import { Subcategory } from '@modules/products/domain/subcategory/Subcategory'
+
 import { ISubcategoryRepositry } from '../ISubcategoryRepository'
 
 class SubcategoriesRepositoryInMemory implements ISubcategoryRepositry {

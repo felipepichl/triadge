@@ -1,9 +1,8 @@
 import { authConfig } from '@config/auth'
-// import { UsersRepository } from '@modules/accounts/infra/typeorm/repositories/UsersRepository';
-import { Request, Response, NextFunction } from 'express'
-import { verify } from 'jsonwebtoken'
-
 import { AppError } from '@shared/error/AppError'
+// import { UsersRepository } from '@modules/accounts/infra/typeorm/repositories/UsersRepository';
+import { NextFunction, Request, Response } from 'express'
+import { verify } from 'jsonwebtoken'
 
 interface ITokenPayload {
   iat: number
