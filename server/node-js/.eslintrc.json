@@ -2,6 +2,7 @@
   "extends": [
     "@rocketseat/eslint-config/node"
   ],
+  "plugins": ["simple-import-sort"],
   "rules": {
     "no-useless-constructor": "off",
     "@typescript-eslint/no-unused-vars": [
@@ -9,6 +10,7 @@
       {
         "argsIgnorePattern": "_"
       }
-    ]
+    ],
+    "simple-import-sort/imports": "error",
   }
 }
