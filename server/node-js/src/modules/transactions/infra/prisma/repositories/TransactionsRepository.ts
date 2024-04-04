@@ -31,24 +31,48 @@ class TransactionsRepository implements ITransactionsRepository {
     })
   }
 
-  listAll(): Promise<Transaction[]> {
-    throw new Error('Method not implemented.')
+  async listAll(): Promise<Transaction[]> {
+    const result = await PrismaSingleton.getInstance().transaction.findMany()
+
+    return TransactionMappers.getMapper().toDomainArray(result)
   }
 
-  findById(id: string): Promise<Transaction> {
-    throw new Error('Method not implemented.')
+  async findById(id: string): Promise<Transaction> {
+    const result = await PrismaSingleton.getInstance().transaction.findFirst({
+      where: { id },
+    })
+
+    return TransactionMappers.getMapper().toDomain(result)
   }
 
-  findByDescription(description: string): Promise<Transaction> {
-    throw new Error('Method not implemented.')
+  async findByDescription(description: string): Promise<Transaction> {
+    const result = await PrismaSingleton.getInstance().transaction.findFirst({
+      where: { description },
+    })
+
+    return TransactionMappers.getMapper().toDomain(result)
   }
 
-  findByDate(date: Date): Promise<Transaction> {
-    throw new Error('Method not implemented.')
+  async findByDate(date: Date): Promise<Transaction> {
+    const result = await PrismaSingleton.getInstance().transaction.findFirst({
+      where: { date },
+    })
+
+    return TransactionMappers.getMapper().toDomain(result)
   }
 
-  findByMonth(month: number): Promise<Transaction[]> {
-    throw new Error('Method not implemented.')
+  async findByMonth(month: number): Promise<Transaction[]> {
+    const year = new Date().getFullYear()
+    const startDate = new Date(year, month - 1, 1)
+    const endDate = new Date(year, month, 0)
+
+    const result = await PrismaSingleton.getInstance().transaction.findMany({
+      where: {
+        AND: [{ date: { gte: startDate } }, { date: { lte: endDate } }],
+      },
+    })
+
+    return TransactionMappers.getMapper().toDomainArray(result)
   }
 }
 
