@@ -4,6 +4,7 @@ import { UniqueEntityID } from '@shared/core/domain/UniqueEntityID'
 interface ITransactionProps {
   id?: string
   description: string
+  detail?: string
   type: 'income' | 'outcome'
   value: number
   date?: Date
@@ -16,6 +17,10 @@ class Transaction extends AggregateRoot<ITransactionProps> {
 
   get description(): string {
     return this.props.description
+  }
+
+  get detail(): string {
+    return this.props.detail
   }
 
   get type(): 'income' | 'outcome' {
@@ -33,12 +38,14 @@ class Transaction extends AggregateRoot<ITransactionProps> {
   public static createTransaction({
     id,
     description,
+    detail,
     type,
     value,
     date = new Date(),
   }: ITransactionProps): Transaction {
     const transactionProps = {
       description,
+      detail,
       type,
       value,
       date,

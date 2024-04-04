@@ -53,6 +53,7 @@ model TransactionCategory {
 model Transaction {
   id          String   @id @default(uuid())
   description String
+  detail      String?
   type        String
   value       Decimal
   date        DateTime @default(now())
