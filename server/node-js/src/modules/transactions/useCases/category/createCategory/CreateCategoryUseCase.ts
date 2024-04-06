@@ -15,7 +15,7 @@ class CreateCategoryUseCase implements IUseCase<IRequest, void> {
       await this.categoriesRepository.findByDescription(description)
 
     if (nameAlreadyExists) {
-      throw new AppError('Transaction Category name already exixts', 400)
+      throw new AppError('Transaction Category description already exixts', 400)
     }
 
     const category = Category.createCategory({

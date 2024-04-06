@@ -40,7 +40,7 @@ describe('[Transaction]/[Category] - Create a transaction category', () => {
     await createCategoryUseCase.execute(category)
 
     await expect(createCategoryUseCase.execute(category)).rejects.toEqual(
-      new AppError('Transaction Category name already exixts', 400),
+      new AppError('Transaction Category description already exixts', 400),
     )
   })
 })
