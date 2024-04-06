@@ -9,8 +9,12 @@ interface IResponse {
 class ListAllCategoriesUseCase implements IUseCase<void, IResponse> {
   constructor(private categoriesRepository: ICategoriesRepository) {}
 
-  execute(): Promise<IResponse> {
-    return null
+  async execute(): Promise<IResponse> {
+    const categories = await this.categoriesRepository.listAll()
+
+    return {
+      categories,
+    }
   }
 }
 
