@@ -1,4 +1,4 @@
-import { Transaction } from '@modules/transactions/domain/Transaction'
+import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
 import { Transaction as RawTransaction } from '@prisma/client'
 import { IMapper } from '@shared/core/infra/Mapper'
 

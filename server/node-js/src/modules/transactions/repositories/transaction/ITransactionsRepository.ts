@@ -1,4 +1,4 @@
-import { Transaction } from '../domain/Transaction'
+import { Transaction } from '../../domain/transaction/Transaction'
 
 interface ITransactionsRepository {
   create(transaction: Transaction): Promise<void>

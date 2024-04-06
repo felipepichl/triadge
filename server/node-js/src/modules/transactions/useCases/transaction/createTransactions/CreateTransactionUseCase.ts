@@ -1,5 +1,5 @@
-import { Transaction } from '@modules/transactions/domain/Transaction'
-import { ITransactionsRepository } from '@modules/transactions/repositories/ITransactionsRepository'
+import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
+import { ITransactionsRepository } from '@modules/transactions/repositories/transaction/ITransactionsRepository'
 import { IUseCase } from '@shared/core/domain/IUseCase'
 
 interface IRequest {

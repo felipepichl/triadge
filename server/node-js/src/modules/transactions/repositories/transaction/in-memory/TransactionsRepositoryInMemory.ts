@@ -1,4 +1,4 @@
-import { Transaction } from '@modules/transactions/domain/Transaction'
+import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
 
 import { ITransactionsRepository } from '../ITransactionsRepository'
 

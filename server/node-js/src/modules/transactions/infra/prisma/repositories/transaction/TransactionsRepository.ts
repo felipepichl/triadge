@@ -1,8 +1,8 @@
-import { Transaction } from '@modules/transactions/domain/Transaction'
+import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
 import { ITransactionsRepository } from '@modules/transactions/repositories/ITransactionsRepository'
 import { PrismaSingleton } from '@shared/infra/prisma'
 
-import { TransactionMappers } from '../mappers/TransactionMappers'
+import { TransactionMappers } from '../../mappers/transaction/TransactionMappers'
 
 class TransactionsRepository implements ITransactionsRepository {
   async create({
