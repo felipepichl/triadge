@@ -1,10 +1,10 @@
 import { Router } from 'express'
 
-import { CreateCategoryController } from '../../controllers/category/createCategory/CreateCategoryController'
+import { CreateTransactionCategoryController } from '../../controllers/category/createTransacitionCategory/CreateTransactionCategoryController'
 
 const transactionsCategoriesRoutes = Router()
 
-const createCategoryController = new CreateCategoryController()
+const createCategoryController = new CreateTransactionCategoryController()
 // const listAllCategoriesController = new ListAllCategoriesController()
 
 transactionsCategoriesRoutes.post(
