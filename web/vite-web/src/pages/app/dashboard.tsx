@@ -8,7 +8,7 @@ export function Dashboard() {
   return (
     <>
       <Helmet title="Dashboard" />
-      <h1>{user?.name}</h1>
+      <h1>{user?.signInResponse.name}</h1>
     </>
   )
 }
