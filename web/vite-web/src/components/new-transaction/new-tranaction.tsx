@@ -1,4 +1,7 @@
 import { ArrowDownCircle, ArrowUpCircle, CircleFadingPlus } from 'lucide-react'
+import { useEffect } from 'react'
+
+import { apiListAllTransactionCategory } from '@/api/list-all-transaction-category'
 
 import { Button } from '../ui/button'
 import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '../ui/drawer'
@@ -14,6 +17,10 @@ import {
 import { Separator } from '../ui/separator'
 
 export function NewTransaction() {
+  useEffect(() => {
+    apiListAllTransactionCategory()
+  }, [])
+
   return (
     <div className="flex justify-end pb-3">
       <Drawer>
