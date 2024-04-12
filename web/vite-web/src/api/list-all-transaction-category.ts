@@ -9,7 +9,7 @@ export type ListAllTransactionCategoryBody = {
 }
 
 export async function apiListAllTransactionCategory(): Promise<ListAllTransactionCategoryBody> {
-  const response = await api.get('/transaction/categories')
+  const response = await api.get('/transactions/categories')
 
   console.log(response.data)
 
