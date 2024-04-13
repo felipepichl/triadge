@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from 'react'
+import { createContext, ReactNode, useCallback, useState } from 'react'
 
 import {
   apiHeaders,
@@ -19,6 +19,7 @@ type AuthState = {
 
 type AuthContextData = {
   signIn(credentials: SignInBody): Promise<void>
+  signOut(): void
   isAuthenticated: boolean
   user: User | undefined
 }
@@ -46,7 +47,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   })
   const isAuthenticated = !!data.user
 
-  async function signIn({ email, password }: SignInBody) {
+  const signIn = useCallback(async ({ email, password }: SignInBody) => {
     const { user, token }: SignInResponse = await apiSignIn({ email, password })
 
     localStorage.setItem('@triadge:token', token)
@@ -58,10 +59,19 @@ function AuthProvider({ children }: AuthProviderProps) {
       token,
       user,
     })
-  }
+  }, [])
+
+  const signOut = useCallback(() => {
+    localStorage.removeItem('@triadge:token')
+    localStorage.removeItemItem('@triadge:user')
+
+    setData({} as AuthState)
+  }, [])
 
   return (
-    <AuthContext.Provider value={{ signIn, isAuthenticated, user: data.user }}>
+    <AuthContext.Provider
+      value={{ signIn, signOut, isAuthenticated, user: data.user }}
+    >
       {children}
     </AuthContext.Provider>
   )
