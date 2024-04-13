@@ -13,7 +13,7 @@ export type SignInResponse = {
   token: string
 }
 
-export function headers(header: string) {
+export function apiHeaders(header: string) {
   api.defaults.headers.authorization = `Bearer ${header}`
 }
 
@@ -23,7 +23,7 @@ export async function apiSignIn({
 }: SignInBody): Promise<SignInResponse> {
   const response = await api.post('/sessions', { email, password })
 
-  const { user, token } = response.data
+  const { user, token } = response.data as SignInResponse
 
   return { user, token }
 }

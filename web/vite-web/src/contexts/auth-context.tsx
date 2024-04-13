@@ -1,6 +1,11 @@
 import { createContext, ReactNode, useState } from 'react'
 
-import { apiSignIn, headers, SignInBody } from '@/api/sign-in'
+import {
+  apiHeaders,
+  apiSignIn,
+  SignInBody,
+  SignInResponse,
+} from '@/api/sign-in'
 
 type User = {
   name: string
@@ -25,38 +30,35 @@ type AuthProviderProps = {
 const AuthContext = createContext({} as AuthContextData)
 
 function AuthProvider({ children }: AuthProviderProps) {
-  // const [user, setUser] = useState<SignInResponse | undefined>()
-  // const isAuthenticated = !!user
-
   const [data, setData] = useState<AuthState>(() => {
     const token = localStorage.getItem('@triadge:token')
-    const user = localStorage.getItem('@triadge:user')
+    const userString = localStorage.getItem('@triadge:user')
 
-    if (token && user) {
-      headers(token)
-      return { token, user: JSON.parse(user) }
+    if (token && userString) {
+      const user = JSON.parse(userString)
+
+      apiHeaders(token)
+
+      return { token, user }
     }
 
     return {} as AuthState
   })
+  const isAuthenticated = !!data.user
 
   async function signIn({ email, password }: SignInBody) {
-    const { user, token } = await apiSignIn({ email, password })
+    const { user, token }: SignInResponse = await apiSignIn({ email, password })
 
     localStorage.setItem('@triadge:token', token)
     localStorage.setItem('@triadge:user', JSON.stringify(user))
 
-    headers(token)
+    apiHeaders(token)
 
     setData({
       token,
       user,
     })
   }
-
-  const isAuthenticated = !!data
-
-  console.log('data', data.user)
 
   return (
     <AuthContext.Provider value={{ signIn, isAuthenticated, user: data.user }}>
