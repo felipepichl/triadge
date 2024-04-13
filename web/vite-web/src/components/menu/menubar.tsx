@@ -1,16 +1,20 @@
-import { MenuSquare, School, Wallet } from 'lucide-react'
+import { LogOut, MenuSquare, School, Wallet } from 'lucide-react'
 import { useState } from 'react'
+
+import { useAuth } from '@/hooks/use-auth'
 
 import { Button } from '../ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
 import { CustomNavlink } from './custom-nav-link'
 
 export function Manubar() {
+  const { signOut } = useAuth()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   function handleToggleMenu() {
@@ -34,6 +38,18 @@ export function Manubar() {
         </DropdownMenuItem>
         <DropdownMenuItem>
           <CustomNavlink to="/finances" icon={Wallet} description="Finanças" />
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <Button
+            className="flex items-center space-x-2 pl-2"
+            variant="ghost"
+            onClick={signOut}
+            type="button"
+          >
+            <LogOut className="h-4 w-4 text-red-500" />
+            <span className="text-red-500">Sair da conta</span>
+          </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

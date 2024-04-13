@@ -63,7 +63,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   const signOut = useCallback(() => {
     localStorage.removeItem('@triadge:token')
-    localStorage.removeItemItem('@triadge:user')
+    localStorage.removeItem('@triadge:user')
 
     setData({} as AuthState)
   }, [])
