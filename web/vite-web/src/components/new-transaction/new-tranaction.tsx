@@ -1,5 +1,5 @@
 import { ArrowDownCircle, ArrowUpCircle, CircleFadingPlus } from 'lucide-react'
-import { useEffect } from 'react'
+import { useCallback } from 'react'
 
 import { apiListAllTransactionCategory } from '@/api/list-all-transaction-category'
 
@@ -17,8 +17,10 @@ import {
 import { Separator } from '../ui/separator'
 
 export function NewTransaction() {
-  useEffect(() => {
-    apiListAllTransactionCategory()
+  const handleAllTransactionCategories = useCallback(async () => {
+    const response = await apiListAllTransactionCategory()
+
+    console.log(response)
   }, [])
 
   return (
@@ -28,6 +30,7 @@ export function NewTransaction() {
           <Button
             variant="outline"
             className="w-40 min-w-40 rounded-sm bg-green-500 text-slate-100 hover:bg-green-700 hover:text-slate-100"
+            onClick={handleAllTransactionCategories}
           >
             Nova transação
           </Button>
