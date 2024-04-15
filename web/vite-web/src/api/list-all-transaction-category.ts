@@ -1,15 +1,26 @@
 import { api } from '@/lib/axios'
 
-export type TransactionCategories = {
+export type TransactionCategoryResponse = {
+  _id: string
+  props: {
+    description: string
+  }
+}
+
+export type TransactionCategory = {
+  _id: string
   description: string
 }
 
-export type ListAllTransactionCategoryBody = {
-  transactionCategories: TransactionCategories[]
-}
+export async function apiListAllTransactionCategory(): Promise<
+  TransactionCategory[]
+> {
+  const { data } = await api.get<{
+    transactionCategories: TransactionCategoryResponse[]
+  }>('/transactions/categories')
 
-export async function apiListAllTransactionCategory(): Promise<ListAllTransactionCategoryBody> {
-  const response = await api.get('/transactions/categories')
-
-  return response.data
+  return data.transactionCategories.map(({ _id, props: { description } }) => ({
+    _id,
+    description,
+  }))
 }
