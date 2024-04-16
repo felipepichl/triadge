@@ -1,7 +1,10 @@
 import { ArrowDownCircle, ArrowUpCircle, CircleFadingPlus } from 'lucide-react'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
-import { apiListAllTransactionCategory } from '@/api/list-all-transaction-category'
+import {
+  apiListAllTransactionCategory,
+  TransactionCategory,
+} from '@/api/list-all-transaction-category'
 
 import { Button } from '../ui/button'
 import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '../ui/drawer'
@@ -17,10 +20,13 @@ import {
 import { Separator } from '../ui/separator'
 
 export function NewTransaction() {
+  const [transactionCategories, setTransactionCategories] =
+    useState<TransactionCategory[]>()
+
   const handleAllTransactionCategories = useCallback(async () => {
     const response = await apiListAllTransactionCategory()
 
-    console.log(response)
+    setTransactionCategories(response)
   }, [])
 
   return (
@@ -51,9 +57,15 @@ export function NewTransaction() {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectItem value="sell">Venda</SelectItem>
-                        <SelectItem value="card">Cartão de Crédito</SelectItem>
-                        <SelectItem value="work">Empresa Filial 01</SelectItem>
+                        {transactionCategories &&
+                          transactionCategories.map((category) => (
+                            <SelectItem
+                              key={category._id}
+                              value={category.description}
+                            >
+                              {category.description}
+                            </SelectItem>
+                          ))}
                       </SelectGroup>
                     </SelectContent>
                   </Select>
