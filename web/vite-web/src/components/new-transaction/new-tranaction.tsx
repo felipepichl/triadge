@@ -1,5 +1,6 @@
 import { ArrowDownCircle, ArrowUpCircle, CircleFadingPlus } from 'lucide-react'
 import { useCallback, useState } from 'react'
+import { toast } from 'sonner'
 
 import {
   apiListAllTransactionCategory,
@@ -34,6 +35,14 @@ export function NewTransaction() {
     const response = await apiListAllTransactionCategory()
 
     setTransactionCategories(response)
+  }, [])
+
+  const handleCreateNewTransactionCategory = useCallback(async () => {
+    try {
+      toast.success('Categoria salva com sucesso!')
+    } catch (err) {
+      toast.error('Erro ao salvar, tente novamente mais tarde!')
+    }
   }, [])
 
   return (
@@ -95,7 +104,12 @@ export function NewTransaction() {
                       </SheetHeader>
                       <div className="space-y-4 py-4">
                         <Input placeholder="Descrição" />
-                        <Button className="h-10 w-full">Salvar</Button>
+                        <Button
+                          className="h-10 w-full"
+                          onClick={handleCreateNewTransactionCategory}
+                        >
+                          Salvar
+                        </Button>
                       </div>
                     </SheetContent>
                   </Sheet>

@@ -51,7 +51,7 @@ export function SignIn() {
               </p>
             </div>
 
-            <form className="space-y-4">
+            <form onSubmit={handleSubmit(handleSign)} className="space-y-4">
               <div className="space-y-2">
                 <Input
                   className="h-10"
@@ -70,7 +70,6 @@ export function SignIn() {
               </div>
 
               <Button
-                onClick={handleSubmit(handleSign)}
                 disabled={isSubmitting}
                 className="h-10 w-full"
                 type="submit"
