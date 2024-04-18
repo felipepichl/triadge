@@ -18,6 +18,13 @@ import {
   SelectValue,
 } from '../ui/select'
 import { Separator } from '../ui/separator'
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '../ui/sheet'
 
 export function NewTransaction() {
   const [transactionCategories, setTransactionCategories] =
@@ -70,15 +77,28 @@ export function NewTransaction() {
                     </SelectContent>
                   </Select>
 
-                  <Button
-                    variant="outline"
-                    className={
-                      'flex min-w-10 items-center justify-center rounded-sm border-green-500 text-green-500 hover:border-green-700 hover:bg-green-700 hover:text-slate-100'
-                    }
-                    size="icon"
-                  >
-                    <CircleFadingPlus className="h-5 w-5" />
-                  </Button>
+                  <Sheet>
+                    <SheetTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={
+                          'flex min-w-10 items-center justify-center rounded-sm border-green-500 text-green-500 hover:border-green-700 hover:bg-green-700 hover:text-slate-100'
+                        }
+                        size="icon"
+                      >
+                        <CircleFadingPlus className="h-5 w-5" />
+                      </Button>
+                    </SheetTrigger>
+                    <SheetContent>
+                      <SheetHeader>
+                        <SheetTitle>Nova Categoria</SheetTitle>
+                      </SheetHeader>
+                      <div className="space-y-4 py-4">
+                        <Input placeholder="Descrição" />
+                        <Button className="h-10 w-full">Salvar</Button>
+                      </div>
+                    </SheetContent>
+                  </Sheet>
                 </div>
 
                 <div className="mx-auto grid max-w-screen-md grid-cols-2 gap-2">
