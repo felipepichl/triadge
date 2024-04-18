@@ -1,6 +1,8 @@
 import { ArrowDownCircle, ArrowUpCircle, CircleFadingPlus } from 'lucide-react'
 import { useCallback, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import { z } from 'zod'
 
 import {
   apiListAllTransactionCategory,
@@ -27,9 +29,23 @@ import {
   SheetTrigger,
 } from '../ui/sheet'
 
+const createTransactionCategoryForm = z.object({
+  description: z.string(),
+})
+
+type CreateTransactionCategoryForm = z.infer<
+  typeof createTransactionCategoryForm
+>
+
 export function NewTransaction() {
   const [transactionCategories, setTransactionCategories] =
     useState<TransactionCategory[]>()
+
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<CreateTransactionCategoryForm>()
 
   const handleAllTransactionCategories = useCallback(async () => {
     const response = await apiListAllTransactionCategory()
