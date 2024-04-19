@@ -1,5 +1,5 @@
 import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
-import { ITransactionsRepository } from '@modules/transactions/repositories/ITransactionsRepository'
+import { ITransactionsRepository } from '@modules/transactions/repositories/transaction/ITransactionsRepository'
 import { PrismaSingleton } from '@shared/infra/prisma'
 
 import { TransactionMappers } from '../../mappers/transaction/TransactionMappers'

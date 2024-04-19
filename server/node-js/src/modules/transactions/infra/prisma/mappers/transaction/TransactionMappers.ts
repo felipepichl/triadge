@@ -13,6 +13,8 @@ class TransactionMappers implements IMapper<Transaction, RawTransaction> {
     type,
     value,
     date,
+    userId,
+    transactionCategoryId,
   }: RawTransaction): Transaction {
     return Transaction.createTransaction({
       description,
@@ -20,6 +22,8 @@ class TransactionMappers implements IMapper<Transaction, RawTransaction> {
       type: type as 'income' | 'outcome',
       value: Number(value),
       date,
+      userId,
+      transactionCategoryId,
     })
   }
 
