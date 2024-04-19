@@ -6,7 +6,7 @@ import {
 } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
 
-import { NewTransaction } from '@/components/new-transaction/new-tranaction'
+import { NewTransaction } from '@/components/new-transaction/transaction/new-tranaction'
 import { Summary, SummaryProps } from '@/components/summary'
 import {
   Transactions,

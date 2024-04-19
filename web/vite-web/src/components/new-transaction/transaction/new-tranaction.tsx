@@ -1,17 +1,19 @@
-import { ArrowDownCircle, ArrowUpCircle, CircleFadingPlus } from 'lucide-react'
+import { ArrowDownCircle, ArrowUpCircle } from 'lucide-react'
 import { useCallback, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
-import { z } from 'zod'
 
 import {
   apiListAllTransactionCategory,
   TransactionCategory,
 } from '@/api/list-all-transaction-category'
 
-import { Button } from '../ui/button'
-import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '../ui/drawer'
-import { Input } from '../ui/input'
+import { Button } from '../../ui/button'
+import {
+  Drawer,
+  DrawerContent,
+  DrawerTitle,
+  DrawerTrigger,
+} from '../../ui/drawer'
+import { Input } from '../../ui/input'
 import {
   Select,
   SelectContent,
@@ -19,46 +21,18 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../ui/select'
-import { Separator } from '../ui/separator'
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '../ui/sheet'
-
-const createTransactionCategoryForm = z.object({
-  description: z.string(),
-})
-
-type CreateTransactionCategoryForm = z.infer<
-  typeof createTransactionCategoryForm
->
+} from '../../ui/select'
+import { Separator } from '../../ui/separator'
+import { NewCategory } from '../category/new-category'
 
 export function NewTransaction() {
   const [transactionCategories, setTransactionCategories] =
     useState<TransactionCategory[]>()
 
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm<CreateTransactionCategoryForm>()
-
   const handleAllTransactionCategories = useCallback(async () => {
     const response = await apiListAllTransactionCategory()
 
     setTransactionCategories(response)
-  }, [])
-
-  const handleCreateNewTransactionCategory = useCallback(async () => {
-    try {
-      toast.success('Categoria salva com sucesso!')
-    } catch (err) {
-      toast.error('Erro ao salvar, tente novamente mais tarde!')
-    }
   }, [])
 
   return (
@@ -102,33 +76,7 @@ export function NewTransaction() {
                     </SelectContent>
                   </Select>
 
-                  <Sheet>
-                    <SheetTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className={
-                          'flex min-w-10 items-center justify-center rounded-sm border-green-500 text-green-500 hover:border-green-700 hover:bg-green-700 hover:text-slate-100'
-                        }
-                        size="icon"
-                      >
-                        <CircleFadingPlus className="h-5 w-5" />
-                      </Button>
-                    </SheetTrigger>
-                    <SheetContent>
-                      <SheetHeader>
-                        <SheetTitle>Nova Categoria</SheetTitle>
-                      </SheetHeader>
-                      <div className="space-y-4 py-4">
-                        <Input placeholder="Descrição" />
-                        <Button
-                          className="h-10 w-full"
-                          onClick={handleCreateNewTransactionCategory}
-                        >
-                          Salvar
-                        </Button>
-                      </div>
-                    </SheetContent>
-                  </Sheet>
+                  <NewCategory />
                 </div>
 
                 <div className="mx-auto grid max-w-screen-md grid-cols-2 gap-2">
