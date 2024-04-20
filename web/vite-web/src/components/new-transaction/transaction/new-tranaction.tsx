@@ -84,7 +84,7 @@ export function NewTransaction() {
                 <RadioGroup className="mx-auto grid max-w-screen-md grid-cols-2 gap-2">
                   <Button
                     data-current={selectedValue}
-                    className="h-12 w-full text-base data-[current=income]:bg-green-500 sm:w-auto"
+                    className="h-12 w-full text-base data-[current=income]:bg-green-500 data-[current=income]:text-white sm:w-auto"
                     variant="outline"
                     type="button"
                     onClick={() => setSelectedValue('income')}
@@ -99,7 +99,7 @@ export function NewTransaction() {
 
                   <Button
                     data-current={selectedValue}
-                    className="h-12 w-full text-base data-[current=outcome]:bg-red-700 sm:w-auto"
+                    className="h-12 w-full text-base data-[current=outcome]:bg-red-700 data-[current=outcome]:text-white sm:w-auto "
                     variant="outline"
                     type="button"
                     onClick={() => setSelectedValue('outcome')}
