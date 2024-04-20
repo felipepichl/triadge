@@ -48,18 +48,16 @@ describe('[E2E] - Create Transaction', () => {
   })
 
   it('should be to create a new transaction', async () => {
-    await createTransactionCategory()
-
-    // const response = await request(app)
-    //   .post('/transactions')
-    //   .set({ Authorization: `Bearer ${token}` })
-    //   .send({
-    //     description: 'Description',
-    //     detail: '',
-    //     type: '',
-    //     value: '',
-    //     transactionCategoryId: '',
-    //   })
-    // expect(response.status).toBe(201)
+    const response = await request(app)
+      .post('/transactions')
+      .set({ Authorization: `Bearer ${token}` })
+      .send({
+        description: 'Description',
+        detail: 'Detail',
+        type: 'income',
+        value: 100,
+        transactionCategoryId,
+      })
+    expect(response.status).toBe(201)
   })
 })
