@@ -5,6 +5,7 @@ import {
   apiListAllTransactionCategory,
   TransactionCategory,
 } from '@/api/list-all-transaction-category'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 import { Button } from '../../ui/button'
 import {
@@ -28,6 +29,7 @@ import { NewCategory } from '../category/new-category'
 export function NewTransaction() {
   const [transactionCategories, setTransactionCategories] =
     useState<TransactionCategory[]>()
+  const [selectedValue, setSelectedValue] = useState('')
 
   const handleAllTransactionCategories = useCallback(async () => {
     const response = await apiListAllTransactionCategory()
@@ -79,22 +81,37 @@ export function NewTransaction() {
                   <NewCategory />
                 </div>
 
-                <div className="mx-auto grid max-w-screen-md grid-cols-2 gap-2">
+                <RadioGroup className="mx-auto grid max-w-screen-md grid-cols-2 gap-2">
                   <Button
-                    className="h-12 w-full text-base sm:w-auto"
+                    data-current={selectedValue}
+                    className="h-12 w-full text-base data-[current=income]:bg-green-500 sm:w-auto"
                     variant="outline"
+                    type="button"
+                    onClick={() => setSelectedValue('income')}
                   >
-                    <ArrowDownCircle className="mr-2" color="#00b37e" />
+                    <RadioGroupItem value="income" asChild />
+                    <ArrowDownCircle
+                      className="mr-2"
+                      color={`${selectedValue === 'income' ? '#fff' : '#00b37e'}`}
+                    />
                     Entrada
                   </Button>
+
                   <Button
-                    className="h-12 w-full text-base sm:w-auto"
+                    data-current={selectedValue}
+                    className="h-12 w-full text-base data-[current=outcome]:bg-red-700 sm:w-auto"
                     variant="outline"
+                    type="button"
+                    onClick={() => setSelectedValue('outcome')}
                   >
-                    <ArrowUpCircle className="mr-2" color="#ff0000" />
+                    <RadioGroupItem value="outcome" asChild />
+                    <ArrowUpCircle
+                      className="mr-2"
+                      color={`${selectedValue === 'outcome' ? '#fff' : '#ff0000'}`}
+                    />
                     Saída
                   </Button>
-                </div>
+                </RadioGroup>
 
                 <Separator />
 
