@@ -37,6 +37,35 @@ export function NewTransaction() {
     setTransactionCategories(response)
   }, [])
 
+  const [price, setPrice] = useState<string>('')
+
+  const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let inputValue = event.target.value
+
+    // Remover todos os caracteres que não são dígitos
+    inputValue = inputValue.replace(/\D/g, '')
+
+    // Se o valor tiver mais de dois dígitos, considerar os dois últimos como centavos
+    if (inputValue.length > 2) {
+      const cents = inputValue.slice(-2)
+      let reais = inputValue.slice(0, -2)
+
+      // Adicionar ponto para milhares se houver mais de três dígitos
+      if (reais.length >= 4) {
+        reais = reais.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+      }
+
+      inputValue = `${reais},${cents}`
+    }
+
+    // Formatando o valor para exibir com "R$" fixo
+    if (inputValue === '') {
+      setPrice('')
+    } else {
+      setPrice(`R$ ${inputValue}`)
+    }
+  }
+
   return (
     <div className="flex justify-end pb-3">
       <Drawer>
@@ -57,7 +86,12 @@ export function NewTransaction() {
               <div className="space-y-2">
                 <Input className="h-10" placeholder="Descrição" />
 
-                <Input className="h-10" placeholder="Preço" />
+                <Input
+                  className="h-10"
+                  placeholder="Preço"
+                  value={price}
+                  onChange={handlePriceChange}
+                />
                 <div className="flex items-center justify-center gap-2">
                   <Select>
                     <SelectTrigger>
