@@ -4,6 +4,7 @@ import { refreshTokenRoutes } from '@modules/accounts/infra/http/routes/refreshT
 import { usersRouter } from '@modules/accounts/infra/http/routes/users.routes'
 import { categoriesRoutes } from '@modules/products/infra/http/routes/category/categories.routes'
 import { transactionsCategoriesRoutes } from '@modules/transactions/infra/http/routes/category/transactionCategories.routes'
+import { transactionsRoutes } from '@modules/transactions/infra/http/routes/transaction/transaction.routes'
 import { Router } from 'express'
 
 import { ensureAuthenticated } from '../middlewares/ensureAuthenticated'
@@ -23,6 +24,6 @@ routes.use('/categories', categoriesRoutes)
 /**
  * Transactions
  */
-routes.use('/transactions', transactionsCategoriesRoutes)
+routes.use('/transactions', transactionsCategoriesRoutes, transactionsRoutes)
 
 export { routes }
