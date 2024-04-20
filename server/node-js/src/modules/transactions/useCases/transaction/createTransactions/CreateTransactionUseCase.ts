@@ -1,6 +1,7 @@
 import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
 import { ITransactionsRepository } from '@modules/transactions/repositories/transaction/ITransactionsRepository'
 import { IUseCase } from '@shared/core/domain/IUseCase'
+import { inject, injectable } from 'tsyringe'
 
 interface IRequest {
   description: string
@@ -11,8 +12,12 @@ interface IRequest {
   transactionCategoryId: string
 }
 
+@injectable()
 class CreateTransactionUseCase implements IUseCase<IRequest, void> {
-  constructor(private transactionsRepository: ITransactionsRepository) {}
+  constructor(
+    @inject('TransactionsRepository')
+    private transactionsRepository: ITransactionsRepository,
+  ) {}
 
   async execute({
     description,
