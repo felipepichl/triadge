@@ -4,13 +4,15 @@ import { container } from 'tsyringe'
 
 class CreateTransactionController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { description, type, value, transactionCategoryId } = request.body
+    const { description, detail, type, value, transactionCategoryId } =
+      request.body
     const { id: userId } = request.user
 
     const createTransactionUseCase = container.resolve(CreateTransactionUseCase)
 
     await createTransactionUseCase.execute({
       description,
+      detail,
       type,
       value,
       userId,

@@ -17,6 +17,7 @@ describe('[Transaction] - Create a transaction', () => {
   it('should be able to create a new transaction', async () => {
     await createTransactionUseCase.execute({
       description: 'Transaction Test',
+      detail: 'Detail Test',
       type: 'income',
       value: 1000,
       userId: 'userId',

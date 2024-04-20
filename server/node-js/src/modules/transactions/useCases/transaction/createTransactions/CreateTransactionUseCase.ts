@@ -4,6 +4,7 @@ import { IUseCase } from '@shared/core/domain/IUseCase'
 
 interface IRequest {
   description: string
+  detail: string
   type: 'income' | 'outcome'
   value: number
   userId: string
@@ -15,6 +16,7 @@ class CreateTransactionUseCase implements IUseCase<IRequest, void> {
 
   async execute({
     description,
+    detail,
     type,
     value,
     userId,
@@ -22,6 +24,7 @@ class CreateTransactionUseCase implements IUseCase<IRequest, void> {
   }: IRequest): Promise<void> {
     const transaction = Transaction.createTransaction({
       description,
+      detail,
       type,
       value,
       userId,
