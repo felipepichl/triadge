@@ -6,6 +6,7 @@ import {
   TransactionCategory,
 } from '@/api/list-all-transaction-category'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { useMonetaryMask } from '@/hooks/use-monetary-mask'
 
 import { Button } from '../../ui/button'
 import {
@@ -30,41 +31,13 @@ export function NewTransaction() {
   const [transactionCategories, setTransactionCategories] =
     useState<TransactionCategory[]>()
   const [selectedValue, setSelectedValue] = useState('')
+  const { formattedValue, handleMaskChange } = useMonetaryMask()
 
   const handleAllTransactionCategories = useCallback(async () => {
     const response = await apiListAllTransactionCategory()
 
     setTransactionCategories(response)
   }, [])
-
-  const [price, setPrice] = useState<string>('')
-
-  const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    let inputValue = event.target.value
-
-    // Remover todos os caracteres que não são dígitos
-    inputValue = inputValue.replace(/\D/g, '')
-
-    // Se o valor tiver mais de dois dígitos, considerar os dois últimos como centavos
-    if (inputValue.length > 2) {
-      const cents = inputValue.slice(-2)
-      let reais = inputValue.slice(0, -2)
-
-      // Adicionar ponto para milhares se houver mais de três dígitos
-      if (reais.length >= 4) {
-        reais = reais.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-      }
-
-      inputValue = `${reais},${cents}`
-    }
-
-    // Formatando o valor para exibir com "R$" fixo
-    if (inputValue === '') {
-      setPrice('')
-    } else {
-      setPrice(`R$ ${inputValue}`)
-    }
-  }
 
   return (
     <div className="flex justify-end pb-3">
@@ -88,9 +61,9 @@ export function NewTransaction() {
 
                 <Input
                   className="h-10"
-                  placeholder="Preço"
-                  value={price}
-                  onChange={handlePriceChange}
+                  placeholder="Valor"
+                  value={formattedValue}
+                  onChange={handleMaskChange}
                 />
                 <div className="flex items-center justify-center gap-2">
                   <Select>
