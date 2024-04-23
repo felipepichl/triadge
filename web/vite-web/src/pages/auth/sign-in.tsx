@@ -1,3 +1,4 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { CreditCard, KeyRound } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
@@ -6,22 +7,31 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useAuth } from '@/hooks/use-auth'
 
 const signInForm = z.object({
-  register: z.string(),
-  password: z.string(),
+  register: z.string().min(1, { message: 'Campo obrigatório' }),
+  password: z.string().min(1, { message: 'Campo obrigatório' }),
 })
 
 type SignInForm = z.infer<typeof signInForm>
 
 export function SignIn() {
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm<SignInForm>()
+  const form = useForm<SignInForm>({
+    resolver: zodResolver(signInForm),
+    defaultValues: {
+      register: '',
+      password: '',
+    },
+  })
 
   const { signIn } = useAuth()
 
@@ -51,32 +61,60 @@ export function SignIn() {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit(handleSign)} className="space-y-4">
-              <div className="space-y-2">
-                <Input
-                  className="h-10"
-                  placeholder="Matrícula"
-                  icon={<CreditCard />}
-                  {...register('register')}
-                />
-
-                <Input
-                  className="h-10"
-                  placeholder="Senha"
-                  icon={<KeyRound />}
-                  type="password"
-                  {...register('password')}
-                />
-              </div>
-
-              <Button
-                disabled={isSubmitting}
-                className="h-10 w-full"
-                type="submit"
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(handleSign)}
+                className="space-y-4"
               >
-                <span className="font-semibold">Acessar Painel</span>
-              </Button>
-            </form>
+                <div className="space-y-2">
+                  <FormField
+                    control={form.control}
+                    name="register"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            className="h-10"
+                            placeholder="Matrícula"
+                            icon={<CreditCard />}
+                            {...field}
+                            {...form.register('register')}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            className="h-10"
+                            placeholder="Senha"
+                            icon={<KeyRound />}
+                            type="password"
+                            {...field}
+                            {...form.register('password')}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <Button
+                  // disabled={form.isSubmitting}
+                  className="h-10 w-full"
+                  type="submit"
+                >
+                  <span className="font-semibold">Acessar Painel</span>
+                </Button>
+              </form>
+            </Form>
           </div>
         </div>
       </div>
