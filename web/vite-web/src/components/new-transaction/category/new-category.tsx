@@ -1,3 +1,4 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { CircleFadingPlus } from 'lucide-react'
 import { useCallback } from 'react'
 import { useForm } from 'react-hook-form'
@@ -6,6 +7,13 @@ import { z } from 'zod'
 
 import { apiCreateTransactionCategory } from '@/api/create-transaction-category'
 import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import {
   Sheet,
@@ -17,7 +25,7 @@ import {
 } from '@/components/ui/sheet'
 
 const createTransactionCategoryForm = z.object({
-  description: z.string(),
+  description: z.string().min(1, { message: 'Campo obrigatório' }),
 })
 
 type CreateTransactionCategoryForm = z.infer<
@@ -25,11 +33,12 @@ type CreateTransactionCategoryForm = z.infer<
 >
 
 export function NewCategory() {
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm<CreateTransactionCategoryForm>()
+  const form = useForm<CreateTransactionCategoryForm>({
+    resolver: zodResolver(createTransactionCategoryForm),
+    defaultValues: {
+      description: '',
+    },
+  })
 
   const handleCreateNewTransactionCategory = useCallback(
     async ({ description }: CreateTransactionCategoryForm) => {
@@ -59,21 +68,39 @@ export function NewCategory() {
         <SheetHeader>
           <SheetTitle>Nova Categoria</SheetTitle>
         </SheetHeader>
-        <form
-          className="space-y-4 py-4"
-          onSubmit={handleSubmit(handleCreateNewTransactionCategory)}
-        >
-          <Input placeholder="Descrição" {...register('description')} />
-          <SheetClose asChild>
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              className="h-10 w-full"
-            >
-              Salvar
-            </Button>
-          </SheetClose>
-        </form>
+        <Form {...form}>
+          <form
+            className="space-y-4 py-4"
+            onSubmit={form.handleSubmit(handleCreateNewTransactionCategory)}
+          >
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input
+                      placeholder="Descrição"
+                      {...field}
+                      {...form.register('description')}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <SheetClose asChild>
+              <Button
+                type="submit"
+                // disabled={form.isSubmitting}
+                className="h-10 w-full"
+              >
+                Salvar
+              </Button>
+            </SheetClose>
+          </form>
+        </Form>
       </SheetContent>
     </Sheet>
   )
