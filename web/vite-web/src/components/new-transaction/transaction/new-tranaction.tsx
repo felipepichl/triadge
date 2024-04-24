@@ -1,5 +1,6 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowDownCircle, ArrowUpCircle } from 'lucide-react'
-import { useCallback, useState } from 'react'
+import { ChangeEvent, useCallback, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -8,6 +9,13 @@ import {
   apiListAllTransactionCategory,
   TransactionCategory,
 } from '@/api/list-all-transaction-category'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useMonetaryMask } from '@/hooks/use-monetary-mask'
 
@@ -31,11 +39,11 @@ import { Separator } from '../../ui/separator'
 import { NewCategory } from '../category/new-category'
 
 const createTransactionForm = z.object({
-  description: z.string(),
+  description: z.string().min(1, { message: 'Campo obrigatório' }),
   detail: z.string(),
-  type: z.string(),
-  value: z.number(),
-  transactionCategoryId: z.string(),
+  type: z.string().min(1, { message: 'Selecione uma opção' }),
+  value: z.string().min(1, { message: 'Campo obrigatório' }),
+  transactionCategoryId: z.string().min(1, { message: 'Selecione uma opção' }),
 })
 
 type CreateTransactionForm = z.infer<typeof createTransactionForm>
@@ -46,8 +54,16 @@ export function NewTransaction() {
   const [selectedValue, setSelectedValue] = useState('')
   const { formattedValue, handleMaskChange } = useMonetaryMask()
 
-  const { register, handleSubmit, control, setValue } =
-    useForm<CreateTransactionForm>()
+  const form = useForm<CreateTransactionForm>({
+    resolver: zodResolver(createTransactionForm),
+    defaultValues: {
+      description: '',
+      detail: '',
+      type: '',
+      value: '',
+      transactionCategoryId: '',
+    },
+  })
 
   const handleAllTransactionCategories = useCallback(async () => {
     const response = await apiListAllTransactionCategory()
@@ -57,10 +73,10 @@ export function NewTransaction() {
 
   const handleTypeChange = useCallback(
     (type: string) => {
-      setValue('type', type)
+      form.setValue('type', type)
       setSelectedValue(type)
     },
-    [setValue, setSelectedValue],
+    [form, setSelectedValue],
   )
 
   const handleCreateNewTransaction = useCallback(
@@ -102,96 +118,123 @@ export function NewTransaction() {
           <div className="mt-3 p-4">
             <DrawerTitle>Nova Transação</DrawerTitle>
 
-            <form
-              className="mt-3 space-y-4"
-              onSubmit={handleSubmit(handleCreateNewTransaction)}
-            >
-              <div className="space-y-2">
-                <Input
-                  className="h-10"
-                  placeholder="Descrição"
-                  {...register('description')}
-                />
-
-                <Input
-                  className="h-10"
-                  placeholder="Valor"
-                  value={formattedValue}
-                  {...register('value')}
-                  onChange={handleMaskChange}
-                />
-                <div className="flex items-center justify-center gap-2">
-                  <Controller
-                    name="transactionCategoryId"
-                    control={control}
-                    render={({ field: { onChange } }) => (
-                      <Select onValueChange={onChange}>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Categoria" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            {transactionCategories &&
-                              transactionCategories.map((category) => (
-                                <SelectItem
-                                  key={category._id}
-                                  value={category._id}
-                                >
-                                  {category.description}
-                                </SelectItem>
-                              ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
+            <Form {...form}>
+              <form
+                className="mt-3 space-y-4"
+                onSubmit={form.handleSubmit(handleCreateNewTransaction)}
+              >
+                <div className="space-y-2">
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={() => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            placeholder="Descrição"
+                            {...form.register('description')}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
                     )}
                   />
 
-                  <NewCategory />
+                  <FormField
+                    control={form.control}
+                    name="value"
+                    render={() => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            className="h-10"
+                            placeholder="Valor"
+                            value={formattedValue}
+                            {...form.register('value', {
+                              onChange: (e: ChangeEvent<HTMLInputElement>) => {
+                                handleMaskChange(e)
+                              },
+                            })}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <div className="flex items-center justify-center gap-2">
+                    <Controller
+                      name="transactionCategoryId"
+                      control={form.control}
+                      render={({ field: { onChange } }) => (
+                        <Select onValueChange={onChange}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Categoria" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              {transactionCategories &&
+                                transactionCategories.map((category) => (
+                                  <SelectItem
+                                    key={category._id}
+                                    value={category._id}
+                                  >
+                                    {category.description}
+                                  </SelectItem>
+                                ))}
+                            </SelectGroup>
+                          </SelectContent>
+                        </Select>
+                      )}
+                    />
+
+                    <NewCategory />
+                  </div>
+
+                  <RadioGroup className="mx-auto grid max-w-screen-md grid-cols-2 gap-2">
+                    <Button
+                      data-current={selectedValue}
+                      className="h-12 w-full text-base data-[current=income]:bg-green-500 data-[current=income]:text-white sm:w-auto"
+                      variant="outline"
+                      type="button"
+                      onClick={() => handleTypeChange('income')}
+                    >
+                      <RadioGroupItem value="income" asChild />
+                      <ArrowDownCircle
+                        className="mr-2"
+                        color={`${selectedValue === 'income' ? '#fff' : '#00b37e'}`}
+                      />
+                      Entrada
+                    </Button>
+
+                    <Button
+                      data-current={selectedValue}
+                      className="h-12 w-full text-base data-[current=outcome]:bg-red-700 data-[current=outcome]:text-white sm:w-auto "
+                      variant="outline"
+                      type="button"
+                      {...form.register('type')}
+                      onClick={() => handleTypeChange('outcome')}
+                    >
+                      <RadioGroupItem value="outcome" asChild />
+                      <ArrowUpCircle
+                        className="mr-2"
+                        color={`${selectedValue === 'outcome' ? '#fff' : '#ff0000'}`}
+                      />
+                      Saída
+                    </Button>
+                  </RadioGroup>
+
+                  <Separator />
+
+                  <Button
+                    className="h-12 w-full bg-green-500 font-bold hover:border-green-700 hover:bg-green-700 hover:text-slate-100"
+                    type="submit"
+                  >
+                    Cadastrar
+                  </Button>
                 </div>
-
-                <RadioGroup className="mx-auto grid max-w-screen-md grid-cols-2 gap-2">
-                  <Button
-                    data-current={selectedValue}
-                    className="h-12 w-full text-base data-[current=income]:bg-green-500 data-[current=income]:text-white sm:w-auto"
-                    variant="outline"
-                    type="button"
-                    onClick={() => handleTypeChange('income')}
-                  >
-                    <RadioGroupItem value="income" asChild />
-                    <ArrowDownCircle
-                      className="mr-2"
-                      color={`${selectedValue === 'income' ? '#fff' : '#00b37e'}`}
-                    />
-                    Entrada
-                  </Button>
-
-                  <Button
-                    data-current={selectedValue}
-                    className="h-12 w-full text-base data-[current=outcome]:bg-red-700 data-[current=outcome]:text-white sm:w-auto "
-                    variant="outline"
-                    type="button"
-                    {...register('type')}
-                    onClick={() => handleTypeChange('outcome')}
-                  >
-                    <RadioGroupItem value="outcome" asChild />
-                    <ArrowUpCircle
-                      className="mr-2"
-                      color={`${selectedValue === 'outcome' ? '#fff' : '#ff0000'}`}
-                    />
-                    Saída
-                  </Button>
-                </RadioGroup>
-
-                <Separator />
-
-                <Button
-                  className="h-12 w-full bg-green-500 font-bold hover:border-green-700 hover:bg-green-700 hover:text-slate-100"
-                  type="submit"
-                >
-                  Cadastrar
-                </Button>
-              </div>
-            </form>
+              </form>
+            </Form>
           </div>
         </DrawerContent>
       </Drawer>
