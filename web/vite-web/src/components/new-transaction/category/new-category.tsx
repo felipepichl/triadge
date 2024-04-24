@@ -93,7 +93,7 @@ export function NewCategory() {
             <SheetClose asChild>
               <Button
                 type="submit"
-                // disabled={form.isSubmitting}
+                disabled={!form.getValues('description')}
                 className="h-10 w-full"
               >
                 Salvar

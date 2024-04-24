@@ -71,6 +71,8 @@ export function NewTransaction() {
       transactionCategoryId,
     }: CreateTransactionForm) => {
       try {
+        console.log('SUBMIT')
+
         console.log(description)
         console.log(value)
         console.log(type)
