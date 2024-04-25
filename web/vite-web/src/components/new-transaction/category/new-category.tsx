@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircleFadingPlus } from 'lucide-react'
-import { useCallback } from 'react'
+import { FormEvent, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -43,7 +43,7 @@ export function NewCategory() {
   const handleCreateNewTransactionCategory = useCallback(
     async ({ description }: CreateTransactionCategoryForm) => {
       try {
-        await apiCreateTransactionCategory({ description })
+        // await apiCreateTransactionCategory({ description })
 
         toast.success('Categoria salva com sucesso!')
       } catch (err) {
@@ -71,7 +71,10 @@ export function NewCategory() {
         <Form {...form}>
           <form
             className="space-y-4 py-4"
-            onSubmit={form.handleSubmit(handleCreateNewTransactionCategory)}
+            onSubmit={(e: FormEvent<HTMLFormElement>) => {
+              e.stopPropagation()
+              form.handleSubmit(handleCreateNewTransactionCategory)(e)
+            }}
           >
             <FormField
               control={form.control}
@@ -90,7 +93,8 @@ export function NewCategory() {
               )}
             />
 
-            <SheetClose asChild disabled={!form.getValues('description')}>
+            {/* disabled={!form.getValues('description')} */}
+            <SheetClose asChild>
               <Button type="submit" className="h-10 w-full">
                 Salvar
               </Button>
