@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowDownCircle, ArrowUpCircle } from 'lucide-react'
 import { ChangeEvent, useCallback, useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { useController, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -64,6 +64,11 @@ export function NewTransaction() {
       transactionCategoryId: '',
     },
   })
+
+  // const controller = useController({
+  //   name: 'type', // Nome do campo
+  //   defaultValue: '', // Valor padrão
+  // })
 
   const handleAllTransactionCategories = useCallback(async () => {
     const response = await apiListAllTransactionCategory()
@@ -207,38 +212,50 @@ export function NewTransaction() {
                     <NewCategory />
                   </div>
 
-                  <RadioGroup className="mx-auto grid max-w-screen-md grid-cols-2 gap-2">
-                    <Button
-                      data-current={selectedValue}
-                      className="h-12 w-full text-base data-[current=income]:bg-green-500 data-[current=income]:text-white sm:w-auto"
-                      variant="outline"
-                      type="button"
-                      onClick={() => handleTypeChange('income')}
-                    >
-                      <RadioGroupItem value="income" asChild />
-                      <ArrowDownCircle
-                        className="mr-2"
-                        color={`${selectedValue === 'income' ? '#fff' : '#00b37e'}`}
-                      />
-                      Entrada
-                    </Button>
+                  <FormField
+                    control={form.control}
+                    name="type"
+                    render={() => (
+                      <FormItem>
+                        <FormControl>
+                          <RadioGroup className="mx-auto grid max-w-screen-md grid-cols-2 gap-2">
+                            <Button
+                              data-current={selectedValue}
+                              className="h-12 w-full text-base data-[current=income]:bg-green-500 data-[current=income]:text-white sm:w-auto"
+                              variant="outline"
+                              type="button"
+                              onClick={() => handleTypeChange('income')}
+                              // {...controller}
+                            >
+                              <RadioGroupItem value="income" asChild />
+                              <ArrowDownCircle
+                                className="mr-2"
+                                color={`${selectedValue === 'income' ? '#fff' : '#00b37e'}`}
+                              />
+                              Entrada
+                            </Button>
 
-                    <Button
-                      data-current={selectedValue}
-                      className="h-12 w-full text-base data-[current=outcome]:bg-red-700 data-[current=outcome]:text-white sm:w-auto "
-                      variant="outline"
-                      type="button"
-                      {...form.register('type')}
-                      onClick={() => handleTypeChange('outcome')}
-                    >
-                      <RadioGroupItem value="outcome" asChild />
-                      <ArrowUpCircle
-                        className="mr-2"
-                        color={`${selectedValue === 'outcome' ? '#fff' : '#ff0000'}`}
-                      />
-                      Saída
-                    </Button>
-                  </RadioGroup>
+                            <Button
+                              data-current={selectedValue}
+                              className="h-12 w-full text-base data-[current=outcome]:bg-red-700 data-[current=outcome]:text-white sm:w-auto "
+                              variant="outline"
+                              type="button"
+                              // {...form.register('type')}
+                              onClick={() => handleTypeChange('outcome')}
+                            >
+                              <RadioGroupItem value="outcome" asChild />
+                              <ArrowUpCircle
+                                className="mr-2"
+                                color={`${selectedValue === 'outcome' ? '#fff' : '#ff0000'}`}
+                              />
+                              Saída
+                            </Button>
+                          </RadioGroup>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
                   <Separator />
 
