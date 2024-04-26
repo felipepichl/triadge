@@ -109,7 +109,7 @@ export function NewTransaction() {
           <Button
             variant="outline"
             className="w-40 min-w-40 rounded-sm bg-green-500 text-slate-100 hover:bg-green-700 hover:text-slate-100"
-            onClick={handleAllTransactionCategories}
+            // onClick={handleAllTransactionCategories}
           >
             Nova transação
           </Button>
@@ -162,29 +162,45 @@ export function NewTransaction() {
                     )}
                   />
 
-                  <div className="flex items-center justify-center gap-2">
-                    <Controller
+                  <div className="flex  justify-center gap-2">
+                    <FormField
                       name="transactionCategoryId"
                       control={form.control}
                       render={({ field: { onChange } }) => (
-                        <Select onValueChange={onChange}>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Categoria" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectGroup>
-                              {transactionCategories &&
-                                transactionCategories.map((category) => (
-                                  <SelectItem
-                                    key={category._id}
-                                    value={category._id}
-                                  >
-                                    {category.description}
-                                  </SelectItem>
-                                ))}
-                            </SelectGroup>
-                          </SelectContent>
-                        </Select>
+                        <FormItem className="w-full">
+                          <FormControl>
+                            <Select
+                              onValueChange={onChange}
+                              onOpenChange={handleAllTransactionCategories}
+                              // {...form.register('transactionCategoryId')}
+                              // {...form.register('transactionCategoryId', {
+                              //   onChange: (
+                              //     e: ChangeEvent<HTMLInputElement>,
+                              //   ) => {
+                              //     onChange(e)
+                              //   },
+                              // })}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Categoria" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectGroup>
+                                  {transactionCategories &&
+                                    transactionCategories.map((category) => (
+                                      <SelectItem
+                                        key={category._id}
+                                        value={category._id}
+                                      >
+                                        {category.description}
+                                      </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
                       )}
                     />
 
