@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { CircleFadingPlus } from 'lucide-react'
-import { FormEvent, useCallback } from 'react'
+import { FormEvent, useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -17,7 +17,6 @@ import {
 import { Input } from '@/components/ui/input'
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -40,11 +39,14 @@ export function NewCategory() {
     },
   })
 
+  const [open, setOpen] = useState<boolean | undefined>(undefined)
+
   const handleCreateNewTransactionCategory = useCallback(
     async ({ description }: CreateTransactionCategoryForm) => {
       try {
-        // await apiCreateTransactionCategory({ description })
+        await apiCreateTransactionCategory({ description })
 
+        setOpen(false)
         toast.success('Categoria salva com sucesso!')
       } catch (err) {
         toast.error('Erro ao salvar, tente novamente mais tarde!')
@@ -54,7 +56,7 @@ export function NewCategory() {
   )
 
   return (
-    <Sheet>
+    <Sheet open={open}>
       <SheetTrigger asChild>
         <Button
           variant="outline"
@@ -73,6 +75,8 @@ export function NewCategory() {
             className="space-y-4 py-4"
             onSubmit={(e: FormEvent<HTMLFormElement>) => {
               e.stopPropagation()
+              setOpen(true)
+              setOpen(undefined)
               form.handleSubmit(handleCreateNewTransactionCategory)(e)
             }}
           >
@@ -93,12 +97,9 @@ export function NewCategory() {
               )}
             />
 
-            {/* disabled={!form.getValues('description')} */}
-            <SheetClose asChild>
-              <Button type="submit" className="h-10 w-full">
-                Salvar
-              </Button>
-            </SheetClose>
+            <Button type="submit" className="h-10 w-full">
+              Salvar
+            </Button>
           </form>
         </Form>
       </SheetContent>
