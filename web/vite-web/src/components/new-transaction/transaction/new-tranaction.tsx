@@ -1,7 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ArrowDownCircle, ArrowUpCircle } from 'lucide-react'
 import { ChangeEvent, useCallback, useState } from 'react'
-import { useController, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -80,6 +80,7 @@ export function NewTransaction() {
     (type: string) => {
       form.setValue('type', type)
       setSelectedValue(type)
+      form.clearErrors('type')
     },
     [form, setSelectedValue],
   )
@@ -225,7 +226,6 @@ export function NewTransaction() {
                               variant="outline"
                               type="button"
                               onClick={() => handleTypeChange('income')}
-                              // {...controller}
                             >
                               <RadioGroupItem value="income" asChild />
                               <ArrowDownCircle
@@ -240,7 +240,6 @@ export function NewTransaction() {
                               className="h-12 w-full text-base data-[current=outcome]:bg-red-700 data-[current=outcome]:text-white sm:w-auto "
                               variant="outline"
                               type="button"
-                              // {...form.register('type')}
                               onClick={() => handleTypeChange('outcome')}
                             >
                               <RadioGroupItem value="outcome" asChild />
