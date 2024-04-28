@@ -38,15 +38,19 @@ export function NewCategory() {
       description: '',
     },
   })
+  const [isSheetOpen, setIsSheetOpen] = useState(false)
 
-  const [open, setOpen] = useState<boolean | undefined>(undefined)
+  function handleToggleSheet() {
+    setIsSheetOpen((prevState) => !prevState)
+  }
 
   const handleCreateNewTransactionCategory = useCallback(
     async ({ description }: CreateTransactionCategoryForm) => {
       try {
         await apiCreateTransactionCategory({ description })
 
-        setOpen(false)
+        handleToggleSheet()
+        form.reset()
         toast.success('Categoria salva com sucesso!')
       } catch (err) {
         toast.error('Erro ao salvar, tente novamente mais tarde!')
@@ -56,7 +60,7 @@ export function NewCategory() {
   )
 
   return (
-    <Sheet open={open}>
+    <Sheet open={isSheetOpen} onOpenChange={handleToggleSheet}>
       <SheetTrigger asChild>
         <Button
           variant="outline"
@@ -75,8 +79,6 @@ export function NewCategory() {
             className="space-y-4 py-4"
             onSubmit={(e: FormEvent<HTMLFormElement>) => {
               e.stopPropagation()
-              setOpen(true)
-              setOpen(undefined)
               form.handleSubmit(handleCreateNewTransactionCategory)(e)
             }}
           >
