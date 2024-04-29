@@ -7,6 +7,7 @@ interface ITransactionsRepository {
   findByDescription(description: string): Promise<Transaction>
   findByDate(date: Date): Promise<Transaction>
   findByMonth(month: number): Promise<Transaction[]>
+  findByUser(userId: string): Promise<Transaction[]>
 }
 
 export { ITransactionsRepository }

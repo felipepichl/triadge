@@ -14,8 +14,6 @@ class TransactionsRepositoryInMemory implements ITransactionsRepository {
   }
 
   async findById(id: string): Promise<Transaction> {
-    console.log(id)
-
     const transaction = this.transactions.find(
       (transaction) => transaction.id.toString() === id,
     )
@@ -43,6 +41,12 @@ class TransactionsRepositoryInMemory implements ITransactionsRepository {
     return this.transactions.filter((transaction) => {
       return transaction.date.getMonth() + 1 === month
     })
+  }
+
+  async findByUser(userId: string): Promise<Transaction[]> {
+    return this.transactions.filter(
+      (transaction) => transaction.userId === userId,
+    )
   }
 }
 

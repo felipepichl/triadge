@@ -73,6 +73,15 @@ class TransactionsRepository implements ITransactionsRepository {
 
     return TransactionMappers.getMapper().toDomainArray(result)
   }
+
+  async findByUser(userId: string): Promise<Transaction[]> {
+    const result = await PrismaSingleton.getInstance().transaction.findMany({
+      where: { userId },
+      include: { transactionCategory: true },
+    })
+
+    return TransactionMappers.getMapper().toDomainArray(result)
+  }
 }
 
 export { TransactionsRepository }
