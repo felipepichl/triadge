@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import { apiCreateTransaction } from '@/api/create-transaction'
 import {
   apiListAllTransactionCategory,
   TransactionCategory,
@@ -17,13 +18,11 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Sheet } from '@/components/ui/sheet'
 import { useMonetaryMask } from '@/hooks/use-monetary-mask'
 
 import { Button } from '../../ui/button'
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerTitle,
   DrawerTrigger,
@@ -53,7 +52,10 @@ type CreateTransactionForm = z.infer<typeof createTransactionForm>
 export function NewTransaction() {
   const [transactionCategories, setTransactionCategories] =
     useState<TransactionCategory[]>()
-  const [selectedValue, setSelectedValue] = useState('')
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(
+    undefined,
+  )
+  const [selectedValue, setSelectedValue] = useState<string | null>('')
   const { formattedValue, handleMaskChange } = useMonetaryMask()
 
   const form = useForm<CreateTransactionForm>({
@@ -67,13 +69,15 @@ export function NewTransaction() {
     },
   })
 
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(
-    undefined,
-  )
-
   function handleToggleDrawer() {
     setIsDrawerOpen(undefined)
   }
+
+  const cleanFileds = useCallback(() => {
+    setSelectedValue(null)
+    setIsDrawerOpen(false)
+    form.reset()
+  }, [form])
 
   const handleAllTransactionCategories = useCallback(async () => {
     const response = await apiListAllTransactionCategory()
@@ -98,19 +102,19 @@ export function NewTransaction() {
       transactionCategoryId,
     }: CreateTransactionForm) => {
       try {
-        console.log(description)
-        console.log(value)
-        console.log(type)
-        console.log(transactionCategoryId)
-
-        setIsDrawerOpen(false)
-        form.reset()
+        await apiCreateTransaction({
+          description,
+          value: parseFloat(value.replace('R$ ', '').replace(',', '.')),
+          type,
+          transactionCategoryId,
+        })
+        cleanFileds()
         toast.success('Transação salva com sucesso!')
       } catch (err) {
         toast.error('Erro ao salvar, tente novamente mais tarde!')
       }
     },
-    [form],
+    [cleanFileds],
   )
 
   return (
@@ -182,14 +186,6 @@ export function NewTransaction() {
                             <Select
                               onValueChange={onChange}
                               onOpenChange={handleAllTransactionCategories}
-                              // {...form.register('transactionCategoryId')}
-                              // {...form.register('transactionCategoryId', {
-                              //   onChange: (
-                              //     e: ChangeEvent<HTMLInputElement>,
-                              //   ) => {
-                              //     onChange(e)
-                              //   },
-                              // })}
                             >
                               <SelectTrigger>
                                 <SelectValue placeholder="Categoria" />
@@ -262,7 +258,6 @@ export function NewTransaction() {
 
                   <Separator />
 
-                  {/* <DrawerClose asChild> */}
                   <Button
                     className="h-12 w-full bg-green-500 font-bold hover:border-green-700 hover:bg-green-700 hover:text-slate-100"
                     type="submit"
@@ -270,7 +265,6 @@ export function NewTransaction() {
                   >
                     Cadastrar
                   </Button>
-                  {/* </DrawerClose> */}
                 </div>
               </form>
             </Form>
