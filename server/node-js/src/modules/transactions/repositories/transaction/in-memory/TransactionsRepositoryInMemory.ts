@@ -44,6 +44,9 @@ class TransactionsRepositoryInMemory implements ITransactionsRepository {
   }
 
   async findByUser(userId: string): Promise<Transaction[]> {
+    // console.log('IN', userId)
+    // console.log('IN', this.transactions)
+
     return this.transactions.filter(
       (transaction) => transaction.userId === userId,
     )

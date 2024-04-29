@@ -1,17 +1,59 @@
 import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
+import { ITransactionsRepository } from '@modules/transactions/repositories/transaction/ITransactionsRepository'
 import { IUseCase } from '@shared/core/domain/IUseCase'
 
 interface IRequest {
   userId: string
 }
 
-interface IResponse {
-  transactions: Transaction[]
+interface Balance {
+  income: number
+  outcome: number
+  total: number
 }
 
-class ListAllTransactionUseCase implements IUseCase<IResponse, IRequest> {
-  execute({ userId }: IRequest): Promise<IResponse> {
-    throw new Error('Method not implemented.')
+interface IResponse {
+  transactions: Transaction[]
+  balance: Balance
+}
+
+class ListAllTransactionUseCase implements IUseCase<IRequest, IResponse> {
+  constructor(private transactionsRepository: ITransactionsRepository) {}
+
+  async execute({ userId }: IRequest): Promise<IResponse> {
+    const transactions = await this.transactionsRepository.findByUser(userId)
+
+    const { income, outcome } = transactions.reduce(
+      (accumulator, transaction) => {
+        switch (transaction.type) {
+          case 'income':
+            accumulator.income += Number(transaction.value)
+            break
+          case 'outcome':
+            accumulator.outcome += Number(transaction.value)
+            break
+          default:
+            break
+        }
+        return accumulator
+      },
+      {
+        income: 0,
+        outcome: 0,
+        // total: 0,
+      },
+    )
+
+    const total = income - outcome
+
+    return {
+      transactions,
+      balance: {
+        income,
+        outcome,
+        total,
+      },
+    }
   }
 }
 
