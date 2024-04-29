@@ -17,11 +17,13 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Sheet } from '@/components/ui/sheet'
 import { useMonetaryMask } from '@/hooks/use-monetary-mask'
 
 import { Button } from '../../ui/button'
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerTitle,
   DrawerTrigger,
@@ -65,10 +67,13 @@ export function NewTransaction() {
     },
   })
 
-  // const controller = useController({
-  //   name: 'type', // Nome do campo
-  //   defaultValue: '', // Valor padrão
-  // })
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(
+    undefined,
+  )
+
+  function handleToggleDrawer() {
+    setIsDrawerOpen(undefined)
+  }
 
   const handleAllTransactionCategories = useCallback(async () => {
     const response = await apiListAllTransactionCategory()
@@ -93,29 +98,28 @@ export function NewTransaction() {
       transactionCategoryId,
     }: CreateTransactionForm) => {
       try {
-        console.log('SUBMIT')
-
         console.log(description)
         console.log(value)
         console.log(type)
         console.log(transactionCategoryId)
 
+        setIsDrawerOpen(false)
+        form.reset()
         toast.success('Transação salva com sucesso!')
       } catch (err) {
         toast.error('Erro ao salvar, tente novamente mais tarde!')
       }
     },
-    [],
+    [form],
   )
 
   return (
     <div className="flex justify-end pb-3">
-      <Drawer>
+      <Drawer onOpenChange={handleToggleDrawer} open={isDrawerOpen}>
         <DrawerTrigger asChild>
           <Button
             variant="outline"
             className="w-40 min-w-40 rounded-sm bg-green-500 text-slate-100 hover:bg-green-700 hover:text-slate-100"
-            // onClick={handleAllTransactionCategories}
           >
             Nova transação
           </Button>
@@ -258,12 +262,15 @@ export function NewTransaction() {
 
                   <Separator />
 
+                  {/* <DrawerClose asChild> */}
                   <Button
                     className="h-12 w-full bg-green-500 font-bold hover:border-green-700 hover:bg-green-700 hover:text-slate-100"
                     type="submit"
+                    disabled={false}
                   >
                     Cadastrar
                   </Button>
+                  {/* </DrawerClose> */}
                 </div>
               </form>
             </Form>

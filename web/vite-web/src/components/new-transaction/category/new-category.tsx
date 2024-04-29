@@ -56,7 +56,7 @@ export function NewCategory() {
         toast.error('Erro ao salvar, tente novamente mais tarde!')
       }
     },
-    [],
+    [form],
   )
 
   return (
