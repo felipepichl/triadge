@@ -4,8 +4,10 @@ import {
   DollarSign,
   Search,
 } from 'lucide-react'
+import { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 
+import { apiListAllTransaction } from '@/api/list-all-transaction'
 import { NewTransaction } from '@/components/new-transaction/transaction/new-tranaction'
 import { Summary, SummaryProps } from '@/components/summary'
 import {
@@ -70,6 +72,12 @@ const transactions: TransactionsProps[] = [
 ]
 
 export function Finances() {
+  useEffect(() => {
+    apiListAllTransaction().then((response) => {
+      console.log(response)
+    })
+  }, [])
+
   return (
     <>
       <Helmet title="Finanças" />
