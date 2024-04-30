@@ -40,7 +40,6 @@ class ListAllTransactionUseCase implements IUseCase<IRequest, IResponse> {
       {
         income: 0,
         outcome: 0,
-        // total: 0,
       },
     )
 

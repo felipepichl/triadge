@@ -43,13 +43,11 @@ async function createTransactionCategory(): Promise<string> {
   return transactionCategoryId.toString()
 }
 
-async function createTransaction(
-  respositoryInMemory: TransactionsRepositoryInMemory,
-): Promise<void> {
+async function createTransaction(): Promise<string> {
   const userId = await createUser()
   const transactionCategoryId = await createTransactionCategory()
 
-  const transaction = Transaction.createTransaction({
+  const transaction1 = Transaction.createTransaction({
     description: 'Transaction description',
     type: 'income',
     value: 1000,
@@ -57,14 +55,25 @@ async function createTransaction(
     transactionCategoryId,
   })
 
-  await respositoryInMemory.create(transaction)
+  const transaction2 = Transaction.createTransaction({
+    description: 'Transaction description',
+    type: 'outcome',
+    value: 500,
+    userId,
+    transactionCategoryId,
+  })
 
-  const result = respositoryInMemory.listAll()
+  const transactionsToCreate = [transaction1, transaction2]
 
-  console.log(result[0])
+  for (const transactionData of transactionsToCreate) {
+    const transaction = transactionData
+    await transactionsRepositoryInMemory.create(transaction)
+  }
+
+  return userId
 }
 
-describe('[Transaction]/[Category] - List all transacition categories', () => {
+describe('[Transaction] - List all transacition with balance', () => {
   let userId: string
 
   beforeEach(async () => {
@@ -74,31 +83,30 @@ describe('[Transaction]/[Category] - List all transacition categories', () => {
       transactionsRepositoryInMemory,
     )
 
-    userId = await createUser()
-    await createTransaction(transactionsRepositoryInMemory)
+    userId = await createTransaction()
   })
 
-  it('should be able to list all transacitions', async () => {
-    const response = await listAllTransactionUseCase.execute({ userId })
+  it('should be able to list all transacitions with balance', async () => {
+    const result = await listAllTransactionUseCase.execute({ userId })
 
-    console.log('response', response)
-
-    // expect(result.transactionCategories).toHaveLength(2)
-    // expect(result.transactionCategories).toEqual(
-    //   expect.arrayContaining([
-    //     expect.objectContaining({
-    //       id: transacitionCategoryId1,
-    //     }),
-    //     expect.objectContaining({
-    //       id: transacitionCategoryId2,
-    //     }),
-    //   ]),
-    // )
+    expect(result.transactions).toHaveLength(2)
+    expect(result.transactions).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          type: 'income',
+        }),
+        expect.objectContaining({
+          type: 'outcome',
+        }),
+      ]),
+    )
   })
 
-  // it('should return an empty array if no categories exist', async () => {
-  //   const result = await listAllTransactionCategoriesUseCase.execute()
+  it('should return an empty array if no transaction exist', async () => {
+    const result = await listAllTransactionUseCase.execute({
+      userId: '',
+    })
 
-  //   expect(result.transactionCategories).toHaveLength(0)
-  // })
+    expect(result.transactions).toHaveLength(0)
+  })
 })
