@@ -1,6 +1,7 @@
 import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
 import { ITransactionsRepository } from '@modules/transactions/repositories/transaction/ITransactionsRepository'
 import { IUseCase } from '@shared/core/domain/IUseCase'
+import { inject, injectable } from 'tsyringe'
 
 interface IRequest {
   userId: string
@@ -17,8 +18,12 @@ interface IResponse {
   balance: Balance
 }
 
+@injectable()
 class ListAllTransactionUseCase implements IUseCase<IRequest, IResponse> {
-  constructor(private transactionsRepository: ITransactionsRepository) {}
+  constructor(
+    @inject('TransactionsRepository')
+    private transactionsRepository: ITransactionsRepository,
+  ) {}
 
   async execute({ userId }: IRequest): Promise<IResponse> {
     const transactions = await this.transactionsRepository.findByUser(userId)
