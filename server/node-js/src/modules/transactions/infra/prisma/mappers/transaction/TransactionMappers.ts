@@ -8,6 +8,7 @@ class TransactionMappers implements IMapper<Transaction, RawTransaction> {
   }
 
   toDomain({
+    id,
     description,
     detail,
     type,
@@ -17,6 +18,7 @@ class TransactionMappers implements IMapper<Transaction, RawTransaction> {
     transactionCategoryId,
   }: RawTransaction): Transaction {
     return Transaction.createTransaction({
+      id,
       description,
       detail,
       type: type as 'income' | 'outcome',
