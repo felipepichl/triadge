@@ -1,6 +1,13 @@
 import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
-import { Transaction as RawTransaction } from '@prisma/client'
+import {
+  Transaction as RawTransaction,
+  TransactionCategory,
+} from '@prisma/client'
 import { IMapper } from '@shared/core/infra/Mapper'
+
+interface TransactionWithCategory extends RawTransaction {
+  transactionCategory?: TransactionCategory
+}
 
 class TransactionMappers implements IMapper<Transaction, RawTransaction> {
   toPersistence(transaction: Transaction): Transaction {
@@ -15,8 +22,9 @@ class TransactionMappers implements IMapper<Transaction, RawTransaction> {
     value,
     date,
     userId,
+    transactionCategory,
     transactionCategoryId,
-  }: RawTransaction): Transaction {
+  }: TransactionWithCategory): Transaction {
     return Transaction.createTransaction({
       id,
       description,
@@ -25,6 +33,7 @@ class TransactionMappers implements IMapper<Transaction, RawTransaction> {
       value: Number(value),
       date,
       userId,
+      transactionCategory,
       transactionCategoryId,
     })
   }

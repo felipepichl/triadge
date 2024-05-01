@@ -1,7 +1,8 @@
+import { TransactionCategory } from '@prisma/client'
 import { AggregateRoot } from '@shared/core/domain/AggregateRoot'
 import { UniqueEntityID } from '@shared/core/domain/UniqueEntityID'
 
-interface ITransactionProps {
+export interface ITransactionProps {
   id?: string
   description: string
   detail?: string
@@ -10,6 +11,8 @@ interface ITransactionProps {
   date?: Date
 
   userId: string
+
+  transactionCategory?: TransactionCategory
   transactionCategoryId: string
 }
 
@@ -42,6 +45,10 @@ class Transaction extends AggregateRoot<ITransactionProps> {
     return this.props.userId
   }
 
+  get transactionCategory(): TransactionCategory {
+    return this.props.transactionCategory
+  }
+
   get transactionCategoryId(): string {
     return this.props.transactionCategoryId
   }
@@ -54,6 +61,7 @@ class Transaction extends AggregateRoot<ITransactionProps> {
     value,
     date = new Date(),
     userId,
+    transactionCategory,
     transactionCategoryId,
   }: ITransactionProps): Transaction {
     const transactionProps = {
@@ -63,6 +71,8 @@ class Transaction extends AggregateRoot<ITransactionProps> {
       value,
       date,
       userId,
+
+      transactionCategory,
       transactionCategoryId,
     }
 
