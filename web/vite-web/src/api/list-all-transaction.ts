@@ -1,30 +1,54 @@
 import { api } from '@/lib/axios'
 
-export type TransactionResponse = {
-  _id: string
-  props: {
-    description: string
-  }
-}
-
-export type Transaction = {
-  transaction: {
-    description: string
-  }
+type TransactionResponse = {
+  transactions: {
+    _id: string
+    props: {
+      description: string
+      type: string
+      value: number
+      transactionCategoryId: string
+    }
+  }[]
   balance: {
-    income: string
-    outcome: string
-    total: string
+    income: number
+    outcome: number
+    total: number
   }
 }
 
-export async function apiListAllTransaction(): Promise<void> {
-  const { data } = await api.get('/transactions')
+type Transaction = {
+  transactions: {
+    _id: string
+    description: string
+    type: string
+    value: number
+    transactionCategoryId: string
+  }[]
+  balance: {
+    income: number
+    outcome: number
+    total: number
+  }
+}
 
-  console.log(data)
+export async function apiListAllTransaction(): Promise<Transaction> {
+  const { data } = await api.get<TransactionResponse>('/transactions')
 
-  // return data.transactionCategories.map(({ _id, props: { description } }) => ({
-  //   _id,
-  //   description,
-  // }))
+  const transactions = data.transactions.map(
+    ({ _id, props: { description, type, value, transactionCategoryId } }) => ({
+      _id,
+      description,
+      type,
+      value,
+      transactionCategoryId,
+    }),
+  )
+
+  const { balance } = data
+
+  return {
+    transactions,
+    balance,
+  }
 }

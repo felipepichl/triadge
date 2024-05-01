@@ -74,7 +74,7 @@ const transactions: TransactionsProps[] = [
 export function Finances() {
   useEffect(() => {
     apiListAllTransaction().then((response) => {
-      console.log(response)
+      console.log(JSON.stringify(response, null, 2))
     })
   }, [])
 
