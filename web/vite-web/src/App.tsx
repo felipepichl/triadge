@@ -6,6 +6,7 @@ import { Toaster } from 'sonner'
 
 import { ThemeProvider } from './components/theme/theme-provider'
 import { AuthProvider } from './contexts/auth-context'
+import { TransactionsProvider } from './contexts/transactions-context'
 import { router } from './routes'
 
 export default function App() {
@@ -13,10 +14,12 @@ export default function App() {
     <ThemeProvider storageKey="mm-theme" defaultTheme="system">
       <AuthProvider>
         <HelmetProvider>
-          <Helmet titleTemplate="%s | GOEMB" />
-          <Toaster richColors position="top-right" />
+          <TransactionsProvider>
+            <Helmet titleTemplate="%s | GOEMB" />
+            <Toaster richColors position="top-right" />
 
-          <RouterProvider router={router} />
+            <RouterProvider router={router} />
+          </TransactionsProvider>
         </HelmetProvider>
       </AuthProvider>
     </ThemeProvider>

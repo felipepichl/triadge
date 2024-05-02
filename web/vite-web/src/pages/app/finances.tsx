@@ -4,10 +4,8 @@ import {
   DollarSign,
   Search,
 } from 'lucide-react'
-import { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 
-import { apiListAllTransaction, Transaction } from '@/api/list-all-transaction'
 import { NewTransaction } from '@/components/new-transaction/transaction/new-tranaction'
 import { Summary, SummaryProps } from '@/components/summary'
 import {
@@ -23,6 +21,7 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel'
 import { Input } from '@/components/ui/input'
+import { useTransaction } from '@/hooks/use-transaction'
 
 const summaries: SummaryProps[] = [
   {
@@ -72,13 +71,9 @@ const transactions: TransactionsProps[] = [
 ]
 
 export function Finances() {
-  useEffect(() => {
-    apiListAllTransaction().then((response) => {
-      console.log('here')
+  const { transactions: t } = useTransaction()
 
-      console.log(JSON.stringify(response, null, 2))
-    })
-  }, [])
+  console.log(t)
 
   return (
     <>
