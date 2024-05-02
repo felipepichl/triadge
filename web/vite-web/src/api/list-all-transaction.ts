@@ -7,7 +7,10 @@ type TransactionResponse = {
       description: string
       type: string
       value: number
-      transactionCategoryId: string
+      transactionCategory: {
+        id: string
+        description: string
+      }
     }
   }[]
   balance: {
@@ -17,13 +20,16 @@ type TransactionResponse = {
   }
 }
 
-type Transaction = {
+export type Transaction = {
   transactions: {
     _id: string
     description: string
     type: string
     value: number
-    transactionCategoryId: string
+    transactionCategory: {
+      id: string
+      description: string
+    }
   }[]
   balance: {
     income: number
@@ -35,13 +41,15 @@ type Transaction = {
 export async function apiListAllTransaction(): Promise<Transaction> {
   const { data } = await api.get<TransactionResponse>('/transactions')
 
+  console.log(JSON.stringify(data, null, 2))
+
   const transactions = data.transactions.map(
-    ({ _id, props: { description, type, value, transactionCategoryId } }) => ({
+    ({ _id, props: { description, type, value, transactionCategory } }) => ({
       _id,
       description,
       type,
       value,
-      transactionCategoryId,
+      transactionCategory,
     }),
   )
 
