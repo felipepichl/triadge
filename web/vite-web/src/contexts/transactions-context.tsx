@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from 'react'
 
 import { apiListAllTransaction, Transaction } from '@/api/list-all-transaction'
+import { useAuth } from '@/hooks/use-auth'
 
 type TransactionContextData = {
   transactions: Transaction | undefined
@@ -15,16 +16,16 @@ const TransactionsContext = createContext({} as TransactionContextData)
 function TransactionsProvider({ children }: TransactionProviderProps) {
   const [transactions, setTransaction] = useState<Transaction>()
 
-  async function loadTransaction() {
-    const result = await apiListAllTransaction()
-    console.log(result)
-
-    setTransaction(result)
-  }
+  const { user } = useAuth()
 
   useEffect(() => {
+    async function loadTransaction() {
+      const response = await apiListAllTransaction()
+      setTransaction(response)
+    }
+
     loadTransaction()
-  }, [])
+  }, [user?.name])
 
   return (
     <TransactionsContext.Provider value={{ transactions }}>

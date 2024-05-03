@@ -52,41 +52,43 @@ export function Finances() {
   const { transactions: getBalance } = useTransaction()
   const [summaries, setSummaries] = useState<SummaryProps[]>()
 
-  const loadSummary = useCallback(() => {
-    const summariesResume: SummaryProps[] = [
-      {
-        color: 'default',
-        description: 'Entradas',
-        icon: ArrowDownCircle,
-        iconColor: '#00b37e',
-        value: priceFormatter.format(
-          getBalance ? getBalance.balance.income : 0,
-        ),
-      },
-      {
-        color: 'default',
-        description: 'Saídas',
-        icon: ArrowUpCircle,
-        iconColor: '#ff0000',
-        value: priceFormatter.format(
-          getBalance ? getBalance.balance.outcome : 0,
-        ),
-      },
-      {
-        color: 'green',
-        description: 'Total',
-        icon: DollarSign,
-        iconColor: '#fff',
-        value: priceFormatter.format(getBalance ? getBalance.balance.total : 0),
-      },
-    ]
-
-    setSummaries(summariesResume)
-  }, [getBalance])
-
   useEffect(() => {
+    async function loadSummary() {
+      const summariesResume: SummaryProps[] = [
+        {
+          color: 'default',
+          description: 'Entradas',
+          icon: ArrowDownCircle,
+          iconColor: '#00b37e',
+          value: priceFormatter.format(
+            getBalance ? getBalance.balance.income : 0,
+          ),
+        },
+        {
+          color: 'default',
+          description: 'Saídas',
+          icon: ArrowUpCircle,
+          iconColor: '#ff0000',
+          value: priceFormatter.format(
+            getBalance ? getBalance.balance.outcome : 0,
+          ),
+        },
+        {
+          color: 'green',
+          description: 'Total',
+          icon: DollarSign,
+          iconColor: '#fff',
+          value: priceFormatter.format(
+            getBalance ? getBalance.balance.total : 0,
+          ),
+        },
+      ]
+
+      setSummaries(summariesResume)
+    }
+
     loadSummary()
-  }, [loadSummary, getBalance])
+  }, [getBalance])
 
   return (
     <>

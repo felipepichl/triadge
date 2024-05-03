@@ -41,7 +41,7 @@ export type Transaction = {
 export async function apiListAllTransaction(): Promise<Transaction> {
   const { data } = await api.get<TransactionResponse>('/transactions')
 
-  console.log(JSON.stringify(data, null, 2))
+  // console.log(JSON.stringify(data, null, 2))
 
   const transactions = data.transactions.map(
     ({ _id, props: { description, type, value, transactionCategory } }) => ({
