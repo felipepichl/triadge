@@ -4,6 +4,7 @@ import {
   DollarSign,
   Search,
 } from 'lucide-react'
+import { useCallback, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
 import { NewTransaction } from '@/components/new-transaction/transaction/new-tranaction'
@@ -22,30 +23,7 @@ import {
 } from '@/components/ui/carousel'
 import { Input } from '@/components/ui/input'
 import { useTransaction } from '@/hooks/use-transaction'
-
-const summaries: SummaryProps[] = [
-  {
-    color: 'default',
-    description: 'Entradas',
-    icon: ArrowDownCircle,
-    iconColor: '#00b37e',
-    value: 'R$ 17.000,00',
-  },
-  {
-    color: 'default',
-    description: 'Saídas',
-    icon: ArrowUpCircle,
-    iconColor: '#ff0000',
-    value: 'R$ 1.000,00',
-  },
-  {
-    color: 'green',
-    description: 'Total',
-    icon: DollarSign,
-    iconColor: '#fff',
-    value: 'R$ 16.000,00',
-  },
-]
+import { priceFormatter } from '@/util/formatter'
 
 const transactions: TransactionsProps[] = [
   {
@@ -71,9 +49,44 @@ const transactions: TransactionsProps[] = [
 ]
 
 export function Finances() {
-  const { transactions: t } = useTransaction()
+  const { transactions: getBalance } = useTransaction()
+  const [summaries, setSummaries] = useState<SummaryProps[]>()
 
-  console.log(t)
+  const loadSummary = useCallback(() => {
+    const summariesResume: SummaryProps[] = [
+      {
+        color: 'default',
+        description: 'Entradas',
+        icon: ArrowDownCircle,
+        iconColor: '#00b37e',
+        value: priceFormatter.format(
+          getBalance ? getBalance.balance.income : 0,
+        ),
+      },
+      {
+        color: 'default',
+        description: 'Saídas',
+        icon: ArrowUpCircle,
+        iconColor: '#ff0000',
+        value: priceFormatter.format(
+          getBalance ? getBalance.balance.outcome : 0,
+        ),
+      },
+      {
+        color: 'green',
+        description: 'Total',
+        icon: DollarSign,
+        iconColor: '#fff',
+        value: priceFormatter.format(getBalance ? getBalance.balance.total : 0),
+      },
+    ]
+
+    setSummaries(summariesResume)
+  }, [getBalance])
+
+  useEffect(() => {
+    loadSummary()
+  }, [loadSummary, getBalance])
 
   return (
     <>
@@ -83,7 +96,7 @@ export function Finances() {
 
       <Carousel>
         <CarouselContent>
-          {summaries.map((summary) => (
+          {summaries?.map((summary) => (
             <CarouselItem
               className="md:basis-1/2 lg:basis-1/3"
               key={summary.description}

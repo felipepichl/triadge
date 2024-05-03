@@ -13,14 +13,14 @@ export default function App() {
   return (
     <ThemeProvider storageKey="mm-theme" defaultTheme="system">
       <AuthProvider>
-        <HelmetProvider>
-          <TransactionsProvider>
+        <TransactionsProvider>
+          <HelmetProvider>
             <Helmet titleTemplate="%s | GOEMB" />
             <Toaster richColors position="top-right" />
 
             <RouterProvider router={router} />
-          </TransactionsProvider>
-        </HelmetProvider>
+          </HelmetProvider>
+        </TransactionsProvider>
       </AuthProvider>
     </ThemeProvider>
   )

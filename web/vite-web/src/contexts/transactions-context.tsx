@@ -17,6 +17,7 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
 
   async function loadTransaction() {
     const result = await apiListAllTransaction()
+    console.log(result)
 
     setTransaction(result)
   }
