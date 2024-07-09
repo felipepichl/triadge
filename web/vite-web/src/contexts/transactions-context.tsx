@@ -30,6 +30,7 @@ const TransactionsContext = createContext({} as TransactionContextData)
 
 function TransactionsProvider({ children }: TransactionProviderProps) {
   const [transactions, setTransaction] = useState<Transaction>()
+  const [reload, setReload] = useState(false)
 
   const { user } = useAuth()
 
@@ -46,6 +47,8 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
         type,
         transactionCategoryId,
       })
+
+      setReload((prev) => !prev)
     },
     [],
   )
@@ -57,7 +60,7 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
     }
 
     loadTransaction()
-  }, [user])
+  }, [user, reload])
 
   return (
     <TransactionsContext.Provider value={{ transactions, createTransaction }}>

@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { apiCreateTransaction } from '@/api/create-transaction'
 import {
   apiListAllTransactionCategory,
   TransactionCategory,
@@ -19,6 +18,7 @@ import {
 } from '@/components/ui/form'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useMonetaryMask } from '@/hooks/use-monetary-mask'
+import { useTransaction } from '@/hooks/use-transaction'
 
 import { Button } from '../../ui/button'
 import {
@@ -57,6 +57,8 @@ export function NewTransaction() {
   )
   const [selectedValue, setSelectedValue] = useState<string | null>('')
   const { formattedValue, handleMaskChange } = useMonetaryMask()
+
+  const { createTransaction } = useTransaction()
 
   const form = useForm<CreateTransactionForm>({
     resolver: zodResolver(createTransactionForm),
@@ -102,19 +104,20 @@ export function NewTransaction() {
       transactionCategoryId,
     }: CreateTransactionForm) => {
       try {
-        await apiCreateTransaction({
+        createTransaction({
           description,
-          value: parseFloat(value.replace('R$ ', '').replace(',', '.')),
+          value,
           type,
           transactionCategoryId,
         })
+
         cleanFileds()
         toast.success('Transação salva com sucesso!')
       } catch (err) {
         toast.error('Erro ao salvar, tente novamente mais tarde!')
       }
     },
-    [cleanFileds],
+    [cleanFileds, createTransaction],
   )
 
   return (

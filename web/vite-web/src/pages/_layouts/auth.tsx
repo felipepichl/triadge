@@ -7,7 +7,7 @@ export function AuthLayout() {
       <div className="hidden flex-col justify-between border-r border-foreground/5 bg-muted p-5 text-muted-foreground md:flex md:p-10">
         <div className="flex items-center gap-3 text-lg text-foreground">
           <DraftingCompass className="h-5 w-5" />
-          <span className="font-semibold">GOEMB</span>
+          <span className="font-semibold">Triadge</span>
         </div>
         <footer className="text-xs md:text-sm">
           Painel administrativo &copy; Triadge - {new Date().getFullYear()}
