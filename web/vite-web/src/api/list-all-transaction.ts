@@ -31,7 +31,7 @@ export type Transaction = {
       description: string
     }
   }[]
-  balance: {
+  balance?: {
     income: number
     outcome: number
     total: number

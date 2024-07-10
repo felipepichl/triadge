@@ -4,15 +4,12 @@ import {
   DollarSign,
   Search,
 } from 'lucide-react'
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
 import { NewTransaction } from '@/components/new-transaction/transaction/new-tranaction'
 import { Summary, SummaryProps } from '@/components/summary'
-import {
-  Transactions,
-  TransactionsProps,
-} from '@/components/transactions/transactions'
+import { Transactions } from '@/components/transactions/transactions'
 import { Button } from '@/components/ui/button'
 import {
   Carousel,
@@ -25,31 +22,31 @@ import { Input } from '@/components/ui/input'
 import { useTransaction } from '@/hooks/use-transaction'
 import { priceFormatter } from '@/util/formatter'
 
-const transactions: TransactionsProps[] = [
-  {
-    descrition: 'Desenvolvimento de site',
-    value: 'R$ 1.200,00',
-    category: 'Venda',
-  },
-  {
-    descrition: 'Update de Servidor',
-    value: 'R$ 1.300,00',
-    category: 'Venda',
-  },
-  {
-    descrition: 'Update de Servidor II',
-    value: 'R$ 1.300,00',
-    category: 'Venda',
-  },
-  {
-    descrition: 'Update de Servidor IV',
-    value: 'R$ 1.300,00',
-    category: 'Venda',
-  },
-]
+// const transactions: TransactionsProps[] = [
+//   {
+//     descrition: 'Desenvolvimento de site',
+//     value: 'R$ 1.200,00',
+//     category: 'Venda',
+//   },
+//   {
+//     descrition: 'Update de Servidor',
+//     value: 'R$ 1.300,00',
+//     category: 'Venda',
+//   },
+//   {
+//     descrition: 'Update de Servidor II',
+//     value: 'R$ 1.300,00',
+//     category: 'Venda',
+//   },
+//   {
+//     descrition: 'Update de Servidor IV',
+//     value: 'R$ 1.300,00',
+//     category: 'Venda',
+//   },
+// ]
 
 export function Finances() {
-  const { transactions: getBalance } = useTransaction()
+  const { transactions } = useTransaction()
   const [summaries, setSummaries] = useState<SummaryProps[]>()
 
   useEffect(() => {
@@ -61,7 +58,7 @@ export function Finances() {
           icon: ArrowDownCircle,
           iconColor: '#00b37e',
           value: priceFormatter.format(
-            getBalance ? getBalance.balance.income : 0,
+            transactions?.balance ? transactions.balance.income : 0,
           ),
         },
         {
@@ -70,7 +67,7 @@ export function Finances() {
           icon: ArrowUpCircle,
           iconColor: '#ff0000',
           value: priceFormatter.format(
-            getBalance ? getBalance.balance.outcome : 0,
+            transactions?.balance ? transactions.balance.outcome : 0,
           ),
         },
         {
@@ -79,7 +76,7 @@ export function Finances() {
           icon: DollarSign,
           iconColor: '#fff',
           value: priceFormatter.format(
-            getBalance ? getBalance.balance.total : 0,
+            transactions?.balance ? transactions.balance.total : 0,
           ),
         },
       ]
@@ -88,7 +85,7 @@ export function Finances() {
     }
 
     loadSummary()
-  }, [getBalance])
+  }, [transactions])
 
   return (
     <>
@@ -146,7 +143,7 @@ export function Finances() {
         </Button>
       </div>
 
-      <Transactions data={transactions} />
+      <Transactions transactions={transactions?.transactions ?? []} />
     </>
   )
 }
