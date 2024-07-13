@@ -1,5 +1,8 @@
 import { Calendar, Tag } from 'lucide-react'
 
+import { Transaction } from '@/api/list-all-transaction'
+import { priceFormatter } from '@/util/formatter'
+
 import {
   Card,
   CardContent,
@@ -15,9 +18,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '../ui/carousel'
-import { TransactionsData } from './transactions'
 
-export function CardTransactions({ data }: TransactionsData) {
+export function CardTransactions({ transactions }: Transaction) {
   return (
     <Carousel
       opts={{
@@ -27,20 +29,22 @@ export function CardTransactions({ data }: TransactionsData) {
       className="w-full"
     >
       <CarouselContent className="-mt-1 h-[180px]">
-        {data.map((transaction) => (
+        {transactions.map((transaction) => (
           <CarouselItem
-            key={transaction.descrition}
+            key={transaction.description}
             className="pt-1 md:basis-1/2"
           >
             <Card className=" mb-2 bg-gray-300 dark:bg-gray-700">
               <CardHeader>
                 <CardDescription className="font-semibold text-gray-500 dark:text-slate-200">
-                  {transaction.descrition}
+                  {transaction.description}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <CardTitle className="font-bold text-green-500">
-                  {transaction.value}
+                <CardTitle
+                  className={`font-bold ${transaction.type === 'outcome' ? 'text-red-500' : 'text-green-500'}`}
+                >
+                  {priceFormatter.format(transaction.value)}
                 </CardTitle>
               </CardContent>
 
@@ -51,7 +55,7 @@ export function CardTransactions({ data }: TransactionsData) {
                     className="mr-2 text-gray-500 dark:text-gray-400"
                   />
                   <span className="font-semibold text-gray-500 dark:text-gray-400">
-                    {transaction.category}
+                    {transaction.transactionCategory.description}
                   </span>
                 </div>
                 <div className="flex items-center">

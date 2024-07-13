@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { Transaction } from '@/api/list-all-transaction'
 
-// import { CardTransactions } from './card-transactions'
+import { CardTransactions } from './card-transactions'
 import { TableTransactions } from './table-transactions'
 
 // export type TransactionsProps = {
@@ -50,8 +50,7 @@ export function Transactions({ transactions }: TransactionsProps) {
       {isWideScreen ? (
         <TableTransactions transactions={transactions} />
       ) : (
-        // <CardTransactions data={transactions} />
-        <h1>...</h1>
+        <CardTransactions transactions={transactions} />
       )}
     </>
   )
