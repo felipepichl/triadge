@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 // import { TransactionsData } from './transactions'
 import { Transaction } from '@/api/list-all-transaction'
+import { priceFormatter } from '@/util/formatter'
 
 import { Pagination } from '../pagination'
 import { Separator } from '../ui/separator'
@@ -13,23 +14,29 @@ export function TableTransactions({ transactions: data }: Transaction) {
     <>
       <Table className="hidden md:table md:basis-1/2">
         <TableBody>
-          {data.map((transaction) => (
-            <TableRow key={transaction.description}>
-              <TableHead>{transaction.description}</TableHead>
-              <TableHead>{transaction.value}</TableHead>
-              <TableHead>
-                {transaction.transactionCategory.description}
-              </TableHead>
-              <TableHead className="teprops.transactionCategory.description">
-                13/03/2025
-              </TableHead>
-              <TableHead className="flex items-center justify-center">
-                <Link to="/finance/details">
-                  <ArrowRightCircle />
-                </Link>
-              </TableHead>
-            </TableRow>
-          ))}
+          {data.map((transaction) => {
+            const rowClass =
+              transaction.type === 'outcome' ? 'text-red-500' : ''
+            return (
+              <TableRow key={transaction.description}>
+                <TableHead className={rowClass}>
+                  {transaction.description}
+                </TableHead>
+                <TableHead className={rowClass}>
+                  {priceFormatter.format(transaction.value)}
+                </TableHead>
+                <TableHead className={rowClass}>
+                  {transaction.transactionCategory.description}
+                </TableHead>
+                <TableHead className={rowClass}>13/03/2025</TableHead>
+                <TableHead className="flex items-center justify-center">
+                  <Link to="/finance/details">
+                    <ArrowRightCircle />
+                  </Link>
+                </TableHead>
+              </TableRow>
+            )
+          })}
         </TableBody>
       </Table>
 
