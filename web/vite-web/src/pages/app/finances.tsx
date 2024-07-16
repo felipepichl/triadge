@@ -67,8 +67,6 @@ export function Finances() {
     to: firstDayOfNextMonth,
   })
 
-  console.log(date)
-
   useEffect(() => {
     async function loadSummary() {
       const summariesResume: SummaryProps[] = [
@@ -140,41 +138,44 @@ export function Finances() {
         </div>
       </Carousel>
 
-      <div className="mb-4 flex items-center justify-between gap-2 lg:pt-10">
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="outline" className="">
-              <CalendarIcon className="mr-2 h-4 w-4" />
-              {date?.from ? (
-                date.to ? (
-                  <>
-                    {format(date.from, 'LLL dd, y')} -{' '}
-                    {format(date.to, 'LLL dd, y')}
-                  </>
+      <div className="mb-4 flex flex-col items-center justify-between gap-2 lg:flex-row lg:pt-10">
+        <div className="w-full lg:w-auto">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="w-full">
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {date?.from ? (
+                  date.to ? (
+                    <>
+                      {format(date.from, 'LLL dd, y')} -{' '}
+                      {format(date.to, 'LLL dd, y')}
+                    </>
+                  ) : (
+                    format(date.from, 'LLL dd, y')
+                  )
                 ) : (
-                  format(date.from, 'LLL dd, y')
-                )
-              ) : (
-                <span>Pick a date</span>
-              )}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-              initialFocus
-              mode="range"
-              defaultMonth={today}
-              selected={date}
-              onSelect={setDate}
-              numberOfMonths={2}
-            />
-          </PopoverContent>
-        </Popover>
+                  <span>Pick a date</span>
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                initialFocus
+                mode="range"
+                defaultMonth={today}
+                selected={date}
+                onSelect={setDate}
+                numberOfMonths={2}
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
 
-        <Input placeholder="Buscar uma transação" />
-        <Button
-          variant="outline"
-          className={`
+        <div className="flex w-full gap-2">
+          <Input placeholder="Buscar uma transação" />
+          <Button
+            variant="outline"
+            className={`
             flex 
             w-10 
             items-center 
@@ -186,11 +187,12 @@ export function Finances() {
             hover:bg-green-700 
             hover:text-slate-100 md:w-40
           `}
-          size="icon"
-        >
-          <Search className="mr-0 h-4 w-4 md:mr-1 md:h-5 md:w-5" />
-          <span className="hidden md:inline">Buscar</span>
-        </Button>
+            size="icon"
+          >
+            <Search className="mr-0 h-4 w-4 md:mr-1 md:h-5 md:w-5" />
+            <span className="hidden md:inline">Buscar</span>
+          </Button>
+        </div>
       </div>
 
       <Transactions transactions={transactions?.transactions ?? []} />
