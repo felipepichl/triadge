@@ -1,16 +1,20 @@
+import { addMonths, format, startOfMonth } from 'date-fns'
 import {
   ArrowDownCircle,
   ArrowUpCircle,
+  Calendar as CalendarIcon,
   DollarSign,
   Search,
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { DateRange } from 'react-day-picker'
 import { Helmet } from 'react-helmet-async'
 
 import { NewTransaction } from '@/components/new-transaction/transaction/new-tranaction'
 import { Summary, SummaryProps } from '@/components/summary'
 import { Transactions } from '@/components/transactions/transactions'
 import { Button } from '@/components/ui/button'
+import { Calendar } from '@/components/ui/calendar'
 import {
   Carousel,
   CarouselContent,
@@ -19,6 +23,11 @@ import {
   CarouselPrevious,
 } from '@/components/ui/carousel'
 import { Input } from '@/components/ui/input'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import { useTransaction } from '@/hooks/use-transaction'
 import { priceFormatter } from '@/util/formatter'
 
@@ -48,6 +57,17 @@ import { priceFormatter } from '@/util/formatter'
 export function Finances() {
   const { transactions } = useTransaction()
   const [summaries, setSummaries] = useState<SummaryProps[]>()
+
+  const today = new Date()
+  const firstDayOfMonth = startOfMonth(today)
+  const firstDayOfNextMonth = startOfMonth(addMonths(today, 1))
+
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: firstDayOfMonth,
+    to: firstDayOfNextMonth,
+  })
+
+  console.log(date)
 
   useEffect(() => {
     async function loadSummary() {
@@ -121,6 +141,36 @@ export function Finances() {
       </Carousel>
 
       <div className="mb-4 flex items-center justify-between gap-2 lg:pt-10">
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" className="">
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {date?.from ? (
+                date.to ? (
+                  <>
+                    {format(date.from, 'LLL dd, y')} -{' '}
+                    {format(date.to, 'LLL dd, y')}
+                  </>
+                ) : (
+                  format(date.from, 'LLL dd, y')
+                )
+              ) : (
+                <span>Pick a date</span>
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+            <Calendar
+              initialFocus
+              mode="range"
+              defaultMonth={today}
+              selected={date}
+              onSelect={setDate}
+              numberOfMonths={2}
+            />
+          </PopoverContent>
+        </Popover>
+
         <Input placeholder="Buscar uma transação" />
         <Button
           variant="outline"
