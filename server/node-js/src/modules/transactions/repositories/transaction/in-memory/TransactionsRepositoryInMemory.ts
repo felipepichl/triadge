@@ -51,6 +51,16 @@ class TransactionsRepositoryInMemory implements ITransactionsRepository {
       (transaction) => transaction.userId === userId,
     )
   }
+
+  async listByDateRange(
+    startDate: Date,
+    endDate: Date,
+  ): Promise<Transaction[]> {
+    return this.transactions.filter(
+      (transaction) =>
+        transaction.date >= startDate && transaction.date <= endDate,
+    )
+  }
 }
 
 export { TransactionsRepositoryInMemory }
