@@ -8,7 +8,11 @@ interface ITransactionsRepository {
   findByDate(date: Date): Promise<Transaction>
   findByMonth(month: number): Promise<Transaction[]>
   findByUser(userId: string): Promise<Transaction[]>
-  listByDateRange(startDate: Date, endDate: Date): Promise<Transaction[]>
+  listByDateRange(
+    userId: string,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<Transaction[]>
 }
 
 export { ITransactionsRepository }
