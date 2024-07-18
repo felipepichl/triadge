@@ -53,12 +53,15 @@ class TransactionsRepositoryInMemory implements ITransactionsRepository {
   }
 
   async listByDateRange(
+    userId: string,
     startDate: Date,
     endDate: Date,
   ): Promise<Transaction[]> {
     return this.transactions.filter(
       (transaction) =>
-        transaction.date >= startDate && transaction.date <= endDate,
+        transaction.id.toString() === userId &&
+        transaction.date >= startDate &&
+        transaction.date <= endDate,
     )
   }
 }
