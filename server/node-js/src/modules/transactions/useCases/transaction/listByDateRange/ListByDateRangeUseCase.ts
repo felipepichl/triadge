@@ -28,7 +28,11 @@ class ListByDateRangeUseCase implements IUseCase<IRequest, IResponse> {
   ) {}
 
   async execute({ userId, startDate, endDate }: IRequest): Promise<IResponse> {
-    const transactions = await this.transactionsRepository.findByUser(userId)
+    const transactions = await this.transactionsRepository.listByDateRange(
+      userId,
+      startDate,
+      endDate,
+    )
 
     const { income, outcome } = transactions.reduce(
       (accumulator, transaction) => {
