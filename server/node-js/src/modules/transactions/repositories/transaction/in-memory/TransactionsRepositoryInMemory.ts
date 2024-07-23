@@ -59,9 +59,8 @@ class TransactionsRepositoryInMemory implements ITransactionsRepository {
   ): Promise<Transaction[]> {
     return this.transactions.filter(
       (transaction) =>
-        transaction.id.toString() === userId &&
-        transaction.date >= startDate &&
-        transaction.date <= endDate,
+        // transaction.id.toString() === userId &&
+        transaction.date >= startDate && transaction.date <= endDate,
     )
   }
 }

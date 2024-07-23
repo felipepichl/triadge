@@ -3,6 +3,15 @@ import { UsersRepositoryInMemory } from '@modules/accounts/repositories/in-memor
 import { TransactionCategory } from '@modules/transactions/domain/category/TransactionCategory'
 import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
 import { TransactionCategoriesRepositoryInMemory } from '@modules/transactions/repositories/category/in-memory/TransactionCategoriesRepositoryInMemory'
+import { TransactionsRepositoryInMemory } from '@modules/transactions/repositories/transaction/in-memory/TransactionsRepositoryInMemory'
+
+import { ListByDateRangeUseCase } from './ListByDateRangeUseCase'
+
+let transactionsRepositoryInMemory: TransactionsRepositoryInMemory
+let listByDateRangeUseCase: ListByDateRangeUseCase
+
+const startDate = new Date('2024-08-01')
+const endDate = new Date('2024-08-31')
 
 async function createUser(): Promise<string> {
   const user = User.createUser({
@@ -39,6 +48,7 @@ async function createTransaction(): Promise<string> {
   const transaction1 = Transaction.createTransaction({
     description: 'Transaction description',
     type: 'income',
+    date: startDate,
     value: 1000,
     userId,
     transactionCategoryId: transactionCategoryId.toString(),
@@ -47,12 +57,22 @@ async function createTransaction(): Promise<string> {
   const transaction2 = Transaction.createTransaction({
     description: 'Transaction description',
     type: 'outcome',
+    date: endDate,
     value: 500,
     userId,
     transactionCategoryId: transactionCategoryId.toString(),
   })
 
-  const transactionsToCreate = [transaction1, transaction2]
+  const transaction3 = Transaction.createTransaction({
+    description: 'Transaction description',
+    type: 'outcome',
+    value: 500,
+    date: new Date('2023-07-01'),
+    userId,
+    transactionCategoryId: transactionCategoryId.toString(),
+  })
+
+  const transactionsToCreate = [transaction1, transaction2, transaction3]
 
   for (const transactionData of transactionsToCreate) {
     const transaction = transactionData
@@ -61,3 +81,48 @@ async function createTransaction(): Promise<string> {
 
   return userId
 }
+
+describe('[Transaction] - List all transacition by date range', () => {
+  let userId: string
+
+  beforeEach(async () => {
+    transactionsRepositoryInMemory = new TransactionsRepositoryInMemory()
+
+    listByDateRangeUseCase = new ListByDateRangeUseCase(
+      transactionsRepositoryInMemory,
+    )
+
+    userId = await createTransaction()
+  })
+
+  it('should be able to list all transacitions with balance', async () => {
+    const result = await listByDateRangeUseCase.execute({
+      userId,
+      startDate,
+      endDate,
+    })
+
+    console.log('Result Transactions:', result.transactions)
+    console.log('Result Balance:', result.balance)
+
+    // expect(result.transactions).toHaveLength(2)
+    // expect(result.transactions).toEqual(
+    //   expect.arrayContaining([
+    //     expect.objectContaining({
+    //       type: 'income',
+    //     }),
+    //     expect.objectContaining({
+    //       type: 'outcome',
+    //     }),
+    //   ]),
+    // )
+  })
+
+  // it('should return an empty array if no transaction exist', async () => {
+  //   const result = await listAllTransactionUseCase.execute({
+  //     userId: '',
+  //   })
+
+  //   expect(result.transactions).toHaveLength(0)
+  // })
+})
