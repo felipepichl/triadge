@@ -102,27 +102,26 @@ describe('[Transaction] - List all transacition by date range', () => {
       endDate,
     })
 
-    console.log('Result Transactions:', result.transactions)
-    console.log('Result Balance:', result.balance)
-
-    // expect(result.transactions).toHaveLength(2)
-    // expect(result.transactions).toEqual(
-    //   expect.arrayContaining([
-    //     expect.objectContaining({
-    //       type: 'income',
-    //     }),
-    //     expect.objectContaining({
-    //       type: 'outcome',
-    //     }),
-    //   ]),
-    // )
+    expect(result.transactions).toHaveLength(2)
+    expect(result.transactions).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          date: startDate,
+        }),
+        expect.objectContaining({
+          date: endDate,
+        }),
+      ]),
+    )
   })
 
-  // it('should return an empty array if no transaction exist', async () => {
-  //   const result = await listAllTransactionUseCase.execute({
-  //     userId: '',
-  //   })
+  it('should return an empty array if no transaction exist', async () => {
+    const result = await listByDateRangeUseCase.execute({
+      userId: '',
+      startDate,
+      endDate,
+    })
 
-  //   expect(result.transactions).toHaveLength(0)
-  // })
+    expect(result.transactions).toHaveLength(0)
+  })
 })
