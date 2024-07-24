@@ -82,6 +82,18 @@ class TransactionsRepository implements ITransactionsRepository {
 
     return TransactionMappers.getMapper().toDomainArray(result)
   }
+
+  async listByDateRange(
+    userId: string,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<Transaction[]> {
+    const result = await PrismaSingleton.getInstance().transaction.findMany({
+      where: { userId, date: { gte: startDate, lte: endDate } },
+    })
+
+    return TransactionMappers.getMapper().toDomainArray(result)
+  }
 }
 
 export { TransactionsRepository }
