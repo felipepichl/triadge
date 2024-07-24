@@ -12,6 +12,6 @@ const listByDateRangeController = new ListByDateRangeController()
 
 transactionsRoutes.post('/', createTransactionController.handle)
 transactionsRoutes.get('/', listAllTransactionsController.handle)
-transactionsRoutes.get('/', listByDateRangeController.handle)
+transactionsRoutes.get('/date-range', listByDateRangeController.handle)
 
 export { transactionsRoutes }
