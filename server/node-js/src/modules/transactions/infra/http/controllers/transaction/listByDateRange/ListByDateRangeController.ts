@@ -4,15 +4,15 @@ import { container } from 'tsyringe'
 
 class ListByDateRangeController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { startDate, endDate } = request.body
+    const { startDate, endDate } = request.params
     const { id: userId } = request.user
 
     const listByDateRangeUseCase = container.resolve(ListByDateRangeUseCase)
 
     const result = await listByDateRangeUseCase.execute({
       userId,
-      startDate,
-      endDate,
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
     })
 
     return response.status(200).json(result)
