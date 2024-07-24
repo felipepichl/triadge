@@ -46,7 +46,7 @@ async function createTransaction(): Promise<string> {
   const userId = await createUser()
 
   const transaction1 = Transaction.createTransaction({
-    description: 'Transaction description',
+    description: 'Transaction description 1',
     type: 'income',
     date: startDate,
     value: 1000,
@@ -55,7 +55,7 @@ async function createTransaction(): Promise<string> {
   })
 
   const transaction2 = Transaction.createTransaction({
-    description: 'Transaction description',
+    description: 'Transaction description 2',
     type: 'outcome',
     date: endDate,
     value: 500,
@@ -64,7 +64,7 @@ async function createTransaction(): Promise<string> {
   })
 
   const transaction3 = Transaction.createTransaction({
-    description: 'Transaction description',
+    description: 'Transaction description 3',
     type: 'outcome',
     value: 500,
     date: new Date('2023-07-01'),
