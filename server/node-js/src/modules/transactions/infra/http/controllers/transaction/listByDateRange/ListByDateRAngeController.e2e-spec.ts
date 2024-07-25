@@ -42,7 +42,6 @@ async function createTransaction(transactionCategoryId: string, token: string) {
       description: 'Description 1',
       detail: 'Detail',
       type: 'income',
-      date: new Date('2024-08-01'),
       value: 100,
       transactionCategoryId,
     })
@@ -54,7 +53,6 @@ async function createTransaction(transactionCategoryId: string, token: string) {
       description: 'Description 2',
       detail: 'Detail',
       type: 'outcome',
-      date: new Date('2024-08-31'),
       value: 50,
       transactionCategoryId,
     })
@@ -66,6 +64,7 @@ async function createTransaction(transactionCategoryId: string, token: string) {
       description: 'Description 3',
       detail: 'Detail',
       type: 'outcome',
+      date: new Date('2024-08-01'),
       value: 50,
       transactionCategoryId,
     })
@@ -74,8 +73,8 @@ async function createTransaction(transactionCategoryId: string, token: string) {
 describe('[E2E] - List all Transactions by date range', () => {
   let token: string
   let transactionCategoryId: string
-  const startDate = '2024-08-01T00:00:00.000Z'
-  const endDate = '2024-08-31T00:00:00.000Z'
+  const startDate = new Date()
+  const endDate = new Date()
 
   beforeEach(async () => {
     token = await authenticateUser()
@@ -88,6 +87,8 @@ describe('[E2E] - List all Transactions by date range', () => {
       .get('/transactions/date-range')
       .set({ Authorization: `Bearer ${token}` })
       .query({ startDate, endDate })
+
+    console.log(JSON.stringify(response.body, null, 2))
 
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body.transactions)).toBe(true)

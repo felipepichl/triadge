@@ -40,6 +40,6 @@ export default class PrismaTestEnvironment extends NodeEnvironment {
   }
 
   async teardown() {
-    fs.unlinkSync(path.join(__dirname, '..', 'prisma', this.schema))
+    // fs.unlinkSync(path.join(__dirname, '..', 'prisma', this.schema))
   }
 }
