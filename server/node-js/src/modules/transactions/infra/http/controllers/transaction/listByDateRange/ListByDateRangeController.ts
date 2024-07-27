@@ -7,8 +7,6 @@ class ListByDateRangeController {
     const { startDate, endDate } = request.query
     const { id: userId } = request.user
 
-    console.log(startDate, endDate)
-
     const listByDateRangeUseCase = container.resolve(ListByDateRangeUseCase)
 
     const result = await listByDateRangeUseCase.execute({

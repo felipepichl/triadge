@@ -59,7 +59,7 @@ class Transaction extends AggregateRoot<ITransactionProps> {
     detail,
     type,
     value,
-    date = new Date(),
+    date,
     userId,
     transactionCategory,
     transactionCategoryId,
@@ -69,7 +69,7 @@ class Transaction extends AggregateRoot<ITransactionProps> {
       detail,
       type,
       value,
-      date,
+      date: date ? new Date(date) : new Date(),
       userId,
 
       transactionCategory,

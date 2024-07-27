@@ -88,8 +88,6 @@ describe('[E2E] - List all Transactions by date range', () => {
       .set({ Authorization: `Bearer ${token}` })
       .query({ startDate, endDate })
 
-    console.log(JSON.stringify(response.body, null, 2))
-
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body.transactions)).toBe(true)
     expect(response.body.transactions.length).toBe(2)

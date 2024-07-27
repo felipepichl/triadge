@@ -11,6 +11,7 @@ class TransactionsRepository implements ITransactionsRepository {
     description,
     detail,
     type,
+    date,
     value,
     userId,
     transactionCategoryId,
@@ -18,6 +19,7 @@ class TransactionsRepository implements ITransactionsRepository {
     const data = {
       description,
       detail,
+      date,
       type,
       value,
       userId,

@@ -4,7 +4,7 @@ import { container } from 'tsyringe'
 
 class CreateTransactionController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { description, detail, type, value, transactionCategoryId } =
+    const { description, detail, type, date, value, transactionCategoryId } =
       request.body
     const { id: userId } = request.user
 
@@ -14,6 +14,7 @@ class CreateTransactionController {
       description,
       detail,
       type,
+      date,
       value,
       userId,
       transactionCategoryId,
