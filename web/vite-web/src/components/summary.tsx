@@ -1,5 +1,6 @@
+import { Eye, EyeOff } from 'lucide-react'
 import * as React from 'react'
-import { Eye, EyeOff, } from 'lucide-react'
+import { useState } from 'react'
 
 import {
   Card,
@@ -8,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from './ui/card'
-import { useState } from 'react'
 
 export type SummaryProps = {
   color: 'default' | 'green'
@@ -25,14 +25,12 @@ export function Summary({
   iconColor,
   value,
 }: SummaryProps) {
-  const [showValue, setShowValue] = useState(false);
+  const [showValue, setShowValue] = useState(false)
 
   const handleToggle = () => {
-    setShowValue(!showValue);
-  };
+    setShowValue(!showValue)
+  }
 
-  const maskedValue = value.replace(/./g, '*');
-  
   return (
     <Card
       className={
@@ -40,7 +38,7 @@ export function Summary({
       }
     >
       <CardHeader className="flex flex-row items-center justify-between">
-        <div className='flex flex-col'>
+        <div className="flex flex-col">
           <CardDescription
             className={`font-semibold ${
               color === 'green'
@@ -60,17 +58,19 @@ export function Summary({
                 }`}
                 style={{ minWidth: `${value.length}ch` }}
               >
-                {showValue ? value : '***'}
+                {showValue ? value : '****'}
               </CardDescription>
               <button onClick={handleToggle} className="ml-2">
-                {showValue ? <Eye size={18} /> : <EyeOff size={18} />}
+                {showValue ? (
+                  <Eye className="text-slate-200" size={18} />
+                ) : (
+                  <EyeOff className="text-slate-200" size={18} />
+                )}
               </button>
-           </div>
-            
+            </div>
           )}
         </div>
         <Icon size={32} color={iconColor} />
-        
       </CardHeader>
       <CardContent>
         <CardTitle
@@ -80,7 +80,6 @@ export function Summary({
               : 'text-gray-500 dark:text-slate-200'
           }
         >
-          
           {value}
         </CardTitle>
       </CardContent>
