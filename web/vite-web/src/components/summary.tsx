@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Eye, EyeOff, } from 'lucide-react'
 
 import {
   Card,
@@ -7,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from './ui/card'
+import { useState } from 'react'
 
 export type SummaryProps = {
   color: 'default' | 'green'
@@ -23,6 +25,14 @@ export function Summary({
   iconColor,
   value,
 }: SummaryProps) {
+  const [showValue, setShowValue] = useState(false);
+
+  const handleToggle = () => {
+    setShowValue(!showValue);
+  };
+
+  const maskedValue = value.replace(/./g, '*');
+  
   return (
     <Card
       className={
@@ -41,15 +51,22 @@ export function Summary({
             {description}
           </CardDescription>
           {description === 'Total' && (
-            <CardDescription
-              className={`font-semibold ${
-                color === 'green'
-                  ? 'text-slate-200'
-                  : 'text-gray-500 dark:text-slate-200'
-              }`}
-            >
-              {value}
-            </CardDescription>
+            <div className="flex flex-row items-center justify-center">
+              <CardDescription
+                className={`font-semibold ${
+                  color === 'green'
+                    ? 'text-slate-200'
+                    : 'text-gray-500 dark:text-slate-200'
+                }`}
+                style={{ minWidth: `${value.length}ch` }}
+              >
+                {showValue ? value : '***'}
+              </CardDescription>
+              <button onClick={handleToggle} className="ml-2">
+                {showValue ? <Eye size={18} /> : <EyeOff size={18} />}
+              </button>
+           </div>
+            
           )}
         </div>
         <Icon size={32} color={iconColor} />
