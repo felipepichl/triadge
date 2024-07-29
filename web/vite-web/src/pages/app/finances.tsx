@@ -10,6 +10,11 @@ import React, { useEffect, useState } from 'react'
 import { DateRange } from 'react-day-picker'
 import { Helmet } from 'react-helmet-async'
 
+import {
+  apiListByDateRange,
+  ListByDateRangeBody,
+  Transaction,
+} from '@/api/list-by-date-range'
 import { NewTransaction } from '@/components/new-transaction/transaction/new-tranaction'
 import { Summary, SummaryProps } from '@/components/summary'
 import { Transactions } from '@/components/transactions/transactions'
@@ -56,6 +61,8 @@ import { priceFormatter } from '@/util/formatter'
 
 export function Finances() {
   const { transactions } = useTransaction()
+  const [transactionByDateRange, setTransactionByDateRange] =
+    useState<Transaction>()
   const [summaries, setSummaries] = useState<SummaryProps[]>()
 
   const today = new Date()
@@ -67,6 +74,18 @@ export function Finances() {
     to: firstDayOfNextMonth,
   })
 
+  async function loadTransactionByDateRange({
+    startDate,
+    endDate,
+  }: ListByDateRangeBody) {
+    const response = await apiListByDateRange({
+      startDate,
+      endDate,
+    })
+
+    setTransactionByDateRange(response)
+  }
+
   useEffect(() => {
     async function loadSummary() {
       const summariesResume: SummaryProps[] = [
@@ -76,7 +95,9 @@ export function Finances() {
           icon: ArrowDownCircle,
           iconColor: '#00b37e',
           value: priceFormatter.format(
-            transactions?.balance ? transactions.balance.income : 0,
+            transactionByDateRange?.balance
+              ? transactionByDateRange.balance.income
+              : 0,
           ),
         },
         {
@@ -85,7 +106,9 @@ export function Finances() {
           icon: ArrowUpCircle,
           iconColor: '#ff0000',
           value: priceFormatter.format(
-            transactions?.balance ? transactions.balance.outcome : 0,
+            transactionByDateRange?.balance
+              ? transactionByDateRange.balance.outcome
+              : 0,
           ),
         },
         {
@@ -94,6 +117,11 @@ export function Finances() {
           icon: DollarSign,
           iconColor: '#fff',
           value: priceFormatter.format(
+            transactionByDateRange?.balance
+              ? transactionByDateRange.balance.total
+              : 0,
+          ),
+          totalAmount: priceFormatter.format(
             transactions?.balance ? transactions.balance.total : 0,
           ),
         },
@@ -102,8 +130,12 @@ export function Finances() {
       setSummaries(summariesResume)
     }
 
+    const { from, to } = date as DateRange
+
+    loadTransactionByDateRange({ startDate: from, endDate: to })
+
     loadSummary()
-  }, [transactions])
+  }, [transactions, transactionByDateRange, date])
 
   return (
     <>
@@ -124,6 +156,7 @@ export function Finances() {
                 icon={summary.icon}
                 iconColor={summary.iconColor}
                 value={summary.value}
+                totalAmount={summary.totalAmount}
               />
             </CarouselItem>
           ))}

@@ -1,6 +1,5 @@
 import { Eye, EyeOff } from 'lucide-react'
-import * as React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import {
   Card,
@@ -16,6 +15,7 @@ export type SummaryProps = {
   icon: React.ElementType
   iconColor: string
   value: string
+  totalAmount?: string
 }
 
 export function Summary({
@@ -24,6 +24,7 @@ export function Summary({
   icon: Icon,
   iconColor,
   value,
+  totalAmount,
 }: SummaryProps) {
   const [showValue, setShowValue] = useState(false)
 
@@ -58,7 +59,7 @@ export function Summary({
                 }`}
                 style={{ minWidth: `${value.length}ch` }}
               >
-                {showValue ? value : '****'}
+                {showValue ? totalAmount : '****'}
               </CardDescription>
               <button onClick={handleToggle} className="ml-2">
                 {showValue ? (
