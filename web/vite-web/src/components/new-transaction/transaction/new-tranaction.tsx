@@ -56,7 +56,7 @@ export function NewTransaction() {
     undefined,
   )
   const [selectedValue, setSelectedValue] = useState<string | null>('')
-  const { formattedValue, handleMaskChange } = useMonetaryMask()
+  const { formattedValue, handleMaskChange, rawValue } = useMonetaryMask()
 
   const { createTransaction } = useTransaction()
 
@@ -99,14 +99,13 @@ export function NewTransaction() {
   const handleCreateNewTransaction = useCallback(
     async ({
       description,
-      value,
       type,
       transactionCategoryId,
     }: CreateTransactionForm) => {
       try {
         createTransaction({
           description,
-          value,
+          value: String(rawValue),
           type,
           transactionCategoryId,
         })
@@ -117,7 +116,7 @@ export function NewTransaction() {
         toast.error('Erro ao salvar, tente novamente mais tarde!')
       }
     },
-    [cleanFileds, createTransaction],
+    [cleanFileds, createTransaction, rawValue],
   )
 
   return (

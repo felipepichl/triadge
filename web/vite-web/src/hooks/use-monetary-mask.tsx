@@ -2,29 +2,31 @@ import { ChangeEvent, useState } from 'react'
 
 export function useMonetaryMask() {
   const [formattedValue, setFormattedValue] = useState('')
+  const [rawValue, setRawValue] = useState(0)
 
   const handleMaskChange = (event: ChangeEvent<HTMLInputElement>) => {
     let inputValue = event.target.value
 
+    // Remove todos os caracteres não numéricos
     inputValue = inputValue.replace(/\D/g, '')
 
-    if (inputValue.length > 2) {
-      const cents = inputValue.slice(-2)
-      let reais = inputValue.slice(0, -2)
+    // Converte para um valor numérico
+    const numericValue = parseInt(inputValue, 10) || 0
 
-      if (reais.length >= 4) {
-        reais = reais.replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-      }
+    // Calcula o valor em reais
+    const reaisValue = numericValue / 100
+    setRawValue(reaisValue)
 
-      inputValue = `${reais},${cents}`
-    }
+    // Formata o valor para exibição
+    const cents = numericValue % 100
+    const reais = Math.floor(numericValue / 100)
 
-    if (inputValue === '') {
-      setFormattedValue('')
-    } else {
-      setFormattedValue(`R$ ${inputValue}`)
-    }
+    const formattedCents = cents.toString().padStart(2, '0')
+    const formattedReais = reais.toLocaleString('pt-BR')
+
+    const formatted = `${formattedReais},${formattedCents}`
+    setFormattedValue(`R$ ${formatted}`)
   }
 
-  return { formattedValue, handleMaskChange }
+  return { formattedValue, handleMaskChange, rawValue }
 }
