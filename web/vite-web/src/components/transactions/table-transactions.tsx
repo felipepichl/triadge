@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import { ArrowRightCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
@@ -17,6 +18,10 @@ export function TableTransactions({ transactions: data }: Transaction) {
           {data.map((transaction) => {
             const rowClass =
               transaction.type === 'outcome' ? 'text-red-500' : ''
+            const formattedDate = format(
+              new Date(transaction.date),
+              'dd/MM/yyyy',
+            )
             return (
               <TableRow key={transaction._id}>
                 <TableHead className={rowClass}>
@@ -28,7 +33,7 @@ export function TableTransactions({ transactions: data }: Transaction) {
                 <TableHead className={rowClass}>
                   {transaction.transactionCategory.description}
                 </TableHead>
-                <TableHead className={rowClass}>13/03/2025</TableHead>
+                <TableHead className={rowClass}>{formattedDate}</TableHead>
                 <TableHead className="flex items-center justify-center">
                   <Link to="/finance/details">
                     <ArrowRightCircle />
