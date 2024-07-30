@@ -14,6 +14,7 @@ type TransactionBody = {
   description: string
   value: string
   type: string
+  date?: Date
   transactionCategoryId: string
 }
 
@@ -39,12 +40,14 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
       description,
       value,
       type,
+      date,
       transactionCategoryId,
     }: TransactionBody) => {
       await apiCreateTransaction({
         description,
         value: parseFloat(value.replace('R$ ', '').replace(',', '.')),
         type,
+        date,
         transactionCategoryId,
       })
 

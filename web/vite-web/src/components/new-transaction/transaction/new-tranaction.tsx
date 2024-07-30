@@ -1,5 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowDownCircle, ArrowUpCircle } from 'lucide-react'
+import { format } from 'date-fns'
+import {
+  ArrowDownCircle,
+  ArrowUpCircle,
+  Calendar as CalendarIcon,
+} from 'lucide-react'
 import { ChangeEvent, useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -9,6 +14,7 @@ import {
   apiListAllTransactionCategory,
   TransactionCategory,
 } from '@/api/list-all-transaction-category'
+import { Calendar } from '@/components/ui/calendar'
 import {
   Form,
   FormControl,
@@ -16,6 +22,11 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useMonetaryMask } from '@/hooks/use-monetary-mask'
 import { useTransaction } from '@/hooks/use-transaction'
@@ -44,6 +55,7 @@ const createTransactionForm = z.object({
   detail: z.string(),
   type: z.string().min(1, { message: 'Selecione uma opção' }),
   value: z.string().min(1, { message: 'Campo obrigatório' }),
+  date: z.date(),
   transactionCategoryId: z.string().min(1, { message: 'Selecione uma opção' }),
 })
 
@@ -67,6 +79,7 @@ export function NewTransaction() {
       detail: '',
       type: '',
       value: '',
+      date: new Date(),
       transactionCategoryId: '',
     },
   })
@@ -100,6 +113,7 @@ export function NewTransaction() {
     async ({
       description,
       type,
+      date,
       transactionCategoryId,
     }: CreateTransactionForm) => {
       try {
@@ -107,6 +121,7 @@ export function NewTransaction() {
           description,
           value: String(rawValue),
           type,
+          date,
           transactionCategoryId,
         })
 
@@ -172,6 +187,41 @@ export function NewTransaction() {
                               },
                             })}
                           />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="date"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <Button
+                                variant="outline"
+                                className="w-full justify-start text-left font-normal"
+                              >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {field.value ? (
+                                  format(field.value, 'PPP')
+                                ) : (
+                                  <span>Pick a date</span>
+                                )}
+                              </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0">
+                              <Calendar
+                                mode="single"
+                                initialFocus
+                                selected={field.value}
+                                onSelect={(date) => field.onChange(date)}
+                              />
+                            </PopoverContent>
+                          </Popover>
                         </FormControl>
                         <FormMessage />
                       </FormItem>

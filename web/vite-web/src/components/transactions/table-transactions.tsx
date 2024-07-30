@@ -18,7 +18,7 @@ export function TableTransactions({ transactions: data }: Transaction) {
             const rowClass =
               transaction.type === 'outcome' ? 'text-red-500' : ''
             return (
-              <TableRow key={transaction.description}>
+              <TableRow key={transaction._id}>
                 <TableHead className={rowClass}>
                   {transaction.description}
                 </TableHead>
