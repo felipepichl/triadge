@@ -11,7 +11,11 @@ import { routes } from '../routes'
 
 const app = express()
 
-app.use(cors())
+app.use(
+  cors({
+    origin: ['http://localhost:3333', process.env.ORIGIN],
+  }),
+)
 app.use(express.json())
 app.use('/api-docs', sweggerUi.serve, sweggerUi.setup(sweggerFile))
 app.use(routes)
