@@ -228,7 +228,7 @@ export function Finances() {
         </div>
       </div>
 
-      <Transactions transactions={transactions?.transactions ?? []} />
+      <Transactions transactions={transactionByDateRange?.transactions ?? []} />
     </>
   )
 }
