@@ -99,6 +99,7 @@ class TransactionsRepository implements ITransactionsRepository {
         userId,
         date: { gte: normalizedStartDate, lte: normalizedEndDate },
       },
+      include: { transactionCategory: true },
     })
 
     return TransactionMappers.getMapper().toDomainArray(result)
