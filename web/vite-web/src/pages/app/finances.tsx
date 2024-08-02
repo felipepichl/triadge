@@ -195,7 +195,7 @@ export function Finances() {
               <Calendar
                 initialFocus
                 mode="range"
-                defaultMonth={today}
+                defaultMonth={date?.from}
                 selected={date}
                 onSelect={setDate}
                 numberOfMonths={2}
