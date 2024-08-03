@@ -33,6 +33,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { useTransaction } from '@/hooks/use-transaction'
 import { priceFormatter } from '@/util/formatter'
 
@@ -203,11 +212,24 @@ export function Finances() {
           </Popover>
         </div>
 
-        <div className="flex w-full gap-2">
-          <Input placeholder="Buscar uma transação" />
-          <Button
-            variant="outline"
-            className={`
+        <div className="flex w-full flex-col gap-2 md:flex-row">
+          <Select>
+            <SelectTrigger className="lg:w-[208px]">
+              <SelectValue placeholder="Filtro por tipo" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value="income">Entrada</SelectItem>
+                <SelectItem value="outcome">Saída</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
+          <div className="flex w-full gap-2">
+            <Input placeholder="Buscar uma transação" />
+            <Button
+              variant="outline"
+              className={`
             flex 
             w-10 
             items-center 
@@ -219,11 +241,12 @@ export function Finances() {
             hover:bg-green-700 
             hover:text-slate-100 md:w-40
           `}
-            size="icon"
-          >
-            <Search className="mr-0 h-4 w-4 md:mr-1 md:h-5 md:w-5" />
-            <span className="hidden md:inline">Buscar</span>
-          </Button>
+              size="icon"
+            >
+              <Search className="mr-0 h-4 w-4 md:mr-1 md:h-5 md:w-5" />
+              <span className="hidden md:inline">Buscar</span>
+            </Button>
+          </div>
         </div>
       </div>
 
