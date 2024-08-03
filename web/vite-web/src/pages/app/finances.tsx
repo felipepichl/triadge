@@ -87,55 +87,49 @@ export function Finances() {
   }
 
   useEffect(() => {
-    async function loadSummary() {
-      const summariesResume: SummaryProps[] = [
-        {
-          color: 'default',
-          description: 'Entradas',
-          icon: ArrowDownCircle,
-          iconColor: '#00b37e',
-          value: priceFormatter.format(
-            transactionByDateRange?.balance
-              ? transactionByDateRange.balance.income
-              : 0,
-          ),
-        },
-        {
-          color: 'default',
-          description: 'Saídas',
-          icon: ArrowUpCircle,
-          iconColor: '#ff0000',
-          value: priceFormatter.format(
-            transactionByDateRange?.balance
-              ? transactionByDateRange.balance.outcome
-              : 0,
-          ),
-        },
-        {
-          color: 'green',
-          description: 'Total',
-          icon: DollarSign,
-          iconColor: '#fff',
-          value: priceFormatter.format(
-            transactionByDateRange?.balance
-              ? transactionByDateRange.balance.total
-              : 0,
-          ),
-          totalAmount: priceFormatter.format(
-            transactions?.balance ? transactions.balance.total : 0,
-          ),
-        },
-      ]
-
-      setSummaries(summariesResume)
+    if (date?.from && date?.to) {
+      loadTransactionByDateRange({ startDate: date.from, endDate: date.to })
     }
+    // const { from, to } = date as DateRange
+    // loadTransactionByDateRange({ startDate: from, endDate: to })
+  }, [date])
 
-    const { from, to } = date as DateRange
+  useEffect(() => {
+    if (!transactionByDateRange) return
 
-    loadTransactionByDateRange({ startDate: from, endDate: to })
+    const summariesResume: SummaryProps[] = [
+      {
+        color: 'default',
+        description: 'Entradas',
+        icon: ArrowDownCircle,
+        iconColor: '#00b37e',
+        value: priceFormatter.format(
+          transactionByDateRange.balance?.income ?? 0,
+        ),
+      },
+      {
+        color: 'default',
+        description: 'Saídas',
+        icon: ArrowUpCircle,
+        iconColor: '#ff0000',
+        value: priceFormatter.format(
+          transactionByDateRange.balance?.outcome ?? 0,
+        ),
+      },
+      {
+        color: 'green',
+        description: 'Total',
+        icon: DollarSign,
+        iconColor: '#fff',
+        value: priceFormatter.format(
+          transactionByDateRange.balance?.total ?? 0,
+        ),
+        totalAmount: priceFormatter.format(transactions?.balance?.total ?? 0),
+      },
+    ]
 
-    loadSummary()
-  }, [transactions, transactionByDateRange, date])
+    setSummaries(summariesResume)
+  }, [transactionByDateRange, transactions])
 
   return (
     <>
@@ -198,6 +192,11 @@ export function Finances() {
                 defaultMonth={date?.from}
                 selected={date}
                 onSelect={setDate}
+                // onSelect={(range) => {
+                //   if (range?.from && range.to) {
+                //     setDate(range)
+                //   }
+                // }}
                 numberOfMonths={2}
               />
             </PopoverContent>

@@ -181,7 +181,8 @@ export function NewTransaction() {
                             className="h-10"
                             placeholder="Valor"
                             value={formattedValue}
-                            inputMode="numeric"
+                            // inputMode="numeric"
+                            // type="number"
                             {...form.register('value', {
                               onChange: (e: ChangeEvent<HTMLInputElement>) => {
                                 handleMaskChange(e)
