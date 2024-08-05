@@ -45,7 +45,7 @@ export function CardTransactions({ transactions }: Transaction) {
                 </CardTitle>
               </CardContent>
 
-              <CardFooter className="flex items-center justify-between px-6 pb-6">
+              {/* <CardFooter className="flex items-center justify-between px-6 pb-6">
                 <div className="flex items-center">
                   <Tag
                     size={16}
@@ -61,6 +61,27 @@ export function CardTransactions({ transactions }: Transaction) {
                     className="mr-2 text-gray-500 dark:text-gray-400"
                   />
                   <span className=" font-semibold text-gray-500 dark:text-gray-400">
+                    13/03/2025
+                  </span>
+                </div>
+              </CardFooter> */}
+
+              <CardFooter className="flex items-center justify-between gap-4 px-6 pb-6">
+                <div className="flex items-center overflow-hidden">
+                  <Tag
+                    size={16}
+                    className="mr-2 flex-shrink-0 text-gray-500 dark:text-gray-400"
+                  />
+                  <span className="truncate font-semibold text-gray-500 dark:text-gray-400">
+                    {transaction.transactionCategory.description}
+                  </span>
+                </div>
+                <div className="flex items-center">
+                  <Calendar
+                    size={16}
+                    className="mr-2 text-gray-500 dark:text-gray-400"
+                  />
+                  <span className="font-semibold text-gray-500 dark:text-gray-400">
                     13/03/2025
                   </span>
                 </div>
