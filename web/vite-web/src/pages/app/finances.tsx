@@ -38,35 +38,11 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
 import { useTransaction } from '@/hooks/use-transaction'
 import { priceFormatter } from '@/util/formatter'
-
-// const transactions: TransactionsProps[] = [
-//   {
-//     descrition: 'Desenvolvimento de site',
-//     value: 'R$ 1.200,00',
-//     category: 'Venda',
-//   },
-//   {
-//     descrition: 'Update de Servidor',
-//     value: 'R$ 1.300,00',
-//     category: 'Venda',
-//   },
-//   {
-//     descrition: 'Update de Servidor II',
-//     value: 'R$ 1.300,00',
-//     category: 'Venda',
-//   },
-//   {
-//     descrition: 'Update de Servidor IV',
-//     value: 'R$ 1.300,00',
-//     category: 'Venda',
-//   },
-// ]
 
 export function Finances() {
   const { transactions } = useTransaction()
@@ -99,8 +75,6 @@ export function Finances() {
     if (date?.from && date?.to) {
       loadTransactionByDateRange({ startDate: date.from, endDate: date.to })
     }
-    // const { from, to } = date as DateRange
-    // loadTransactionByDateRange({ startDate: from, endDate: to })
   }, [date])
 
   useEffect(() => {
@@ -173,82 +147,6 @@ export function Finances() {
           </div>
         </div>
       </Carousel>
-
-      {/* <div className="mb-4 flex flex-col items-center justify-between gap-2 lg:flex-row lg:pt-10">
-        <div className="w-full lg:w-auto">
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button variant="outline" className="w-full">
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {date?.from ? (
-                  date.to ? (
-                    <>
-                      {format(date.from, 'LLL dd, y')} -{' '}
-                      {format(date.to, 'LLL dd, y')}
-                    </>
-                  ) : (
-                    format(date.from, 'LLL dd, y')
-                  )
-                ) : (
-                  <span>Pick a date</span>
-                )}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                initialFocus
-                mode="range"
-                defaultMonth={date?.from}
-                selected={date}
-                onSelect={setDate}
-                // onSelect={(range) => {
-                //   if (range?.from && range.to) {
-                //     setDate(range)
-                //   }
-                // }}
-                numberOfMonths={2}
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
-
-        <div className="flex w-full flex-col gap-2 md:flex-row">
-          <Select>
-            <SelectTrigger className="lg:w-[208px]">
-              <SelectValue placeholder="Filtro por tipo" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectItem value="income">Entrada</SelectItem>
-                <SelectItem value="outcome">Saída</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-
-          <div className="flex w-full gap-2">
-            <Input placeholder="Buscar uma transação" />
-            <Button
-              variant="outline"
-              className={`
-            flex 
-            w-10 
-            items-center 
-            justify-center 
-            rounded-sm 
-            border-green-500 
-            text-green-500 
-            hover:border-green-700 
-            hover:bg-green-700 
-            hover:text-slate-100 md:w-40
-          `}
-              size="icon"
-            >
-              <Search className="mr-0 h-4 w-4 md:mr-1 md:h-5 md:w-5" />
-              <span className="hidden md:inline">Buscar</span>
-            </Button>
-          </div>
-        </div>
-      </div> */}
 
       <div className="mb-4 flex flex-col items-center justify-between gap-2 lg:flex-row lg:pt-10">
         <div className="flex w-full flex-col gap-2 lg:w-auto lg:flex-1 lg:flex-row">
