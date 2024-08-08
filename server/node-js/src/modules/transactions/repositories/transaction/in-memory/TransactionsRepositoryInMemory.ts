@@ -66,9 +66,13 @@ class TransactionsRepositoryInMemory implements ITransactionsRepository {
     )
   }
 
-  async listByType(type: ITransactionType): Promise<Transaction[]> {
+  async listByType(
+    userId: string,
+    type: ITransactionType,
+  ): Promise<Transaction[]> {
     return this.transactions.filter(
-      (transaction) => transaction.type === type.type,
+      (transaction) =>
+        transaction.userId === userId && transaction.type === type.type,
     )
   }
 }
