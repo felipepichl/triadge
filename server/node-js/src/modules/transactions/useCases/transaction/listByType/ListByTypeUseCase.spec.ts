@@ -5,7 +5,10 @@ import { Transaction } from '@modules/transactions/domain/transaction/Transactio
 import { TransactionCategoriesRepositoryInMemory } from '@modules/transactions/repositories/category/in-memory/TransactionCategoriesRepositoryInMemory'
 import { TransactionsRepositoryInMemory } from '@modules/transactions/repositories/transaction/in-memory/TransactionsRepositoryInMemory'
 
+import { ListByTypeUseCase } from './ListByTypeUseCase'
+
 let transactionsRepositoryInMemory: TransactionsRepositoryInMemory
+let listByType: ListByTypeUseCase
 
 async function createUser(): Promise<string> {
   const user = User.createUser({
@@ -80,18 +83,15 @@ describe('[Transaction] - List all transacition by type', () => {
   beforeEach(async () => {
     transactionsRepositoryInMemory = new TransactionsRepositoryInMemory()
 
-    listByDateRangeUseCase = new ListByDateRangeUseCase(
-      transactionsRepositoryInMemory,
-    )
+    listByType = new ListByTypeUseCase(transactionsRepositoryInMemory)
 
     userId = await createTransaction()
   })
 
-  it('should be able to list all transacitions with balance', async () => {
-    const result = await listByDateRangeUseCase.execute({
+  it('should be able to list all transacitions by type', async () => {
+    const result = await listByType.execute({
       userId,
-      startDate,
-      endDate,
+      type: { type: 'outcome' },
     })
 
     expect(result.transactions).toHaveLength(2)
@@ -105,10 +105,9 @@ describe('[Transaction] - List all transacition by type', () => {
   })
 
   it('should return an empty array if no transaction exist', async () => {
-    const result = await listByDateRangeUseCase.execute({
+    const result = await listByType.execute({
       userId: '',
-      startDate,
-      endDate,
+      type: { type: 'income' },
     })
 
     expect(result.transactions).toHaveLength(0)
