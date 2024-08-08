@@ -22,11 +22,9 @@ type TransactionBody = {
 
 type TransactionContextData = {
   transactions: Transaction | undefined
+  transactionByDateRange: Transaction | undefined
   createTransaction(data: TransactionBody): Promise<void>
-  loadTransactionByDateRange(
-    startDate: Date,
-    endDate: Date,
-  ): Promise<Transaction | undefined>
+  loadTransactionByDateRange(startDate: Date, endDate: Date): Promise<void>
 }
 
 type TransactionProviderProps = {
@@ -37,6 +35,8 @@ const TransactionsContext = createContext({} as TransactionContextData)
 
 function TransactionsProvider({ children }: TransactionProviderProps) {
   const [transactions, setTransaction] = useState<Transaction>()
+  const [transactionByDateRange, setTransactionByDateRange] =
+    useState<Transaction>()
   const [reload, setReload] = useState(false)
 
   const { user } = useAuth()
@@ -76,7 +76,7 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
         endDate: end,
       })
 
-      return response
+      setTransactionByDateRange(response)
     },
     [],
   )
@@ -96,7 +96,12 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
 
   return (
     <TransactionsContext.Provider
-      value={{ transactions, createTransaction, loadTransactionByDateRange }}
+      value={{
+        transactions,
+        transactionByDateRange,
+        createTransaction,
+        loadTransactionByDateRange,
+      }}
     >
       {children}
     </TransactionsContext.Provider>

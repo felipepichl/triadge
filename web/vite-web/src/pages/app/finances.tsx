@@ -10,11 +10,6 @@ import React, { useEffect, useState } from 'react'
 import { DateRange } from 'react-day-picker'
 import { Helmet } from 'react-helmet-async'
 
-import {
-  apiListByDateRange,
-  ListByDateRangeBody,
-  Transaction,
-} from '@/api/list-by-date-range'
 import { NewTransaction } from '@/components/new-transaction/transaction/new-tranaction'
 import { Summary, SummaryProps } from '@/components/summary'
 import { Transactions } from '@/components/transactions/transactions'
@@ -45,9 +40,9 @@ import { useTransaction } from '@/hooks/use-transaction'
 import { priceFormatter } from '@/util/formatter'
 
 export function Finances() {
-  const { transactions, loadTransactionByDateRange } = useTransaction()
-  const [transactionByDateRange, setTransactionByDateRange] =
-    useState<Transaction>()
+  const { transactions, transactionByDateRange, loadTransactionByDateRange } =
+    useTransaction()
+
   const [summaries, setSummaries] = useState<SummaryProps[]>()
 
   const today = new Date()
@@ -73,9 +68,10 @@ export function Finances() {
 
   useEffect(() => {
     if (date?.from && date?.to) {
+      loadTransactionByDateRange(date.from, date.to)
       // loadTransactionByDateRange({ startDate: date.from, endDate: date.to })
     }
-  }, [date])
+  }, [date, loadTransactionByDateRange])
 
   useEffect(() => {
     if (!transactionByDateRange) return
