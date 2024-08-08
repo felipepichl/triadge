@@ -1,4 +1,5 @@
 import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
+import { ITransactionType } from '@modules/transactions/domain/transaction/TransactionType'
 
 import { ITransactionsRepository } from '../ITransactionsRepository'
 
@@ -62,6 +63,12 @@ class TransactionsRepositoryInMemory implements ITransactionsRepository {
         transaction.userId === userId &&
         transaction.date >= startDate &&
         transaction.date <= endDate,
+    )
+  }
+
+  async listByType(type: ITransactionType): Promise<Transaction[]> {
+    return this.transactions.filter(
+      (transaction) => transaction.type === type.type,
     )
   }
 }
