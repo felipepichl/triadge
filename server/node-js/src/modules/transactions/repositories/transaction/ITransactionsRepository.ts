@@ -1,4 +1,5 @@
 import { Transaction } from '../../domain/transaction/Transaction'
+import { ITransactionType } from '../../domain/transaction/TransactionType'
 
 interface ITransactionsRepository {
   create(transaction: Transaction): Promise<void>
@@ -13,6 +14,7 @@ interface ITransactionsRepository {
     startDate: Date,
     endDate: Date,
   ): Promise<Transaction[]>
+  listByType(type: ITransactionType): Promise<Transaction[]>
 }
 
 export { ITransactionsRepository }
