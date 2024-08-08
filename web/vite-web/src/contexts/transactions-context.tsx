@@ -1,3 +1,4 @@
+import { addMonths, startOfMonth } from 'date-fns'
 import {
   createContext,
   ReactNode,
@@ -8,6 +9,7 @@ import {
 
 import { apiCreateTransaction } from '@/api/create-transaction'
 import { apiListAllTransaction, Transaction } from '@/api/list-all-transaction'
+import { apiListByDateRange } from '@/api/list-by-date-range'
 import { useAuth } from '@/hooks/use-auth'
 
 type TransactionBody = {
@@ -21,6 +23,10 @@ type TransactionBody = {
 type TransactionContextData = {
   transactions: Transaction | undefined
   createTransaction(data: TransactionBody): Promise<void>
+  loadTransactionByDateRange(
+    startDate: Date,
+    endDate: Date,
+  ): Promise<Transaction | undefined>
 }
 
 type TransactionProviderProps = {
@@ -56,6 +62,25 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
     [],
   )
 
+  const loadTransactionByDateRange = useCallback(
+    async (startDate?: Date, endDate?: Date) => {
+      const today = new Date()
+      const firstDayOfMonth = startOfMonth(today)
+      const firstDayOfNextMonth = startOfMonth(addMonths(today, 1))
+
+      const start = startDate || firstDayOfMonth
+      const end = endDate || firstDayOfNextMonth
+
+      const response = await apiListByDateRange({
+        startDate: start,
+        endDate: end,
+      })
+
+      return response
+    },
+    [],
+  )
+
   useEffect(() => {
     async function loadTransaction() {
       const response = await apiListAllTransaction()
@@ -65,8 +90,14 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
     loadTransaction()
   }, [user, reload])
 
+  useEffect(() => {
+    loadTransactionByDateRange()
+  }, [reload, loadTransactionByDateRange])
+
   return (
-    <TransactionsContext.Provider value={{ transactions, createTransaction }}>
+    <TransactionsContext.Provider
+      value={{ transactions, createTransaction, loadTransactionByDateRange }}
+    >
       {children}
     </TransactionsContext.Provider>
   )

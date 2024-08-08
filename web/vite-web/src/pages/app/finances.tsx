@@ -45,7 +45,7 @@ import { useTransaction } from '@/hooks/use-transaction'
 import { priceFormatter } from '@/util/formatter'
 
 export function Finances() {
-  const { transactions } = useTransaction()
+  const { transactions, loadTransactionByDateRange } = useTransaction()
   const [transactionByDateRange, setTransactionByDateRange] =
     useState<Transaction>()
   const [summaries, setSummaries] = useState<SummaryProps[]>()
@@ -59,21 +59,21 @@ export function Finances() {
     to: firstDayOfNextMonth,
   })
 
-  async function loadTransactionByDateRange({
-    startDate,
-    endDate,
-  }: ListByDateRangeBody) {
-    const response = await apiListByDateRange({
-      startDate,
-      endDate,
-    })
+  // async function loadTransactionByDateRange({
+  //   startDate,
+  //   endDate,
+  // }: ListByDateRangeBody) {
+  //   const response = await apiListByDateRange({
+  //     startDate,
+  //     endDate,
+  //   })
 
-    setTransactionByDateRange(response)
-  }
+  //   setTransactionByDateRange(response)
+  // }
 
   useEffect(() => {
     if (date?.from && date?.to) {
-      loadTransactionByDateRange({ startDate: date.from, endDate: date.to })
+      // loadTransactionByDateRange({ startDate: date.from, endDate: date.to })
     }
   }, [date])
 
