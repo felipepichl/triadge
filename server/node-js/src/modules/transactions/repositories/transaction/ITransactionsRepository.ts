@@ -14,7 +14,7 @@ interface ITransactionsRepository {
     startDate: Date,
     endDate: Date,
   ): Promise<Transaction[]>
-  listByType(type: ITransactionType): Promise<Transaction[]>
+  listByType(userId: string, type: ITransactionType): Promise<Transaction[]>
 }
 
 export { ITransactionsRepository }
