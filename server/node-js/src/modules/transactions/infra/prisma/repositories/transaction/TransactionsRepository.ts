@@ -1,4 +1,5 @@
 import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
+import { ITransactionType } from '@modules/transactions/domain/transaction/TransactionType'
 import { ITransactionsRepository } from '@modules/transactions/repositories/transaction/ITransactionsRepository'
 import { PrismaSingleton } from '@shared/infra/prisma'
 import { endOfDay, startOfDay } from 'date-fns'
@@ -98,6 +99,21 @@ class TransactionsRepository implements ITransactionsRepository {
       where: {
         userId,
         date: { gte: normalizedStartDate, lte: normalizedEndDate },
+      },
+      include: { transactionCategory: true },
+    })
+
+    return TransactionMappers.getMapper().toDomainArray(result)
+  }
+
+  async listByType(
+    userId: string,
+    type: ITransactionType,
+  ): Promise<Transaction[]> {
+    const result = await PrismaSingleton.getInstance().transaction.findMany({
+      where: {
+        userId,
+        type: type.type,
       },
       include: { transactionCategory: true },
     })
