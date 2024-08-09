@@ -82,7 +82,7 @@ describe('[E2E] - List all Transactions by type', () => {
 
   it('should be to list all transactions by type', async () => {
     const response = await request(app)
-      .get('/transactions/date-range')
+      .get('/transactions/type')
       .set({ Authorization: `Bearer ${token}` })
       .query({ type })
 
