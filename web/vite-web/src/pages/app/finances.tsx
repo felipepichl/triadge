@@ -44,6 +44,9 @@ export function Finances() {
     useTransaction()
 
   const [summaries, setSummaries] = useState<SummaryProps[]>()
+  const [selectedType, setSelectedType] = useState<string | undefined>(
+    undefined,
+  )
 
   const today = new Date()
   const firstDayOfMonth = startOfMonth(today)
@@ -72,6 +75,10 @@ export function Finances() {
       // loadTransactionByDateRange({ startDate: date.from, endDate: date.to })
     }
   }, [date, loadTransactionByDateRange])
+
+  useEffect(() => {
+    console.log(selectedType)
+  }, [selectedType])
 
   useEffect(() => {
     if (!transactionByDateRange) return
@@ -179,7 +186,7 @@ export function Finances() {
           </div>
 
           <div className="w-full min-w-0 lg:flex-1">
-            <Select>
+            <Select onValueChange={(value) => setSelectedType(value)}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Filtro por tipo" />
               </SelectTrigger>
