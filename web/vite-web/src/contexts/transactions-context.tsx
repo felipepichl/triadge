@@ -10,6 +10,7 @@ import {
 import { apiCreateTransaction } from '@/api/create-transaction'
 import { apiListAllTransaction, Transaction } from '@/api/list-all-transaction'
 import { apiListByDateRange } from '@/api/list-by-date-range'
+import { apiListByType } from '@/api/list-by-type'
 import { useAuth } from '@/hooks/use-auth'
 
 type TransactionBody = {
@@ -22,9 +23,16 @@ type TransactionBody = {
 
 type TransactionContextData = {
   transactions: Transaction | undefined
-  transactionByDateRange: Transaction | undefined
+  transactionByDateRangeAndType: Transaction | undefined
+  // transactionByType: Transaction | undefined
   createTransaction(data: TransactionBody): Promise<void>
-  loadTransactionByDateRange(startDate: Date, endDate: Date): Promise<void>
+  // loadTransactionByDateRange(startDate: Date, endDate: Date): Promise<void>
+  loadTransactionByDateRangeAndType(
+    startDate: Date,
+    endDate: Date,
+    type?: 'income' | 'outcome',
+  ): Promise<void>
+  // loadTransactionByType(type: 'income' | 'outcome'): Promise<void>
 }
 
 type TransactionProviderProps = {
@@ -35,8 +43,9 @@ const TransactionsContext = createContext({} as TransactionContextData)
 
 function TransactionsProvider({ children }: TransactionProviderProps) {
   const [transactions, setTransaction] = useState<Transaction>()
-  const [transactionByDateRange, setTransactionByDateRange] =
+  const [transactionByDateRangeAndType, setTransactionByDateRangeAndType] =
     useState<Transaction>()
+  // const [transactionByType, setTransactionByType] = useState<Transaction>()
   const [reload, setReload] = useState(false)
 
   const { user } = useAuth()
@@ -76,7 +85,54 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
         endDate: end,
       })
 
-      setTransactionByDateRange(response)
+      setTransactionByDateRangeAndType(response)
+    },
+    [],
+  )
+
+  // const loadTransactionByType = useCallback(
+  //   async (type: 'income' | 'outcome') => {
+  //     const response = await apiListByType({
+  //       type,
+  //     })
+
+  //     setTransactionByType(response)
+  //   },
+  //   [],
+  // )
+
+  const loadTransactionByDateRangeAndType = useCallback(
+    async (startDate?: Date, endDate?: Date, type?: 'income' | 'outcome') => {
+      const today = new Date()
+      const firstDayOfMonth = startOfMonth(today)
+      const firstDayOfNextMonth = startOfMonth(addMonths(today, 1))
+
+      const start = startDate || firstDayOfMonth
+      const end = endDate || firstDayOfNextMonth
+
+      const transactionsByDateRange = await apiListByDateRange({
+        startDate: start,
+        endDate: end,
+      })
+
+      let filteredTransactions = transactionsByDateRange.transactions
+
+      if (type) {
+        const transactionsByType = await apiListByType({
+          type,
+        })
+
+        filteredTransactions = filteredTransactions.filter((transaction) =>
+          transactionsByType.transactions.some(
+            (t) => t._id === transaction._id,
+          ),
+        )
+      }
+
+      setTransactionByDateRangeAndType({
+        ...transactionsByDateRange,
+        transactions: filteredTransactions,
+      })
     },
     [],
   )
@@ -98,9 +154,11 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
     <TransactionsContext.Provider
       value={{
         transactions,
-        transactionByDateRange,
+        transactionByDateRangeAndType,
+        // transactionByType,
         createTransaction,
-        loadTransactionByDateRange,
+        loadTransactionByDateRangeAndType,
+        // loadTransactionByType,
       }}
     >
       {children}

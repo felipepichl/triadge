@@ -40,8 +40,15 @@ import { useTransaction } from '@/hooks/use-transaction'
 import { priceFormatter } from '@/util/formatter'
 
 export function Finances() {
-  const { transactions, transactionByDateRange, loadTransactionByDateRange } =
-    useTransaction()
+  const {
+    transactions,
+    // transactionByDateRange,
+    // transactionByType,
+    // loadTransactionByDateRange,
+    // loadTransactionByType,
+    transactionByDateRangeAndType,
+    loadTransactionByDateRangeAndType,
+  } = useTransaction()
 
   const [summaries, setSummaries] = useState<SummaryProps[]>()
   const [selectedType, setSelectedType] = useState<string | undefined>(
@@ -57,31 +64,22 @@ export function Finances() {
     to: firstDayOfNextMonth,
   })
 
-  // async function loadTransactionByDateRange({
-  //   startDate,
-  //   endDate,
-  // }: ListByDateRangeBody) {
-  //   const response = await apiListByDateRange({
-  //     startDate,
-  //     endDate,
-  //   })
-
-  //   setTransactionByDateRange(response)
-  // }
-
   useEffect(() => {
     if (date?.from && date?.to) {
-      loadTransactionByDateRange(date.from, date.to)
-      // loadTransactionByDateRange({ startDate: date.from, endDate: date.to })
+      loadTransactionByDateRangeAndType(
+        date.from,
+        date.to,
+        selectedType as 'income' | 'outcome',
+      )
     }
-  }, [date, loadTransactionByDateRange])
+  }, [date, loadTransactionByDateRangeAndType, selectedType])
+
+  // useEffect(() => {
+  //   loadTransactionByType(selectedType as 'income' | 'outcome')
+  // }, [selectedType, loadTransactionByType])
 
   useEffect(() => {
-    console.log(selectedType)
-  }, [selectedType])
-
-  useEffect(() => {
-    if (!transactionByDateRange) return
+    if (!transactionByDateRangeAndType) return
 
     const summariesResume: SummaryProps[] = [
       {
@@ -90,7 +88,7 @@ export function Finances() {
         icon: ArrowDownCircle,
         iconColor: '#00b37e',
         value: priceFormatter.format(
-          transactionByDateRange.balance?.income ?? 0,
+          transactionByDateRangeAndType.balance?.income ?? 0,
         ),
       },
       {
@@ -99,7 +97,7 @@ export function Finances() {
         icon: ArrowUpCircle,
         iconColor: '#ff0000',
         value: priceFormatter.format(
-          transactionByDateRange.balance?.outcome ?? 0,
+          transactionByDateRangeAndType.balance?.outcome ?? 0,
         ),
       },
       {
@@ -108,14 +106,14 @@ export function Finances() {
         icon: DollarSign,
         iconColor: '#fff',
         value: priceFormatter.format(
-          transactionByDateRange.balance?.total ?? 0,
+          transactionByDateRangeAndType.balance?.total ?? 0,
         ),
         totalAmount: priceFormatter.format(transactions?.balance?.total ?? 0),
       },
     ]
 
     setSummaries(summariesResume)
-  }, [transactionByDateRange, transactions])
+  }, [transactionByDateRangeAndType, transactions])
 
   return (
     <>
@@ -213,7 +211,9 @@ export function Finances() {
         </div>
       </div>
 
-      <Transactions transactions={transactionByDateRange?.transactions ?? []} />
+      <Transactions
+        transactions={transactionByDateRangeAndType?.transactions ?? []}
+      />
     </>
   )
 }
