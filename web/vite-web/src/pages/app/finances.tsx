@@ -42,10 +42,6 @@ import { priceFormatter } from '@/util/formatter'
 export function Finances() {
   const {
     transactions,
-    // transactionByDateRange,
-    // transactionByType,
-    // loadTransactionByDateRange,
-    // loadTransactionByType,
     transactionByDateRangeAndType,
     loadTransactionByDateRangeAndType,
   } = useTransaction()
@@ -73,10 +69,6 @@ export function Finances() {
       )
     }
   }, [date, loadTransactionByDateRangeAndType, selectedType])
-
-  // useEffect(() => {
-  //   loadTransactionByType(selectedType as 'income' | 'outcome')
-  // }, [selectedType, loadTransactionByType])
 
   useEffect(() => {
     if (!transactionByDateRangeAndType) return

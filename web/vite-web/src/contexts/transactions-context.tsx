@@ -24,15 +24,12 @@ type TransactionBody = {
 type TransactionContextData = {
   transactions: Transaction | undefined
   transactionByDateRangeAndType: Transaction | undefined
-  // transactionByType: Transaction | undefined
   createTransaction(data: TransactionBody): Promise<void>
-  // loadTransactionByDateRange(startDate: Date, endDate: Date): Promise<void>
   loadTransactionByDateRangeAndType(
     startDate: Date,
     endDate: Date,
     type?: 'income' | 'outcome',
   ): Promise<void>
-  // loadTransactionByType(type: 'income' | 'outcome'): Promise<void>
 }
 
 type TransactionProviderProps = {
@@ -45,7 +42,6 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
   const [transactions, setTransaction] = useState<Transaction>()
   const [transactionByDateRangeAndType, setTransactionByDateRangeAndType] =
     useState<Transaction>()
-  // const [transactionByType, setTransactionByType] = useState<Transaction>()
   const [reload, setReload] = useState(false)
 
   const { user } = useAuth()
@@ -89,17 +85,6 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
     },
     [],
   )
-
-  // const loadTransactionByType = useCallback(
-  //   async (type: 'income' | 'outcome') => {
-  //     const response = await apiListByType({
-  //       type,
-  //     })
-
-  //     setTransactionByType(response)
-  //   },
-  //   [],
-  // )
 
   const loadTransactionByDateRangeAndType = useCallback(
     async (startDate?: Date, endDate?: Date, type?: 'income' | 'outcome') => {
@@ -155,10 +140,8 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
       value={{
         transactions,
         transactionByDateRangeAndType,
-        // transactionByType,
         createTransaction,
         loadTransactionByDateRangeAndType,
-        // loadTransactionByType,
       }}
     >
       {children}
