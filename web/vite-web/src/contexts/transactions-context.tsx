@@ -87,7 +87,7 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
   )
 
   const loadTransactionByDateRangeAndType = useCallback(
-    async (startDate?: Date, endDate?: Date, type?: 'income' | 'outcome') => {
+    async (startDate: Date, endDate: Date, type?: 'income' | 'outcome') => {
       const today = new Date()
       const firstDayOfMonth = startOfMonth(today)
       const firstDayOfNextMonth = startOfMonth(addMonths(today, 1))

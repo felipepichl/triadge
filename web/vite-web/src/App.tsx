@@ -14,7 +14,7 @@ export default function App() {
     <ThemeProvider storageKey="mm-theme" defaultTheme="system">
       <AuthProvider>
         <HelmetProvider>
-          <Helmet titleTemplate="%s | GOEMB" />
+          <Helmet titleTemplate="%s | Umabel" />
           <Toaster richColors position="top-right" />
 
           <TransactionsProvider>

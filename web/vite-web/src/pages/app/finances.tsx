@@ -176,12 +176,17 @@ export function Finances() {
           </div>
 
           <div className="w-full min-w-0 lg:flex-1">
-            <Select onValueChange={(value) => setSelectedType(value)}>
+            <Select
+              onValueChange={(value) =>
+                setSelectedType(value === 'all' ? undefined : value)
+              }
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Filtro por tipo" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
+                  <SelectItem value="all">Todas</SelectItem>
                   <SelectItem value="income">Entrada</SelectItem>
                   <SelectItem value="outcome">Saída</SelectItem>
                 </SelectGroup>
