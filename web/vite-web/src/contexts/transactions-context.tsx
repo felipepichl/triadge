@@ -26,8 +26,8 @@ type TransactionContextData = {
   transactionByDateRangeAndType: Transaction | undefined
   createTransaction(data: TransactionBody): Promise<void>
   loadTransactionByDateRangeAndType(
-    startDate: Date,
-    endDate: Date,
+    startDate?: Date,
+    endDate?: Date,
     type?: 'income' | 'outcome',
   ): Promise<void>
 }
