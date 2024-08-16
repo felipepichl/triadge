@@ -2,13 +2,7 @@ import { useEffect } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Pie, PieChart } from 'recharts'
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   ChartConfig,
   ChartContainer,
@@ -40,11 +34,6 @@ export function Dashboard() {
       value: transactionByDateRangeAndType?.balance?.outcome,
       fill: '#ff0000',
     },
-    {
-      transactionType: 'total',
-      value: transactionByDateRangeAndType?.balance?.total,
-      fill: '#374151',
-    },
   ]
 
   const chartConfig = {
@@ -55,10 +44,6 @@ export function Dashboard() {
     outcome: {
       label: 'Saída',
       color: '#ff0000',
-    },
-    total: {
-      label: 'Total',
-      color: '#374151',
     },
   } satisfies ChartConfig
 
