@@ -3,4 +3,4 @@ dist
 tmp/avatar/*
 !tmp/avatar/.gitkeep
 .env
-
+src/shared/infra/prisma/dev.db
