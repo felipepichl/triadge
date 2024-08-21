@@ -38,7 +38,7 @@ class TransactionsRepositoryInMemory implements ITransactionsRepository {
     return transaction
   }
 
-  async findByMonth(month: number): Promise<Transaction[]> {
+  async listByMonth(month: number): Promise<Transaction[]> {
     return this.transactions.filter((transaction) => {
       return transaction.date.getMonth() + 1 === month
     })

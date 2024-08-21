@@ -64,7 +64,7 @@ class TransactionsRepository implements ITransactionsRepository {
     return TransactionMappers.getMapper().toDomain(result)
   }
 
-  async findByMonth(month: number): Promise<Transaction[]> {
+  async listByMonth(month: number): Promise<Transaction[]> {
     const year = new Date().getFullYear()
     const startDate = new Date(year, month - 1, 1)
     const endDate = new Date(year, month, 0)
