@@ -7,7 +7,7 @@ interface ITransactionsRepository {
   findById(id: string): Promise<Transaction>
   findByDescription(description: string): Promise<Transaction>
   findByDate(date: Date): Promise<Transaction>
-  listByMonth(month: number): Promise<Transaction[]>
+  listByMonth(userId: string, month: number): Promise<Transaction[]>
   findByUser(userId: string): Promise<Transaction[]>
   listByDateRange(
     userId: string,
