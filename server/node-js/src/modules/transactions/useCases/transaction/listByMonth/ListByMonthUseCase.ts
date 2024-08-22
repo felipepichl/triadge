@@ -1,5 +1,6 @@
 import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
 import { ITransactionsRepository } from '@modules/transactions/repositories/transaction/ITransactionsRepository'
+import { calculateTransactionTotals } from '@modules/transactions/utils/transactions-utils'
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { inject, injectable } from 'tsyringe'
 
@@ -27,7 +28,23 @@ class ListByMonthUseCase implements IUseCase<IRequest, IResponse> {
   ) {}
 
   async execute({ userId, month }: IRequest): Promise<IResponse> {
-    return null
+    const transactions = await this.transactionsRepository.listByMonth(
+      userId,
+      month,
+    )
+
+    const { income, outcome } = calculateTransactionTotals(transactions)
+
+    const total = income - outcome
+
+    return {
+      transactions,
+      balance: {
+        income,
+        outcome,
+        total,
+      },
+    }
   }
 }
 

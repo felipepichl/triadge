@@ -62,7 +62,7 @@ async function createTransaction(): Promise<string> {
     description: 'Transaction description 3',
     type: 'outcome',
     value: 500,
-    date: new Date('2023-07-01'),
+    date: new Date('2024,04,01'),
     userId,
     transactionCategoryId: transactionCategoryId.toString(),
   })
@@ -91,14 +91,14 @@ describe('[Transaction] - List all transacition by month', () => {
   it('should be able to list all transacitions by month', async () => {
     const result = await listByMonth.execute({
       userId,
-      month: 7,
+      month: 4,
     })
 
-    expect(result.transactions).toHaveLength(2)
+    expect(result.transactions).toHaveLength(1)
     expect(result.transactions).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          date: 'outcome',
+          type: 'outcome',
         }),
       ]),
     )

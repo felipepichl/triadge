@@ -42,10 +42,20 @@ class TransactionsRepositoryInMemory implements ITransactionsRepository {
     return this.transactions.filter((transaction) => {
       return (
         transaction.userId === userId &&
-        transaction.date.getMonth() + 1 === month
+        transaction.date.getUTCMonth() + 1 === month
       )
     })
   }
+
+  // async listByMonth(userId: string, month: number): Promise<Transaction[]> {
+  //   return this.transactions.filter((transaction) => {
+  //     // Comparando o mês, corrigindo o índice de zero
+  //     const transactionMonth = transaction.date.getUTCMonth() + 1
+  //     console.log('Month in transaction:', transactionMonth)
+
+  //     return transaction.userId === userId && transactionMonth === month
+  //   })
+  // }
 
   async findByUser(userId: string): Promise<Transaction[]> {
     // console.log('IN', userId)
