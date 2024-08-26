@@ -1,4 +1,5 @@
-import { useEffect } from 'react'
+import { getMonth } from 'date-fns'
+import { useCallback, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Pie, PieChart } from 'recharts'
 
@@ -9,15 +10,32 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from '@/components/ui/chart'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { useAuth } from '@/hooks/use-auth'
 import { useTransaction } from '@/hooks/use-transaction'
 
 export function Dashboard() {
+  const [selectedMonth, setSelectedMonth] = useState<string | undefined>(
+    undefined,
+  )
+
   const { user } = useAuth()
 
+  const currentMonth = getMonth(new Date()) + 1
   const { transactionByDateRangeAndType, loadTransactionByDateRangeAndType } =
     useTransaction()
+
+  const handleMonthSelect = useCallback((monthNumber: string) => {
+    console.log(monthNumber)
+  }, [])
 
   useEffect(() => {
     loadTransactionByDateRangeAndType()
@@ -58,6 +76,32 @@ export function Dashboard() {
         </CardHeader>
         <Separator />
         <CardContent className="flex-1 pb-0">
+          <div className="mt-4">
+            <Select
+              onValueChange={handleMonthSelect}
+              defaultValue={String(currentMonth)}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Selecione o mês" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectItem value="1">Janeiro</SelectItem>
+                  <SelectItem value="2">Fevereiro</SelectItem>
+                  <SelectItem value="3">Março</SelectItem>
+                  <SelectItem value="4">Abril</SelectItem>
+                  <SelectItem value="5">Maio</SelectItem>
+                  <SelectItem value="6">Junho</SelectItem>
+                  <SelectItem value="7">Julho</SelectItem>
+                  <SelectItem value="8">Agosto</SelectItem>
+                  <SelectItem value="9">Setembro</SelectItem>
+                  <SelectItem value="10">Outubro</SelectItem>
+                  <SelectItem value="11">Novembro</SelectItem>
+                  <SelectItem value="12">Dezembro</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
           <ChartContainer
             config={chartConfig}
             className="mx-auto aspect-square max-h-[250px]"
