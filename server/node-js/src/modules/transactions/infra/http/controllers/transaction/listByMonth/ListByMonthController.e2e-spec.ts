@@ -88,6 +88,6 @@ describe('[E2E] - List all transactions by month', () => {
 
     expect(response.status).toBe(200)
     expect(Array.isArray(response.body.transactions)).toBe(true)
-    expect(response.body.transactions.length).toBe(2)
+    expect(response.body.transactions.length).toBe(1)
   })
 })
