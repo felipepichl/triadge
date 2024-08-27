@@ -30,7 +30,7 @@ export type Transaction = {
   }
 }
 
-export async function apiListByType({
+export async function apiListByMonth({
   month,
 }: ListByMonthBody): Promise<Transaction> {
   const { data } = await api.get<TransactionResponse>('/transactions/month', {

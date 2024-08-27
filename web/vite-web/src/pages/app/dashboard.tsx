@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { Pie, PieChart } from 'recharts'
 
+import { apiListByMonth } from '@/api/list-by-month'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import {
   ChartConfig,
@@ -23,36 +24,83 @@ import { useAuth } from '@/hooks/use-auth'
 import { useTransaction } from '@/hooks/use-transaction'
 
 export function Dashboard() {
-  const [selectedMonth, setSelectedMonth] = useState<string | undefined>(
-    undefined,
-  )
-
   const { user } = useAuth()
 
   const currentMonth = getMonth(new Date()) + 1
   const { transactionByDateRangeAndType, loadTransactionByDateRangeAndType } =
     useTransaction()
 
-  const handleMonthSelect = useCallback((monthNumber: string) => {
-    console.log(monthNumber)
+  const [chartData, setChartData] = useState([
+    {
+      transactionType: 'income',
+      value: transactionByDateRangeAndType?.balance?.income || 0,
+      fill: '#00b37e',
+    },
+    {
+      transactionType: 'outcome',
+      value: transactionByDateRangeAndType?.balance?.outcome || 0,
+      fill: '#ff0000',
+    },
+  ])
+
+  // const chartData = [
+  //   {
+  //     transactionType: 'income',
+  //     value: transactionByDateRangeAndType?.balance?.income,
+  //     fill: '#00b37e',
+  //   },
+  //   {
+  //     transactionType: 'outcome',
+  //     value: transactionByDateRangeAndType?.balance?.outcome,
+  //     fill: '#ff0000',
+  //   },
+  // ]
+
+  const handleMonthSelect = useCallback(async (monthNumber: string) => {
+    const response = await apiListByMonth({ month: Number(monthNumber) })
+
+    const { balance } = response
+
+    setChartData([
+      {
+        transactionType: 'income',
+        value: balance?.income || 0,
+        fill: '#00b37e',
+      },
+      {
+        transactionType: 'outcome',
+        value: balance?.outcome || 0,
+        fill: '#ff0000',
+      },
+    ])
   }, [])
 
   useEffect(() => {
     loadTransactionByDateRangeAndType()
   }, [loadTransactionByDateRangeAndType])
 
-  const chartData = [
-    {
-      transactionType: 'income',
-      value: transactionByDateRangeAndType?.balance?.income,
-      fill: '#00b37e',
-    },
-    {
-      transactionType: 'outcome',
-      value: transactionByDateRangeAndType?.balance?.outcome,
-      fill: '#ff0000',
-    },
-  ]
+  useEffect(() => {
+    const income = transactionByDateRangeAndType?.balance?.income || 0
+    const outcome = transactionByDateRangeAndType?.balance?.outcome || 0
+
+    console.log('here')
+
+    // Apenas atualize o estado se os valores realmente mudaram
+    if (income !== chartData[0].value || outcome !== chartData[1].value) {
+      setChartData([
+        {
+          transactionType: 'income',
+          value: income,
+          fill: '#00b37e',
+        },
+        {
+          transactionType: 'outcome',
+          value: outcome,
+          fill: '#ff0000',
+        },
+      ])
+    }
+  }, [transactionByDateRangeAndType, chartData])
 
   const chartConfig = {
     income: {
