@@ -14,6 +14,10 @@ type TransactionResponse = {
       date: Date
     }
   }[]
+  balance: {
+    income: number
+    outcome: number
+  }
 }
 
 export type Transaction = {
@@ -49,7 +53,10 @@ export async function apiListByMonth({
     }),
   )
 
+  const { balance } = data
+
   return {
     transactions,
+    balance,
   }
 }

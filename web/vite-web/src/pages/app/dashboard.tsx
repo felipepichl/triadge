@@ -65,14 +65,11 @@ export function Dashboard() {
 
   useEffect(() => {
     loadTransactionByDateRangeAndType()
-    console.log('useEffect 01')
   }, [loadTransactionByDateRangeAndType])
 
   useEffect(() => {
     const income = transactionByDateRangeAndType?.balance?.income || 0
     const outcome = transactionByDateRangeAndType?.balance?.outcome || 0
-
-    console.log('useEffect 02')
 
     setChartData((prevChartData) => {
       if (
