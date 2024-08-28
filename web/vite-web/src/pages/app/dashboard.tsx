@@ -22,6 +22,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { useAuth } from '@/hooks/use-auth'
 import { useTransaction } from '@/hooks/use-transaction'
+import { THEME } from '@/styles/theme/colors'
 
 export function Dashboard() {
   const { user } = useAuth()
@@ -34,27 +35,14 @@ export function Dashboard() {
     {
       transactionType: 'income',
       value: transactionByDateRangeAndType?.balance?.income || 0,
-      fill: '#00b37e',
+      fill: THEME.COLORS.INCOME,
     },
     {
       transactionType: 'outcome',
       value: transactionByDateRangeAndType?.balance?.outcome || 0,
-      fill: '#ff0000',
+      fill: THEME.COLORS.OUTCOME,
     },
   ])
-
-  // const chartData = [
-  //   {
-  //     transactionType: 'income',
-  //     value: transactionByDateRangeAndType?.balance?.income,
-  //     fill: '#00b37e',
-  //   },
-  //   {
-  //     transactionType: 'outcome',
-  //     value: transactionByDateRangeAndType?.balance?.outcome,
-  //     fill: '#ff0000',
-  //   },
-  // ]
 
   const handleMonthSelect = useCallback(async (monthNumber: string) => {
     const response = await apiListByMonth({ month: Number(monthNumber) })
@@ -65,51 +53,57 @@ export function Dashboard() {
       {
         transactionType: 'income',
         value: balance?.income || 0,
-        fill: '#00b37e',
+        fill: THEME.COLORS.INCOME,
       },
       {
         transactionType: 'outcome',
         value: balance?.outcome || 0,
-        fill: '#ff0000',
+        fill: THEME.COLORS.OUTCOME,
       },
     ])
   }, [])
 
   useEffect(() => {
     loadTransactionByDateRangeAndType()
+    console.log('useEffect 01')
   }, [loadTransactionByDateRangeAndType])
 
   useEffect(() => {
     const income = transactionByDateRangeAndType?.balance?.income || 0
     const outcome = transactionByDateRangeAndType?.balance?.outcome || 0
 
-    console.log('here')
+    console.log('useEffect 02')
 
-    // Apenas atualize o estado se os valores realmente mudaram
-    if (income !== chartData[0].value || outcome !== chartData[1].value) {
-      setChartData([
-        {
-          transactionType: 'income',
-          value: income,
-          fill: '#00b37e',
-        },
-        {
-          transactionType: 'outcome',
-          value: outcome,
-          fill: '#ff0000',
-        },
-      ])
-    }
-  }, [transactionByDateRangeAndType, chartData])
+    setChartData((prevChartData) => {
+      if (
+        income !== prevChartData[0].value ||
+        outcome !== prevChartData[1].value
+      ) {
+        return [
+          {
+            transactionType: 'income',
+            value: income,
+            fill: THEME.COLORS.INCOME,
+          },
+          {
+            transactionType: 'outcome',
+            value: outcome,
+            fill: THEME.COLORS.OUTCOME,
+          },
+        ]
+      }
+      return prevChartData
+    })
+  }, [transactionByDateRangeAndType])
 
   const chartConfig = {
     income: {
       label: 'Entrada',
-      color: '#00b37e',
+      color: THEME.COLORS.INCOME,
     },
     outcome: {
       label: 'Saída',
-      color: '#ff0000',
+      color: THEME.COLORS.OUTCOME,
     },
   } satisfies ChartConfig
 
@@ -134,18 +128,13 @@ export function Dashboard() {
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="1">Janeiro</SelectItem>
-                  <SelectItem value="2">Fevereiro</SelectItem>
-                  <SelectItem value="3">Março</SelectItem>
-                  <SelectItem value="4">Abril</SelectItem>
-                  <SelectItem value="5">Maio</SelectItem>
-                  <SelectItem value="6">Junho</SelectItem>
-                  <SelectItem value="7">Julho</SelectItem>
-                  <SelectItem value="8">Agosto</SelectItem>
-                  <SelectItem value="9">Setembro</SelectItem>
-                  <SelectItem value="10">Outubro</SelectItem>
-                  <SelectItem value="11">Novembro</SelectItem>
-                  <SelectItem value="12">Dezembro</SelectItem>
+                  {[...Array(12).keys()].map((i) => (
+                    <SelectItem key={i + 1} value={String(i + 1)}>
+                      {new Date(0, i).toLocaleString('pt-BR', {
+                        month: 'long',
+                      })}
+                    </SelectItem>
+                  ))}
                 </SelectGroup>
               </SelectContent>
             </Select>
