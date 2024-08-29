@@ -115,11 +115,11 @@ export function Dashboard() {
 
   useEffect(() => {
     const hasData = chartData.some((item) => item.value > 0)
-    setShowNotFound(!hasData) // Define showNotFound após um atraso
-    const timer = setTimeout(() => {}, 500) // Atraso de 500ms (ajuste conforme necessário)
+    setShowNotFound(!hasData)
+    const timer = setTimeout(() => {}, 500)
 
-    return () => clearTimeout(timer) // Limpa o timer ao desmontar o componente
-  }, [chartData]) // Dependência em hasData
+    return () => clearTimeout(timer)
+  }, [chartData])
 
   return (
     <>
