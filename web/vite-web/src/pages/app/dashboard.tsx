@@ -6,6 +6,7 @@ import { Pie, PieChart } from 'recharts'
 
 import { apiListByMonth } from '@/api/list-by-month'
 import notFoundAnimation from '@/assets/not-found.json'
+import { LineChart } from '@/components/charts/line-chart/line-chart'
 import {
   Card,
   CardContent,
@@ -126,63 +127,70 @@ export function Dashboard() {
       <Helmet title="Dashboard" />
       <CardTitle className="pb-6 pt-4">Olá, {user?.name}</CardTitle>
 
-      <Card className="mx-auto flex aspect-square max-h-[400px] flex-col">
-        <CardHeader className="">
-          <CardTitle>Transações</CardTitle>
-        </CardHeader>
-        <Separator />
-        <CardContent className="flex-1 pb-0">
-          <div className="mt-4">
-            <Select
-              onValueChange={handleMonthSelect}
-              defaultValue={String(currentMonth)}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Selecione o mês" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  {[...Array(12).keys()].map((i) => (
-                    <SelectItem key={i + 1} value={String(i + 1)}>
-                      {new Date(0, i).toLocaleString('pt-BR', {
-                        month: 'long',
-                      })}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-          </div>
+      <div className="flex flex-col lg:flex-row">
+        <Card className="flex flex-col sm:w-full md:w-full lg:mr-2 lg:w-[480px]">
+          {/* <Card className="mx-auto flex aspect-square max-h-[400px] flex-col"> */}
+          <CardHeader className="">
+            <CardTitle>Transações</CardTitle>
+          </CardHeader>
+          <Separator />
+          <CardContent className="flex-1 pb-0">
+            <div className="mt-4">
+              <Select
+                onValueChange={handleMonthSelect}
+                defaultValue={String(currentMonth)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Selecione o mês" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {[...Array(12).keys()].map((i) => (
+                      <SelectItem key={i + 1} value={String(i + 1)}>
+                        {new Date(0, i).toLocaleString('pt-BR', {
+                          month: 'long',
+                        })}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
 
-          {showNotFound ? (
-            <>
-              <NotFound
-                options={{
-                  animationData: notFoundAnimation,
-                }}
-                height={208}
-                width={208}
-              />
-              <CardDescription className="p-2 text-center">
-                Nenhuma transação encontrada
-              </CardDescription>
-            </>
-          ) : (
-            <ChartContainer
-              config={chartConfig}
-              className="mx-auto aspect-square max-h-[250px]"
-            >
-              <PieChart>
-                <Pie data={chartData} dataKey="value" />
-                <ChartLegend
-                  content={<ChartLegendContent nameKey="transactionType" />}
-                  className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
+            {showNotFound ? (
+              <>
+                <NotFound
+                  options={{
+                    animationData: notFoundAnimation,
+                  }}
+                  height={208}
+                  width={208}
                 />
-              </PieChart>
-            </ChartContainer>
-          )}
-        </CardContent>
-      </Card>
+                <CardDescription className="p-2 text-center">
+                  Nenhuma transação encontrada
+                </CardDescription>
+              </>
+            ) : (
+              <ChartContainer
+                config={chartConfig}
+                className="mx-auto aspect-square max-h-[250px]"
+              >
+                <PieChart>
+                  <Pie data={chartData} dataKey="value" />
+                  <ChartLegend
+                    content={<ChartLegendContent nameKey="transactionType" />}
+                    className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
+                  />
+                </PieChart>
+              </ChartContainer>
+            )}
+          </CardContent>
+        </Card>
+
+        <div className="flex-1">
+          <LineChart />
+        </div>
+      </div>
     </>
   )
 }
