@@ -1,10 +1,18 @@
 import { getMonth } from 'date-fns'
 import { useCallback, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
+import NotFound from 'react-lottie'
 import { Pie, PieChart } from 'recharts'
 
 import { apiListByMonth } from '@/api/list-by-month'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import notFoundAnimation from '@/assets/not-found.json'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import {
   ChartConfig,
   ChartContainer,
@@ -43,6 +51,8 @@ export function Dashboard() {
       fill: THEME.COLORS.OUTCOME,
     },
   ])
+
+  const hasData = chartData.some((item) => item.value > 0)
 
   const handleMonthSelect = useCallback(async (monthNumber: string) => {
     const response = await apiListByMonth({ month: Number(monthNumber) })
@@ -136,18 +146,34 @@ export function Dashboard() {
               </SelectContent>
             </Select>
           </div>
-          <ChartContainer
-            config={chartConfig}
-            className="mx-auto aspect-square max-h-[250px]"
-          >
-            <PieChart>
-              <Pie data={chartData} dataKey="value" />
-              <ChartLegend
-                content={<ChartLegendContent nameKey="transactionType" />}
-                className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
+
+          {hasData ? (
+            <ChartContainer
+              config={chartConfig}
+              className="mx-auto aspect-square max-h-[250px]"
+            >
+              <PieChart>
+                <Pie data={chartData} dataKey="value" />
+                <ChartLegend
+                  content={<ChartLegendContent nameKey="transactionType" />}
+                  className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
+                />
+              </PieChart>
+            </ChartContainer>
+          ) : (
+            <>
+              <NotFound
+                options={{
+                  animationData: notFoundAnimation,
+                }}
+                height={208}
+                width={208}
               />
-            </PieChart>
-          </ChartContainer>
+              <CardDescription className="text-center">
+                Nenhuma transação encontrada
+              </CardDescription>
+            </>
+          )}
         </CardContent>
       </Card>
     </>
