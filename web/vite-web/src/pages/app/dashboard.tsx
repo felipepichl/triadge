@@ -32,6 +32,17 @@ import { useAuth } from '@/hooks/use-auth'
 import { useTransaction } from '@/hooks/use-transaction'
 import { THEME } from '@/styles/theme/colors'
 
+const chartConfig = {
+  income: {
+    label: 'Entrada',
+    color: THEME.COLORS.INCOME,
+  },
+  outcome: {
+    label: 'Saída',
+    color: THEME.COLORS.OUTCOME,
+  },
+} satisfies ChartConfig
+
 export function Dashboard() {
   const { user } = useAuth()
 
@@ -51,8 +62,7 @@ export function Dashboard() {
       fill: THEME.COLORS.OUTCOME,
     },
   ])
-
-  const hasData = chartData.some((item) => item.value > 0)
+  const [showNotFound, setShowNotFound] = useState(false)
 
   const handleMonthSelect = useCallback(async (monthNumber: string) => {
     const response = await apiListByMonth({ month: Number(monthNumber) })
@@ -103,16 +113,13 @@ export function Dashboard() {
     })
   }, [transactionByDateRangeAndType])
 
-  const chartConfig = {
-    income: {
-      label: 'Entrada',
-      color: THEME.COLORS.INCOME,
-    },
-    outcome: {
-      label: 'Saída',
-      color: THEME.COLORS.OUTCOME,
-    },
-  } satisfies ChartConfig
+  useEffect(() => {
+    const hasData = chartData.some((item) => item.value > 0)
+    setShowNotFound(!hasData) // Define showNotFound após um atraso
+    const timer = setTimeout(() => {}, 500) // Atraso de 500ms (ajuste conforme necessário)
+
+    return () => clearTimeout(timer) // Limpa o timer ao desmontar o componente
+  }, [chartData]) // Dependência em hasData
 
   return (
     <>
@@ -147,7 +154,20 @@ export function Dashboard() {
             </Select>
           </div>
 
-          {hasData ? (
+          {showNotFound ? (
+            <>
+              <NotFound
+                options={{
+                  animationData: notFoundAnimation,
+                }}
+                height={208}
+                width={208}
+              />
+              <CardDescription className="p-2 text-center">
+                Nenhuma transação encontrada
+              </CardDescription>
+            </>
+          ) : (
             <ChartContainer
               config={chartConfig}
               className="mx-auto aspect-square max-h-[250px]"
@@ -160,19 +180,6 @@ export function Dashboard() {
                 />
               </PieChart>
             </ChartContainer>
-          ) : (
-            <>
-              <NotFound
-                options={{
-                  animationData: notFoundAnimation,
-                }}
-                height={208}
-                width={208}
-              />
-              <CardDescription className="text-center">
-                Nenhuma transação encontrada
-              </CardDescription>
-            </>
           )}
         </CardContent>
       </Card>
