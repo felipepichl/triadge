@@ -13,6 +13,14 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 
 const chartData = [
@@ -62,14 +70,40 @@ const chartConfig = {
 
 export function LineChartCategoryTransactions() {
   return (
-    <Card className="max-h-[400px] min-h-[400px]">
-      <CardHeader>
-        <CardTitle>Categorias</CardTitle>
-        <CardDescription>Transação por categorias</CardDescription>
-      </CardHeader>
+    <Card className="max-h-[400px] lg:min-h-[400px]">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-center">
+        <CardHeader>
+          <CardTitle>Categorias</CardTitle>
+          <CardDescription>Transação por categorias</CardDescription>
+        </CardHeader>
+        <div className="flex-1 px-4 pb-4 lg:pb-0">
+          <Select
+          // onValueChange={handleMonthSelect}
+          // defaultValue={String(currentMonth)}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Selecione o mês" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {[...Array(12).keys()].map((i) => (
+                  <SelectItem key={i + 1} value={String(i + 1)}>
+                    {new Date(0, i).toLocaleString('pt-BR', {
+                      month: 'long',
+                    })}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
       <Separator />
       <CardContent>
-        <ChartContainer className="max-h-[250px] w-full" config={chartConfig}>
+        <ChartContainer
+          className="mt-3 max-h-[250px] w-full"
+          config={chartConfig}
+        >
           <LineChart
             accessibilityLayer
             data={chartData}
