@@ -6,7 +6,7 @@ import { Pie, PieChart } from 'recharts'
 
 import { apiListByMonth } from '@/api/list-by-month'
 import notFoundAnimation from '@/assets/not-found.json'
-import { LineChart } from '@/components/charts/line-chart/line-chart'
+import { LineChartCategoryTransactions } from '@/components/charts/line-chart/line-chart'
 import {
   Card,
   CardContent,
@@ -128,7 +128,7 @@ export function Dashboard() {
       <CardTitle className="pb-6 pt-4">Olá, {user?.name}</CardTitle>
 
       <div className="flex flex-col lg:flex-row">
-        <Card className="flex flex-col sm:w-full md:w-full lg:mr-2 lg:w-[480px]">
+        <Card className="mb-4 flex max-h-[400px] min-h-[400px] flex-col sm:w-full md:w-full lg:mr-2 lg:w-[480px]">
           {/* <Card className="mx-auto flex aspect-square max-h-[400px] flex-col"> */}
           <CardHeader className="">
             <CardTitle>Transações</CardTitle>
@@ -188,7 +188,7 @@ export function Dashboard() {
         </Card>
 
         <div className="flex-1">
-          <LineChart />
+          <LineChartCategoryTransactions />
         </div>
       </div>
     </>
