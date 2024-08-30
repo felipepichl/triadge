@@ -129,12 +129,12 @@ export function Dashboard() {
 
       <div className="flex flex-col lg:flex-row">
         <Card className="mb-4 flex max-h-[400px] min-h-[400px] flex-col sm:w-full md:w-full lg:mr-2 lg:w-[480px]">
-          {/* <Card className="mx-auto flex aspect-square max-h-[400px] flex-col"> */}
           <CardHeader className="">
             <CardTitle>Transações</CardTitle>
+            <CardDescription>Por entrada e sáida</CardDescription>
           </CardHeader>
           <Separator />
-          <CardContent className="flex-1 pb-0">
+          <CardContent className="flex-1">
             <div className="mt-4">
               <Select
                 onValueChange={handleMonthSelect}
@@ -166,14 +166,14 @@ export function Dashboard() {
                   height={208}
                   width={208}
                 />
-                <CardDescription className="p-2 text-center">
+                <CardDescription className="pb-3 text-center">
                   Nenhuma transação encontrada
                 </CardDescription>
               </>
             ) : (
               <ChartContainer
                 config={chartConfig}
-                className="mx-auto aspect-square max-h-[250px]"
+                className="mx-auto aspect-square max-h-[250px] pb-3"
               >
                 <PieChart>
                   <Pie data={chartData} dataKey="value" />
