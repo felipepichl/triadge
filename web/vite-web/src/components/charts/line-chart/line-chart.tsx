@@ -1,4 +1,13 @@
-import { CartesianGrid, LabelList, Line, LineChart } from 'recharts'
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  LabelList,
+  Line,
+  LineChart,
+  XAxis,
+  YAxis,
+} from 'recharts'
 
 import {
   Card,
@@ -24,21 +33,21 @@ import {
 import { Separator } from '@/components/ui/separator'
 
 const chartData = [
-  { browser: 'chrome', visitors: 275, fill: 'var(--color-chrome)' },
-  { browser: 'safari', visitors: 200, fill: 'var(--color-safari)' },
-  { browser: 'firefox', visitors: 187, fill: 'var(--color-firefox)' },
-  { browser: 'edge', visitors: 173, fill: 'var(--color-edge)' },
-  { browser: 'other', visitors: 90, fill: 'var(--color-other)' },
-  { browser: 'chrome', visitors: 275, fill: 'var(--color-chrome)' },
-  { browser: 'safari', visitors: 200, fill: 'var(--color-safari)' },
-  { browser: 'firefox', visitors: 187, fill: 'var(--color-firefox)' },
-  { browser: 'edge', visitors: 173, fill: 'var(--color-edge)' },
-  { browser: 'other', visitors: 90, fill: 'var(--color-other)' },
-  { browser: 'chrome', visitors: 275, fill: 'var(--color-chrome)' },
-  { browser: 'safari', visitors: 200, fill: 'var(--color-safari)' },
-  { browser: 'firefox', visitors: 187, fill: 'var(--color-firefox)' },
-  { browser: 'edge', visitors: 173, fill: 'var(--color-edge)' },
-  { browser: 'other', visitors: 90, fill: 'var(--color-other)' },
+  { browser: 'chrome', visitors: 275 },
+  { browser: 'safari', visitors: 200 },
+  { browser: 'firefox', visitors: 187 },
+  { browser: 'edge', visitors: 173 },
+  { browser: 'other', visitors: 90 },
+  { browser: 'chrome', visitors: 275 },
+  { browser: 'safari', visitors: 200 },
+  { browser: 'firefox', visitors: 187 },
+  { browser: 'edge', visitors: 173 },
+  { browser: 'other', visitors: 90 },
+  { browser: 'chrome', visitors: 275 },
+  { browser: 'safari', visitors: 200 },
+  { browser: 'firefox', visitors: 187 },
+  { browser: 'edge', visitors: 173 },
+  { browser: 'other', visitors: 90 },
 ]
 
 const chartConfig = {
@@ -70,7 +79,8 @@ const chartConfig = {
 
 export function LineChartCategoryTransactions() {
   return (
-    <Card className="max-h-[400px] lg:min-h-[400px]">
+    // <Card className="max-h-[400px] lg:min-h-[400px]">
+    <Card>
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-center">
         <CardHeader>
           <CardTitle>Categorias</CardTitle>
@@ -101,10 +111,10 @@ export function LineChartCategoryTransactions() {
       <Separator />
       <CardContent>
         <ChartContainer
-          className="mt-3 max-h-[250px] w-full"
+          // className="mt-3 max-h-[250px] w-full"
           config={chartConfig}
         >
-          <LineChart
+          {/* <LineChart
             accessibilityLayer
             data={chartData}
             margin={{
@@ -147,7 +157,53 @@ export function LineChartCategoryTransactions() {
                 }
               />
             </Line>
-          </LineChart>
+          </LineChart> */}
+
+          <BarChart
+            accessibilityLayer
+            data={chartData}
+            layout="vertical"
+            margin={{
+              right: 16,
+            }}
+          >
+            {/* <CartesianGrid horizontal={false} /> */}
+            <YAxis
+              dataKey="browser"
+              type="category"
+              tickLine={false}
+              tickMargin={10}
+              axisLine={false}
+              tickFormatter={(value) => value.slice(0, 3)}
+              hide
+            />
+            <XAxis dataKey="visitors" type="number" hide />
+            {/* <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent indicator="line" />}
+            /> */}
+            <Bar
+              dataKey="visitors"
+              layout="vertical"
+              fill="var(--color-desktop)"
+              radius={4}
+            >
+              <LabelList
+                dataKey="browser"
+                position="insideLeft"
+                offset={8}
+                className="fill-foreground"
+                fontSize={12}
+              />
+              {/* <LabelList
+                dataKey="browser"
+                position="right"
+                offset={8}
+                className="fill-foreground"
+                fontSize={12}
+              /> */}
+            </Bar>
+          </BarChart>
         </ChartContainer>
       </CardContent>
     </Card>
