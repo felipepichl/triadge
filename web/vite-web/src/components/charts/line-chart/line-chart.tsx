@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import {
   Bar,
   BarChart,
@@ -52,7 +53,7 @@ const chartData = [
 
 const chartConfig = {
   visitors: {
-    label: 'Visitors',
+    // label: 'Visitors',
     color: 'hsl(var(--chart-2))',
   },
   chrome: {
@@ -78,13 +79,26 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function LineChartCategoryTransactions() {
+  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 690)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsWideScreen(window.innerWidth >= 690)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   return (
-    // <Card className="max-h-[400px] lg:min-h-[400px]">
-    <Card>
+    <Card className="lg:min-h-[400px]">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-center">
         <CardHeader>
           <CardTitle>Categorias</CardTitle>
-          <CardDescription>Transação por categorias</CardDescription>
+          <CardDescription>Transação por categorias em saídas</CardDescription>
         </CardHeader>
         <div className="flex-1 px-4 pb-4 lg:pb-0">
           <Select
@@ -110,101 +124,97 @@ export function LineChartCategoryTransactions() {
       </div>
       <Separator />
       <CardContent>
-        <ChartContainer
-          // className="mt-3 max-h-[250px] w-full"
-          config={chartConfig}
-        >
-          {/* <LineChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              top: 24,
-              left: 24,
-              right: 24,
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <ChartTooltip
-              cursor={false}
-              content={
-                <ChartTooltipContent
-                  indicator="line"
-                  nameKey="visitors"
-                  hideLabel
-                />
-              }
-            />
-            <Line
-              dataKey="visitors"
-              type="natural"
-              stroke="var(--color-visitors)"
-              strokeWidth={2}
-              dot={{
-                fill: 'var(--color-visitors)',
-              }}
-              activeDot={{
-                r: 6,
+        {isWideScreen ? (
+          <ChartContainer className="max-h-[250px] w-full" config={chartConfig}>
+            <LineChart
+              accessibilityLayer
+              data={chartData}
+              margin={{
+                top: 48,
+                left: 24,
+                right: 24,
               }}
             >
-              <LabelList
-                position="top"
-                offset={12}
-                className="fill-foreground"
-                fontSize={12}
-                dataKey="browser"
-                formatter={(value: keyof typeof chartConfig) =>
-                  chartConfig[value]?.label
+              <CartesianGrid vertical={false} />
+              <ChartTooltip
+                cursor={false}
+                content={
+                  <ChartTooltipContent
+                    indicator="line"
+                    nameKey="visitors"
+                    hideLabel
+                  />
                 }
               />
-            </Line>
-          </LineChart> */}
-
-          <BarChart
-            accessibilityLayer
-            data={chartData}
-            layout="vertical"
-            margin={{
-              right: 16,
-            }}
-          >
-            {/* <CartesianGrid horizontal={false} /> */}
-            <YAxis
-              dataKey="browser"
-              type="category"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
-              hide
-            />
-            <XAxis dataKey="visitors" type="number" hide />
-            {/* <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="line" />}
-            /> */}
-            <Bar
-              dataKey="visitors"
+              <Line
+                dataKey="visitors"
+                type="natural"
+                stroke="var(--color-visitors)"
+                strokeWidth={2}
+                dot={{
+                  fill: 'var(--color-visitors)',
+                }}
+                activeDot={{
+                  r: 6,
+                }}
+              >
+                <LabelList
+                  position="top"
+                  offset={12}
+                  className="fill-foreground"
+                  fontSize={12}
+                  dataKey="browser"
+                  // formatter={(value: keyof typeof chartConfig) =>
+                  //   chartConfig[value]?.label
+                  // }
+                />
+              </Line>
+            </LineChart>
+          </ChartContainer>
+        ) : (
+          <ChartContainer className="min-h-screen w-full" config={chartConfig}>
+            <BarChart
+              accessibilityLayer
+              data={chartData}
               layout="vertical"
-              fill="var(--color-desktop)"
-              radius={4}
+              margin={{
+                right: 16,
+                top: 16,
+              }}
             >
-              <LabelList
-                dataKey="browser"
-                position="insideLeft"
-                offset={8}
-                className="fill-foreground"
-                fontSize={12}
+              <YAxis
+                dataKey="visitors"
+                type="category"
+                // tickLine={false}
+                // tickMargin={10}
+                // axisLine={false}
+                // tickFormatter={(value) => value.slice(0, 3)}
+                hide
               />
-              {/* <LabelList
-                dataKey="browser"
-                position="right"
-                offset={8}
-                className="fill-foreground"
-                fontSize={12}
-              /> */}
-            </Bar>
-          </BarChart>
-        </ChartContainer>
+              <XAxis dataKey="visitors" type="number" hide />
+              {/* 
+                <ChartTooltip
+                    cursor={false}
+                    content={<ChartTooltipContent indicator="line" />}
+                  /> 
+              */}
+              <Bar
+                dataKey="visitors"
+                layout="vertical"
+                fill="hsl(var(--chart-2))"
+                radius={4}
+              >
+                <LabelList
+                  dataKey="browser"
+                  position="insideLeft"
+                  offset={8}
+                  fill="white"
+                  fontSize={12}
+                />
+              </Bar>
+            </BarChart>
+          </ChartContainer>
+        )}
       </CardContent>
     </Card>
   )
