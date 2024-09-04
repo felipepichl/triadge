@@ -88,6 +88,20 @@ class TransactionsRepositoryInMemory implements ITransactionsRepository {
         transaction.userId === userId && transaction.type === type.type,
     )
   }
+
+  async listByCategoryAndTypeAndMonth(
+    financialCategoryId: string,
+    type: ITransactionType,
+    month: number,
+  ): Promise<Transaction[]> {
+    return this.transactions.filter((transaction) => {
+      return (
+        transaction.transactionCategoryId === financialCategoryId &&
+        transaction.type === type.type &&
+        transaction.date.getUTCMonth() + 1 === month
+      )
+    })
+  }
 }
 
 export { TransactionsRepositoryInMemory }
