@@ -45,11 +45,17 @@ model FinancialCategory {
   id          String @id @default(uuid())
   description String
 
+  parentCategoryId String?
+  parentCategory   FinancialCategory?  @relation("Subcategories", fields: [parentCategoryId], references: [id])
+  subcategories    FinancialCategory[] @relation("Subcategories")
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   Transaction    Transaction[]
   AccountPayable AccountPayable[]
+
+  financialCategoryId String?
 }
 
 model Transaction {
