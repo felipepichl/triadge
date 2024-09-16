@@ -16,6 +16,10 @@ class FinancialCategory extends AggregateRoot<IFinancialCategory> {
     return this.props.description
   }
 
+  get parentCategoryId(): string {
+    return this.props.parentCategoryId
+  }
+
   public static createFinancialCategory({
     id,
     description,

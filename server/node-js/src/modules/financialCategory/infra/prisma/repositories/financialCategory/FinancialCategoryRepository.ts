@@ -5,9 +5,14 @@ import { PrismaSingleton } from '@shared/infra/prisma'
 import { FinancialCategoryMappers } from '../../mappers/financialCategory/FinancialCategoryMappers'
 
 class FinancialCategoryRepository implements IFinancialCategoryRepository {
-  async create({ id, description }: FinancialCategory): Promise<void> {
+  async create({
+    id,
+    description,
+    parentCategoryId,
+  }: FinancialCategory): Promise<void> {
     const data = {
       description,
+      parentCategoryId: parentCategoryId || null,
     }
 
     await PrismaSingleton.getInstance().financialCategory.upsert({
