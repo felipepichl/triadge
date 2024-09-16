@@ -1,5 +1,5 @@
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
-import { IFinancialCategoryRepository } from '@modules/financialCategory/repositories/IFinancialCategoryRepository'
+import { IFinancialCategoryRepository } from '@modules/financialCategory/repositories/financialCategory/IFinancialCategoryRepository'
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
 import { inject, injectable } from 'tsyringe'

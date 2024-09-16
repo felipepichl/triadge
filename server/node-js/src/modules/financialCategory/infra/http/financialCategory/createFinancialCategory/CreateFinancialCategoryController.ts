@@ -1,4 +1,4 @@
-import { CreateFinancialCategoryUseCase } from '@modules/financialCategory/useCases/createFinancialCategory/CreateFinancialCategoryUseCase'
+import { CreateFinancialCategoryUseCase } from '@modules/financialCategory/useCases/financialCategory/createFinancialCategory/CreateFinancialCategoryUseCase'
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 

@@ -1,8 +1,8 @@
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
-import { IFinancialCategoryRepository } from '@modules/financialCategory/repositories/IFinancialCategoryRepository'
+import { IFinancialCategoryRepository } from '@modules/financialCategory/repositories/financialCategory/IFinancialCategoryRepository'
 import { PrismaSingleton } from '@shared/infra/prisma'
 
-import { FinancialCategoryMappers } from '../mappers/FinancialCategoryMappers'
+import { FinancialCategoryMappers } from '../../mappers/financialCategory/FinancialCategoryMappers'
 
 class FinancialCategoryRepository implements IFinancialCategoryRepository {
   async create({ id, description }: FinancialCategory): Promise<void> {

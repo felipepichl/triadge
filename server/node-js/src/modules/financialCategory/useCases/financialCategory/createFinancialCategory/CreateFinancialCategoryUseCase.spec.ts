@@ -1,5 +1,5 @@
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
-import { FinancialCategoryRepositoryInMemory } from '@modules/financialCategory/repositories/in-memory/FinancialCategoryRepositoryInMemory'
+import { FinancialCategoryRepositoryInMemory } from '@modules/financialCategory/repositories/financialCategory/in-memory/FinancialCategoryRepositoryInMemory'
 import { AppError } from '@shared/error/AppError'
 
 import { CreateFinancialCategoryUseCase } from './CreateFinancialCategoryUseCase'
