@@ -4,6 +4,7 @@ import { UniqueEntityID } from '@shared/core/domain/UniqueEntityID'
 interface IFinancialCategory {
   id?: string
   description: string
+  parentCategoryId?: string
 }
 
 class FinancialCategory extends AggregateRoot<IFinancialCategory> {
@@ -18,9 +19,11 @@ class FinancialCategory extends AggregateRoot<IFinancialCategory> {
   public static createFinancialCategory({
     id,
     description,
+    parentCategoryId,
   }: IFinancialCategory): FinancialCategory {
     const financialCategoryProps = {
       description,
+      parentCategoryId,
     }
 
     return AggregateRoot.create(
