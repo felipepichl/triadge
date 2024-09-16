@@ -21,6 +21,17 @@ class FinancialCategoryRepositoryInMemory
     )
   }
 
+  async findByDescriptionAndParentCategory(
+    description: string,
+    parentCategoryId: string,
+  ): Promise<FinancialCategory> {
+    return this.financialCategory.find(
+      (financialCategory) =>
+        financialCategory.description === description &&
+        financialCategory.parentCategoryId === parentCategoryId,
+    )
+  }
+
   async findById(id: string): Promise<FinancialCategory> {
     return this.financialCategory.find(
       (financialCategory) => financialCategory.id.toString() === id,
