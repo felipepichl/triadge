@@ -3,6 +3,7 @@ import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCa
 interface IFinancialCategoryRepository {
   create(financialCategory: FinancialCategory): Promise<void>
   listAll(): Promise<FinancialCategory[]>
+  listSubcategories(parentCategoryId: string): Promise<FinancialCategory[]>
   findByDescription(description: string): Promise<FinancialCategory>
   findByDescriptionAndParentCategory(
     description: string,

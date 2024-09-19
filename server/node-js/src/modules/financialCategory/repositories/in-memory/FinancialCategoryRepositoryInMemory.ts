@@ -12,7 +12,18 @@ class FinancialCategoryRepositoryInMemory
   }
 
   async listAll(): Promise<FinancialCategory[]> {
-    return this.financialCategory
+    return this.financialCategory.filter(
+      (financialCategory) => financialCategory.parentCategoryId === undefined,
+    )
+  }
+
+  async listSubcategories(
+    parentCategoryId: string,
+  ): Promise<FinancialCategory[]> {
+    return this.financialCategory.filter(
+      (financialCategory) =>
+        financialCategory.parentCategoryId === parentCategoryId,
+    )
   }
 
   async findByDescription(description: string): Promise<FinancialCategory> {
