@@ -12,7 +12,9 @@ interface IRequest {
 }
 
 @injectable()
-class ListSubcategoriesByCategoryId implements IUseCase<IRequest, IResponse> {
+class ListSubcategoriesByCategoryIdUseCase
+  implements IUseCase<IRequest, IResponse>
+{
   constructor(
     @inject('FinancialCategoryRepository')
     private financialCategoryRepository: IFinancialCategoryRepository,
@@ -30,4 +32,4 @@ class ListSubcategoriesByCategoryId implements IUseCase<IRequest, IResponse> {
   }
 }
 
-export { ListSubcategoriesByCategoryId }
+export { ListSubcategoriesByCategoryIdUseCase }
