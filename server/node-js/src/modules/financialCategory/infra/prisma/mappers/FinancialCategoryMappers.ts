@@ -20,10 +20,10 @@ class FinancialCategoryMappers
   }
 
   getMapper(): IMapper<FinancialCategory, RawFinancialCategory> {
-    return FinancialCategoryMappers.getMApper()
+    return FinancialCategoryMappers.getMapper()
   }
 
-  static getMApper(): FinancialCategoryMappers {
+  static getMapper(): FinancialCategoryMappers {
     return new FinancialCategoryMappers()
   }
 }

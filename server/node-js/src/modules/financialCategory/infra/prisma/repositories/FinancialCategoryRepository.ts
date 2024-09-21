@@ -24,9 +24,22 @@ class FinancialCategoryRepository implements IFinancialCategoryRepository {
 
   async listAll(): Promise<FinancialCategory[]> {
     const result =
-      await PrismaSingleton.getInstance().financialCategory.findMany()
+      await PrismaSingleton.getInstance().financialCategory.findMany({
+        where: { parentCategoryId: null },
+      })
 
-    return FinancialCategoryMappers.getMApper().toDomainArray(result)
+    return FinancialCategoryMappers.getMapper().toDomainArray(result)
+  }
+
+  async listSubcategories(
+    parentCategoryId: string,
+  ): Promise<FinancialCategory[]> {
+    const result =
+      await PrismaSingleton.getInstance().financialCategory.findMany({
+        where: { parentCategoryId },
+      })
+
+    return FinancialCategoryMappers.getMapper().toDomainArray(result)
   }
 
   async findByDescription(description: string): Promise<FinancialCategory> {
@@ -39,7 +52,23 @@ class FinancialCategoryRepository implements IFinancialCategoryRepository {
       return null
     }
 
-    return FinancialCategoryMappers.getMApper().toDomain(result)
+    return FinancialCategoryMappers.getMapper().toDomain(result)
+  }
+
+  async findByDescriptionAndParentCategory(
+    description: string,
+    parentCategoryId: string,
+  ): Promise<FinancialCategory> {
+    const result =
+      await PrismaSingleton.getInstance().financialCategory.findFirst({
+        where: { description, parentCategoryId },
+      })
+
+    if (!result) {
+      return null
+    }
+
+    return FinancialCategoryMappers.getMapper().toDomain(result)
   }
 
   async findById(id: string): Promise<FinancialCategory> {
@@ -52,7 +81,7 @@ class FinancialCategoryRepository implements IFinancialCategoryRepository {
       return null
     }
 
-    return FinancialCategoryMappers.getMApper().toDomain(result)
+    return FinancialCategoryMappers.getMapper().toDomain(result)
   }
 }
 
