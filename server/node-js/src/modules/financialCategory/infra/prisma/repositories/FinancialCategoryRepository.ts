@@ -31,7 +31,7 @@ class FinancialCategoryRepository implements IFinancialCategoryRepository {
     return FinancialCategoryMappers.getMapper().toDomainArray(result)
   }
 
-  async listSubcategories(
+  async listSubcategoriesByCategoryId(
     parentCategoryId: string,
   ): Promise<FinancialCategory[]> {
     const result =
