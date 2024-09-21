@@ -17,7 +17,7 @@ class FinancialCategoryRepositoryInMemory
     )
   }
 
-  async listSubcategories(
+  async listSubcategoriesByCategoryId(
     parentCategoryId: string,
   ): Promise<FinancialCategory[]> {
     return this.financialCategory.filter(
