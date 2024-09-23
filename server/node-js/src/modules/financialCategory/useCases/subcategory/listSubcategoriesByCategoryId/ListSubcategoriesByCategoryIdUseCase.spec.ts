@@ -20,6 +20,7 @@ describe('[FinancialCategory]/[Subcategory] - List all subcategories to financia
   it('should be able to list all subcategories to financial category', async () => {
     const financialCategory1 = FinancialCategory.createFinancialCategory({
       description: 'Description Financial Category 1',
+      userId: 'userId',
     })
 
     await financialCategoryRepositoryInMemory.create(financialCategory1)
@@ -27,12 +28,14 @@ describe('[FinancialCategory]/[Subcategory] - List all subcategories to financia
 
     const subcategory1 = FinancialCategory.createFinancialCategory({
       description: 'Description to Subcategory 1',
+      userId: 'userId',
       parentCategoryId: parentCategoryId.toString(),
     })
     await financialCategoryRepositoryInMemory.create(subcategory1)
 
     const result = await listSubcategoriesByCategoryIdUseCase.execute({
       parentCategoryId: parentCategoryId.toString(),
+      userId: 'userId',
     })
 
     expect(result.subcategories).toHaveLength(1)
@@ -50,6 +53,7 @@ describe('[FinancialCategory]/[Subcategory] - List all subcategories to financia
   it('should return an empty array if no subcategopries to financial categories exist', async () => {
     const result = await listSubcategoriesByCategoryIdUseCase.execute({
       parentCategoryId: 'null',
+      userId: 'null',
     })
 
     expect(result.subcategories).toHaveLength(0)

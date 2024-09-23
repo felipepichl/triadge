@@ -8,6 +8,7 @@ interface IResponse {
 }
 
 interface IRequest {
+  userId: string
   parentCategoryId: string
 }
 
@@ -20,10 +21,11 @@ class ListSubcategoriesByCategoryIdUseCase
     private financialCategoryRepository: IFinancialCategoryRepository,
   ) {}
 
-  async execute({ parentCategoryId }: IRequest): Promise<IResponse> {
+  async execute({ userId, parentCategoryId }: IRequest): Promise<IResponse> {
     const subcategories =
       await this.financialCategoryRepository.listSubcategoriesByCategoryId(
         parentCategoryId,
+        userId,
       )
 
     return {
