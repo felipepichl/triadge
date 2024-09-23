@@ -24,9 +24,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  UsersTokens    UserTokens[]
-  Transaction    Transaction[]
-  AccountPayable AccountPayable[]
+  UsersTokens       UserTokens[]
+  Transaction       Transaction[]
+  AccountPayable    AccountPayable[]
+  FinancialCategory FinancialCategory[]
 }
 
 model UserTokens {
@@ -44,6 +45,9 @@ model UserTokens {
 model FinancialCategory {
   id          String @id @default(uuid())
   description String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
   parentCategoryId String?
   parentCategory   FinancialCategory?  @relation("Subcategories", fields: [parentCategoryId], references: [id])
