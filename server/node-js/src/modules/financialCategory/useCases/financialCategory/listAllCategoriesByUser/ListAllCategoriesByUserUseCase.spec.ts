@@ -1,17 +1,17 @@
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
 import { FinancialCategoryRepositoryInMemory } from '@modules/financialCategory/repositories/in-memory/FinancialCategoryRepositoryInMemory'
 
-import { ListAllFinancialCategoryUseCase } from './ListAllFinancialCategoryUseCase'
+import { ListAllCategoriesByUserUseCase } from './ListAllCategoriesByUserUseCase'
 
 let financialCategoryRepositoryInMemory: FinancialCategoryRepositoryInMemory
-let listAllFinancialCategoryUseCase: ListAllFinancialCategoryUseCase
+let listAllCategoriesByUserUseCase: ListAllCategoriesByUserUseCase
 
-describe('[FinancialCategory] - List all financial categories', () => {
+describe('[FinancialCategory] - List all financial categories by user', () => {
   beforeEach(() => {
     financialCategoryRepositoryInMemory =
       new FinancialCategoryRepositoryInMemory()
 
-    listAllFinancialCategoryUseCase = new ListAllFinancialCategoryUseCase(
+    listAllCategoriesByUserUseCase = new ListAllCategoriesByUserUseCase(
       financialCategoryRepositoryInMemory,
     )
   })
@@ -19,10 +19,12 @@ describe('[FinancialCategory] - List all financial categories', () => {
   it('should be able to list all financial categories', async () => {
     const financialCategory1 = FinancialCategory.createFinancialCategory({
       description: 'Description Financial Category 1',
+      userId: 'userId',
     })
 
     const financialCategory2 = FinancialCategory.createFinancialCategory({
       description: 'Description Financial Category 2',
+      userId: 'userId',
     })
 
     await financialCategoryRepositoryInMemory.create(financialCategory1)
@@ -31,7 +33,9 @@ describe('[FinancialCategory] - List all financial categories', () => {
     const { id: financialCategoryId1 } = financialCategory1
     const { id: financialCategoryId2 } = financialCategory1
 
-    const result = await listAllFinancialCategoryUseCase.execute()
+    const result = await listAllCategoriesByUserUseCase.execute({
+      userId: 'userId',
+    })
 
     expect(result.financialCategories).toHaveLength(2)
     expect(result.financialCategories).toEqual(
@@ -46,8 +50,10 @@ describe('[FinancialCategory] - List all financial categories', () => {
     )
   })
 
-  it('should return an empty array if no financial categories exist', async () => {
-    const result = await listAllFinancialCategoryUseCase.execute()
+  it('should return an empty array if no financial categories by user exist', async () => {
+    const result = await listAllCategoriesByUserUseCase.execute({
+      userId: 'null',
+    })
 
     expect(result.financialCategories).toHaveLength(0)
   })

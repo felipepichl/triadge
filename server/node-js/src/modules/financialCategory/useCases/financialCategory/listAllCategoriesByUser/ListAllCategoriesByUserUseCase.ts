@@ -3,19 +3,24 @@ import { IFinancialCategoryRepository } from '@modules/financialCategory/reposit
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { inject, injectable } from 'tsyringe'
 
+interface IRequest {
+  userId: string
+}
+
 interface IResponse {
   financialCategories: FinancialCategory[]
 }
 
 @injectable()
-class ListAllFinancialCategoryUseCase implements IUseCase<void, IResponse> {
+class ListAllCategoriesByUserUseCase implements IUseCase<IRequest, IResponse> {
   constructor(
     @inject('FinancialCategoryRepository')
     private financialCategoryRepository: IFinancialCategoryRepository,
   ) {}
 
-  async execute(): Promise<IResponse> {
-    const financialCategories = await this.financialCategoryRepository.listAll()
+  async execute({ userId }: IRequest): Promise<IResponse> {
+    const financialCategories =
+      await this.financialCategoryRepository.listAllCategoriesByUser(userId)
 
     return {
       financialCategories,
@@ -23,4 +28,4 @@ class ListAllFinancialCategoryUseCase implements IUseCase<void, IResponse> {
   }
 }
 
-export { ListAllFinancialCategoryUseCase }
+export { ListAllCategoriesByUserUseCase }
