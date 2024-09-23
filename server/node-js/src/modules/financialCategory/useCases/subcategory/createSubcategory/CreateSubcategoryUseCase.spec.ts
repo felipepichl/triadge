@@ -20,6 +20,7 @@ describe('[FinancialCategory]/[Subcategory] - Create a new subcategory to financ
   it('should be able to create a new  subcategory to financial category', async () => {
     const subcategory = FinancialCategory.createFinancialCategory({
       description: 'Description Test',
+      userId: 'userId',
       parentCategoryId: 'parentCategoryId',
     })
 
@@ -43,6 +44,7 @@ describe('[FinancialCategory]/[Subcategory] - Create a new subcategory to financ
   it('should not be able to create a new financial category with same name another', async () => {
     const subcategory = FinancialCategory.createFinancialCategory({
       description: 'Description',
+      userId: 'userId',
       parentCategoryId: 'parentCategoryId',
     })
 

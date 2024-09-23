@@ -6,6 +6,7 @@ import { inject, injectable } from 'tsyringe'
 
 interface IRequest {
   description: string
+  userId: string
   parentCategoryId: string
 }
 
@@ -16,7 +17,11 @@ class CreateSubcategoryUseCase implements IUseCase<IRequest, void> {
     private financialCategoryRepository: IFinancialCategoryRepository,
   ) {}
 
-  async execute({ description, parentCategoryId }: IRequest): Promise<void> {
+  async execute({
+    description,
+    userId,
+    parentCategoryId,
+  }: IRequest): Promise<void> {
     const descriptionAlreadyExists =
       await this.financialCategoryRepository.findByDescriptionAndParentCategory(
         description,
@@ -29,6 +34,7 @@ class CreateSubcategoryUseCase implements IUseCase<IRequest, void> {
 
     const financialCategory = FinancialCategory.createFinancialCategory({
       description,
+      userId,
       parentCategoryId,
     })
 
