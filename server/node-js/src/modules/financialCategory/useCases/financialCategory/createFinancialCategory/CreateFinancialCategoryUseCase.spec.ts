@@ -20,6 +20,7 @@ describe('[FinancialCategory] - Create a new financial category', () => {
   it('should be able to create a new financial category', async () => {
     const financialCategory = FinancialCategory.createFinancialCategory({
       description: 'Description Test',
+      userId: 'userId',
     })
 
     await createFinancialCategoryUseCase.execute(financialCategory)
@@ -38,6 +39,7 @@ describe('[FinancialCategory] - Create a new financial category', () => {
   it('should not be able to create a new financial category with same name another', async () => {
     const financialCategory = FinancialCategory.createFinancialCategory({
       description: 'Description Test',
+      userId: 'userId',
     })
 
     await createFinancialCategoryUseCase.execute(financialCategory)

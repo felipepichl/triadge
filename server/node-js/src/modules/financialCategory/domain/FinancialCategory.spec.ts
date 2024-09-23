@@ -4,6 +4,7 @@ describe('[FinancialCategory] - Create a new instance of financial category', ()
   it('should be able to create a new instance of financial category', () => {
     const financialCategory = FinancialCategory.createFinancialCategory({
       description: 'Transaction category description',
+      userId: 'userId',
     })
 
     expect(financialCategory instanceof FinancialCategory).toBe(true)

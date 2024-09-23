@@ -11,17 +11,21 @@ class FinancialCategoryRepositoryInMemory
     this.financialCategory.push(financialCategory)
   }
 
-  async listAll(): Promise<FinancialCategory[]> {
+  async listAllCategoriesByUser(userId: string): Promise<FinancialCategory[]> {
     return this.financialCategory.filter(
-      (financialCategory) => financialCategory.parentCategoryId === undefined,
+      (financialCategory) =>
+        financialCategory.userId === userId &&
+        financialCategory.parentCategoryId === undefined,
     )
   }
 
   async listSubcategoriesByCategoryId(
     parentCategoryId: string,
+    userId: string,
   ): Promise<FinancialCategory[]> {
     return this.financialCategory.filter(
       (financialCategory) =>
+        financialCategory.userId === userId &&
         financialCategory.parentCategoryId === parentCategoryId,
     )
   }
