@@ -22,21 +22,22 @@ class FinancialCategoryRepository implements IFinancialCategoryRepository {
     })
   }
 
-  async listAll(): Promise<FinancialCategory[]> {
+  async listAllCategoriesByUser(userId: string): Promise<FinancialCategory[]> {
     const result =
       await PrismaSingleton.getInstance().financialCategory.findMany({
-        where: { parentCategoryId: null },
+        where: { parentCategoryId: null, userId },
       })
 
     return FinancialCategoryMappers.getMapper().toDomainArray(result)
   }
 
   async listSubcategoriesByCategoryId(
+    userId: string,
     parentCategoryId: string,
   ): Promise<FinancialCategory[]> {
     const result =
       await PrismaSingleton.getInstance().financialCategory.findMany({
-        where: { parentCategoryId },
+        where: { parentCategoryId, userId },
       })
 
     return FinancialCategoryMappers.getMapper().toDomainArray(result)
