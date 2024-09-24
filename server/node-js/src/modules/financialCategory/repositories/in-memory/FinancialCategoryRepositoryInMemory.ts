@@ -5,14 +5,14 @@ import { IFinancialCategoryRepository } from '../IFinancialCategoryRepository'
 class FinancialCategoryRepositoryInMemory
   implements IFinancialCategoryRepository
 {
-  private financialCategory: FinancialCategory[] = []
+  private financialCategories: FinancialCategory[] = []
 
   async create(financialCategory: FinancialCategory): Promise<void> {
-    this.financialCategory.push(financialCategory)
+    this.financialCategories.push(financialCategory)
   }
 
   async listAllCategoriesByUser(userId: string): Promise<FinancialCategory[]> {
-    return this.financialCategory.filter(
+    return this.financialCategories.filter(
       (financialCategory) =>
         financialCategory.userId === userId &&
         financialCategory.parentCategoryId === undefined,
@@ -23,7 +23,7 @@ class FinancialCategoryRepositoryInMemory
     parentCategoryId: string,
     userId: string,
   ): Promise<FinancialCategory[]> {
-    return this.financialCategory.filter(
+    return this.financialCategories.filter(
       (financialCategory) =>
         financialCategory.userId === userId &&
         financialCategory.parentCategoryId === parentCategoryId,
@@ -31,7 +31,7 @@ class FinancialCategoryRepositoryInMemory
   }
 
   async findByDescription(description: string): Promise<FinancialCategory> {
-    return this.financialCategory.find(
+    return this.financialCategories.find(
       (financialCategory) => financialCategory.description === description,
     )
   }
@@ -40,7 +40,7 @@ class FinancialCategoryRepositoryInMemory
     description: string,
     parentCategoryId: string,
   ): Promise<FinancialCategory> {
-    return this.financialCategory.find(
+    return this.financialCategories.find(
       (financialCategory) =>
         financialCategory.description === description &&
         financialCategory.parentCategoryId === parentCategoryId,
@@ -48,7 +48,7 @@ class FinancialCategoryRepositoryInMemory
   }
 
   async findById(id: string): Promise<FinancialCategory> {
-    return this.financialCategory.find(
+    return this.financialCategories.find(
       (financialCategory) => financialCategory.id.toString() === id,
     )
   }
