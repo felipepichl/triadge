@@ -2,6 +2,7 @@ import { authenticateRoutes } from '@modules/accounts/infra/http/routes/authenti
 import { passwordRoutes } from '@modules/accounts/infra/http/routes/passoword.routes'
 import { refreshTokenRoutes } from '@modules/accounts/infra/http/routes/refreshToken.routes'
 import { usersRouter } from '@modules/accounts/infra/http/routes/users.routes'
+import { financialCategoryRoutes } from '@modules/financialCategory/infra/http/routes/financialCategory.routes'
 import { categoriesRoutes } from '@modules/products/infra/http/routes/category/categories.routes'
 import { transactionsCategoriesRoutes } from '@modules/transactions/infra/http/routes/category/transactionCategories.routes'
 import { transactionsRoutes } from '@modules/transactions/infra/http/routes/transaction/transaction.routes'
@@ -25,5 +26,7 @@ routes.use('/categories', categoriesRoutes)
  * Transactions
  */
 routes.use('/transactions', transactionsCategoriesRoutes, transactionsRoutes)
+
+routes.use('/financial-category', financialCategoryRoutes)
 
 export { routes }
