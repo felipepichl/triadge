@@ -121,6 +121,14 @@ class TransactionsRepository implements ITransactionsRepository {
 
     return TransactionMappers.getMapper().toDomainArray(result)
   }
+
+  listByCategoryAndTypeAndMonth(
+    financialCategoryId: string,
+    type: ITransactionType,
+    month: number,
+  ): Promise<Transaction[]> {
+    throw new Error('Method not implemented.')
+  }
 }
 
 export { TransactionsRepository }
