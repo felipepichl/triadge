@@ -36,7 +36,7 @@ class CreateTransactionUseCase implements IUseCase<IRequest, void> {
       date,
       value,
       userId,
-      transactionCategoryId,
+      financialCategoryId: transactionCategoryId,
     })
 
     await this.transactionsRepository.create(transaction)

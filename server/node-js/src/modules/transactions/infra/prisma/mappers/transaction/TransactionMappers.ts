@@ -1,12 +1,10 @@
+import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
 import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
-import {
-  Transaction as RawTransaction,
-  TransactionCategory,
-} from '@prisma/client'
+import { Transaction as RawTransaction } from '@prisma/client'
 import { IMapper } from '@shared/core/infra/Mapper'
 
 interface TransactionWithCategory extends RawTransaction {
-  transactionCategory?: TransactionCategory
+  financialCategory?: FinancialCategory
 }
 
 class TransactionMappers implements IMapper<Transaction, RawTransaction> {
@@ -22,8 +20,8 @@ class TransactionMappers implements IMapper<Transaction, RawTransaction> {
     value,
     date,
     userId,
-    transactionCategory,
-    transactionCategoryId,
+    financialCategory,
+    financialCategoryId,
   }: TransactionWithCategory): Transaction {
     return Transaction.createTransaction({
       id,
@@ -33,8 +31,8 @@ class TransactionMappers implements IMapper<Transaction, RawTransaction> {
       value: Number(value),
       date,
       userId,
-      transactionCategory,
-      transactionCategoryId,
+      financialCategory,
+      financialCategoryId,
     })
   }
 
