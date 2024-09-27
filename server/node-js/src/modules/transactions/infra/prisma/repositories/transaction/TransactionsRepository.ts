@@ -15,7 +15,7 @@ class TransactionsRepository implements ITransactionsRepository {
     date,
     value,
     userId,
-    transactionCategoryId,
+    financialCategoryId,
   }: Transaction): Promise<void> {
     const data = {
       description,
@@ -24,7 +24,7 @@ class TransactionsRepository implements ITransactionsRepository {
       type,
       value,
       userId,
-      transactionCategoryId,
+      financialCategoryId,
     }
 
     await PrismaSingleton.getInstance().transaction.upsert({
@@ -82,7 +82,7 @@ class TransactionsRepository implements ITransactionsRepository {
   async findByUser(userId: string): Promise<Transaction[]> {
     const result = await PrismaSingleton.getInstance().transaction.findMany({
       where: { userId },
-      include: { transactionCategory: true },
+      // include: { transactionCategory: true },
     })
 
     return TransactionMappers.getMapper().toDomainArray(result)
@@ -101,7 +101,7 @@ class TransactionsRepository implements ITransactionsRepository {
         userId,
         date: { gte: normalizedStartDate, lte: normalizedEndDate },
       },
-      include: { transactionCategory: true },
+      // include: { transactionCategory: true },
     })
 
     return TransactionMappers.getMapper().toDomainArray(result)
@@ -116,7 +116,7 @@ class TransactionsRepository implements ITransactionsRepository {
         userId,
         type: type.type,
       },
-      include: { transactionCategory: true },
+      // include: { transactionCategory: true },
     })
 
     return TransactionMappers.getMapper().toDomainArray(result)
