@@ -5,6 +5,8 @@ import { UsersRepository } from '@modules/accounts/infra/prisma/repositories/Use
 import { UsersTokensRepository } from '@modules/accounts/infra/prisma/repositories/UsersTokensRepository'
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository'
 import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository'
+import { FinancialCategoryRepository } from '@modules/financialCategory/infra/prisma/repositories/FinancialCategoryRepository'
+import { IFinancialCategoryRepository } from '@modules/financialCategory/repositories/IFinancialCategoryRepository'
 import { CategoriesRepository } from '@modules/products/infra/prisma/repositories/category/CategoriesRepository'
 import { ICategoryRepositry } from '@modules/products/repositories/category/ICategoryRepository'
 import { TransactionsRepository } from '@modules/transactions/infra/prisma/repositories/transaction/TransactionsRepository'
@@ -29,4 +31,9 @@ container.registerSingleton<ICategoryRepositry>(
 container.registerSingleton<ITransactionsRepository>(
   'TransactionsRepository',
   TransactionsRepository,
+)
+
+container.registerSingleton<IFinancialCategoryRepository>(
+  'FinancialCategoriesRepoitory',
+  FinancialCategoryRepository,
 )
