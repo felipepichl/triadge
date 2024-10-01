@@ -1,5 +1,5 @@
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
-import { IFinancialCategoryRepository } from '@modules/financialCategory/repositories/IFinancialCategoryRepository'
+import { IFinancialCategoriesRepository } from '@modules/financialCategory/repositories/IFinancialCategoriesRepository'
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
 import { inject, injectable } from 'tsyringe'
@@ -13,12 +13,12 @@ interface IRequest {
 class CreateFinancialCategoryUseCase implements IUseCase<IRequest, void> {
   constructor(
     @inject('FinancialCategoriesRepoitory')
-    private financialCategoryRepository: IFinancialCategoryRepository,
+    private financialCategoriesRepository: IFinancialCategoriesRepository,
   ) {}
 
   async execute({ description, userId }: IRequest): Promise<void> {
     const descriptionAlreadyExists =
-      await this.financialCategoryRepository.findByDescription(description)
+      await this.financialCategoriesRepository.findByDescription(description)
 
     if (descriptionAlreadyExists) {
       throw new AppError('Financial Category description already exists', 400)
@@ -29,7 +29,7 @@ class CreateFinancialCategoryUseCase implements IUseCase<IRequest, void> {
       userId,
     })
 
-    await this.financialCategoryRepository.create(financialCategory)
+    await this.financialCategoriesRepository.create(financialCategory)
   }
 }
 

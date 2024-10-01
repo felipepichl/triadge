@@ -1,19 +1,19 @@
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
-import { FinancialCategoryRepositoryInMemory } from '@modules/financialCategory/repositories/in-memory/FinancialCategoryRepositoryInMemory'
+import { FinancialCategoriesRepositoryInMemory } from '@modules/financialCategory/repositories/in-memory/FinancialCategoriesRepositoryInMemory'
 
 import { ListSubcategoriesByCategoryIdUseCase } from './ListSubcategoriesByCategoryIdUseCase'
 
-let financialCategoryRepositoryInMemory: FinancialCategoryRepositoryInMemory
+let financialCategoriesRepositoryInMemory: FinancialCategoriesRepositoryInMemory
 let listSubcategoriesByCategoryIdUseCase: ListSubcategoriesByCategoryIdUseCase
 
 describe('[FinancialCategory]/[Subcategory] - List all subcategories to financial categories', () => {
   beforeEach(() => {
-    financialCategoryRepositoryInMemory =
-      new FinancialCategoryRepositoryInMemory()
+    financialCategoriesRepositoryInMemory =
+      new FinancialCategoriesRepositoryInMemory()
 
     listSubcategoriesByCategoryIdUseCase =
       new ListSubcategoriesByCategoryIdUseCase(
-        financialCategoryRepositoryInMemory,
+        financialCategoriesRepositoryInMemory,
       )
   })
 
@@ -23,7 +23,7 @@ describe('[FinancialCategory]/[Subcategory] - List all subcategories to financia
       userId: 'userId',
     })
 
-    await financialCategoryRepositoryInMemory.create(financialCategory1)
+    await financialCategoriesRepositoryInMemory.create(financialCategory1)
     const { id: parentCategoryId } = financialCategory1
 
     const subcategory1 = FinancialCategory.createFinancialCategory({
@@ -31,7 +31,7 @@ describe('[FinancialCategory]/[Subcategory] - List all subcategories to financia
       userId: 'userId',
       parentCategoryId: parentCategoryId.toString(),
     })
-    await financialCategoryRepositoryInMemory.create(subcategory1)
+    await financialCategoriesRepositoryInMemory.create(subcategory1)
 
     const result = await listSubcategoriesByCategoryIdUseCase.execute({
       parentCategoryId: parentCategoryId.toString(),

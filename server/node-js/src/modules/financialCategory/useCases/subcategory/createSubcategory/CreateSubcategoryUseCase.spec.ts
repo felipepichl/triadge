@@ -1,19 +1,19 @@
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
-import { FinancialCategoryRepositoryInMemory } from '@modules/financialCategory/repositories/in-memory/FinancialCategoryRepositoryInMemory'
+import { FinancialCategoriesRepositoryInMemory } from '@modules/financialCategory/repositories/in-memory/FinancialCategoriesRepositoryInMemory'
 import { AppError } from '@shared/error/AppError'
 
 import { CreateSubcategoryUseCase } from './CreateSubcategoryUseCase'
 
-let financialCategoryRepositoryInMemory: FinancialCategoryRepositoryInMemory
+let financialCategoriesRepositoryInMemory: FinancialCategoriesRepositoryInMemory
 
 let createSubcategoryUseCase: CreateSubcategoryUseCase
 
 describe('[FinancialCategory]/[Subcategory] - Create a new subcategory to financial category', () => {
   beforeEach(() => {
-    financialCategoryRepositoryInMemory =
-      new FinancialCategoryRepositoryInMemory()
+    financialCategoriesRepositoryInMemory =
+      new FinancialCategoriesRepositoryInMemory()
     createSubcategoryUseCase = new CreateSubcategoryUseCase(
-      financialCategoryRepositoryInMemory,
+      financialCategoriesRepositoryInMemory,
     )
   })
 
@@ -29,7 +29,7 @@ describe('[FinancialCategory]/[Subcategory] - Create a new subcategory to financ
     const { description, parentCategoryId } = subcategory
 
     const subcategoryCreated =
-      await financialCategoryRepositoryInMemory.findByDescriptionAndParentCategory(
+      await financialCategoriesRepositoryInMemory.findByDescriptionAndParentCategory(
         description,
         parentCategoryId,
       )

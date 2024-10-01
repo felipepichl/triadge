@@ -1,18 +1,18 @@
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
-import { FinancialCategoryRepositoryInMemory } from '@modules/financialCategory/repositories/in-memory/FinancialCategoryRepositoryInMemory'
+import { FinancialCategoriesRepositoryInMemory } from '@modules/financialCategory/repositories/in-memory/FinancialCategoriesRepositoryInMemory'
 
 import { ListAllCategoriesByUserUseCase } from './ListAllCategoriesByUserUseCase'
 
-let financialCategoryRepositoryInMemory: FinancialCategoryRepositoryInMemory
+let financialCategoriesRepositoryInMemory: FinancialCategoriesRepositoryInMemory
 let listAllCategoriesByUserUseCase: ListAllCategoriesByUserUseCase
 
 describe('[FinancialCategory] - List all financial categories by user', () => {
   beforeEach(() => {
-    financialCategoryRepositoryInMemory =
-      new FinancialCategoryRepositoryInMemory()
+    financialCategoriesRepositoryInMemory =
+      new FinancialCategoriesRepositoryInMemory()
 
     listAllCategoriesByUserUseCase = new ListAllCategoriesByUserUseCase(
-      financialCategoryRepositoryInMemory,
+      financialCategoriesRepositoryInMemory,
     )
   })
 
@@ -27,8 +27,8 @@ describe('[FinancialCategory] - List all financial categories by user', () => {
       userId: 'userId',
     })
 
-    await financialCategoryRepositoryInMemory.create(financialCategory1)
-    await financialCategoryRepositoryInMemory.create(financialCategory2)
+    await financialCategoriesRepositoryInMemory.create(financialCategory1)
+    await financialCategoriesRepositoryInMemory.create(financialCategory2)
 
     const { id: financialCategoryId1 } = financialCategory1
     const { id: financialCategoryId2 } = financialCategory1

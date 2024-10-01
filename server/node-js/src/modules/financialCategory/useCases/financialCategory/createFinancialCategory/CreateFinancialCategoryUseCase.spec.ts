@@ -1,19 +1,19 @@
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
-import { FinancialCategoryRepositoryInMemory } from '@modules/financialCategory/repositories/in-memory/FinancialCategoryRepositoryInMemory'
+import { FinancialCategoriesRepositoryInMemory } from '@modules/financialCategory/repositories/in-memory/FinancialCategoriesRepositoryInMemory'
 import { AppError } from '@shared/error/AppError'
 
 import { CreateFinancialCategoryUseCase } from './CreateFinancialCategoryUseCase'
 
-let financialCategoryRepositoryInMemory: FinancialCategoryRepositoryInMemory
+let financialCategoriesRepositoryInMemory: FinancialCategoriesRepositoryInMemory
 
 let createFinancialCategoryUseCase: CreateFinancialCategoryUseCase
 
 describe('[FinancialCategory] - Create a new financial category', () => {
   beforeEach(() => {
-    financialCategoryRepositoryInMemory =
-      new FinancialCategoryRepositoryInMemory()
+    financialCategoriesRepositoryInMemory =
+      new FinancialCategoriesRepositoryInMemory()
     createFinancialCategoryUseCase = new CreateFinancialCategoryUseCase(
-      financialCategoryRepositoryInMemory,
+      financialCategoriesRepositoryInMemory,
     )
   })
 
@@ -28,7 +28,7 @@ describe('[FinancialCategory] - Create a new financial category', () => {
     const { description } = financialCategory
 
     const financialCategoryCreated =
-      await financialCategoryRepositoryInMemory.findByDescription(description)
+      await financialCategoriesRepositoryInMemory.findByDescription(description)
 
     expect(financialCategoryCreated).toBeDefined()
     expect(financialCategoryCreated?.description).toEqual(

@@ -1,5 +1,5 @@
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
-import { IFinancialCategoryRepository } from '@modules/financialCategory/repositories/IFinancialCategoryRepository'
+import { IFinancialCategoriesRepository } from '@modules/financialCategory/repositories/IFinancialCategoriesRepository'
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
 import { inject, injectable } from 'tsyringe'
@@ -13,8 +13,8 @@ interface IRequest {
 @injectable()
 class CreateSubcategoryUseCase implements IUseCase<IRequest, void> {
   constructor(
-    @inject('FinancialCategoryRepository')
-    private financialCategoryRepository: IFinancialCategoryRepository,
+    @inject('FinancialCategoriesRepository')
+    private financialCategoriesRepository: IFinancialCategoriesRepository,
   ) {}
 
   async execute({
@@ -23,7 +23,7 @@ class CreateSubcategoryUseCase implements IUseCase<IRequest, void> {
     parentCategoryId,
   }: IRequest): Promise<void> {
     const descriptionAlreadyExists =
-      await this.financialCategoryRepository.findByDescriptionAndParentCategory(
+      await this.financialCategoriesRepository.findByDescriptionAndParentCategory(
         description,
         parentCategoryId,
       )
@@ -38,7 +38,7 @@ class CreateSubcategoryUseCase implements IUseCase<IRequest, void> {
       parentCategoryId,
     })
 
-    await this.financialCategoryRepository.create(financialCategory)
+    await this.financialCategoriesRepository.create(financialCategory)
   }
 }
 

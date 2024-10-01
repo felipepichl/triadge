@@ -1,6 +1,6 @@
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
 
-interface IFinancialCategoryRepository {
+interface IFinancialCategoriesRepository {
   create(financialCategory: FinancialCategory): Promise<void>
   listAllCategoriesByUser(userId: string): Promise<FinancialCategory[]>
   listSubcategoriesByCategoryId(
@@ -15,4 +15,4 @@ interface IFinancialCategoryRepository {
   findById(id: string): Promise<FinancialCategory>
 }
 
-export { IFinancialCategoryRepository }
+export { IFinancialCategoriesRepository }

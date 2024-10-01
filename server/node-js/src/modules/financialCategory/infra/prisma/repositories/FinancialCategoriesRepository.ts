@@ -1,10 +1,10 @@
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
-import { IFinancialCategoryRepository } from '@modules/financialCategory/repositories/IFinancialCategoryRepository'
+import { IFinancialCategoriesRepository } from '@modules/financialCategory/repositories/IFinancialCategoriesRepository'
 import { PrismaSingleton } from '@shared/infra/prisma'
 
 import { FinancialCategoryMappers } from '../mappers/FinancialCategoryMappers'
 
-class FinancialCategoryRepository implements IFinancialCategoryRepository {
+class FinancialCategoriesRepository implements IFinancialCategoriesRepository {
   async create({
     id,
     description,
@@ -88,4 +88,4 @@ class FinancialCategoryRepository implements IFinancialCategoryRepository {
   }
 }
 
-export { FinancialCategoryRepository }
+export { FinancialCategoriesRepository }

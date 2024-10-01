@@ -1,9 +1,9 @@
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
 
-import { IFinancialCategoryRepository } from '../IFinancialCategoryRepository'
+import { IFinancialCategoriesRepository } from '../IFinancialCategoriesRepository'
 
-class FinancialCategoryRepositoryInMemory
-  implements IFinancialCategoryRepository
+class FinancialCategoriesRepositoryInMemory
+  implements IFinancialCategoriesRepository
 {
   private financialCategories: FinancialCategory[] = []
 
@@ -54,4 +54,4 @@ class FinancialCategoryRepositoryInMemory
   }
 }
 
-export { FinancialCategoryRepositoryInMemory }
+export { FinancialCategoriesRepositoryInMemory }

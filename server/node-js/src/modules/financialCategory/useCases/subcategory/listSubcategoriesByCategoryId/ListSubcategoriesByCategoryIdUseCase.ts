@@ -1,5 +1,5 @@
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
-import { IFinancialCategoryRepository } from '@modules/financialCategory/repositories/IFinancialCategoryRepository'
+import { IFinancialCategoriesRepository } from '@modules/financialCategory/repositories/IFinancialCategoriesRepository'
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { inject, injectable } from 'tsyringe'
 
@@ -18,12 +18,12 @@ class ListSubcategoriesByCategoryIdUseCase
 {
   constructor(
     @inject('FinancialCategoryRepository')
-    private financialCategoryRepository: IFinancialCategoryRepository,
+    private financialCategoriesRepository: IFinancialCategoriesRepository,
   ) {}
 
   async execute({ userId, parentCategoryId }: IRequest): Promise<IResponse> {
     const subcategories =
-      await this.financialCategoryRepository.listSubcategoriesByCategoryId(
+      await this.financialCategoriesRepository.listSubcategoriesByCategoryId(
         parentCategoryId,
         userId,
       )
