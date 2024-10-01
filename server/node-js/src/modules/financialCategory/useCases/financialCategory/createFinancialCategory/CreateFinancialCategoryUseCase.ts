@@ -12,7 +12,7 @@ interface IRequest {
 @injectable()
 class CreateFinancialCategoryUseCase implements IUseCase<IRequest, void> {
   constructor(
-    @inject('FinancialCategoryRepository')
+    @inject('FinancialCategoriesRepoitory')
     private financialCategoryRepository: IFinancialCategoryRepository,
   ) {}
 

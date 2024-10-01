@@ -9,10 +9,12 @@ class FinancialCategoryRepository implements IFinancialCategoryRepository {
     id,
     description,
     parentCategoryId,
+    userId,
   }: FinancialCategory): Promise<void> {
     const data = {
       description,
       parentCategoryId: parentCategoryId || null,
+      userId,
     }
 
     await PrismaSingleton.getInstance().financialCategory.upsert({
