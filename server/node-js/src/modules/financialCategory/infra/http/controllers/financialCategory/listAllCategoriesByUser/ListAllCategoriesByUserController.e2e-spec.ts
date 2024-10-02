@@ -17,11 +17,23 @@ async function authenticateUser(): Promise<string> {
   return token
 }
 
-describe('[E2E] - List all Financial Category', () => {
+async function createCategoy(description: string, token: string) {
+  await request(app)
+    .post('/financial-category')
+    .set({ Authorization: `Bearer ${token}` })
+    .send({
+      description,
+    })
+}
+
+describe('[E2E] - List all Financial Categories', () => {
   let token: string
 
   beforeEach(async () => {
     token = await authenticateUser()
+
+    await createCategoy('Financial Category Test01', token)
+    await createCategoy('Financial Category Test02', token)
   })
 
   it('should be to list all financial categories to authenticated user', async () => {
@@ -29,6 +41,8 @@ describe('[E2E] - List all Financial Category', () => {
       .get('/financial-category')
       .set({ Authorization: `Bearer ${token}` })
 
-    expect(response.status).toBe(201)
+    expect(response.status).toBe(200)
+    expect(Array.isArray(response.body.financialCategories)).toBe(true)
+    expect(response.body.financialCategories.length).toBe(2)
   })
 })

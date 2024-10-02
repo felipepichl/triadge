@@ -34,6 +34,6 @@ container.registerSingleton<ITransactionsRepository>(
 )
 
 container.registerSingleton<IFinancialCategoriesRepository>(
-  'FinancialCategoriesRepoitory',
+  'FinancialCategoriesRepository',
   FinancialCategoriesRepository,
 )
