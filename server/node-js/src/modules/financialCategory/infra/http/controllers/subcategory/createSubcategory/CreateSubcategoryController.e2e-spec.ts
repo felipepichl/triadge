@@ -26,18 +26,19 @@ async function createCategoy(description: string, token: string) {
     })
 }
 
-async function getParentCategoryId(token: string) {
+async function getParentCategoryId(token: string): Promise<string> {
   const response = await request(app)
     .get('/financial-category')
     .set({ Authorization: `Bearer ${token}` })
 
-  // const {} = response.body.financialCategories
+  const { _id } = response.body.financialCategories[0]
 
-  console.log(JSON.stringify(response.body.financialCategories, null, 2))
+  return _id
 }
 
 describe('[E2E] - Create subcategory to financial category', () => {
   let token: string
+  let parentCategoryId: string
 
   beforeEach(async () => {
     token = await authenticateUser()
@@ -45,17 +46,18 @@ describe('[E2E] - Create subcategory to financial category', () => {
     await createCategoy('Financial Category Test01', token)
     await createCategoy('Financial Category Test02', token)
 
-    await getParentCategoryId(token)
+    parentCategoryId = await getParentCategoryId(token)
   })
 
   it('should be to create a new subcategory to financial category', async () => {
     const response = await request(app)
-      .post('/financial-category')
+      .post('/financial-category/subcategory')
       .set({ Authorization: `Bearer ${token}` })
       .send({
-        description: 'Financial Category Description',
+        description: 'Subcategory',
+        parentCategoryId,
       })
 
-    // expect(response.status).toBe(201)
+    expect(response.status).toBe(201)
   })
 })
