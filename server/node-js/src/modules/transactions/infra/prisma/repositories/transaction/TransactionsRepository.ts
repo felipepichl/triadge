@@ -40,6 +40,72 @@ class TransactionsRepository implements ITransactionsRepository {
     return TransactionMappers.getMapper().toDomainArray(result)
   }
 
+  async listByMonth(userId: string, month: number): Promise<Transaction[]> {
+    const year = new Date().getFullYear()
+    const startDate = new Date(year, month - 1, 1)
+    const endDate = new Date(year, month, 0)
+
+    const result = await PrismaSingleton.getInstance().transaction.findMany({
+      where: {
+        userId,
+        AND: [{ date: { gte: startDate } }, { date: { lte: endDate } }],
+      },
+    })
+
+    return TransactionMappers.getMapper().toDomainArray(result)
+  }
+
+  async listByDateRange(
+    userId: string,
+    startDate: Date,
+    endDate: Date,
+  ): Promise<Transaction[]> {
+    const normalizedStartDate = startOfDay(startDate)
+    const normalizedEndDate = endOfDay(endDate)
+
+    const result = await PrismaSingleton.getInstance().transaction.findMany({
+      where: {
+        userId,
+        date: { gte: normalizedStartDate, lte: normalizedEndDate },
+      },
+      include: { financialCategory: true },
+    })
+
+    return TransactionMappers.getMapper().toDomainArray(result)
+  }
+
+  async listByType(
+    userId: string,
+    type: ITransactionType,
+  ): Promise<Transaction[]> {
+    const result = await PrismaSingleton.getInstance().transaction.findMany({
+      where: {
+        userId,
+        type: type.type,
+      },
+      include: { financialCategory: true },
+    })
+
+    return TransactionMappers.getMapper().toDomainArray(result)
+  }
+
+  async listByUser(userId: string): Promise<Transaction[]> {
+    const result = await PrismaSingleton.getInstance().transaction.findMany({
+      where: { userId },
+      include: { financialCategory: true },
+    })
+
+    return TransactionMappers.getMapper().toDomainArray(result)
+  }
+
+  async listByCategoryAndTypeAndMonth(
+    financialCategoryId: string,
+    type: ITransactionType,
+    month: number,
+  ): Promise<Transaction[]> {
+    throw new Error('Method not implemented.')
+  }
+
   async findById(id: string): Promise<Transaction> {
     const result = await PrismaSingleton.getInstance().transaction.findFirst({
       where: { id },
@@ -62,72 +128,6 @@ class TransactionsRepository implements ITransactionsRepository {
     })
 
     return TransactionMappers.getMapper().toDomain(result)
-  }
-
-  async listByMonth(userId: string, month: number): Promise<Transaction[]> {
-    const year = new Date().getFullYear()
-    const startDate = new Date(year, month - 1, 1)
-    const endDate = new Date(year, month, 0)
-
-    const result = await PrismaSingleton.getInstance().transaction.findMany({
-      where: {
-        userId,
-        AND: [{ date: { gte: startDate } }, { date: { lte: endDate } }],
-      },
-    })
-
-    return TransactionMappers.getMapper().toDomainArray(result)
-  }
-
-  async findByUser(userId: string): Promise<Transaction[]> {
-    const result = await PrismaSingleton.getInstance().transaction.findMany({
-      where: { userId },
-      // include: { transactionCategory: true },
-    })
-
-    return TransactionMappers.getMapper().toDomainArray(result)
-  }
-
-  async listByDateRange(
-    userId: string,
-    startDate: Date,
-    endDate: Date,
-  ): Promise<Transaction[]> {
-    const normalizedStartDate = startOfDay(startDate)
-    const normalizedEndDate = endOfDay(endDate)
-
-    const result = await PrismaSingleton.getInstance().transaction.findMany({
-      where: {
-        userId,
-        date: { gte: normalizedStartDate, lte: normalizedEndDate },
-      },
-      // include: { transactionCategory: true },
-    })
-
-    return TransactionMappers.getMapper().toDomainArray(result)
-  }
-
-  async listByType(
-    userId: string,
-    type: ITransactionType,
-  ): Promise<Transaction[]> {
-    const result = await PrismaSingleton.getInstance().transaction.findMany({
-      where: {
-        userId,
-        type: type.type,
-      },
-      // include: { transactionCategory: true },
-    })
-
-    return TransactionMappers.getMapper().toDomainArray(result)
-  }
-
-  listByCategoryAndTypeAndMonth(
-    financialCategoryId: string,
-    type: ITransactionType,
-    month: number,
-  ): Promise<Transaction[]> {
-    throw new Error('Method not implemented.')
   }
 }
 

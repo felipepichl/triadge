@@ -17,34 +17,34 @@ async function authenticateUser(): Promise<string> {
   return token
 }
 
-async function createTransactionCategory(): Promise<string> {
+async function createFinancialCategory(): Promise<string> {
   const token = await authenticateUser()
 
   await request(app)
-    .post('/transactions/categories')
+    .post('/financial-category')
     .set({ Authorization: `Bearer ${token}` })
     .send({
-      description: 'Category Description',
+      description: 'Financial Category Description',
     })
 
   const response = await request(app)
-    .get('/transactions/categories')
+    .get('/financial-category')
     .set({ Authorization: `Bearer ${token}` })
 
-  const { transactionCategories } = response.body
+  const { financialCategories } = response.body
 
-  const { _id } = transactionCategories[0]
+  const { _id } = financialCategories[0]
 
   return _id
 }
 
 describe('[E2E] - Create Transaction', () => {
   let token: string
-  let transactionCategoryId: string
+  let financialCategoryId: string
 
   beforeEach(async () => {
     token = await authenticateUser()
-    transactionCategoryId = await createTransactionCategory()
+    financialCategoryId = await createFinancialCategory()
   })
 
   it('should be to create a new transaction', async () => {
@@ -56,7 +56,7 @@ describe('[E2E] - Create Transaction', () => {
         detail: 'Detail',
         type: 'income',
         value: 100,
-        transactionCategoryId,
+        financialCategoryId,
       })
     expect(response.status).toBe(201)
   })

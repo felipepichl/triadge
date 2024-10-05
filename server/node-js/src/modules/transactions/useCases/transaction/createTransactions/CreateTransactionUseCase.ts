@@ -10,7 +10,7 @@ interface IRequest {
   date?: Date
   value: number
   userId: string
-  transactionCategoryId: string
+  financialCategoryId: string
 }
 
 @injectable()
@@ -27,7 +27,7 @@ class CreateTransactionUseCase implements IUseCase<IRequest, void> {
     date,
     value,
     userId,
-    transactionCategoryId,
+    financialCategoryId,
   }: IRequest): Promise<void> {
     const transaction = Transaction.createTransaction({
       description,
@@ -36,7 +36,7 @@ class CreateTransactionUseCase implements IUseCase<IRequest, void> {
       date,
       value,
       userId,
-      financialCategoryId: transactionCategoryId,
+      financialCategoryId,
     })
 
     await this.transactionsRepository.create(transaction)
