@@ -14,30 +14,6 @@ class TransactionsRepositoryInMemory implements ITransactionsRepository {
     return this.transactions
   }
 
-  async findById(id: string): Promise<Transaction> {
-    const transaction = this.transactions.find(
-      (transaction) => transaction.id.toString() === id,
-    )
-
-    return transaction
-  }
-
-  async findByDescription(description: string): Promise<Transaction> {
-    const transaction = this.transactions.find(
-      (transaction) => transaction.description === description,
-    )
-
-    return transaction
-  }
-
-  async findByDate(date: Date): Promise<Transaction> {
-    const transaction = this.transactions.find(
-      (transaction) => transaction.date === date,
-    )
-
-    return transaction
-  }
-
   async listByMonth(userId: string, month: number): Promise<Transaction[]> {
     return this.transactions.filter((transaction) => {
       return (
@@ -45,25 +21,6 @@ class TransactionsRepositoryInMemory implements ITransactionsRepository {
         transaction.date.getUTCMonth() + 1 === month
       )
     })
-  }
-
-  // async listByMonth(userId: string, month: number): Promise<Transaction[]> {
-  //   return this.transactions.filter((transaction) => {
-  //     // Comparando o mês, corrigindo o índice de zero
-  //     const transactionMonth = transaction.date.getUTCMonth() + 1
-  //     console.log('Month in transaction:', transactionMonth)
-
-  //     return transaction.userId === userId && transactionMonth === month
-  //   })
-  // }
-
-  async findByUser(userId: string): Promise<Transaction[]> {
-    // console.log('IN', userId)
-    // console.log('IN', this.transactions)
-
-    return this.transactions.filter(
-      (transaction) => transaction.userId === userId,
-    )
   }
 
   async listByDateRange(
@@ -89,6 +46,12 @@ class TransactionsRepositoryInMemory implements ITransactionsRepository {
     )
   }
 
+  async listByUser(userId: string): Promise<Transaction[]> {
+    return this.transactions.filter(
+      (transaction) => transaction.userId === userId,
+    )
+  }
+
   async listByCategoryAndTypeAndMonth(
     financialCategoryId: string,
     type: ITransactionType,
@@ -96,11 +59,35 @@ class TransactionsRepositoryInMemory implements ITransactionsRepository {
   ): Promise<Transaction[]> {
     return this.transactions.filter((transaction) => {
       return (
-        transaction.transactionCategoryId === financialCategoryId &&
+        transaction.financialCategoryId === financialCategoryId &&
         transaction.type === type.type &&
         transaction.date.getUTCMonth() + 1 === month
       )
     })
+  }
+
+  async findById(id: string): Promise<Transaction> {
+    const transaction = this.transactions.find(
+      (transaction) => transaction.id.toString() === id,
+    )
+
+    return transaction
+  }
+
+  async findByDescription(description: string): Promise<Transaction> {
+    const transaction = this.transactions.find(
+      (transaction) => transaction.description === description,
+    )
+
+    return transaction
+  }
+
+  async findByDate(date: Date): Promise<Transaction> {
+    const transaction = this.transactions.find(
+      (transaction) => transaction.date === date,
+    )
+
+    return transaction
   }
 }
 
