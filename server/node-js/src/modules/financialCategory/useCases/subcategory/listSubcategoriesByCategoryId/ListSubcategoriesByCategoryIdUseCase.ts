@@ -17,15 +17,15 @@ class ListSubcategoriesByCategoryIdUseCase
   implements IUseCase<IRequest, IResponse>
 {
   constructor(
-    @inject('FinancialCategoryRepository')
+    @inject('FinancialCategoriesRepository')
     private financialCategoriesRepository: IFinancialCategoriesRepository,
   ) {}
 
   async execute({ userId, parentCategoryId }: IRequest): Promise<IResponse> {
     const subcategories =
       await this.financialCategoriesRepository.listSubcategoriesByCategoryId(
-        parentCategoryId,
         userId,
+        parentCategoryId,
       )
 
     return {

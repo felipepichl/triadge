@@ -39,7 +39,7 @@ class FinancialCategoriesRepository implements IFinancialCategoriesRepository {
   ): Promise<FinancialCategory[]> {
     const result =
       await PrismaSingleton.getInstance().financialCategory.findMany({
-        where: { parentCategoryId, userId },
+        where: { userId, parentCategoryId },
       })
 
     return FinancialCategoryMappers.getMapper().toDomainArray(result)
