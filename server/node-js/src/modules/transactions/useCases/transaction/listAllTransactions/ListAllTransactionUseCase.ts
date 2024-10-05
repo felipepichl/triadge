@@ -26,7 +26,7 @@ class ListAllTransactionUseCase implements IUseCase<IRequest, IResponse> {
   ) {}
 
   async execute({ userId }: IRequest): Promise<IResponse> {
-    const transactions = await this.transactionsRepository.findByUser(userId)
+    const transactions = await this.transactionsRepository.listByUser(userId)
 
     const { income, outcome } = transactions.reduce(
       (accumulator, transaction) => {

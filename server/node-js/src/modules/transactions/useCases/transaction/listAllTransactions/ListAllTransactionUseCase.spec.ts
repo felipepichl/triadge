@@ -1,8 +1,8 @@
 import { User } from '@modules/accounts/domain/User'
 import { UsersRepositoryInMemory } from '@modules/accounts/repositories/in-memory/UsersRepositoryInMemory'
-import { TransactionCategory } from '@modules/transactions/domain/category/TransactionCategory'
+import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
+import { FinancialCategoriesRepositoryInMemory } from '@modules/financialCategory/repositories/in-memory/FinancialCategoriesRepositoryInMemory'
 import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
-import { TransactionCategoriesRepositoryInMemory } from '@modules/transactions/repositories/category/in-memory/TransactionCategoriesRepositoryInMemory'
 import { TransactionsRepositoryInMemory } from '@modules/transactions/repositories/transaction/in-memory/TransactionsRepositoryInMemory'
 
 import { ListAllTransactionUseCase } from './ListAllTransactionUseCase'
@@ -27,32 +27,33 @@ async function createUser(): Promise<string> {
   return userId.toString()
 }
 
-async function createTransactionCategory(): Promise<string> {
-  const transactionCategory = TransactionCategory.createTransactionCategory({
+async function createFinancialCategory(): Promise<string> {
+  const financialCategory = FinancialCategory.createFinancialCategory({
     description: 'Transaction category description',
+    userId: 'user_id',
   })
 
-  const transactionCategoryInMemory =
-    new TransactionCategoriesRepositoryInMemory()
+  const financialCategoryInMemory = new FinancialCategoriesRepositoryInMemory()
 
-  await transactionCategoryInMemory.create(transactionCategory)
+  await financialCategoryInMemory.create(financialCategory)
 
-  const transactionCategoryId = (await transactionCategoryInMemory.listAll())[0]
-    .id
+  const financialCategoryId = (
+    await financialCategoryInMemory.listAllCategoriesByUser('user_id')
+  )[0].id
 
-  return transactionCategoryId.toString()
+  return financialCategoryId.toString()
 }
 
 async function createTransaction(): Promise<string> {
   const userId = await createUser()
-  const transactionCategoryId = await createTransactionCategory()
+  const financialCategoryId = await createFinancialCategory()
 
   const transaction1 = Transaction.createTransaction({
     description: 'Transaction description',
     type: 'income',
     value: 1000,
     userId,
-    transactionCategoryId,
+    financialCategoryId,
   })
 
   const transaction2 = Transaction.createTransaction({
@@ -60,7 +61,7 @@ async function createTransaction(): Promise<string> {
     type: 'outcome',
     value: 500,
     userId,
-    transactionCategoryId,
+    financialCategoryId,
   })
 
   const transactionsToCreate = [transaction1, transaction2]

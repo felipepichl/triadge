@@ -1,8 +1,8 @@
 import { User } from '@modules/accounts/domain/User'
 import { UsersRepositoryInMemory } from '@modules/accounts/repositories/in-memory/UsersRepositoryInMemory'
-import { TransactionCategory } from '@modules/transactions/domain/category/TransactionCategory'
+import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
+import { FinancialCategoriesRepositoryInMemory } from '@modules/financialCategory/repositories/in-memory/FinancialCategoriesRepositoryInMemory'
 import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
-import { TransactionCategoriesRepositoryInMemory } from '@modules/transactions/repositories/category/in-memory/TransactionCategoriesRepositoryInMemory'
 import { TransactionsRepositoryInMemory } from '@modules/transactions/repositories/transaction/in-memory/TransactionsRepositoryInMemory'
 
 import { ListByDateRangeUseCase } from './ListByDateRangeUseCase'
@@ -31,17 +31,18 @@ async function createUser(): Promise<string> {
 }
 
 async function createTransaction(): Promise<string> {
-  const transactionCategory = TransactionCategory.createTransactionCategory({
+  const financialCategory = FinancialCategory.createFinancialCategory({
     description: 'Transaction category description',
+    userId: 'user_id',
   })
 
-  const transactionCategoryInMemory =
-    new TransactionCategoriesRepositoryInMemory()
+  const financialCategoryInMemory = new FinancialCategoriesRepositoryInMemory()
 
-  await transactionCategoryInMemory.create(transactionCategory)
+  await financialCategoryInMemory.create(financialCategory)
 
-  const transactionCategoryId = (await transactionCategoryInMemory.listAll())[0]
-    .id
+  const financialCategoryId = (
+    await financialCategoryInMemory.listAllCategoriesByUser('user_id')
+  )[0].id
 
   const userId = await createUser()
 
@@ -51,7 +52,7 @@ async function createTransaction(): Promise<string> {
     date: startDate,
     value: 1000,
     userId,
-    transactionCategoryId: transactionCategoryId.toString(),
+    financialCategoryId: financialCategoryId.toString(),
   })
 
   const transaction2 = Transaction.createTransaction({
@@ -60,7 +61,7 @@ async function createTransaction(): Promise<string> {
     date: endDate,
     value: 500,
     userId,
-    transactionCategoryId: transactionCategoryId.toString(),
+    financialCategoryId: financialCategoryId.toString(),
   })
 
   const transaction3 = Transaction.createTransaction({
@@ -69,7 +70,7 @@ async function createTransaction(): Promise<string> {
     value: 500,
     date: new Date('2023-07-01'),
     userId,
-    transactionCategoryId: transactionCategoryId.toString(),
+    financialCategoryId: financialCategoryId.toString(),
   })
 
   const transactionsToCreate = [transaction1, transaction2, transaction3]
