@@ -4,8 +4,8 @@ interface IFinancialCategoriesRepository {
   create(financialCategory: FinancialCategory): Promise<void>
   listAllCategoriesByUser(userId: string): Promise<FinancialCategory[]>
   listSubcategoriesByCategoryId(
-    parentCategoryId: string,
     userId: string,
+    parentCategoryId: string,
   ): Promise<FinancialCategory[]>
   findByDescription(description: string): Promise<FinancialCategory>
   findByDescriptionAndParentCategory(

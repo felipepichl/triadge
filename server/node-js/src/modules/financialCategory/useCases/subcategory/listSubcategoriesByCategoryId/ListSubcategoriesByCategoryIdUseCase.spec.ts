@@ -27,15 +27,15 @@ describe('[FinancialCategory]/[Subcategory] - List all subcategories to financia
     const { id: parentCategoryId } = financialCategory1
 
     const subcategory1 = FinancialCategory.createFinancialCategory({
-      description: 'Description to Subcategory 1',
+      description: 'Description Subcategory 1',
       userId: 'userId',
       parentCategoryId: parentCategoryId.toString(),
     })
     await financialCategoriesRepositoryInMemory.create(subcategory1)
 
     const result = await listSubcategoriesByCategoryIdUseCase.execute({
-      parentCategoryId: parentCategoryId.toString(),
       userId: 'userId',
+      parentCategoryId: parentCategoryId.toString(),
     })
 
     expect(result.subcategories).toHaveLength(1)
