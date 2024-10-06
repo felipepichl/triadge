@@ -21,7 +21,7 @@ describe('[Transaction] - Create a transaction', () => {
       type: 'income',
       value: 1000,
       userId: 'userId',
-      transactionCategoryId: 'transactionCategoryId',
+      financialCategoryId: 'financialCategoryId',
     })
 
     const transactionCreated = await transactionsRepositoryInMemory.listAll()

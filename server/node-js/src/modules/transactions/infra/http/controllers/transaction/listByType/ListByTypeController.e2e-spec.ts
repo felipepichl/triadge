@@ -17,24 +17,24 @@ async function authenticateUser(): Promise<string> {
   return token
 }
 
-async function createCategoy(token: string): Promise<string> {
+async function createFinancialCategoy(token: string): Promise<string> {
   await request(app)
-    .post('/transactions/categories')
+    .post('/financial-category')
     .set({ Authorization: `Bearer ${token}` })
     .send({
       description: 'Category Test',
     })
 
   const response = await request(app)
-    .get('/transactions/categories')
+    .get('/financial-category')
     .set({ Authorization: `Bearer ${token}` })
 
-  const { _id } = response.body.transactionCategories[0]
+  const { _id } = response.body.financialCategories[0]
 
   return _id
 }
 
-async function createTransaction(transactionCategoryId: string, token: string) {
+async function createTransaction(financialCategoryId: string, token: string) {
   await request(app)
     .post('/transactions')
     .set({ Authorization: `Bearer ${token}` })
@@ -43,7 +43,7 @@ async function createTransaction(transactionCategoryId: string, token: string) {
       detail: 'Detail',
       type: 'income',
       value: 100,
-      transactionCategoryId,
+      financialCategoryId,
     })
 
   await request(app)
@@ -54,7 +54,7 @@ async function createTransaction(transactionCategoryId: string, token: string) {
       detail: 'Detail',
       type: 'outcome',
       value: 50,
-      transactionCategoryId,
+      financialCategoryId,
     })
 
   await request(app)
@@ -65,19 +65,19 @@ async function createTransaction(transactionCategoryId: string, token: string) {
       detail: 'Detail',
       type: 'outcome',
       value: 50,
-      transactionCategoryId,
+      financialCategoryId,
     })
 }
 
 describe('[E2E] - List all Transactions by type', () => {
   let token: string
-  let transactionCategoryId: string
+  let financialCategoryId: string
   const type = 'outcome'
 
   beforeEach(async () => {
     token = await authenticateUser()
-    transactionCategoryId = await createCategoy(token)
-    await createTransaction(transactionCategoryId, token)
+    financialCategoryId = await createFinancialCategoy(token)
+    await createTransaction(financialCategoryId, token)
   })
 
   it('should be to list all transactions by type', async () => {
