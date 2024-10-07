@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { apiCreateTransactionCategory } from '@/api/create-transaction-category'
+import { apiCreateFinancialCategory } from '@/api/create-financial-category'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -23,17 +23,15 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 
-const createTransactionCategoryForm = z.object({
+const createFinancialCategoryForm = z.object({
   description: z.string().min(1, { message: 'Campo obrigatório' }),
 })
 
-type CreateTransactionCategoryForm = z.infer<
-  typeof createTransactionCategoryForm
->
+type CreateFinancialCategoryForm = z.infer<typeof createFinancialCategoryForm>
 
 export function NewCategory() {
-  const form = useForm<CreateTransactionCategoryForm>({
-    resolver: zodResolver(createTransactionCategoryForm),
+  const form = useForm<CreateFinancialCategoryForm>({
+    resolver: zodResolver(createFinancialCategoryForm),
     defaultValues: {
       description: '',
     },
@@ -45,9 +43,9 @@ export function NewCategory() {
   }
 
   const handleCreateNewTransactionCategory = useCallback(
-    async ({ description }: CreateTransactionCategoryForm) => {
+    async ({ description }: CreateFinancialCategoryForm) => {
       try {
-        await apiCreateTransactionCategory({ description })
+        await apiCreateFinancialCategory({ description })
 
         handleToggleSheet()
         form.reset()

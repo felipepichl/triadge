@@ -10,10 +10,14 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+// import {
+//   apiListAllTransactionCategory,
+//   TransactionCategory,
+// } from '@/api/list-all-transaction-category'
 import {
-  apiListAllTransactionCategory,
-  TransactionCategory,
-} from '@/api/list-all-transaction-category'
+  apiListAllFinancialCategoryByUser,
+  FinancialCategory,
+} from '@/api/list-all-financial-category-by-user'
 import { Calendar } from '@/components/ui/calendar'
 import {
   Form,
@@ -31,6 +35,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useMonetaryMask } from '@/hooks/use-monetary-mask'
 import { useTransaction } from '@/hooks/use-transaction'
 
+import { NewCategory } from '../../new-financial-category/new-financial-category'
 import { Button } from '../../ui/button'
 import {
   Drawer,
@@ -48,7 +53,6 @@ import {
   SelectValue,
 } from '../../ui/select'
 import { Separator } from '../../ui/separator'
-import { NewCategory } from '../category/new-category'
 
 const createTransactionForm = z.object({
   description: z.string().min(1, { message: 'Campo obrigatório' }),
@@ -62,8 +66,8 @@ const createTransactionForm = z.object({
 type CreateTransactionForm = z.infer<typeof createTransactionForm>
 
 export function NewTransaction() {
-  const [transactionCategories, setTransactionCategories] =
-    useState<TransactionCategory[]>()
+  const [financialCategories, setFinancialCategories] =
+    useState<FinancialCategory[]>()
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(
     undefined,
   )
@@ -94,10 +98,10 @@ export function NewTransaction() {
     form.reset()
   }, [form])
 
-  const handleAllTransactionCategories = useCallback(async () => {
-    const response = await apiListAllTransactionCategory()
+  const handleAllFinancialCategoryByUser = useCallback(async () => {
+    const response = await apiListAllFinancialCategoryByUser()
 
-    setTransactionCategories(response)
+    setFinancialCategories(response)
   }, [])
 
   const handleTypeChange = useCallback(
@@ -239,15 +243,15 @@ export function NewTransaction() {
                           <FormControl>
                             <Select
                               onValueChange={onChange}
-                              onOpenChange={handleAllTransactionCategories}
+                              onOpenChange={handleAllFinancialCategoryByUser}
                             >
                               <SelectTrigger>
                                 <SelectValue placeholder="Categoria" />
                               </SelectTrigger>
                               <SelectContent>
                                 <SelectGroup>
-                                  {transactionCategories &&
-                                    transactionCategories.map((category) => (
+                                  {financialCategories &&
+                                    financialCategories.map((category) => (
                                       <SelectItem
                                         key={category._id}
                                         value={category._id}
