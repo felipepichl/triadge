@@ -18,7 +18,7 @@ type TransactionBody = {
   value: string
   type: string
   date?: Date
-  transactionCategoryId: string
+  financialCategoryId: string
 }
 
 type TransactionContextData = {
@@ -52,14 +52,14 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
       value,
       type,
       date,
-      transactionCategoryId,
+      financialCategoryId,
     }: TransactionBody) => {
       await apiCreateTransaction({
         description,
         value: parseFloat(value.replace('R$ ', '').replace(',', '.')),
         type,
         date,
-        transactionCategoryId,
+        financialCategoryId,
       })
 
       setReload((prev) => !prev)

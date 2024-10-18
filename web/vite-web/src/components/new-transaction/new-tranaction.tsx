@@ -10,10 +10,6 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-// import {
-//   apiListAllTransactionCategory,
-//   TransactionCategory,
-// } from '@/api/list-all-transaction-category'
 import {
   apiListAllFinancialCategoryByUser,
   FinancialCategory,
@@ -35,15 +31,10 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useMonetaryMask } from '@/hooks/use-monetary-mask'
 import { useTransaction } from '@/hooks/use-transaction'
 
-import { NewCategory } from '../../new-financial-category/new-financial-category'
-import { Button } from '../../ui/button'
-import {
-  Drawer,
-  DrawerContent,
-  DrawerTitle,
-  DrawerTrigger,
-} from '../../ui/drawer'
-import { Input } from '../../ui/input'
+import { NewCategory } from '../new-financial-category/new-financial-category'
+import { Button } from '../ui/button'
+import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '../ui/drawer'
+import { Input } from '../ui/input'
 import {
   Select,
   SelectContent,
@@ -51,8 +42,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../../ui/select'
-import { Separator } from '../../ui/separator'
+} from '../ui/select'
+import { Separator } from '../ui/separator'
 
 const createTransactionForm = z.object({
   description: z.string().min(1, { message: 'Campo obrigatório' }),
@@ -60,7 +51,7 @@ const createTransactionForm = z.object({
   type: z.string().min(1, { message: 'Selecione uma opção' }),
   value: z.string().min(1, { message: 'Campo obrigatório' }),
   date: z.date(),
-  transactionCategoryId: z.string().min(1, { message: 'Selecione uma opção' }),
+  financialCategoryId: z.string().min(1, { message: 'Selecione uma opção' }),
 })
 
 type CreateTransactionForm = z.infer<typeof createTransactionForm>
@@ -84,7 +75,7 @@ export function NewTransaction() {
       type: '',
       value: '',
       date: new Date(),
-      transactionCategoryId: '',
+      financialCategoryId: '',
     },
   })
 
@@ -118,7 +109,7 @@ export function NewTransaction() {
       description,
       type,
       date,
-      transactionCategoryId,
+      financialCategoryId,
     }: CreateTransactionForm) => {
       try {
         createTransaction({
@@ -126,7 +117,7 @@ export function NewTransaction() {
           value: String(rawValue),
           type,
           date,
-          transactionCategoryId,
+          financialCategoryId,
         })
 
         cleanFileds()
@@ -236,7 +227,7 @@ export function NewTransaction() {
 
                   <div className="flex  justify-center gap-2">
                     <FormField
-                      name="transactionCategoryId"
+                      name="financialCategoryId"
                       control={form.control}
                       render={({ field: { onChange } }) => (
                         <FormItem className="w-full">
