@@ -23,15 +23,25 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 
-const createFinancialCategoryForm = z.object({
+const createFinancialCategoryOrSubcategoryForm = z.object({
   description: z.string().min(1, { message: 'Campo obrigatório' }),
 })
 
-type CreateFinancialCategoryForm = z.infer<typeof createFinancialCategoryForm>
+type CreateFinancialCategoryOrSubcategoryForm = z.infer<
+  typeof createFinancialCategoryOrSubcategoryForm
+>
 
-export function NewCategory() {
-  const form = useForm<CreateFinancialCategoryForm>({
-    resolver: zodResolver(createFinancialCategoryForm),
+type NewFinancialCategoryOrSubcategoryProps = {
+  title: string
+  type: 'financialCategory' | 'subcategory'
+}
+
+export function NewFinancialCategoryOrSubcategory({
+  title,
+  type,
+}: NewFinancialCategoryOrSubcategoryProps) {
+  const form = useForm<CreateFinancialCategoryOrSubcategoryForm>({
+    resolver: zodResolver(createFinancialCategoryOrSubcategoryForm),
     defaultValues: {
       description: '',
     },
@@ -42,10 +52,14 @@ export function NewCategory() {
     setIsSheetOpen((prevState) => !prevState)
   }
 
-  const handleCreateNewTransactionCategory = useCallback(
-    async ({ description }: CreateFinancialCategoryForm) => {
+  const handleCreateFinancialCategoryOrSubcategory = useCallback(
+    async ({ description }: CreateFinancialCategoryOrSubcategoryForm) => {
       try {
-        await apiCreateFinancialCategory({ description })
+        if (type === 'financialCategory') {
+          await apiCreateFinancialCategory({ description })
+        } else if (type === 'subcategory') {
+          await apiCreateSubcategory({ description })
+        }
 
         handleToggleSheet()
         form.reset()
@@ -54,7 +68,7 @@ export function NewCategory() {
         toast.error('Erro ao salvar, tente novamente mais tarde!')
       }
     },
-    [form],
+    [form, type],
   )
 
   return (
@@ -70,14 +84,14 @@ export function NewCategory() {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Nova Categoria</SheetTitle>
+          <SheetTitle>{title}</SheetTitle>
         </SheetHeader>
         <Form {...form}>
           <form
             className="space-y-4 py-4"
             onSubmit={(e: FormEvent<HTMLFormElement>) => {
               e.stopPropagation()
-              form.handleSubmit(handleCreateNewTransactionCategory)(e)
+              form.handleSubmit(handleCreateFinancialCategoryOrSubcategory)(e)
             }}
           >
             <FormField
