@@ -31,7 +31,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useMonetaryMask } from '@/hooks/use-monetary-mask'
 import { useTransaction } from '@/hooks/use-transaction'
 
-import { NewCategory } from '../new-financial-category/new-financial-category'
+import { NewFinancialCategoryOrSubcategory } from '../new-financial-category-or-subcategory/new-financial-category-or-subcategory'
 import { Button } from '../ui/button'
 import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '../ui/drawer'
 import { Input } from '../ui/input'
@@ -259,7 +259,10 @@ export function NewTransaction() {
                       )}
                     />
 
-                    <NewCategory />
+                    <NewFinancialCategoryOrSubcategory
+                      title="Categoria"
+                      type="financialCategory"
+                    />
                   </div>
 
                   <FormField

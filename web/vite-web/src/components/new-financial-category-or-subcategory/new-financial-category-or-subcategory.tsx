@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { apiCreateFinancialCategory } from '@/api/create-financial-category'
+import { apiCreateSubcategory } from '@/api/create-subcategory'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -25,6 +26,7 @@ import {
 
 const createFinancialCategoryOrSubcategoryForm = z.object({
   description: z.string().min(1, { message: 'Campo obrigatório' }),
+  parentCategoryId: z.string().optional(),
 })
 
 type CreateFinancialCategoryOrSubcategoryForm = z.infer<
@@ -53,17 +55,32 @@ export function NewFinancialCategoryOrSubcategory({
   }
 
   const handleCreateFinancialCategoryOrSubcategory = useCallback(
-    async ({ description }: CreateFinancialCategoryOrSubcategoryForm) => {
+    async ({
+      description,
+      parentCategoryId,
+    }: CreateFinancialCategoryOrSubcategoryForm) => {
+      const actionMap = {
+        financialCategory: () => apiCreateFinancialCategory({ description }),
+        subcategory: () => {
+          if (parentCategoryId) {
+            return apiCreateSubcategory({ description, parentCategoryId })
+          }
+        },
+      }
+
       try {
-        if (type === 'financialCategory') {
-          await apiCreateFinancialCategory({ description })
-        } else if (type === 'subcategory') {
-          await apiCreateSubcategory({ description })
+        const action = actionMap[type]
+        if (action) {
+          await action()
         }
 
         handleToggleSheet()
         form.reset()
-        toast.success('Categoria salva com sucesso!')
+
+        const entityType =
+          type === 'financialCategory' ? 'Categoria' : 'Subcategoria'
+
+        toast.success(`${entityType} salva com sucesso!`)
       } catch (err) {
         toast.error('Erro ao salvar, tente novamente mais tarde!')
       }
