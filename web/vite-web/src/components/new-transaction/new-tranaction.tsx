@@ -49,15 +49,28 @@ import {
 } from '../ui/select'
 import { Separator } from '../ui/separator'
 
-const createTransactionForm = z.object({
-  description: z.string().min(1, { message: 'Campo obrigatório' }),
-  detail: z.string(),
-  type: z.string().min(1, { message: 'Selecione uma opção' }),
-  value: z.string().min(1, { message: 'Campo obrigatório' }),
-  date: z.date(),
-  financialCategoryId: z.string().min(1, { message: 'Selecione uma opção' }),
-  subcategory: z.string().min(1, { message: 'Selecione uma opção' }),
-})
+const createTransactionForm = z
+  .object({
+    description: z.string().min(1, { message: 'Campo obrigatório' }),
+    detail: z.string(),
+    type: z.string().min(1, { message: 'Selecione uma opção' }),
+    value: z.string().min(1, { message: 'Campo obrigatório' }),
+    date: z.date(),
+    financialCategoryId: z.string().min(1, { message: 'Selecione uma opção' }),
+    subcategory: z.string().optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.financialCategoryId && !data.subcategory) {
+        return false
+      }
+      return true
+    },
+    {
+      message: 'Selecione uma opção',
+      path: ['subcategory'],
+    },
+  )
 
 type CreateTransactionForm = z.infer<typeof createTransactionForm>
 
@@ -83,6 +96,7 @@ export function NewTransaction() {
       value: '',
       date: new Date(),
       financialCategoryId: '',
+      subcategory: '',
     },
   })
 
