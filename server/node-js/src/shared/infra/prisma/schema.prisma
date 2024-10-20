@@ -56,7 +56,9 @@ model FinancialCategory {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  Transaction    Transaction[]
+  transactions            Transaction[] @relation("MainCategoryTransactions")
+  subcategoryTransactions Transaction[] @relation("SubcategoryTransactions")
+
   AccountPayable AccountPayable[]
 
   financialCategoryId String?
@@ -73,8 +75,11 @@ model Transaction {
   users  User   @relation(fields: [userId], references: [id])
   userId String
 
-  financialCategory   FinancialCategory @relation(fields: [financialCategoryId], references: [id])
   financialCategoryId String
+  financialCategory   FinancialCategory @relation("MainCategoryTransactions", fields: [financialCategoryId], references: [id])
+
+  subcategoryId String?
+  subcategory   FinancialCategory? @relation("SubcategoryTransactions", fields: [subcategoryId], references: [id])
 
   AccountPayable AccountPayable[]
 }
