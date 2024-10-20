@@ -14,6 +14,10 @@ import {
   apiListAllFinancialCategoryByUser,
   FinancialCategory,
 } from '@/api/list-all-financial-category-by-user'
+import {
+  apiListAllSubcategoryByCategory,
+  Subcategory,
+} from '@/api/list-all-subcategory-by-category'
 import { Calendar } from '@/components/ui/calendar'
 import {
   Form,
@@ -52,6 +56,7 @@ const createTransactionForm = z.object({
   value: z.string().min(1, { message: 'Campo obrigatório' }),
   date: z.date(),
   financialCategoryId: z.string().min(1, { message: 'Selecione uma opção' }),
+  subcategory: z.string().min(1, { message: 'Selecione uma opção' }),
 })
 
 type CreateTransactionForm = z.infer<typeof createTransactionForm>
@@ -59,6 +64,8 @@ type CreateTransactionForm = z.infer<typeof createTransactionForm>
 export function NewTransaction() {
   const [financialCategories, setFinancialCategories] =
     useState<FinancialCategory[]>()
+  const [subcategories, setSubcategories] = useState<Subcategory[]>()
+  const [parentCategoryId, setParentCategoryId] = useState<string>('')
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(
     undefined,
   )
@@ -94,6 +101,17 @@ export function NewTransaction() {
 
     setFinancialCategories(response)
   }, [])
+
+  const handleAllSubcategoryByCategory = useCallback(
+    async (parentCategoryId: string) => {
+      const response = await apiListAllSubcategoryByCategory({
+        parentCategoryId,
+      })
+
+      setSubcategories(response)
+    },
+    [],
+  )
 
   const handleTypeChange = useCallback(
     (type: string) => {
@@ -233,7 +251,10 @@ export function NewTransaction() {
                         <FormItem className="w-full">
                           <FormControl>
                             <Select
-                              onValueChange={onChange}
+                              onValueChange={(value) => {
+                                onChange(value)
+                                setParentCategoryId(value)
+                              }}
                               onOpenChange={handleAllFinancialCategoryByUser}
                             >
                               <SelectTrigger>
@@ -262,6 +283,49 @@ export function NewTransaction() {
                     <NewFinancialCategoryOrSubcategory
                       title="Categoria"
                       type="financialCategory"
+                    />
+                  </div>
+
+                  <div className="flex  justify-center gap-2">
+                    <FormField
+                      name="subcategory"
+                      control={form.control}
+                      render={({ field: { onChange } }) => (
+                        <FormItem className="w-full">
+                          <FormControl>
+                            <Select
+                              onValueChange={onChange}
+                              onOpenChange={() =>
+                                handleAllSubcategoryByCategory(parentCategoryId)
+                              }
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Subcategorias" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectGroup>
+                                  {subcategories &&
+                                    subcategories.map((subcategory) => (
+                                      <SelectItem
+                                        key={subcategory._id}
+                                        value={subcategory._id}
+                                      >
+                                        {subcategory.description}
+                                      </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <NewFinancialCategoryOrSubcategory
+                      title="Subcategoria"
+                      type="subcategory"
+                      parentCategoryId={parentCategoryId}
                     />
                   </div>
 

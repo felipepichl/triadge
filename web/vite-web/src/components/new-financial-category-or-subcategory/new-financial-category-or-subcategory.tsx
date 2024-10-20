@@ -26,7 +26,7 @@ import {
 
 const createFinancialCategoryOrSubcategoryForm = z.object({
   description: z.string().min(1, { message: 'Campo obrigatório' }),
-  parentCategoryId: z.string().optional(),
+  // parentCategoryId: z.string().optional(),
 })
 
 type CreateFinancialCategoryOrSubcategoryForm = z.infer<
@@ -36,11 +36,13 @@ type CreateFinancialCategoryOrSubcategoryForm = z.infer<
 type NewFinancialCategoryOrSubcategoryProps = {
   title: string
   type: 'financialCategory' | 'subcategory'
+  parentCategoryId?: string
 }
 
 export function NewFinancialCategoryOrSubcategory({
   title,
   type,
+  parentCategoryId,
 }: NewFinancialCategoryOrSubcategoryProps) {
   const form = useForm<CreateFinancialCategoryOrSubcategoryForm>({
     resolver: zodResolver(createFinancialCategoryOrSubcategoryForm),
@@ -55,10 +57,7 @@ export function NewFinancialCategoryOrSubcategory({
   }
 
   const handleCreateFinancialCategoryOrSubcategory = useCallback(
-    async ({
-      description,
-      parentCategoryId,
-    }: CreateFinancialCategoryOrSubcategoryForm) => {
+    async ({ description }: CreateFinancialCategoryOrSubcategoryForm) => {
       const actionMap = {
         financialCategory: () => apiCreateFinancialCategory({ description }),
         subcategory: () => {
@@ -85,7 +84,7 @@ export function NewFinancialCategoryOrSubcategory({
         toast.error('Erro ao salvar, tente novamente mais tarde!')
       }
     },
-    [form, type],
+    [form, type, parentCategoryId],
   )
 
   return (
