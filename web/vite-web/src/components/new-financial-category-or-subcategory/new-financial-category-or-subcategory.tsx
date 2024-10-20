@@ -37,12 +37,14 @@ type NewFinancialCategoryOrSubcategoryProps = {
   title: string
   type: 'financialCategory' | 'subcategory'
   parentCategoryId?: string
+  disable?: boolean
 }
 
 export function NewFinancialCategoryOrSubcategory({
   title,
   type,
   parentCategoryId,
+  disable,
 }: NewFinancialCategoryOrSubcategoryProps) {
   const form = useForm<CreateFinancialCategoryOrSubcategoryForm>({
     resolver: zodResolver(createFinancialCategoryOrSubcategoryForm),
@@ -94,6 +96,7 @@ export function NewFinancialCategoryOrSubcategory({
           variant="outline"
           className="flex min-w-10 items-center justify-center rounded-sm border-green-500 text-green-500 hover:border-green-700 hover:bg-green-700 hover:text-slate-100"
           size="icon"
+          disabled={disable}
         >
           <CircleFadingPlus className="h-5 w-5" />
         </Button>

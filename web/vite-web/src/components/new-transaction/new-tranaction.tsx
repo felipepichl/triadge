@@ -298,6 +298,7 @@ export function NewTransaction() {
                               onOpenChange={() =>
                                 handleAllSubcategoryByCategory(parentCategoryId)
                               }
+                              disabled={!parentCategoryId}
                             >
                               <SelectTrigger>
                                 <SelectValue placeholder="Subcategorias" />
@@ -326,6 +327,7 @@ export function NewTransaction() {
                       title="Subcategoria"
                       type="subcategory"
                       parentCategoryId={parentCategoryId}
+                      disable={!parentCategoryId}
                     />
                   </div>
 
