@@ -5,7 +5,7 @@ import {
   ArrowUpCircle,
   Calendar as CalendarIcon,
 } from 'lucide-react'
-import { ChangeEvent, useCallback, useState } from 'react'
+import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
@@ -49,36 +49,13 @@ import {
 } from '../ui/select'
 import { Separator } from '../ui/separator'
 
-const createTransactionForm = z
-  .object({
-    description: z.string().min(1, { message: 'Campo obrigatório' }),
-    detail: z.string(),
-    type: z.string().min(1, { message: 'Selecione uma opção' }),
-    value: z.string().min(1, { message: 'Campo obrigatório' }),
-    date: z.date(),
-    financialCategoryId: z.string().min(1, { message: 'Selecione uma opção' }),
-    subcategory: z.string().optional(),
-  })
-  .refine(
-    (data) => {
-      if (data.financialCategoryId && !data.subcategory) {
-        return false
-      }
-      return true
-    },
-    {
-      message: 'Selecione uma opção',
-      path: ['subcategory'],
-    },
-  )
-
-type CreateTransactionForm = z.infer<typeof createTransactionForm>
-
 export function NewTransaction() {
-  const [financialCategories, setFinancialCategories] =
-    useState<FinancialCategory[]>()
-  const [subcategories, setSubcategories] = useState<Subcategory[]>()
+  const [financialCategories, setFinancialCategories] = useState<
+    FinancialCategory[]
+  >([])
+  const [subcategories, setSubcategories] = useState<Subcategory[]>([])
   const [parentCategoryId, setParentCategoryId] = useState<string>('')
+
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(
     undefined,
   )
@@ -86,6 +63,33 @@ export function NewTransaction() {
   const { formattedValue, handleMaskChange, rawValue } = useMonetaryMask()
 
   const { createTransaction } = useTransaction()
+
+  const createTransactionForm = z
+    .object({
+      description: z.string().min(1, { message: 'Campo obrigatório' }),
+      detail: z.string(),
+      type: z.string().min(1, { message: 'Selecione uma opção' }),
+      value: z.string().min(1, { message: 'Campo obrigatório' }),
+      date: z.date(),
+      financialCategoryId: z
+        .string()
+        .min(1, { message: 'Selecione uma opção' }),
+      subcategory: z.string().optional(),
+    })
+    .refine(
+      (data) => {
+        if (subcategories.length > 0 && !data.subcategory) {
+          return false
+        }
+        return true
+      },
+      {
+        message: 'Selecione uma opção',
+        path: ['subcategory'],
+      },
+    )
+
+  type CreateTransactionForm = z.infer<typeof createTransactionForm>
 
   const form = useForm<CreateTransactionForm>({
     resolver: zodResolver(createTransactionForm),
@@ -160,6 +164,12 @@ export function NewTransaction() {
     },
     [cleanFileds, createTransaction, rawValue],
   )
+
+  useEffect(() => {
+    if (subcategories.length > 0) {
+      form.clearErrors('subcategory')
+    }
+  }, [subcategories, form])
 
   return (
     <div className="flex justify-end pb-3">
@@ -268,6 +278,7 @@ export function NewTransaction() {
                               onValueChange={(value) => {
                                 onChange(value)
                                 setParentCategoryId(value)
+                                handleAllSubcategoryByCategory(value)
                               }}
                               onOpenChange={handleAllFinancialCategoryByUser}
                             >
@@ -276,7 +287,7 @@ export function NewTransaction() {
                               </SelectTrigger>
                               <SelectContent>
                                 <SelectGroup>
-                                  {financialCategories &&
+                                  {financialCategories.length > 0 ? (
                                     financialCategories.map((category) => (
                                       <SelectItem
                                         key={category._id}
@@ -284,7 +295,12 @@ export function NewTransaction() {
                                       >
                                         {category.description}
                                       </SelectItem>
-                                    ))}
+                                    ))
+                                  ) : (
+                                    <SelectItem disabled value="not-found">
+                                      Nenhum registro encontrado
+                                    </SelectItem>
+                                  )}
                                 </SelectGroup>
                               </SelectContent>
                             </Select>
@@ -319,7 +335,7 @@ export function NewTransaction() {
                               </SelectTrigger>
                               <SelectContent>
                                 <SelectGroup>
-                                  {subcategories &&
+                                  {subcategories.length > 0 ? (
                                     subcategories.map((subcategory) => (
                                       <SelectItem
                                         key={subcategory._id}
@@ -327,7 +343,12 @@ export function NewTransaction() {
                                       >
                                         {subcategory.description}
                                       </SelectItem>
-                                    ))}
+                                    ))
+                                  ) : (
+                                    <SelectItem disabled value="not-found">
+                                      Nenhum registro encontrado
+                                    </SelectItem>
+                                  )}
                                 </SelectGroup>
                               </SelectContent>
                             </Select>
