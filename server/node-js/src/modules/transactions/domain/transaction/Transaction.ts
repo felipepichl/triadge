@@ -14,6 +14,9 @@ export interface ITransactionProps {
 
   financialCategory?: FinancialCategory
   financialCategoryId: string
+
+  subcategory?: FinancialCategory
+  subcategoryId?: string
 }
 
 class Transaction extends AggregateRoot<ITransactionProps> {
@@ -53,6 +56,14 @@ class Transaction extends AggregateRoot<ITransactionProps> {
     return this.props.financialCategoryId
   }
 
+  get subcategory(): FinancialCategory {
+    return this.props.subcategory
+  }
+
+  get subcategoryId(): string {
+    return this.props.subcategoryId
+  }
+
   public static createTransaction({
     id,
     description,
@@ -63,6 +74,8 @@ class Transaction extends AggregateRoot<ITransactionProps> {
     userId,
     financialCategoryId,
     financialCategory,
+    subcategoryId,
+    subcategory,
   }: ITransactionProps): Transaction {
     const transactionProps = {
       description,
@@ -74,6 +87,8 @@ class Transaction extends AggregateRoot<ITransactionProps> {
 
       financialCategory,
       financialCategoryId,
+      subcategory,
+      subcategoryId,
     }
 
     return AggregateRoot.create({ props: transactionProps, id }, Transaction)
