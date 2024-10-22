@@ -16,6 +16,7 @@ class TransactionsRepository implements ITransactionsRepository {
     value,
     userId,
     financialCategoryId,
+    subcategoryId,
   }: Transaction): Promise<void> {
     const data = {
       description,
@@ -25,6 +26,7 @@ class TransactionsRepository implements ITransactionsRepository {
       value,
       userId,
       financialCategoryId,
+      subcategoryId,
     }
 
     await PrismaSingleton.getInstance().transaction.upsert({

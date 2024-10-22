@@ -4,8 +4,15 @@ import { container } from 'tsyringe'
 
 class CreateTransactionController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { description, detail, type, date, value, financialCategoryId } =
-      request.body
+    const {
+      description,
+      detail,
+      type,
+      date,
+      value,
+      financialCategoryId,
+      subcategoryId,
+    } = request.body
     const { id: userId } = request.user
 
     const createTransactionUseCase = container.resolve(CreateTransactionUseCase)
@@ -18,6 +25,7 @@ class CreateTransactionController {
       value,
       userId,
       financialCategoryId,
+      subcategoryId,
     })
 
     return response.status(201).send()
