@@ -73,7 +73,7 @@ export function CardTransactions({ transactions }: Transaction) {
                     className="mr-2 flex-shrink-0 text-gray-500 dark:text-gray-400"
                   />
                   <span className="truncate font-semibold text-gray-500 dark:text-gray-400">
-                    {transaction.transactionCategory.description}
+                    {transaction.financialCategory.description}
                   </span>
                 </div>
                 <div className="flex items-center">

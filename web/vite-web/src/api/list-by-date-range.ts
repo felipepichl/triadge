@@ -13,7 +13,7 @@ type TransactionResponse = {
       type: string
       value: number
       date: Date
-      transactionCategory: {
+      financialCategory: {
         id: string
         description: string
       }
@@ -33,7 +33,7 @@ export type Transaction = {
     type: string
     value: number
     date: Date
-    transactionCategory: {
+    financialCategory: {
       id: string
       description: string
     }
@@ -64,14 +64,14 @@ export async function apiListByDateRange({
   const transactions = data.transactions.map(
     ({
       _id,
-      props: { description, type, value, date, transactionCategory },
+      props: { description, type, value, date, financialCategory },
     }) => ({
       _id,
       description,
       type,
       value,
       date,
-      transactionCategory,
+      financialCategory,
     }),
   )
 

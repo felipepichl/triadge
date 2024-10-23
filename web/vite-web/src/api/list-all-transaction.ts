@@ -8,7 +8,7 @@ type TransactionResponse = {
       type: string
       value: number
       date: Date
-      transactionCategory: {
+      financialCategory: {
         id: string
         description: string
       }
@@ -28,7 +28,7 @@ export type Transaction = {
     type: string
     value: number
     date: Date
-    transactionCategory: {
+    financialCategory: {
       id: string
       description: string
     }
@@ -48,18 +48,20 @@ export async function apiListAllTransaction(): Promise<Transaction> {
   const transactions = data.transactions.map(
     ({
       _id,
-      props: { description, type, value, date, transactionCategory },
+      props: { description, type, value, date, financialCategory },
     }) => ({
       _id,
       description,
       type,
       value,
       date,
-      transactionCategory,
+      financialCategory,
     }),
   )
 
   const { balance } = data
+
+  // console.log(JSON.stringify(transactions, null, 2))
 
   return {
     transactions,

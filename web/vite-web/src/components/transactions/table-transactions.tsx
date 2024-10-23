@@ -33,7 +33,7 @@ export function TableTransactions({ transactions: data }: Transaction) {
                     {priceFormatter.format(transaction.value)}
                   </TableHead>
                   <TableHead className={rowClass}>
-                    {transaction.transactionCategory.description}
+                    {transaction.financialCategory.description}
                   </TableHead>
                   <TableHead className={rowClass}>{formattedDate}</TableHead>
                   <TableHead className="flex items-center justify-center">

@@ -125,6 +125,7 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
   useEffect(() => {
     async function loadTransaction() {
       const response = await apiListAllTransaction()
+
       setTransaction(response)
     }
 
