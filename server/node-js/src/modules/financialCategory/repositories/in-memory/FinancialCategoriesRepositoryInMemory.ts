@@ -1,4 +1,6 @@
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
+import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
+import { ITransactionType } from '@modules/transactions/domain/transaction/TransactionType'
 
 import { IFinancialCategoriesRepository } from '../IFinancialCategoriesRepository'
 
@@ -6,6 +8,7 @@ class FinancialCategoriesRepositoryInMemory
   implements IFinancialCategoriesRepository
 {
   private financialCategories: FinancialCategory[] = []
+  private transactions: Transaction[] = []
 
   async create(financialCategory: FinancialCategory): Promise<void> {
     this.financialCategories.push(financialCategory)
@@ -26,6 +29,33 @@ class FinancialCategoriesRepositoryInMemory
         financialCategory.userId === userId &&
         financialCategory.parentCategoryId === parentCategoryId,
     )
+  }
+
+  async listFinancialCategoriesWithTransactionsByType(
+    userId: string,
+    type: ITransactionType,
+  ): Promise<
+    Array<{
+      financialCategory: FinancialCategory
+      financialCategoryTransactions: Transaction[]
+    }>
+  > {
+    const userFinancialCategories = this.financialCategories.filter(
+      (financialCategory) => financialCategory.userId === userId,
+    )
+
+    return userFinancialCategories.map((financialCategory) => {
+      const financialCategoryTransactions = this.transactions.filter(
+        (transaction) =>
+          transaction.financialCategoryId === financialCategory.id.toString() &&
+          transaction.type === type.type,
+      )
+
+      return {
+        financialCategory,
+        financialCategoryTransactions,
+      }
+    })
   }
 
   async findByDescription(description: string): Promise<FinancialCategory> {
@@ -49,6 +79,10 @@ class FinancialCategoriesRepositoryInMemory
     return this.financialCategories.find(
       (financialCategory) => financialCategory.id.toString() === id,
     )
+  }
+
+  async addTransaction(transaction: Transaction): Promise<void> {
+    this.transactions.push(transaction)
   }
 }
 

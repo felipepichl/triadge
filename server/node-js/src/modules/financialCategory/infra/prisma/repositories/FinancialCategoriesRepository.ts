@@ -17,6 +17,10 @@ class FinancialCategoriesRepository implements IFinancialCategoriesRepository {
       userId,
     }
 
+    PrismaSingleton.getInstance().financialCategory.findMany({
+      where: { userId },
+    })
+
     await PrismaSingleton.getInstance().financialCategory.upsert({
       where: { id: id.toString() },
       create: data,

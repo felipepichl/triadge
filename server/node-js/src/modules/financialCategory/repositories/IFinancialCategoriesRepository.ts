@@ -1,4 +1,6 @@
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
+import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
+import { ITransactionType } from '@modules/transactions/domain/transaction/TransactionType'
 
 interface IFinancialCategoriesRepository {
   create(financialCategory: FinancialCategory): Promise<void>
@@ -7,6 +9,15 @@ interface IFinancialCategoriesRepository {
     userId: string,
     parentCategoryId: string,
   ): Promise<FinancialCategory[]>
+  listFinancialCategoriesWithTransactionsByType(
+    userId: string,
+    type: ITransactionType,
+  ): Promise<
+    Array<{
+      financialCategory: FinancialCategory
+      financialCategoryTransactions: Transaction[]
+    }>
+  >
   findByDescription(description: string): Promise<FinancialCategory>
   findByDescriptionAndParentCategory(
     description: string,

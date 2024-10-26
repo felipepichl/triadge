@@ -60,8 +60,6 @@ model FinancialCategory {
   subcategoryTransactions Transaction[] @relation("SubcategoryTransactions")
 
   AccountPayable AccountPayable[]
-
-  financialCategoryId String?
 }
 
 model Transaction {
