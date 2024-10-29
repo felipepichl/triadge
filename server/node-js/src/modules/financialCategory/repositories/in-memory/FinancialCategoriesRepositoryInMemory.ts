@@ -34,12 +34,15 @@ class FinancialCategoriesRepositoryInMemory
   async listFinancialCategoriesWithTransactionsByType(
     userId: string,
     type: ITransactionType,
+    month: number,
   ): Promise<
     Array<{
       financialCategory: FinancialCategory
       financialCategoryTransactions: Transaction[]
     }>
   > {
+    const year = new Date().getFullYear()
+
     const userFinancialCategories = this.financialCategories.filter(
       (financialCategory) => financialCategory.userId === userId,
     )
@@ -48,7 +51,9 @@ class FinancialCategoriesRepositoryInMemory
       const financialCategoryTransactions = this.transactions.filter(
         (transaction) =>
           transaction.financialCategoryId === financialCategory.id.toString() &&
-          transaction.type === type.type,
+          transaction.type === type.type &&
+          transaction.date.getFullYear() === year &&
+          transaction.date.getMonth() === month - 1,
       )
 
       return {

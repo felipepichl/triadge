@@ -12,6 +12,7 @@ interface IFinancialCategoriesRepository {
   listFinancialCategoriesWithTransactionsByType(
     userId: string,
     type: ITransactionType,
+    month: number,
   ): Promise<
     Array<{
       financialCategory: FinancialCategory

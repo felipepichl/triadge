@@ -8,6 +8,8 @@ let financialCategoriesRepositoryInMemory: FinancialCategoriesRepositoryInMemory
 let listTotalSpentByFinancialCategoryUseCase: ListTotalSpentByFinancialCategoryUseCase
 
 describe('[FinancialCategory] - List total spent by financial category', () => {
+  const currentMonth = new Date().getMonth() + 1
+
   beforeEach(() => {
     financialCategoriesRepositoryInMemory =
       new FinancialCategoriesRepositoryInMemory()
@@ -39,6 +41,7 @@ describe('[FinancialCategory] - List total spent by financial category', () => {
       description: 'Transaction 1',
       type: 'outcome',
       value: 10.0,
+      date: new Date(new Date().getFullYear(), currentMonth - 1, 1),
       userId: 'userId',
       financialCategoryId: financialCategory1.id.toString(),
     })
@@ -47,6 +50,7 @@ describe('[FinancialCategory] - List total spent by financial category', () => {
       description: 'Transaction 2',
       type: 'outcome',
       value: 20.0,
+      date: new Date(new Date().getFullYear(), currentMonth - 1, 15),
       userId: 'userId',
       financialCategoryId: financialCategory1.id.toString(),
     })
@@ -55,6 +59,7 @@ describe('[FinancialCategory] - List total spent by financial category', () => {
       description: 'Transaction 3',
       type: 'outcome',
       value: 5.0,
+      date: new Date(new Date().getFullYear(), currentMonth - 1, 20),
       userId: 'userId',
       financialCategoryId: financialCategory2.id.toString(),
     })
@@ -68,6 +73,7 @@ describe('[FinancialCategory] - List total spent by financial category', () => {
     const result = await listTotalSpentByFinancialCategoryUseCase.execute({
       userId: 'userId',
       type: { type: 'outcome' },
+      month: currentMonth,
     })
 
     expect(result.totalExpensesByFinancialCategory).toHaveLength(2)
@@ -93,6 +99,7 @@ describe('[FinancialCategory] - List total spent by financial category', () => {
     const result = await listTotalSpentByFinancialCategoryUseCase.execute({
       userId: 'userWithoutTransactions',
       type: { type: 'outcome' },
+      month: currentMonth,
     })
 
     expect(result.totalExpensesByFinancialCategory).toHaveLength(0)
