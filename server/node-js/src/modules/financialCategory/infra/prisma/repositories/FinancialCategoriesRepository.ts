@@ -1,5 +1,8 @@
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
 import { IFinancialCategoriesRepository } from '@modules/financialCategory/repositories/IFinancialCategoriesRepository'
+import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
+import { ITransactionType } from '@modules/transactions/domain/transaction/TransactionType'
+import { TransactionMappers } from '@modules/transactions/infra/prisma/mappers/transaction/TransactionMappers'
 import { PrismaSingleton } from '@shared/infra/prisma'
 
 import { FinancialCategoryMappers } from '../mappers/FinancialCategoryMappers'
@@ -47,6 +50,44 @@ class FinancialCategoriesRepository implements IFinancialCategoriesRepository {
       })
 
     return FinancialCategoryMappers.getMapper().toDomainArray(result)
+  }
+
+  async listFinancialCategoriesWithTransactionsByType(
+    userId: string,
+    type: ITransactionType,
+    month: number,
+  ): Promise<
+    Array<{
+      financialCategory: FinancialCategory
+      financialCategoryTransactions: Transaction[]
+    }>
+  > {
+    const year = new Date().getFullYear()
+
+    const financialCategoriesWithTransactions =
+      await PrismaSingleton.getInstance().financialCategory.findMany({
+        where: {
+          userId,
+        },
+        include: {
+          transactions: {
+            where: {
+              type: type.type,
+              date: {
+                gte: new Date(year, month - 1, 1),
+                lt: new Date(year, month, 1),
+              },
+            },
+          },
+        },
+      })
+
+    return financialCategoriesWithTransactions.map((category) => ({
+      financialCategory:
+        FinancialCategoryMappers.getMapper().toDomain(category),
+      financialCategoryTransactions:
+        TransactionMappers.getMapper().toDomainArray(category.transactions),
+    }))
   }
 
   async findByDescription(description: string): Promise<FinancialCategory> {

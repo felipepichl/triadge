@@ -17,7 +17,7 @@ interface IResponse {
   }>
 }
 
-injectable()
+@injectable()
 class ListTotalSpentByFinancialCategoryUseCase
   implements IUseCase<IRequest, IResponse>
 {

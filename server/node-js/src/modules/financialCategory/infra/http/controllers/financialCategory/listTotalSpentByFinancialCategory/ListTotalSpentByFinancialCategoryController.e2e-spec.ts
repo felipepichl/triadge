@@ -64,7 +64,6 @@ async function createTransaction(financialCategoryId: string, token: string) {
       description: 'Description 3',
       detail: 'Detail',
       type: 'outcome',
-      date: new Date('2024,04,01'),
       value: 50,
       financialCategoryId,
     })
@@ -73,10 +72,34 @@ async function createTransaction(financialCategoryId: string, token: string) {
 describe('[E2E] - List total spent by financial category', () => {
   let token: string
   let financialCategoryId: string
+  const type = 'outcome'
+  const month = new Date().getMonth() + 1
 
   beforeEach(async () => {
     token = await authenticateUser()
     financialCategoryId = await createFinancialCategoy(token)
     await createTransaction(financialCategoryId, token)
+  })
+
+  it('should be able to calculate the total spent by financial category', async () => {
+    const response = await request(app)
+      .get('/financial-category/total-spent')
+      .set({ Authorization: `Bearer ${token}` })
+      .query({ month, type })
+
+    console.log(JSON.stringify(response.body, null, 2))
+
+    expect(response.status).toBe(200)
+    expect(response.body.totalExpensesByFinancialCategory).toHaveLength(1)
+    expect(response.body.totalExpensesByFinancialCategory).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          financialCategory: expect.objectContaining({
+            description: 'Category Test',
+          }),
+          totalSpent: 100,
+        }),
+      ]),
+    )
   })
 })
