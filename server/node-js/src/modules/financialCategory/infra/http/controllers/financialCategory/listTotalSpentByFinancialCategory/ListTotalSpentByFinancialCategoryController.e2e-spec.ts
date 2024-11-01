@@ -22,7 +22,7 @@ async function createFinancialCategoy(token: string): Promise<string> {
     .post('/financial-category')
     .set({ Authorization: `Bearer ${token}` })
     .send({
-      description: 'Category Test',
+      description: 'Category Test 1',
     })
 
   const response = await request(app)
@@ -87,15 +87,15 @@ describe('[E2E] - List total spent by financial category', () => {
       .set({ Authorization: `Bearer ${token}` })
       .query({ month, type })
 
-    console.log(JSON.stringify(response.body, null, 2))
-
     expect(response.status).toBe(200)
     expect(response.body.totalExpensesByFinancialCategory).toHaveLength(1)
     expect(response.body.totalExpensesByFinancialCategory).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           financialCategory: expect.objectContaining({
-            description: 'Category Test',
+            props: expect.objectContaining({
+              description: 'Category Test 1',
+            }),
           }),
           totalSpent: 100,
         }),
