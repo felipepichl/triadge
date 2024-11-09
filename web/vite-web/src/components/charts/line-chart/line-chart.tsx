@@ -10,6 +10,7 @@ import {
   YAxis,
 } from 'recharts'
 
+import { apiListTotalSpentByFinancialCategory } from '@/api/list-total-spent-by-financial-category'
 import {
   Card,
   CardContent,
@@ -91,6 +92,19 @@ export function LineChartCategoryTransactions() {
     return () => {
       window.removeEventListener('resize', handleResize)
     }
+  }, [])
+
+  useEffect(() => {
+    async function load() {
+      const response = await apiListTotalSpentByFinancialCategory({
+        type: 'outcome',
+        month: 11,
+      })
+
+      console.log(JSON.stringify(response, null, 2))
+    }
+
+    load()
   }, [])
 
   return (
