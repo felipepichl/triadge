@@ -65,9 +65,31 @@ class FinancialCategoriesRepository implements IFinancialCategoriesRepository {
     const year = new Date().getFullYear()
 
     const financialCategoriesWithTransactions =
-      await PrismaSingleton.getInstance().financialCategory.findMany({
+      await PrismaSingleton.getInstance().transaction.groupBy({
+        by: ['financialCategoryId'],
         where: {
           userId,
+          type: type.type,
+          date: {
+            gte: new Date(year, month - 1, 1),
+            lt: new Date(year, month, 1),
+          },
+        },
+        _count: {
+          financialCategoryId: true,
+        },
+      })
+
+    const categoryIds = financialCategoriesWithTransactions.map(
+      (transaction) => transaction.financialCategoryId,
+    )
+
+    const financialCategories =
+      await PrismaSingleton.getInstance().financialCategory.findMany({
+        where: {
+          id: {
+            in: categoryIds,
+          },
         },
         include: {
           transactions: {
@@ -82,7 +104,7 @@ class FinancialCategoriesRepository implements IFinancialCategoriesRepository {
         },
       })
 
-    return financialCategoriesWithTransactions.map((category) => ({
+    return financialCategories.map((category) => ({
       financialCategory:
         FinancialCategoryMappers.getMapper().toDomain(category),
       financialCategoryTransactions:

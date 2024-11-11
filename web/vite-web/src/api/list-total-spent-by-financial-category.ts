@@ -5,7 +5,7 @@ export type ListTotalSpentByFinancialCategoryBody = {
   month: number
 }
 
-type ListTotalSpentByFinancialCategoryResponse = {
+export type ListTotalSpentByFinancialCategoryResponse = {
   totalExpensesByFinancialCategory: {
     financialCategory: {
       props: {

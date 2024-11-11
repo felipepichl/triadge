@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { Value } from '@radix-ui/react-select'
+import { useCallback, useEffect, useState } from 'react'
 import {
   Bar,
   BarChart,
@@ -10,7 +11,10 @@ import {
   YAxis,
 } from 'recharts'
 
-import { apiListTotalSpentByFinancialCategory } from '@/api/list-total-spent-by-financial-category'
+import {
+  apiListTotalSpentByFinancialCategory,
+  ListTotalSpentByFinancialCategoryResponse,
+} from '@/api/list-total-spent-by-financial-category'
 import {
   Card,
   CardContent,
@@ -34,23 +38,23 @@ import {
 } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 
-const chartData = [
-  { browser: 'chrome', visitors: 275 },
-  { browser: 'safari', visitors: 200 },
-  { browser: 'firefox', visitors: 187 },
-  { browser: 'edge', visitors: 173 },
-  { browser: 'other', visitors: 90 },
-  { browser: 'chrome', visitors: 275 },
-  { browser: 'safari', visitors: 200 },
-  { browser: 'firefox', visitors: 187 },
-  { browser: 'edge', visitors: 173 },
-  { browser: 'other', visitors: 90 },
-  { browser: 'chrome', visitors: 275 },
-  { browser: 'safari', visitors: 200 },
-  { browser: 'firefox', visitors: 187 },
-  { browser: 'edge', visitors: 173 },
-  { browser: 'other', visitors: 90 },
-]
+// const chartData = [
+//   { financialCategory: 'chrome', value: 275 },
+//   { financialCategory: 'safari', value: 200 },
+//   { financialCategory: 'firefox', value: 187 },
+//   { financialCategory: 'edge', value: 173 },
+//   { financialCategory: 'other', value: 90 },
+//   { financialCategory: 'chrome', value: 275 },
+//   { financialCategory: 'safari', value: 200 },
+//   { financialCategory: 'firefox', value: 187 },
+//   { financialCategory: 'edge', value: 173 },
+//   { financialCategory: 'other', value: 90 },
+//   { financialCategory: 'chrome', value: 275 },
+//   { financialCategory: 'safari', value: 200 },
+//   { financialCategory: 'firefox', value: 187 },
+//   { financialCategory: 'edge', value: 173 },
+//   { financialCategory: 'other', value: 90 },
+// ]
 
 const chartConfig = {
   visitors: {
@@ -82,6 +86,64 @@ const chartConfig = {
 export function LineChartCategoryTransactions() {
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 690)
 
+  const [
+    totalExpensesByFinancialCategory,
+    setTotalExpensesByFinancialCategory,
+  ] = useState<ListTotalSpentByFinancialCategoryResponse>()
+
+  // const [chartData, setChartData] = useState([
+  //   {
+  //     // financialCategory:
+  //     //   totalExpensesByFinancialCategory?.totalExpensesByFinancialCategory.map(
+  //     //     (financialCategory) =>
+  //     //       financialCategory.financialCategory.props.description,
+  //     //   ),
+  //     // value:
+  //     //   totalExpensesByFinancialCategory?.totalExpensesByFinancialCategory.map(
+  //     //     (value) => value.totalSpent,
+  //     //   ),
+
+  //     financialCategory: 'Test',
+  //     value: 100,
+  //   },
+  // ])
+
+  const [chartData, setChartData] = useState<
+    { financialCategory: string; value: number }[]
+  >([])
+
+  const handleMonthSelect = useCallback(async (monthNumber: string) => {
+    const response = await apiListTotalSpentByFinancialCategory({
+      type: 'outcome',
+      month: Number(monthNumber),
+    })
+
+    setTotalExpensesByFinancialCategory(response)
+  }, [])
+
+  useEffect(() => {
+    async function load() {
+      const response = await apiListTotalSpentByFinancialCategory({
+        type: 'outcome',
+        month: 11,
+      })
+
+      const updatedChartData = response.totalExpensesByFinancialCategory.map(
+        (item) => ({
+          financialCategory: item.financialCategory.props.description,
+          value: item.totalSpent,
+        }),
+      )
+
+      setChartData(updatedChartData)
+
+      // console.log(JSON.stringify(response, null, 2))
+      setTotalExpensesByFinancialCategory(response)
+    }
+
+    load()
+  }, [])
+
   useEffect(() => {
     const handleResize = () => {
       setIsWideScreen(window.innerWidth >= 690)
@@ -92,19 +154,6 @@ export function LineChartCategoryTransactions() {
     return () => {
       window.removeEventListener('resize', handleResize)
     }
-  }, [])
-
-  useEffect(() => {
-    async function load() {
-      const response = await apiListTotalSpentByFinancialCategory({
-        type: 'outcome',
-        month: 11,
-      })
-
-      console.log(JSON.stringify(response, null, 2))
-    }
-
-    load()
   }, [])
 
   return (
@@ -145,23 +194,24 @@ export function LineChartCategoryTransactions() {
               data={chartData}
               margin={{
                 top: 48,
-                left: 24,
-                right: 24,
+                left: 48,
+                right: 48,
+                bottom: 48,
               }}
             >
-              <CartesianGrid vertical={false} />
+              <CartesianGrid vertical={true} />
               <ChartTooltip
                 cursor={false}
                 content={
                   <ChartTooltipContent
                     indicator="line"
-                    nameKey="visitors"
+                    nameKey="value"
                     hideLabel
                   />
                 }
               />
               <Line
-                dataKey="visitors"
+                dataKey="value"
                 type="natural"
                 stroke="var(--color-visitors)"
                 strokeWidth={2}
@@ -177,7 +227,7 @@ export function LineChartCategoryTransactions() {
                   offset={12}
                   className="fill-foreground"
                   fontSize={12}
-                  dataKey="browser"
+                  dataKey="financialCategory"
                   // formatter={(value: keyof typeof chartConfig) =>
                   //   chartConfig[value]?.label
                   // }
@@ -197,7 +247,7 @@ export function LineChartCategoryTransactions() {
               }}
             >
               <YAxis
-                dataKey="visitors"
+                dataKey="value"
                 type="category"
                 // tickLine={false}
                 // tickMargin={10}
@@ -205,7 +255,7 @@ export function LineChartCategoryTransactions() {
                 // tickFormatter={(value) => value.slice(0, 3)}
                 hide
               />
-              <XAxis dataKey="visitors" type="number" hide />
+              <XAxis dataKey="value" type="number" hide />
               {/* 
                 <ChartTooltip
                     cursor={false}
@@ -213,13 +263,13 @@ export function LineChartCategoryTransactions() {
                   /> 
               */}
               <Bar
-                dataKey="visitors"
+                dataKey="value"
                 layout="vertical"
                 fill="hsl(var(--chart-2))"
                 radius={4}
               >
                 <LabelList
-                  dataKey="browser"
+                  dataKey="financialCategory"
                   position="insideLeft"
                   offset={8}
                   fill="white"
