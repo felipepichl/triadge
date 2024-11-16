@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
+import NotFound from 'react-lottie'
 import {
   Bar,
   BarChart,
@@ -11,6 +12,7 @@ import {
 } from 'recharts'
 
 import { apiListTotalSpentByFinancialCategory } from '@/api/list-total-spent-by-financial-category'
+import notFoundAnimation from '@/assets/not-found-new.json'
 import { MonthSelect } from '@/components/month-select/month-select'
 import {
   Card,
@@ -57,11 +59,6 @@ const chartConfig = {
 export function LineChartCategoryTransactions() {
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 690)
 
-  // const [
-  //   totalExpensesByFinancialCategory,
-  //   setTotalExpensesByFinancialCategory,
-  // ] = useState<ListTotalSpentByFinancialCategoryResponse>()
-
   const [chartData, setChartData] = useState<
     { financialCategory: string; value: number }[]
   >([])
@@ -102,10 +99,10 @@ export function LineChartCategoryTransactions() {
     return () => {
       window.removeEventListener('resize', handleResize)
     }
-  }, [])
+  }, [fetchTotalSpentByMonth])
 
   return (
-    <Card className="lg:min-h-[400px]">
+    <Card className="flex min-h-[400px] flex-col">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-center">
         <CardHeader>
           <CardTitle>Categorias</CardTitle>
@@ -116,8 +113,21 @@ export function LineChartCategoryTransactions() {
         </div>
       </div>
       <Separator />
-      <CardContent>
-        {isWideScreen ? (
+      <CardContent className="flex flex-1 flex-grow flex-col items-center justify-end ">
+        {chartData.length === 0 ? (
+          <>
+            <NotFound
+              options={{
+                animationData: notFoundAnimation,
+              }}
+              height={208}
+              width={208}
+            />
+            <CardDescription className="text-center">
+              Nenhuma transação encontrada
+            </CardDescription>
+          </>
+        ) : isWideScreen ? (
           <ChartContainer className="max-h-[250px] w-full" config={chartConfig}>
             <LineChart
               accessibilityLayer
@@ -158,9 +168,6 @@ export function LineChartCategoryTransactions() {
                   className="fill-foreground"
                   fontSize={12}
                   dataKey="financialCategory"
-                  // formatter={(value: keyof typeof chartConfig) =>
-                  //   chartConfig[value]?.label
-                  // }
                 />
               </Line>
             </LineChart>
@@ -176,15 +183,7 @@ export function LineChartCategoryTransactions() {
                 top: 16,
               }}
             >
-              <YAxis
-                dataKey="value"
-                type="category"
-                // tickLine={false}
-                // tickMargin={10}
-                // axisLine={false}
-                // tickFormatter={(value) => value.slice(0, 3)}
-                hide
-              />
+              <YAxis dataKey="value" type="category" hide />
               <XAxis dataKey="value" type="number" hide />
               {/* 
                 <ChartTooltip

@@ -5,7 +5,7 @@ import NotFound from 'react-lottie'
 import { Pie, PieChart } from 'recharts'
 
 import { apiListByMonth } from '@/api/list-by-month'
-import notFoundAnimation from '@/assets/not-found.json'
+import notFoundAnimation from '@/assets/not-found-new.json'
 import { LineChartCategoryTransactions } from '@/components/charts/line-chart/line-chart'
 import {
   Card,
@@ -135,7 +135,7 @@ export function Dashboard() {
             <CardDescription>Por entrada e sáida</CardDescription>
           </CardHeader>
           <Separator />
-          <CardContent className="flex-1">
+          <CardContent className="flex-1 justify-end">
             <div className="mt-4">
               <Select
                 onValueChange={handleMonthSelect}
@@ -157,15 +157,14 @@ export function Dashboard() {
                 </SelectContent>
               </Select>
             </div>
-
             {showNotFound ? (
               <>
                 <NotFound
                   options={{
                     animationData: notFoundAnimation,
                   }}
-                  height={208}
-                  width={208}
+                  height={200}
+                  width={200}
                 />
                 <CardDescription className="pb-3 text-center">
                   Nenhuma transação encontrada
