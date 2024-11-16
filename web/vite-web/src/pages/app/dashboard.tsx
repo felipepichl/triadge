@@ -47,7 +47,6 @@ const chartConfig = {
 export function Dashboard() {
   const { user } = useAuth()
 
-  const currentMonth = getMonth(new Date()) + 1
   const { transactionByDateRangeAndType, loadTransactionByDateRangeAndType } =
     useTransaction()
 
@@ -64,6 +63,8 @@ export function Dashboard() {
     },
   ])
   const [showNotFound, setShowNotFound] = useState(false)
+
+  const currentMonth = getMonth(new Date()) + 1
 
   const handleMonthSelect = useCallback(async (monthNumber: string) => {
     const response = await apiListByMonth({ month: Number(monthNumber) })

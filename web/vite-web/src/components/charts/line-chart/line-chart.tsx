@@ -1,4 +1,3 @@
-import { Value } from '@radix-ui/react-select'
 import { useCallback, useEffect, useState } from 'react'
 import {
   Bar,
@@ -11,10 +10,8 @@ import {
   YAxis,
 } from 'recharts'
 
-import {
-  apiListTotalSpentByFinancialCategory,
-  ListTotalSpentByFinancialCategoryResponse,
-} from '@/api/list-total-spent-by-financial-category'
+import { apiListTotalSpentByFinancialCategory } from '@/api/list-total-spent-by-financial-category'
+import { MonthSelect } from '@/components/month-select/month-select'
 import {
   Card,
   CardContent,
@@ -28,33 +25,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
-
-// const chartData = [
-//   { financialCategory: 'chrome', value: 275 },
-//   { financialCategory: 'safari', value: 200 },
-//   { financialCategory: 'firefox', value: 187 },
-//   { financialCategory: 'edge', value: 173 },
-//   { financialCategory: 'other', value: 90 },
-//   { financialCategory: 'chrome', value: 275 },
-//   { financialCategory: 'safari', value: 200 },
-//   { financialCategory: 'firefox', value: 187 },
-//   { financialCategory: 'edge', value: 173 },
-//   { financialCategory: 'other', value: 90 },
-//   { financialCategory: 'chrome', value: 275 },
-//   { financialCategory: 'safari', value: 200 },
-//   { financialCategory: 'firefox', value: 187 },
-//   { financialCategory: 'edge', value: 173 },
-//   { financialCategory: 'other', value: 90 },
-// ]
 
 const chartConfig = {
   visitors: {
@@ -86,65 +57,42 @@ const chartConfig = {
 export function LineChartCategoryTransactions() {
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 690)
 
-  const [
-    totalExpensesByFinancialCategory,
-    setTotalExpensesByFinancialCategory,
-  ] = useState<ListTotalSpentByFinancialCategoryResponse>()
-
-  // const [chartData, setChartData] = useState([
-  //   {
-  //     // financialCategory:
-  //     //   totalExpensesByFinancialCategory?.totalExpensesByFinancialCategory.map(
-  //     //     (financialCategory) =>
-  //     //       financialCategory.financialCategory.props.description,
-  //     //   ),
-  //     // value:
-  //     //   totalExpensesByFinancialCategory?.totalExpensesByFinancialCategory.map(
-  //     //     (value) => value.totalSpent,
-  //     //   ),
-
-  //     financialCategory: 'Test',
-  //     value: 100,
-  //   },
-  // ])
+  // const [
+  //   totalExpensesByFinancialCategory,
+  //   setTotalExpensesByFinancialCategory,
+  // ] = useState<ListTotalSpentByFinancialCategoryResponse>()
 
   const [chartData, setChartData] = useState<
     { financialCategory: string; value: number }[]
   >([])
 
-  const handleMonthSelect = useCallback(async (monthNumber: string) => {
+  const fetchTotalSpentByMonth = useCallback(async (monthNumber: number) => {
     const response = await apiListTotalSpentByFinancialCategory({
       type: 'outcome',
       month: Number(monthNumber),
     })
 
-    setTotalExpensesByFinancialCategory(response)
+    const updatedChartData = response.totalExpensesByFinancialCategory.map(
+      (item) => ({
+        financialCategory: item.financialCategory.props.description,
+        value: item.totalSpent,
+      }),
+    )
+
+    setChartData(updatedChartData)
   }, [])
 
-  useEffect(() => {
-    async function load() {
-      const response = await apiListTotalSpentByFinancialCategory({
-        type: 'outcome',
-        month: 11,
-      })
-
-      const updatedChartData = response.totalExpensesByFinancialCategory.map(
-        (item) => ({
-          financialCategory: item.financialCategory.props.description,
-          value: item.totalSpent,
-        }),
-      )
-
-      setChartData(updatedChartData)
-
-      // console.log(JSON.stringify(response, null, 2))
-      setTotalExpensesByFinancialCategory(response)
-    }
-
-    load()
-  }, [])
+  const handleMonthSelect = useCallback(
+    async (monthNumber: string) => {
+      await fetchTotalSpentByMonth(Number(monthNumber))
+    },
+    [fetchTotalSpentByMonth],
+  )
 
   useEffect(() => {
+    const currentMonth = new Date().getMonth() + 1
+    fetchTotalSpentByMonth(currentMonth)
+
     const handleResize = () => {
       setIsWideScreen(window.innerWidth >= 690)
     }
@@ -164,25 +112,7 @@ export function LineChartCategoryTransactions() {
           <CardDescription>Transação por categorias em saídas</CardDescription>
         </CardHeader>
         <div className="flex-1 px-4 pb-4 lg:pb-0">
-          <Select
-          // onValueChange={handleMonthSelect}
-          // defaultValue={String(currentMonth)}
-          >
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Selecione o mês" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                {[...Array(12).keys()].map((i) => (
-                  <SelectItem key={i + 1} value={String(i + 1)}>
-                    {new Date(0, i).toLocaleString('pt-BR', {
-                      month: 'long',
-                    })}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <MonthSelect onMonthSelect={handleMonthSelect} />
         </div>
       </div>
       <Separator />
