@@ -7,6 +7,7 @@ import { Pie, PieChart } from 'recharts'
 import { apiListByMonth } from '@/api/list-by-month'
 import notFoundAnimation from '@/assets/not-found-new.json'
 import { LineChartCategoryTransactions } from '@/components/charts/line-chart/line-chart'
+import { MonthSelect } from '@/components/month-select/month-select'
 import {
   Card,
   CardContent,
@@ -20,17 +21,8 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from '@/components/ui/chart'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { useAuth } from '@/hooks/use-auth'
-import { useTransaction } from '@/hooks/use-transaction'
 import { THEME } from '@/styles/theme/colors'
 
 const chartConfig = {
@@ -47,26 +39,20 @@ const chartConfig = {
 export function Dashboard() {
   const { user } = useAuth()
 
-  const { transactionByDateRangeAndType, loadTransactionByDateRangeAndType } =
-    useTransaction()
-
   const [chartData, setChartData] = useState([
     {
       transactionType: 'income',
-      value: transactionByDateRangeAndType?.balance?.income || 0,
+      value: 0,
       fill: THEME.COLORS.INCOME,
     },
     {
       transactionType: 'outcome',
-      value: transactionByDateRangeAndType?.balance?.outcome || 0,
+      value: 0,
       fill: THEME.COLORS.OUTCOME,
     },
   ])
-  const [showNotFound, setShowNotFound] = useState(false)
 
-  const currentMonth = getMonth(new Date()) + 1
-
-  const handleMonthSelect = useCallback(async (monthNumber: string) => {
+  const fetchListByMonth = useCallback(async (monthNumber: number) => {
     const response = await apiListByMonth({ month: Number(monthNumber) })
 
     const { balance } = response
@@ -85,43 +71,17 @@ export function Dashboard() {
     ])
   }, [])
 
-  useEffect(() => {
-    loadTransactionByDateRangeAndType()
-  }, [loadTransactionByDateRangeAndType])
+  const handleMonthSelect = useCallback(
+    async (monthNumber: string) => {
+      await fetchListByMonth(Number(monthNumber))
+    },
+    [fetchListByMonth],
+  )
 
   useEffect(() => {
-    const income = transactionByDateRangeAndType?.balance?.income || 0
-    const outcome = transactionByDateRangeAndType?.balance?.outcome || 0
-
-    setChartData((prevChartData) => {
-      if (
-        income !== prevChartData[0].value ||
-        outcome !== prevChartData[1].value
-      ) {
-        return [
-          {
-            transactionType: 'income',
-            value: income,
-            fill: THEME.COLORS.INCOME,
-          },
-          {
-            transactionType: 'outcome',
-            value: outcome,
-            fill: THEME.COLORS.OUTCOME,
-          },
-        ]
-      }
-      return prevChartData
-    })
-  }, [transactionByDateRangeAndType])
-
-  useEffect(() => {
-    const hasData = chartData.some((item) => item.value > 0)
-    setShowNotFound(!hasData)
-    const timer = setTimeout(() => {}, 500)
-
-    return () => clearTimeout(timer)
-  }, [chartData])
+    const currentMonth = getMonth(new Date()) + 1
+    fetchListByMonth(currentMonth)
+  }, [fetchListByMonth])
 
   return (
     <>
@@ -130,34 +90,16 @@ export function Dashboard() {
 
       <div className="flex flex-col lg:flex-row">
         <Card className="mb-4 flex max-h-[400px] min-h-[400px] flex-col sm:w-full md:w-full lg:mr-2 lg:w-[480px]">
-          <CardHeader className="">
+          <CardHeader>
             <CardTitle>Transações</CardTitle>
             <CardDescription>Por entrada e sáida</CardDescription>
           </CardHeader>
           <Separator />
           <CardContent className="flex-1 justify-end">
             <div className="mt-4">
-              <Select
-                onValueChange={handleMonthSelect}
-                defaultValue={String(currentMonth)}
-              >
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Selecione o mês" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {[...Array(12).keys()].map((i) => (
-                      <SelectItem key={i + 1} value={String(i + 1)}>
-                        {new Date(0, i).toLocaleString('pt-BR', {
-                          month: 'long',
-                        })}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <MonthSelect onMonthSelect={handleMonthSelect} />
             </div>
-            {showNotFound ? (
+            {chartData[0].value === 0 ? (
               <>
                 <NotFound
                   options={{
