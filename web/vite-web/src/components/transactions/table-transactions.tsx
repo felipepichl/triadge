@@ -6,16 +6,14 @@ import { Link } from 'react-router-dom'
 import { Transaction } from '@/api/list-all-transaction'
 import { priceFormatter } from '@/util/formatter'
 
-import { Pagination } from '../pagination'
 import { ScrollArea } from '../ui/scroll-area'
-import { Separator } from '../ui/separator'
 import { Table, TableBody, TableHead, TableRow } from '../ui/table'
 
 export function TableTransactions({ transactions: data }: Transaction) {
   return (
     <>
       {/* <Table className="mt-8 hidden md:table md:basis-1/2"></Table> */}
-      <Table className="mt-8">
+      <Table className="mt-10">
         <TableBody>
           <ScrollArea className="h-72">
             {data.map((transaction) => {
@@ -54,9 +52,9 @@ export function TableTransactions({ transactions: data }: Transaction) {
         </TableBody>
       </Table>
 
-      <Separator orientation="horizontal" />
+      {/* <Separator orientation="horizontal" />
 
-      <Pagination pageIndex={0} totalCount={105} parPage={10} />
+      <Pagination pageIndex={0} totalCount={105} parPage={10} /> */}
     </>
   )
 }

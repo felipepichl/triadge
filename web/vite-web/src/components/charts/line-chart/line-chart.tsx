@@ -102,7 +102,7 @@ export function LineChartCategoryTransactions() {
   }, [fetchTotalSpentByMonth])
 
   return (
-    <Card className="flex min-h-[400px] flex-col">
+    <Card className="mb-4 flex w-full flex-col lg:mr-2 lg:h-[400px]">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-center">
         <CardHeader>
           <CardTitle>Categorias</CardTitle>
@@ -113,7 +113,8 @@ export function LineChartCategoryTransactions() {
         </div>
       </div>
       <Separator />
-      <CardContent className="flex flex-1 flex-grow flex-col items-center justify-end ">
+
+      <CardContent className="flex flex-1 flex-col items-center justify-end">
         {chartData.length === 0 ? (
           <>
             <NotFound
