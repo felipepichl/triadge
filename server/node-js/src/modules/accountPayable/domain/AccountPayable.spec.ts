@@ -1,0 +1,19 @@
+import { AccountPayable } from './AccountPayable'
+
+describe('[AccountPayable] - Create a new Account Payable', () => {
+  it('should be able to create a new instance of account payable', () => {
+    const accountPayable = AccountPayable.createAccountPayable({
+      description: 'Account Payable description',
+      amount: 100,
+      dueDate: new Date(),
+      isPaid: false,
+      totalInstallments: 1,
+      userId: 'user_id',
+      financialCategoryId: 'financialCategoryId',
+      subcategoryId: 'subcategoryId',
+    })
+
+    expect(accountPayable instanceof AccountPayable).toBe(true)
+    expect(accountPayable).toBeTruthy()
+  })
+})
