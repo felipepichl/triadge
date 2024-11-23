@@ -1,10 +1,8 @@
 import { AccountPayable } from '@modules/accountPayable/domain/AccountPayable'
 
-import { IAccountsPayableRepositories } from '../IAccountsPayableRepositories'
+import { IAccountsPayableRepository } from '../IAccountsPayableRepository'
 
-class AccountsPayableRepositoryInMemory
-  implements IAccountsPayableRepositories
-{
+class AccountsPayableRepositoryInMemory implements IAccountsPayableRepository {
   private accountsPayable: AccountPayable[] = []
 
   async create(accountPayable: AccountPayable): Promise<void> {

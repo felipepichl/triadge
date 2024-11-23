@@ -1,5 +1,5 @@
 import { AccountPayable } from '@modules/accountPayable/domain/AccountPayable'
-import { IAccountsPayableRepositories } from '@modules/accountPayable/repositories/IAccountsPayableRepositories'
+import { IAccountsPayableRepository } from '@modules/accountPayable/repositories/IAccountsPayableRepository'
 import { IUseCase } from '@shared/core/domain/IUseCase'
 
 interface IRequest {
@@ -13,9 +13,7 @@ interface IRequest {
 }
 
 class CreateAccountPayable implements IUseCase<IRequest, void> {
-  constructor(
-    private accountsPayableRepository: IAccountsPayableRepositories,
-  ) {}
+  constructor(private accountsPayableRepository: IAccountsPayableRepository) {}
 
   async execute({
     description,

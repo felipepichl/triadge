@@ -1,6 +1,6 @@
 import { AccountPayable } from '../domain/AccountPayable'
 
-interface IAccountsPayableRepositories {
+interface IAccountsPayableRepository {
   create(accountPayable: AccountPayable): Promise<void>
   listAll(userId: string): Promise<AccountPayable[]>
   listByDateRange(
@@ -11,4 +11,4 @@ interface IAccountsPayableRepositories {
   markAccountAsPaid(accountPayableId: string): Promise<void>
 }
 
-export { IAccountsPayableRepositories }
+export { IAccountsPayableRepository }
