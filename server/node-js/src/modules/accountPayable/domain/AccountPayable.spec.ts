@@ -9,8 +9,8 @@ describe('[AccountPayable] - Create a new Account Payable', () => {
       isPaid: false,
       totalInstallments: 1,
       userId: 'user_id',
-      financialCategoryId: 'financialCategoryId',
-      subcategoryId: 'subcategoryId',
+      financialCategoryId: 'financial_category_id',
+      subcategoryId: 'subcategory_id',
     })
 
     expect(accountPayable instanceof AccountPayable).toBe(true)
