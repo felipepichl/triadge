@@ -1,15 +1,15 @@
 import { AccountsPayableRepositoryInMemory } from '@modules/accountPayable/repositories/in-memory/AccountsPayableRepositoryInMemory'
 
-import { CreateAccountPayable } from './CreateAccountPayable'
+import { CreateAccountPayableUseCase } from './CreateAccountPayableUseCase'
 
 let accountsPayableRepositoryInMemory: AccountsPayableRepositoryInMemory
-let createAccountsPayableUseCase: CreateAccountPayable
+let createAccountsPayableUseCase: CreateAccountPayableUseCase
 
 describe('[AccountPayable] - Create a account payable', () => {
   beforeEach(() => {
     accountsPayableRepositoryInMemory = new AccountsPayableRepositoryInMemory()
 
-    createAccountsPayableUseCase = new CreateAccountPayable(
+    createAccountsPayableUseCase = new CreateAccountPayableUseCase(
       accountsPayableRepositoryInMemory,
     )
   })

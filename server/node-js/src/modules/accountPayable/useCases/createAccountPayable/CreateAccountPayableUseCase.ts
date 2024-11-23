@@ -12,7 +12,7 @@ interface IRequest {
   subcategoryId: string
 }
 
-class CreateAccountPayable implements IUseCase<IRequest, void> {
+class CreateAccountPayableUseCase implements IUseCase<IRequest, void> {
   constructor(private accountsPayableRepository: IAccountsPayableRepository) {}
 
   async execute({
@@ -39,4 +39,4 @@ class CreateAccountPayable implements IUseCase<IRequest, void> {
   }
 }
 
-export { CreateAccountPayable }
+export { CreateAccountPayableUseCase }
