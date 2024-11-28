@@ -6,7 +6,7 @@ interface IRequest {
   description: string
   amount: number
   dueDate: Date
-  totalInstallments: number
+
   userId: string
   financialCategoryId: string
   subcategoryId: string
@@ -19,7 +19,6 @@ class CreateAccountPayableUseCase implements IUseCase<IRequest, void> {
     description,
     amount,
     dueDate,
-    totalInstallments,
     userId,
     financialCategoryId,
     subcategoryId,
@@ -28,8 +27,6 @@ class CreateAccountPayableUseCase implements IUseCase<IRequest, void> {
       description,
       amount,
       dueDate,
-      isPaid: false,
-      totalInstallments,
       userId,
       financialCategoryId,
       subcategoryId,

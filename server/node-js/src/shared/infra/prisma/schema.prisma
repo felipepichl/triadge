@@ -91,6 +91,7 @@ model AccountPayable {
   isPaid            Boolean   @default(false)
   installmentNumber Int?
   totalInstallments Int?
+  isFixed           Boolean   @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
