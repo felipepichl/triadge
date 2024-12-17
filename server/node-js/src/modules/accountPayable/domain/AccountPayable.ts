@@ -9,7 +9,6 @@ interface IAccounPayableProps {
   dueDate: Date
   paymentDate?: Date
   isPaid?: boolean
-  totalInstallments?: number
   isFixed?: boolean
 
   userId: string
@@ -46,10 +45,6 @@ class AccountPayable extends AggregateRoot<IAccounPayableProps> {
     return this.props.isPaid
   }
 
-  get totalInstallments(): number {
-    return this.props.totalInstallments
-  }
-
   get isFixed(): boolean {
     return this.props.isFixed
   }
@@ -81,7 +76,6 @@ class AccountPayable extends AggregateRoot<IAccounPayableProps> {
     dueDate,
     paymentDate,
     isPaid,
-    totalInstallments,
     isFixed,
     userId,
     financialCategoryId,
@@ -95,7 +89,6 @@ class AccountPayable extends AggregateRoot<IAccounPayableProps> {
       dueDate,
       paymentDate,
       isPaid,
-      totalInstallments,
       isFixed,
       userId,
       financialCategoryId,

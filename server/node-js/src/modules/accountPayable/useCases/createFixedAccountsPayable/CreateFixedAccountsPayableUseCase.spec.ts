@@ -1,21 +1,21 @@
 import { AccountsPayableRepositoryInMemory } from '@modules/accountPayable/repositories/in-memory/AccountsPayableRepositoryInMemory'
 
-import { CreateAccountPayableUseCase } from './CreateAccountPayableUseCase'
+import { CreateFixedAccountsPayableUseCase } from './CreateFixedAccounsPayableUseCase'
 
 let accountsPayableRepositoryInMemory: AccountsPayableRepositoryInMemory
-let createAccountsPayableUseCase: CreateAccountPayableUseCase
+let createFixedAccountsPayableUseCase: CreateFixedAccountsPayableUseCase
 
-describe('[AccountPayable] - Create a account payable', () => {
+describe('[AccountPayable] - Create a fixed account payable', () => {
   beforeEach(() => {
     accountsPayableRepositoryInMemory = new AccountsPayableRepositoryInMemory()
 
-    createAccountsPayableUseCase = new CreateAccountPayableUseCase(
+    createFixedAccountsPayableUseCase = new CreateFixedAccountsPayableUseCase(
       accountsPayableRepositoryInMemory,
     )
   })
 
-  it('should be able to create a new account payable', async () => {
-    await createAccountsPayableUseCase.execute({
+  it('should be able to create a new fixed account payable', async () => {
+    await createFixedAccountsPayableUseCase.execute({
       description: 'Account Payable description',
       amount: 100,
       dueDate: new Date(),
@@ -28,8 +28,6 @@ describe('[AccountPayable] - Create a account payable', () => {
       await accountsPayableRepositoryInMemory.listAll('user_id')
 
     expect(accountPayableCreated[0]).toBeDefined()
-    expect(accountPayableCreated[0].description).toEqual(
-      'Account Payable description',
-    )
+    expect(accountPayableCreated.length).toBe(12)
   })
 })

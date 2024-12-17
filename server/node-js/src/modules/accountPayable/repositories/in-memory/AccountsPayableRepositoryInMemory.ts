@@ -9,6 +9,10 @@ class AccountsPayableRepositoryInMemory implements IAccountsPayableRepository {
     this.accountsPayable.push(accountPayable)
   }
 
+  async createMany(accounts: AccountPayable[]): Promise<void> {
+    this.accountsPayable.push(...accounts)
+  }
+
   async listAll(userId: string): Promise<AccountPayable[]> {
     return this.accountsPayable.filter(
       (accountPayable) => accountPayable.userId === userId,

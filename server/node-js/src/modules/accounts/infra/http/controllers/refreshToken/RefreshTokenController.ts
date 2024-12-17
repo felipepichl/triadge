@@ -5,7 +5,7 @@ import { container } from 'tsyringe'
 
 class RefreshTokenController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const token = request.body
+    const token = request.cookies.refreshToken
 
     const refreshTokenUseCase = container.resolve(RefreshTokenUseCase)
 
