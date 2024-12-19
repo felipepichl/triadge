@@ -1,6 +1,8 @@
 import '@modules/accounts/providers'
 import './providers'
 
+import { AccountsPayableRepository } from '@modules/accountPayable/infra/prisma/repositories/AccountsPayableRepository'
+import { IAccountsPayableRepository } from '@modules/accountPayable/repositories/IAccountsPayableRepository'
 import { UsersRepository } from '@modules/accounts/infra/prisma/repositories/UsersRepository'
 import { UsersTokensRepository } from '@modules/accounts/infra/prisma/repositories/UsersTokensRepository'
 import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepository'
@@ -36,4 +38,9 @@ container.registerSingleton<ITransactionsRepository>(
 container.registerSingleton<IFinancialCategoriesRepository>(
   'FinancialCategoriesRepository',
   FinancialCategoriesRepository,
+)
+
+container.registerSingleton<IAccountsPayableRepository>(
+  'AccountsPayableRepository',
+  AccountsPayableRepository,
 )
