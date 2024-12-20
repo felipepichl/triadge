@@ -1,3 +1,4 @@
+import { accounsPayableRoutes } from '@modules/accountPayable/infra/http/routes/accountPayable.routes'
 import { authenticateRoutes } from '@modules/accounts/infra/http/routes/authenticate.routes'
 import { passwordRoutes } from '@modules/accounts/infra/http/routes/passoword.routes'
 import { refreshTokenRoutes } from '@modules/accounts/infra/http/routes/refreshToken.routes'
@@ -27,5 +28,7 @@ routes.use('/categories', categoriesRoutes)
 routes.use('/transactions', transactionsRoutes)
 
 routes.use('/financial-category', financialCategoryRoutes)
+
+routes.use('/accounts-payable', accounsPayableRoutes)
 
 export { routes }
