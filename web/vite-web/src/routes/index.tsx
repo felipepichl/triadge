@@ -4,6 +4,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import { AppLayout } from '@/pages/_layouts/app'
 import { AuthLayout } from '@/pages/_layouts/auth'
 /** Private Pages */
+import { AccountPayable } from '@/pages/app/account-payable'
 import { Dashboard } from '@/pages/app/dashboard'
 import { Finances } from '@/pages/app/finances'
 /** Pages */
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
       {
         path: '/finances',
         element: <Finances />,
+      },
+      {
+        path: '/account-payable',
+        element: <AccountPayable />,
       },
     ],
   },

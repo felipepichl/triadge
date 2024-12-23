@@ -10,7 +10,7 @@ type TransactionResponse = {
     props: {
       description: string
       type: string
-      value: number
+      amount: number
       date: Date
     }
   }[]
@@ -25,7 +25,7 @@ export type Transaction = {
     _id: string
     description: string
     type: string
-    value: number
+    amount: number
     date: Date
   }[]
   balance?: {
@@ -44,11 +44,11 @@ export async function apiListByMonth({
   // console.log(JSON.stringify(data, null, 2))
 
   const transactions = data.transactions.map(
-    ({ _id, props: { description, type, value, date } }) => ({
+    ({ _id, props: { description, type, amount, date } }) => ({
       _id,
       description,
       type,
-      value,
+      amount,
       date,
     }),
   )

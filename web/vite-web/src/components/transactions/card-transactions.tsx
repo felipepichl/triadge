@@ -44,7 +44,7 @@ export function CardTransactions({ transactions }: Transaction) {
                   <CardTitle
                     className={`font-bold ${transaction.type === 'outcome' ? 'text-red-500' : 'text-green-500'}`}
                   >
-                    {priceFormatter.format(transaction.value)}
+                    {priceFormatter.format(transaction.amount)}
                   </CardTitle>
                 </CardContent>
 

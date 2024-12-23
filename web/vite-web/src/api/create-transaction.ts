@@ -4,7 +4,7 @@ export type CreateTransactionBody = {
   description: string
   detail?: string
   type: string
-  value: number
+  amount: number
   date?: Date
   financialCategoryId: string
 }
@@ -13,7 +13,7 @@ export async function apiCreateTransaction({
   description,
   detail,
   type,
-  value,
+  amount,
   date,
   financialCategoryId,
 }: CreateTransactionBody): Promise<void> {
@@ -22,7 +22,7 @@ export async function apiCreateTransaction({
     detail,
     type,
     date,
-    value,
+    amount,
     financialCategoryId,
   })
 

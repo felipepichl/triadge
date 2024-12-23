@@ -48,8 +48,14 @@ import {
   SelectValue,
 } from '../ui/select'
 import { Separator } from '../ui/separator'
+import { Switch } from '../ui/switch'
 
-export function NewTransaction() {
+type NewAccountTransactionProps = {
+  title: string
+  type: 'transaction' | 'accountPayable'
+}
+
+export function NewTransaction({ title, type }: NewAccountTransactionProps) {
   const [financialCategories, setFinancialCategories] = useState<
     FinancialCategory[]
   >([])
@@ -59,6 +65,8 @@ export function NewTransaction() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(
     undefined,
   )
+  const [isSwitchOn, setIsSwitchOn] = useState(false)
+
   const [selectedValue, setSelectedValue] = useState<string | null>('')
   const { formattedValue, handleMaskChange, rawValue } = useMonetaryMask()
 
@@ -69,7 +77,7 @@ export function NewTransaction() {
       description: z.string().min(1, { message: 'Campo obrigatório' }),
       detail: z.string(),
       type: z.string().min(1, { message: 'Selecione uma opção' }),
-      value: z.string().min(1, { message: 'Campo obrigatório' }),
+      amount: z.string().min(1, { message: 'Campo obrigatório' }),
       date: z.date(),
       financialCategoryId: z
         .string()
@@ -97,7 +105,7 @@ export function NewTransaction() {
       description: '',
       detail: '',
       type: '',
-      value: '',
+      amount: '',
       date: new Date(),
       financialCategoryId: '',
       subcategory: '',
@@ -106,6 +114,10 @@ export function NewTransaction() {
 
   function handleToggleDrawer() {
     setIsDrawerOpen(undefined)
+  }
+
+  function handleSwitchChange() {
+    setIsSwitchOn(!isSwitchOn)
   }
 
   const cleanFileds = useCallback(() => {
@@ -150,7 +162,7 @@ export function NewTransaction() {
       try {
         createTransaction({
           description,
-          value: String(rawValue),
+          amount: String(rawValue),
           type,
           date,
           financialCategoryId,
@@ -177,14 +189,14 @@ export function NewTransaction() {
         <DrawerTrigger asChild>
           <Button
             variant="outline"
-            className="w-40 min-w-40 rounded-sm bg-green-500 text-slate-100 hover:bg-green-700 hover:text-slate-100"
+            className="w-48 min-w-48 rounded-sm bg-green-500 text-slate-100 hover:bg-green-700 hover:text-slate-100"
           >
-            Nova transação
+            {title}
           </Button>
         </DrawerTrigger>
         <DrawerContent>
           <div className="mt-3 p-4">
-            <DrawerTitle>Nova Transação</DrawerTitle>
+            <DrawerTitle>{title}</DrawerTitle>
 
             <Form {...form}>
               <form
@@ -210,7 +222,7 @@ export function NewTransaction() {
 
                   <FormField
                     control={form.control}
-                    name="value"
+                    name="amount"
                     render={() => (
                       <FormItem>
                         <FormControl>
@@ -220,7 +232,7 @@ export function NewTransaction() {
                             value={formattedValue}
                             // inputMode="numeric"
                             // type="number"
-                            {...form.register('value', {
+                            {...form.register('amount', {
                               onChange: (e: ChangeEvent<HTMLInputElement>) => {
                                 handleMaskChange(e)
                               },
@@ -365,6 +377,39 @@ export function NewTransaction() {
                       disable={!parentCategoryId}
                     />
                   </div>
+
+                  {type === 'accountPayable' && (
+                    <div className="mx-auto grid max-w-screen-md grid-cols-1 gap-2 bg-background md:grid-cols-2">
+                      <span className="flex min-h-10 items-center rounded-md border bg-background">
+                        <Switch
+                          className="ml-3 mr-3"
+                          checked={isSwitchOn}
+                          onCheckedChange={handleSwitchChange}
+                        />
+                        <p className="text-sm">Gasto Recorrente</p>
+                      </span>
+                      <Select
+                        // onValueChange={onChange}
+                        disabled={isSwitchOn}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Quantidade de Parcelas" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectGroup>
+                            {Array.from(
+                              { length: 12 },
+                              (_, index) => index + 1,
+                            ).map((value) => (
+                              <SelectItem key={value} value={value.toString()}>
+                                {value}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  )}
 
                   <FormField
                     control={form.control}

@@ -6,7 +6,11 @@ import { CardTitle } from '@/components/ui/card'
 import { useAuth } from '@/hooks/use-auth'
 
 export function Dashboard() {
-  const { user } = useAuth()
+  const { user, signInWithGoogle } = useAuth()
+
+  const handleLogin = async () => {
+    await signInWithGoogle()
+  }
 
   return (
     <>
@@ -18,6 +22,10 @@ export function Dashboard() {
         <div className="flex-1">
           <LineChartCategoryTransactions />
         </div>
+      </div>
+
+      <div>
+        <button onClick={handleLogin}>Login with Google</button>
       </div>
     </>
   )

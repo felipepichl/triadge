@@ -111,7 +111,7 @@ export function Finances() {
     <>
       <Helmet title="Finanças" />
 
-      <NewTransaction />
+      <NewTransaction title="Nova Transação" type="transaction" />
 
       <Carousel>
         <CarouselContent>

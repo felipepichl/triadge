@@ -29,7 +29,7 @@ export function TableTransactions({ transactions: data }: Transaction) {
                     {transaction.description}
                   </TableHead>
                   <TableHead className={`${rowClass} w-1/6`}>
-                    {priceFormatter.format(transaction.value)}
+                    {priceFormatter.format(transaction.amount)}
                   </TableHead>
                   <TableHead className={`${rowClass} w-1/6 `}>
                     {transaction.financialCategory.description}

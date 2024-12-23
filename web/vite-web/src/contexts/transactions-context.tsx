@@ -15,9 +15,9 @@ import { useAuth } from '@/hooks/use-auth'
 
 type TransactionBody = {
   description: string
-  value: string
-  type: string
+  amount: string
   date?: Date
+  type: string
   financialCategoryId: string
 }
 
@@ -49,14 +49,14 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
   const createTransaction = useCallback(
     async ({
       description,
-      value,
+      amount,
       type,
       date,
       financialCategoryId,
     }: TransactionBody) => {
       await apiCreateTransaction({
         description,
-        value: parseFloat(value.replace('R$ ', '').replace(',', '.')),
+        amount: parseFloat(amount.replace('R$ ', '').replace(',', '.')),
         type,
         date,
         financialCategoryId,

@@ -1,4 +1,10 @@
-import { LogOut, MenuSquare, School, Wallet } from 'lucide-react'
+import {
+  ArrowLeftRight,
+  LogOut,
+  MenuSquare,
+  ScanBarcode,
+  School,
+} from 'lucide-react'
 import { useState } from 'react'
 
 import { useAuth } from '@/hooks/use-auth'
@@ -37,7 +43,18 @@ export function Manubar() {
           <CustomNavlink to="/" icon={School} description="Início" />
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <CustomNavlink to="/finances" icon={Wallet} description="Finanças" />
+          <CustomNavlink
+            to="/finances"
+            icon={ArrowLeftRight}
+            description="Transações"
+          />
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <CustomNavlink
+            to="/account-payable"
+            icon={ScanBarcode}
+            description="Contas a Pagar"
+          />
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
