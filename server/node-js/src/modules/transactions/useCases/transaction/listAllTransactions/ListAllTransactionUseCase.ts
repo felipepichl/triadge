@@ -32,10 +32,10 @@ class ListAllTransactionUseCase implements IUseCase<IRequest, IResponse> {
       (accumulator, transaction) => {
         switch (transaction.type) {
           case 'income':
-            accumulator.income += Number(transaction.value)
+            accumulator.income += Number(transaction.amount)
             break
           case 'outcome':
-            accumulator.outcome += Number(transaction.value)
+            accumulator.outcome += Number(transaction.amount)
             break
           default:
             break

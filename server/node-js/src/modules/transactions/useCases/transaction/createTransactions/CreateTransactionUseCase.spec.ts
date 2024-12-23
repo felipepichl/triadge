@@ -19,7 +19,7 @@ describe('[Transaction] - Create a transaction', () => {
       description: 'Transaction Test',
       detail: 'Detail Test',
       type: 'income',
-      value: 1000,
+      amount: 1000,
       userId: 'userId',
       financialCategoryId: 'financialCategoryId',
       subcategoryId: 'subcategoryId',

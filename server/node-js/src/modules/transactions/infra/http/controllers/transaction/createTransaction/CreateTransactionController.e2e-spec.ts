@@ -77,7 +77,7 @@ describe('[E2E] - Create Transaction', () => {
         description: 'Description',
         detail: 'Detail',
         type: 'income',
-        value: 100,
+        amount: 100,
         financialCategoryId,
       })
     expect(response.status).toBe(201)
@@ -91,7 +91,7 @@ describe('[E2E] - Create Transaction', () => {
         description: 'Description',
         detail: 'Detail',
         type: 'income',
-        value: 100,
+        amount: 100,
         financialCategoryId,
         subcategoryId,
       })

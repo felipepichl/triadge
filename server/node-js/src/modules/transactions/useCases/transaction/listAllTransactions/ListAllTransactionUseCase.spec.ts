@@ -51,7 +51,7 @@ async function createTransaction(): Promise<string> {
   const transaction1 = Transaction.createTransaction({
     description: 'Transaction description',
     type: 'income',
-    value: 1000,
+    amount: 1000,
     userId,
     financialCategoryId,
   })
@@ -59,7 +59,7 @@ async function createTransaction(): Promise<string> {
   const transaction2 = Transaction.createTransaction({
     description: 'Transaction description',
     type: 'outcome',
-    value: 500,
+    amount: 500,
     userId,
     financialCategoryId,
   })

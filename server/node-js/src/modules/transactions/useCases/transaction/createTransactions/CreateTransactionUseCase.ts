@@ -8,7 +8,7 @@ interface IRequest {
   detail: string
   type: 'income' | 'outcome'
   date?: Date
-  value: number
+  amount: number
   userId: string
   financialCategoryId: string
   subcategoryId: string
@@ -26,7 +26,7 @@ class CreateTransactionUseCase implements IUseCase<IRequest, void> {
     detail,
     type,
     date,
-    value,
+    amount,
     userId,
     financialCategoryId,
     subcategoryId,
@@ -36,7 +36,7 @@ class CreateTransactionUseCase implements IUseCase<IRequest, void> {
       detail,
       type,
       date,
-      value,
+      amount,
       userId,
       financialCategoryId,
       subcategoryId,

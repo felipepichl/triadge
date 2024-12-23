@@ -42,7 +42,7 @@ async function createTransaction(financialCategoryId: string, token: string) {
       description: 'Description',
       detail: 'Detail',
       type: 'income',
-      value: 100,
+      amount: 100,
       financialCategoryId,
     })
 
@@ -53,7 +53,7 @@ async function createTransaction(financialCategoryId: string, token: string) {
       description: 'Description',
       detail: 'Detail',
       type: 'outcome',
-      value: 50,
+      amount: 50,
       financialCategoryId,
     })
 }

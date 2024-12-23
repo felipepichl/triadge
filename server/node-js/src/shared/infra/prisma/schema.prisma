@@ -66,10 +66,10 @@ model FinancialCategory {
 model Transaction {
   id          String   @id @default(uuid())
   description String
-  detail      String?
-  type        String
-  value       Decimal
+  amount      Decimal
   date        DateTime @default(now())
+  type        String
+  detail      String?
 
   users  User   @relation(fields: [userId], references: [id])
   userId String

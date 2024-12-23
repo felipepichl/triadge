@@ -38,7 +38,7 @@ class ListTotalSpentByFinancialCategoryUseCase
       financialCategoriesWithTransactions.map(
         ({ financialCategory, financialCategoryTransactions }) => {
           const totalSpent = financialCategoryTransactions.reduce(
-            (acc, transaction) => acc + transaction.value,
+            (acc, transaction) => acc + transaction.amount,
             0,
           )
           return {

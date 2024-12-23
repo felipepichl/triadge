@@ -40,7 +40,7 @@ describe('[FinancialCategory] - List total spent by financial category', () => {
     const transaction1 = Transaction.createTransaction({
       description: 'Transaction 1',
       type: 'outcome',
-      value: 10.0,
+      amount: 10.0,
       date: new Date(new Date().getFullYear(), currentMonth - 1, 1),
       userId: 'userId',
       financialCategoryId: financialCategory1.id.toString(),
@@ -49,7 +49,7 @@ describe('[FinancialCategory] - List total spent by financial category', () => {
     const transaction2 = Transaction.createTransaction({
       description: 'Transaction 2',
       type: 'outcome',
-      value: 20.0,
+      amount: 20.0,
       date: new Date(new Date().getFullYear(), currentMonth - 1, 15),
       userId: 'userId',
       financialCategoryId: financialCategory1.id.toString(),
@@ -58,7 +58,7 @@ describe('[FinancialCategory] - List total spent by financial category', () => {
     const transaction3 = Transaction.createTransaction({
       description: 'Transaction 3',
       type: 'outcome',
-      value: 5.0,
+      amount: 5.0,
       date: new Date(new Date().getFullYear(), currentMonth - 1, 20),
       userId: 'userId',
       financialCategoryId: financialCategory2.id.toString(),

@@ -7,7 +7,7 @@ export interface ITransactionProps {
   description: string
   detail?: string
   type: 'income' | 'outcome'
-  value: number
+  amount: number
   date?: Date
 
   userId: string
@@ -36,8 +36,8 @@ class Transaction extends AggregateRoot<ITransactionProps> {
     return this.props.type
   }
 
-  get value(): number {
-    return this.props.value
+  get amount(): number {
+    return this.props.amount
   }
 
   get date(): Date {
@@ -69,7 +69,7 @@ class Transaction extends AggregateRoot<ITransactionProps> {
     description,
     detail,
     type,
-    value,
+    amount,
     date,
     userId,
     financialCategoryId,
@@ -81,7 +81,7 @@ class Transaction extends AggregateRoot<ITransactionProps> {
       description,
       detail,
       type,
-      value,
+      amount,
       date: date ? new Date(date) : new Date(),
       userId,
 

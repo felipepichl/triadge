@@ -9,7 +9,7 @@ class CreateTransactionController {
       detail,
       type,
       date,
-      value,
+      amount,
       financialCategoryId,
       subcategoryId,
     } = request.body
@@ -22,7 +22,7 @@ class CreateTransactionController {
       detail,
       type,
       date,
-      value,
+      amount,
       userId,
       financialCategoryId,
       subcategoryId,
