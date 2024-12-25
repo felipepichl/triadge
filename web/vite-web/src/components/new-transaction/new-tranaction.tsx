@@ -1,10 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
-import {
-  ArrowDownCircle,
-  ArrowUpCircle,
-  Calendar as CalendarIcon,
-} from 'lucide-react'
+import { Calendar as CalendarIcon } from 'lucide-react'
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -31,7 +27,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { useMonetaryMask } from '@/hooks/use-monetary-mask'
 import { useTransaction } from '@/hooks/use-transaction'
 
@@ -48,7 +43,8 @@ import {
   SelectValue,
 } from '../ui/select'
 import { Separator } from '../ui/separator'
-import { Switch } from '../ui/switch'
+import { AccountPayableFiled } from './account-payable/account-payable-field'
+import { TransactionField } from './transaction/transaction-field'
 
 type NewAccountTransactionProps = {
   title: string
@@ -65,9 +61,7 @@ export function NewTransaction({ title, type }: NewAccountTransactionProps) {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(
     undefined,
   )
-  const [isSwitchOn, setIsSwitchOn] = useState(false)
 
-  const [selectedValue, setSelectedValue] = useState<string | null>('')
   const { formattedValue, handleMaskChange, rawValue } = useMonetaryMask()
 
   const { createTransaction } = useTransaction()
@@ -75,10 +69,9 @@ export function NewTransaction({ title, type }: NewAccountTransactionProps) {
   const createTransactionForm = z
     .object({
       description: z.string().min(1, { message: 'Campo obrigatório' }),
-      detail: z.string(),
-      type: z.string().min(1, { message: 'Selecione uma opção' }),
       amount: z.string().min(1, { message: 'Campo obrigatório' }),
       date: z.date(),
+      type: z.string().min(1, { message: 'Selecione uma opção' }),
       financialCategoryId: z
         .string()
         .min(1, { message: 'Selecione uma opção' }),
@@ -103,10 +96,9 @@ export function NewTransaction({ title, type }: NewAccountTransactionProps) {
     resolver: zodResolver(createTransactionForm),
     defaultValues: {
       description: '',
-      detail: '',
-      type: '',
       amount: '',
       date: new Date(),
+      type: '',
       financialCategoryId: '',
       subcategory: '',
     },
@@ -116,12 +108,7 @@ export function NewTransaction({ title, type }: NewAccountTransactionProps) {
     setIsDrawerOpen(undefined)
   }
 
-  function handleSwitchChange() {
-    setIsSwitchOn(!isSwitchOn)
-  }
-
   const cleanFileds = useCallback(() => {
-    setSelectedValue(null)
     setIsDrawerOpen(false)
     form.reset()
   }, [form])
@@ -143,15 +130,6 @@ export function NewTransaction({ title, type }: NewAccountTransactionProps) {
     [],
   )
 
-  const handleTypeChange = useCallback(
-    (type: string) => {
-      form.setValue('type', type)
-      setSelectedValue(type)
-      form.clearErrors('type')
-    },
-    [form, setSelectedValue],
-  )
-
   const handleCreateNewTransaction = useCallback(
     async ({
       description,
@@ -171,6 +149,7 @@ export function NewTransaction({ title, type }: NewAccountTransactionProps) {
         cleanFileds()
         toast.success('Transação salva com sucesso!')
       } catch (err) {
+        console.log(err)
         toast.error('Erro ao salvar, tente novamente mais tarde!')
       }
     },
@@ -378,81 +357,11 @@ export function NewTransaction({ title, type }: NewAccountTransactionProps) {
                     />
                   </div>
 
-                  {type === 'accountPayable' && (
-                    <div className="mx-auto grid max-w-screen-md grid-cols-1 gap-2 bg-background md:grid-cols-2">
-                      <span className="flex min-h-10 items-center rounded-md border bg-background">
-                        <Switch
-                          className="ml-3 mr-3"
-                          checked={isSwitchOn}
-                          onCheckedChange={handleSwitchChange}
-                        />
-                        <p className="text-sm">Gasto Recorrente</p>
-                      </span>
-                      <Select
-                        // onValueChange={onChange}
-                        disabled={isSwitchOn}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Quantidade de Parcelas" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectGroup>
-                            {Array.from(
-                              { length: 12 },
-                              (_, index) => index + 1,
-                            ).map((value) => (
-                              <SelectItem key={value} value={value.toString()}>
-                                {value}
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                  {type === 'accountPayable' && <AccountPayableFiled />}
+
+                  {type === 'transaction' && (
+                    <TransactionField control={form.control} name="type" />
                   )}
-
-                  <FormField
-                    control={form.control}
-                    name="type"
-                    render={() => (
-                      <FormItem>
-                        <FormControl>
-                          <RadioGroup className="mx-auto grid max-w-screen-md grid-cols-2 gap-2">
-                            <Button
-                              data-current={selectedValue}
-                              className="h-12 w-full text-base data-[current=income]:bg-green-500 data-[current=income]:text-white sm:w-auto"
-                              variant="outline"
-                              type="button"
-                              onClick={() => handleTypeChange('income')}
-                            >
-                              <RadioGroupItem value="income" asChild />
-                              <ArrowDownCircle
-                                className="mr-2"
-                                color={`${selectedValue === 'income' ? '#fff' : '#00b37e'}`}
-                              />
-                              Entrada
-                            </Button>
-
-                            <Button
-                              data-current={selectedValue}
-                              className="h-12 w-full text-base data-[current=outcome]:bg-red-700 data-[current=outcome]:text-white sm:w-auto "
-                              variant="outline"
-                              type="button"
-                              onClick={() => handleTypeChange('outcome')}
-                            >
-                              <RadioGroupItem value="outcome" asChild />
-                              <ArrowUpCircle
-                                className="mr-2"
-                                color={`${selectedValue === 'outcome' ? '#fff' : '#ff0000'}`}
-                              />
-                              Saída
-                            </Button>
-                          </RadioGroup>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
 
                   <Separator />
 
