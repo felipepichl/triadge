@@ -1,14 +1,5 @@
+import { CreateTransactionDTO } from '@/dtos/TransactionDTO'
 import { api } from '@/lib/axios'
-
-export type CreateTransactionBody = {
-  description: string
-  detail?: string
-  type: string
-  amount: number
-  date?: Date
-  financialCategoryId: string
-  subcategoryId?: string
-}
 
 export async function apiCreateTransaction({
   description,
@@ -18,7 +9,7 @@ export async function apiCreateTransaction({
   date,
   financialCategoryId,
   subcategoryId,
-}: CreateTransactionBody): Promise<void> {
+}: CreateTransactionDTO): Promise<void> {
   await api.post('/transactions', {
     description,
     detail,
