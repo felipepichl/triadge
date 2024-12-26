@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react'
 import { DateRange } from 'react-day-picker'
 import { Helmet } from 'react-helmet-async'
 
-import { NewTransaction } from '@/components/new-transaction/new-tranaction'
+import { NewTransactionAccount } from '@/components/new-transaction-account/new-tranaction-account'
 import { Summary, SummaryProps } from '@/components/summary'
 import { Transactions } from '@/components/transactions/transactions'
 import { Button } from '@/components/ui/button'
@@ -111,7 +111,7 @@ export function Finances() {
     <>
       <Helmet title="Finanças" />
 
-      <NewTransaction title="Nova Transação" type="transaction" />
+      <NewTransactionAccount title="Nova Transação" type="transaction" />
 
       <Carousel>
         <CarouselContent>

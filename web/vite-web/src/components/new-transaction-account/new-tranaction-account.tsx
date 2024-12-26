@@ -44,7 +44,10 @@ type NewAccountTransactionProps = {
   type: 'transaction' | 'accountPayable'
 }
 
-export function NewTransaction({ title, type }: NewAccountTransactionProps) {
+export function NewTransactionAccount({
+  title,
+  type,
+}: NewAccountTransactionProps) {
   const [financialCategories, setFinancialCategories] = useState<
     FinancialCategory[]
   >([])

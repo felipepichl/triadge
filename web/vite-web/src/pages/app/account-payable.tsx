@@ -1,12 +1,12 @@
 import { Helmet } from 'react-helmet-async'
 
-import { NewTransaction } from '@/components/new-transaction/new-tranaction'
+import { NewTransactionAccount } from '@/components/new-transaction-account/new-tranaction-account'
 
 export function AccountPayable() {
   return (
     <>
       <Helmet title="Contas a Pagar" />
-      <NewTransaction title="Nova Conta a Pagar" type="accountPayable" />
+      <NewTransactionAccount title="Nova Conta a Pagar" type="accountPayable" />
     </>
   )
 }
