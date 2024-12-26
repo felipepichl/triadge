@@ -7,6 +7,7 @@ export type CreateTransactionBody = {
   amount: number
   date?: Date
   financialCategoryId: string
+  subcategoryId?: string
 }
 
 export async function apiCreateTransaction({
@@ -16,15 +17,15 @@ export async function apiCreateTransaction({
   amount,
   date,
   financialCategoryId,
+  subcategoryId,
 }: CreateTransactionBody): Promise<void> {
-  const response = await api.post('/transactions', {
+  await api.post('/transactions', {
     description,
     detail,
     type,
     date,
     amount,
     financialCategoryId,
+    subcategoryId,
   })
-
-  return response.data
 }

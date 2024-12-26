@@ -69,18 +69,18 @@ export function NewTransactionAccount({
       financialCategoryId: z
         .string()
         .min(1, { message: 'Selecione uma opção' }),
-      subcategory: z.string().optional(),
+      subcategoryId: z.string().optional(),
     })
     .refine(
       (data) => {
-        if (subcategories.length > 0 && !data.subcategory) {
+        if (subcategories.length > 0 && !data.subcategoryId) {
           return false
         }
         return true
       },
       {
         message: 'Selecione uma opção',
-        path: ['subcategory'],
+        path: ['subcategoryId'],
       },
     )
 
@@ -94,7 +94,7 @@ export function NewTransactionAccount({
       date: new Date(),
       type: '',
       financialCategoryId: '',
-      subcategory: '',
+      subcategoryId: '',
     },
   })
 
@@ -130,6 +130,7 @@ export function NewTransactionAccount({
       type,
       date,
       financialCategoryId,
+      subcategoryId,
     }: CreateTransactionForm) => {
       try {
         createTransaction({
@@ -138,6 +139,7 @@ export function NewTransactionAccount({
           type,
           date,
           financialCategoryId,
+          subcategoryId,
         })
 
         cleanFileds()
@@ -152,7 +154,7 @@ export function NewTransactionAccount({
 
   useEffect(() => {
     if (subcategories.length > 0) {
-      form.clearErrors('subcategory')
+      form.clearErrors('subcategoryId')
     }
   }, [subcategories, form])
 
@@ -253,48 +255,6 @@ export function NewTransactionAccount({
                   />
 
                   <div className="flex  justify-center gap-2">
-                    {/* <FormField
-                      name="financialCategoryId"
-                      control={form.control}
-                      render={({ field: { onChange } }) => (
-                        <FormItem className="w-full">
-                          <FormControl>
-                            <Select
-                              onValueChange={(value) => {
-                                onChange(value)
-                                setParentCategoryId(value)
-                                handleAllSubcategoryByCategory(value)
-                              }}
-                              onOpenChange={handleAllFinancialCategoryByUser}
-                            >
-                              <SelectTrigger>
-                                <SelectValue placeholder="Categoria" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectGroup>
-                                  {financialCategories.length > 0 ? (
-                                    financialCategories.map((category) => (
-                                      <SelectItem
-                                        key={category._id}
-                                        value={category._id}
-                                      >
-                                        {category.description}
-                                      </SelectItem>
-                                    ))
-                                  ) : (
-                                    <SelectItem disabled value="not-found">
-                                      Nenhum registro encontrado
-                                    </SelectItem>
-                                  )}
-                                </SelectGroup>
-                              </SelectContent>
-                            </Select>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    /> */}
-
                     <CategorySelect
                       control={form.control}
                       name="financialCategoryId"
@@ -314,50 +274,9 @@ export function NewTransactionAccount({
                   </div>
 
                   <div className="flex  justify-center gap-2">
-                    {/* <FormField
-                      name="subcategory"
-                      control={form.control}
-                      render={({ field: { onChange } }) => (
-                        <FormItem className="w-full">
-                          <FormControl>
-                            <Select
-                              onValueChange={onChange}
-                              onOpenChange={() =>
-                                handleAllSubcategoryByCategory(parentCategoryId)
-                              }
-                              disabled={!parentCategoryId}
-                            >
-                              <SelectTrigger>
-                                <SelectValue placeholder="Subcategorias" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectGroup>
-                                  {subcategories.length > 0 ? (
-                                    subcategories.map((subcategory) => (
-                                      <SelectItem
-                                        key={subcategory._id}
-                                        value={subcategory._id}
-                                      >
-                                        {subcategory.description}
-                                      </SelectItem>
-                                    ))
-                                  ) : (
-                                    <SelectItem disabled value="not-found">
-                                      Nenhum registro encontrado
-                                    </SelectItem>
-                                  )}
-                                </SelectGroup>
-                              </SelectContent>
-                            </Select>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    /> */}
-
                     <CategorySelect
                       control={form.control}
-                      name="subcategory"
+                      name="subcategoryId"
                       options={subcategories}
                       onOpenChange={() =>
                         handleAllSubcategoryByCategory(parentCategoryId)
