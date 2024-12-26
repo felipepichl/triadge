@@ -34,16 +34,9 @@ import { NewFinancialCategoryOrSubcategory } from '../new-financial-category-or-
 import { Button } from '../ui/button'
 import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '../ui/drawer'
 import { Input } from '../ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '../ui/select'
 import { Separator } from '../ui/separator'
 import { AccountPayableFiled } from './account-payable/account-payable-field'
+import { CategorySelect } from './category-select/category-select'
 import { TransactionField } from './transaction/transaction-field'
 
 type NewAccountTransactionProps = {
@@ -257,7 +250,7 @@ export function NewTransaction({ title, type }: NewAccountTransactionProps) {
                   />
 
                   <div className="flex  justify-center gap-2">
-                    <FormField
+                    {/* <FormField
                       name="financialCategoryId"
                       control={form.control}
                       render={({ field: { onChange } }) => (
@@ -297,6 +290,18 @@ export function NewTransaction({ title, type }: NewAccountTransactionProps) {
                           <FormMessage />
                         </FormItem>
                       )}
+                    /> */}
+
+                    <CategorySelect
+                      control={form.control}
+                      name="financialCategoryId"
+                      options={financialCategories}
+                      onValueChange={(value) => {
+                        setParentCategoryId(value)
+                        handleAllSubcategoryByCategory(value)
+                      }}
+                      onOpenChange={handleAllFinancialCategoryByUser}
+                      placeholder="Categoria"
                     />
 
                     <NewFinancialCategoryOrSubcategory
@@ -306,7 +311,7 @@ export function NewTransaction({ title, type }: NewAccountTransactionProps) {
                   </div>
 
                   <div className="flex  justify-center gap-2">
-                    <FormField
+                    {/* <FormField
                       name="subcategory"
                       control={form.control}
                       render={({ field: { onChange } }) => (
@@ -345,6 +350,17 @@ export function NewTransaction({ title, type }: NewAccountTransactionProps) {
                           <FormMessage />
                         </FormItem>
                       )}
+                    /> */}
+
+                    <CategorySelect
+                      control={form.control}
+                      name="subcategory"
+                      options={subcategories}
+                      onOpenChange={() =>
+                        handleAllSubcategoryByCategory(parentCategoryId)
+                      }
+                      placeholder="Subcategorias"
+                      disabled={!parentCategoryId}
                     />
 
                     <NewFinancialCategoryOrSubcategory
