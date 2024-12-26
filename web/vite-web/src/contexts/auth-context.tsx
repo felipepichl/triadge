@@ -13,16 +13,17 @@ import {
   SignInBody,
   SignInResponse,
 } from '@/api/sign-in'
+import { UserDTO } from '@/dtos/UserDTO'
 import { initializeGoogleClient } from '@/lib/google/google-client'
-
-type User = {
-  name: string
-  email: string
-}
+import {
+  storageAuthTokenGet,
+  storageAuthTokenSave,
+} from '@/storage/storage-auth-token'
+import { storageUserGet, storageUserSave } from '@/storage/storage-user'
 
 type AuthState = {
   token: string
-  user: User
+  user: UserDTO
 }
 
 type AuthContextData = {
@@ -30,7 +31,7 @@ type AuthContextData = {
   signOut(): void
   signInWithGoogle(): Promise<void>
   isAuthenticated: boolean
-  user: User | undefined
+  user: UserDTO | undefined
 }
 
 type AuthProviderProps = {
@@ -47,14 +48,23 @@ const GOOGLE_SCOPES = [
   'https://www.googleapis.com/auth/yt-analytics.readonly',
 ]
 
+function storageUserAndToken(user: UserDTO, token: string) {
+  storageAuthTokenSave(token)
+  storageUserSave(user)
+}
+
+function getUserAndToken(): [UserDTO, string | null] {
+  const user = storageUserGet()
+  const token = storageAuthTokenGet()
+
+  return [user, token]
+}
+
 function AuthProvider({ children }: AuthProviderProps) {
   const [data, setData] = useState<AuthState>(() => {
-    const token = localStorage.getItem('@triadge:token')
-    const userString = localStorage.getItem('@triadge:user')
+    const [user, token] = getUserAndToken()
 
-    if (token && userString) {
-      const user = JSON.parse(userString)
-
+    if (token && user) {
       apiHeaders(token)
 
       return { token, user }
@@ -68,8 +78,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   const signIn = useCallback(async ({ email, password }: SignInBody) => {
     const { user, token }: SignInResponse = await apiSignIn({ email, password })
 
-    localStorage.setItem('@triadge:token', token)
-    localStorage.setItem('@triadge:user', JSON.stringify(user))
+    storageUserAndToken(user, token)
 
     apiHeaders(token)
 

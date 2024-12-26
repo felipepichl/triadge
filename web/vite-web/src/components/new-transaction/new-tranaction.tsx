@@ -57,13 +57,11 @@ export function NewTransaction({ title, type }: NewAccountTransactionProps) {
   >([])
   const [subcategories, setSubcategories] = useState<Subcategory[]>([])
   const [parentCategoryId, setParentCategoryId] = useState<string>('')
-
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(
     undefined,
   )
 
   const { formattedValue, handleMaskChange, rawValue } = useMonetaryMask()
-
   const { createTransaction } = useTransaction()
 
   const createTransactionForm = z
