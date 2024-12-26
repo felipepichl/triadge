@@ -17,9 +17,14 @@ import { UserDTO } from '@/dtos/UserDTO'
 import { initializeGoogleClient } from '@/lib/google/google-client'
 import {
   storageAuthTokenGet,
+  storageAuthTokenRemove,
   storageAuthTokenSave,
 } from '@/storage/storage-auth-token'
-import { storageUserGet, storageUserSave } from '@/storage/storage-user'
+import {
+  storageUserGet,
+  storageUserRemove,
+  storageUserSave,
+} from '@/storage/storage-user'
 
 type AuthState = {
   token: string
@@ -48,9 +53,14 @@ const GOOGLE_SCOPES = [
   'https://www.googleapis.com/auth/yt-analytics.readonly',
 ]
 
-function storageUserAndToken(user: UserDTO, token: string) {
-  storageAuthTokenSave(token)
+function storageUserAndTokenSave(user: UserDTO, token: string) {
   storageUserSave(user)
+  storageAuthTokenSave(token)
+}
+
+function storageUserAndTokenRemove() {
+  storageUserRemove()
+  storageAuthTokenRemove()
 }
 
 function getUserAndToken(): [UserDTO, string | null] {
@@ -78,7 +88,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   const signIn = useCallback(async ({ email, password }: SignInBody) => {
     const { user, token }: SignInResponse = await apiSignIn({ email, password })
 
-    storageUserAndToken(user, token)
+    storageUserAndTokenSave(user, token)
 
     apiHeaders(token)
 
@@ -89,8 +99,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   }, [])
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@triadge:token')
-    localStorage.removeItem('@triadge:user')
+    storageUserAndTokenRemove()
 
     setData({} as AuthState)
   }, [])
