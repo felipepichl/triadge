@@ -8,9 +8,10 @@ import {
 } from 'react'
 
 import { apiCreateTransaction } from '@/api/create-transaction'
-import { apiListAllTransaction, Transaction } from '@/api/list-all-transaction'
+import { apiListAllTransaction } from '@/api/list-all-transaction'
 import { apiListByDateRange } from '@/api/list-by-date-range'
 import { apiListByType } from '@/api/list-by-type'
+import { TransactionDTO } from '@/dtos/transaction-dto'
 import { useAuth } from '@/hooks/use-auth'
 
 type TransactionBody = {
@@ -23,8 +24,8 @@ type TransactionBody = {
 }
 
 type TransactionContextData = {
-  transactions: Transaction | undefined
-  transactionByDateRangeAndType: Transaction | undefined
+  transactions: TransactionDTO | undefined
+  transactionByDateRangeAndType: TransactionDTO | undefined
   createTransaction(data: TransactionBody): Promise<void>
   loadTransactionByDateRangeAndType(
     startDate?: Date,
@@ -40,9 +41,9 @@ type TransactionProviderProps = {
 const TransactionsContext = createContext({} as TransactionContextData)
 
 function TransactionsProvider({ children }: TransactionProviderProps) {
-  const [transactions, setTransaction] = useState<Transaction>()
+  const [transactions, setTransaction] = useState<TransactionDTO>()
   const [transactionByDateRangeAndType, setTransactionByDateRangeAndType] =
-    useState<Transaction>()
+    useState<TransactionDTO>()
   const [reload, setReload] = useState(false)
 
   const { user } = useAuth()

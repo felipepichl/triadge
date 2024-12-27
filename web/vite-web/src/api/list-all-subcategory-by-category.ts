@@ -1,26 +1,18 @@
+import {
+  SubcategoryDetailDTO,
+  SubcategoryResponseDTO,
+} from '@/dtos/subcategory-dto'
 import { api } from '@/lib/axios'
 
-export type SubcategoryBory = {
+export type SubcategoryBody = {
   parentCategoryId: string
-}
-
-export type SubcategoryResponse = {
-  _id: string
-  props: {
-    description: string
-  }
-}
-
-export type Subcategory = {
-  _id: string
-  description: string
 }
 
 export async function apiListAllSubcategoryByCategory({
   parentCategoryId,
-}: SubcategoryBory): Promise<Subcategory[]> {
+}: SubcategoryBody): Promise<SubcategoryDetailDTO[]> {
   const { data } = await api.get<{
-    subcategories: SubcategoryResponse[]
+    subcategories: SubcategoryResponseDTO[]
   }>(`/financial-category/subcategory/${parentCategoryId}`)
 
   return data.subcategories.map(({ _id, props: { description } }) => ({

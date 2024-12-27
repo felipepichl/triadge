@@ -1,18 +1,12 @@
+import { CreateSubcategoryDTO } from '@/dtos/subcategory-dto'
 import { api } from '@/lib/axios'
-
-export type CreateFinancialCategoryBody = {
-  description: string
-  parentCategoryId: string
-}
 
 export async function apiCreateSubcategory({
   description,
   parentCategoryId,
-}: CreateFinancialCategoryBody): Promise<void> {
-  const response = await api.post('/financial-category/subcategory', {
+}: CreateSubcategoryDTO): Promise<void> {
+  await api.post('/financial-category/subcategory', {
     description,
     parentCategoryId,
   })
-
-  return response.data
 }

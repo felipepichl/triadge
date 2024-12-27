@@ -1,4 +1,4 @@
-import { CreateTransactionDTO } from '@/dtos/TransactionDTO'
+import { CreateTransactionDTO } from '@/dtos/transaction-dto'
 import { api } from '@/lib/axios'
 
 export async function apiCreateTransaction({

@@ -1,4 +1,4 @@
-import { AccountPayableDTO } from '@/dtos/AccoutPayableDTO'
+import { CreateAccountPayableDTO } from '@/dtos/account-payable-dto'
 import { api } from '@/lib/axios'
 
 export async function apiCreateAccountPayable({
@@ -7,7 +7,7 @@ export async function apiCreateAccountPayable({
   date,
   installments,
   financialCategoryId,
-}: AccountPayableDTO): Promise<void> {
+}: CreateAccountPayableDTO): Promise<void> {
   await api.post('/accounts-payable', {
     description,
     amount,

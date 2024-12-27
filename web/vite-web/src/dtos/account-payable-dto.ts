@@ -1,4 +1,4 @@
-export type AccountPayableDTO = {
+export type CreateAccountPayableDTO = {
   description: string
   amount: number
   date?: Date

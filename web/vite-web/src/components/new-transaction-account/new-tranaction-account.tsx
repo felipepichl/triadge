@@ -6,14 +6,8 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import {
-  apiListAllFinancialCategoryByUser,
-  FinancialCategory,
-} from '@/api/list-all-financial-category-by-user'
-import {
-  apiListAllSubcategoryByCategory,
-  Subcategory,
-} from '@/api/list-all-subcategory-by-category'
+import { apiListAllFinancialCategoryByUser } from '@/api/list-all-financial-category-by-user'
+import { apiListAllSubcategoryByCategory } from '@/api/list-all-subcategory-by-category'
 import { Calendar } from '@/components/ui/calendar'
 import {
   Form,
@@ -27,6 +21,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { FinancialCategoryDetailDTO } from '@/dtos/financial-category-dto'
+import { SubcategoryDetailDTO } from '@/dtos/subcategory-dto'
 import { useMonetaryMask } from '@/hooks/use-monetary-mask'
 import { useTransaction } from '@/hooks/use-transaction'
 
@@ -49,9 +45,9 @@ export function NewTransactionAccount({
   type,
 }: NewAccountTransactionProps) {
   const [financialCategories, setFinancialCategories] = useState<
-    FinancialCategory[]
+    FinancialCategoryDetailDTO[]
   >([])
-  const [subcategories, setSubcategories] = useState<Subcategory[]>([])
+  const [subcategories, setSubcategories] = useState<SubcategoryDetailDTO[]>([])
   const [parentCategoryId, setParentCategoryId] = useState<string>('')
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(
     undefined,

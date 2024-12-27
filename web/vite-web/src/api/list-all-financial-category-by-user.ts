@@ -1,22 +1,14 @@
+import {
+  FinancialCategoryDetailDTO,
+  FinancialCategoryResponseDTO,
+} from '@/dtos/financial-category-dto'
 import { api } from '@/lib/axios'
 
-export type FinancialCategoryResponse = {
-  _id: string
-  props: {
-    description: string
-  }
-}
-
-export type FinancialCategory = {
-  _id: string
-  description: string
-}
-
 export async function apiListAllFinancialCategoryByUser(): Promise<
-  FinancialCategory[]
+  FinancialCategoryDetailDTO[]
 > {
   const { data } = await api.get<{
-    financialCategories: FinancialCategoryResponse[]
+    financialCategories: FinancialCategoryResponseDTO[]
   }>('/financial-category')
 
   return data.financialCategories.map(({ _id, props: { description } }) => ({
