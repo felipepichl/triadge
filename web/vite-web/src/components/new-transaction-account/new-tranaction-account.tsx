@@ -4,14 +4,11 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { apiListAllFinancialCategoryByUser } from '@/api/list-all-financial-category-by-user'
-import { apiListAllSubcategoryByCategory } from '@/api/list-all-subcategory-by-category'
 import { Form } from '@/components/ui/form'
-import { FinancialCategoryDetailDTO } from '@/dtos/financial-category-dto'
-import { SubcategoryDetailDTO } from '@/dtos/subcategory-dto'
-import { useMonetaryMask } from '@/hooks/use-monetary-mask'
-import { useTransaction } from '@/hooks/use-transaction'
+import { useFinancialCategoryAndSubcategory } from '@/hooks/use-financial-category-and-subcategory'
 
+// import { useMonetaryMask } from '@/hooks/use-monetary-mask'
+// import { useTransaction } from '@/hooks/use-transaction'
 import { Button } from '../ui/button'
 import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '../ui/drawer'
 import { Separator } from '../ui/separator'
@@ -28,17 +25,27 @@ export function NewTransactionAccount({
   title,
   type,
 }: NewAccountTransactionProps) {
-  const [financialCategories, setFinancialCategories] = useState<
-    FinancialCategoryDetailDTO[]
-  >([])
-  const [subcategories, setSubcategories] = useState<SubcategoryDetailDTO[]>([])
-  const [parentCategoryId, setParentCategoryId] = useState<string>('')
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(
     undefined,
   )
 
-  const { rawValue } = useMonetaryMask()
-  const { createTransaction } = useTransaction()
+  const SubmitButton = () => (
+    <>
+      <Separator />
+
+      <Button
+        className="h-12 w-full font-bold hover:bg-green-700  hover:text-slate-100"
+        type="submit"
+        disabled={false}
+      >
+        Cadastrar
+      </Button>
+    </>
+  )
+
+  // const { rawValue } = useMonetaryMask()
+  // const { createTransaction } = useTransaction()
+  const { subcategories } = useFinancialCategoryAndSubcategory()
 
   const baseFormSchema = z.object({
     description: z.string().min(1, { message: 'Campo obrigatório' }),
@@ -119,23 +126,6 @@ export function NewTransactionAccount({
     transactionForm.reset()
   }, [transactionForm])
 
-  const handleAllFinancialCategoryByUser = useCallback(async () => {
-    const response = await apiListAllFinancialCategoryByUser()
-
-    setFinancialCategories(response)
-  }, [])
-
-  const handleAllSubcategoryByCategory = useCallback(
-    async (parentCategoryId: string) => {
-      const response = await apiListAllSubcategoryByCategory({
-        parentCategoryId,
-      })
-
-      setSubcategories(response)
-    },
-    [],
-  )
-
   const handleCreateNewTransaction = useCallback(
     async ({
       description,
@@ -145,14 +135,23 @@ export function NewTransactionAccount({
       subcategoryId,
     }: CreateTransactionForm) => {
       try {
-        createTransaction({
+        // createTransaction({
+        //   description,
+        //   amount: String(rawValue),
+        //   type,
+        //   date,
+        //   financialCategoryId,
+        //   subcategoryId,
+        // })
+
+        console.log(
+          'Transaction',
           description,
-          amount: String(rawValue),
-          type,
           date,
+          type,
           financialCategoryId,
           subcategoryId,
-        })
+        )
 
         cleanFileds()
         toast.success('Transação salva com sucesso!')
@@ -161,7 +160,7 @@ export function NewTransactionAccount({
         toast.error('Erro ao salvar, tente novamente mais tarde!')
       }
     },
-    [cleanFileds, createTransaction, rawValue],
+    [cleanFileds],
   )
 
   const handleCreateNewAccountPayable = useCallback(
@@ -197,20 +196,6 @@ export function NewTransactionAccount({
     }
   }, [subcategories, transactionForm])
 
-  const SubmitButton = () => (
-    <>
-      <Separator />
-
-      <Button
-        className="h-12 w-full font-bold hover:bg-green-700  hover:text-slate-100"
-        type="submit"
-        disabled={false}
-      >
-        Cadastrar
-      </Button>
-    </>
-  )
-
   return (
     <div className="flex justify-end pb-3">
       <Drawer onOpenChange={handleToggleDrawer} open={isDrawerOpen}>
@@ -237,16 +222,6 @@ export function NewTransactionAccount({
                     <SharedField
                       control={accountPayableForm.control}
                       register={accountPayableForm.register}
-                      financialCategories={financialCategories}
-                      subcategories={subcategories}
-                      parentCategoryId={parentCategoryId}
-                      setParentCategoryId={setParentCategoryId}
-                      handleAllFinancialCategoryByUser={
-                        handleAllFinancialCategoryByUser
-                      }
-                      handleAllSubcategoryByCategory={
-                        handleAllSubcategoryByCategory
-                      }
                     />
 
                     <AccountPayableFiled />
@@ -267,16 +242,6 @@ export function NewTransactionAccount({
                     <SharedField
                       control={transactionForm.control}
                       register={transactionForm.register}
-                      financialCategories={financialCategories}
-                      subcategories={subcategories}
-                      parentCategoryId={parentCategoryId}
-                      setParentCategoryId={setParentCategoryId}
-                      handleAllFinancialCategoryByUser={
-                        handleAllFinancialCategoryByUser
-                      }
-                      handleAllSubcategoryByCategory={
-                        handleAllSubcategoryByCategory
-                      }
                     />
 
                     <TransactionField

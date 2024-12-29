@@ -1,7 +1,7 @@
 import { Popover } from '@radix-ui/react-popover'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
-import { ChangeEvent } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { Control, FieldValues, Path, UseFormRegister } from 'react-hook-form'
 
 import { NewFinancialCategoryOrSubcategory } from '@/components/new-financial-category-or-subcategory/new-financial-category-or-subcategory'
@@ -15,34 +15,29 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { FinancialCategoryDetailDTO } from '@/dtos/financial-category-dto'
-import { SubcategoryDetailDTO } from '@/dtos/subcategory-dto'
+import { useFinancialCategoryAndSubcategory } from '@/hooks/use-financial-category-and-subcategory'
 import { useMonetaryMask } from '@/hooks/use-monetary-mask'
 
-import { CategorySelect } from '../category-select/category-select'
+import { CategorySelect } from './category-select'
 
 type SharedFieldProps<T extends FieldValues> = {
   control: Control<T>
   register: UseFormRegister<T>
-  financialCategories: FinancialCategoryDetailDTO[]
-  subcategories: SubcategoryDetailDTO[]
-  parentCategoryId: string
-  setParentCategoryId: (id: string) => void
-  handleAllFinancialCategoryByUser: () => Promise<void>
-  handleAllSubcategoryByCategory: (id: string) => Promise<void>
 }
 
 export function SharedField<T extends FieldValues>({
   control,
   register,
-  financialCategories,
-  subcategories,
-  parentCategoryId,
-  setParentCategoryId,
-  handleAllFinancialCategoryByUser,
-  handleAllSubcategoryByCategory,
 }: SharedFieldProps<T>) {
+  const [parentCategoryId, setParentCategoryId] = useState<string>('')
+
   const { formattedValue, handleMaskChange } = useMonetaryMask()
+  const {
+    financialCategories,
+    subcategories,
+    handleAllFinancialCategoryByUser,
+    handleAllSubcategoryByCategory,
+  } = useFinancialCategoryAndSubcategory()
 
   return (
     <>
