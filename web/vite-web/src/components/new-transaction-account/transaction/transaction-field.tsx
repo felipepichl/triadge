@@ -18,10 +18,8 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 type TransactionFieldProps<T extends FieldValues> = {
-  control: Control<T> // Garante que T seja compatível com FieldValues
-  name: Path<T> // Usa Path<T> para tipos fortemente tipados
-  // selectedValue: string | null
-  // onTypeChange: (type: string) => void
+  control: Control<T>
+  name: Path<T>
 }
 
 export function TransactionField<T extends FieldValues>({

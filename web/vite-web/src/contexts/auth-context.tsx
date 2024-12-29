@@ -131,6 +131,8 @@ function AuthProvider({ children }: AuthProviderProps) {
       })
   }, [])
 
+  // useEffect(() => {}, [])
+
   return (
     <AuthContext.Provider
       value={{

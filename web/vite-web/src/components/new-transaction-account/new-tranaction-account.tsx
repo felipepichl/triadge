@@ -1,38 +1,22 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { format } from 'date-fns'
-import { Calendar as CalendarIcon } from 'lucide-react'
-import { ChangeEvent, useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { apiListAllFinancialCategoryByUser } from '@/api/list-all-financial-category-by-user'
 import { apiListAllSubcategoryByCategory } from '@/api/list-all-subcategory-by-category'
-import { Calendar } from '@/components/ui/calendar'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from '@/components/ui/form'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
+import { Form } from '@/components/ui/form'
 import { FinancialCategoryDetailDTO } from '@/dtos/financial-category-dto'
 import { SubcategoryDetailDTO } from '@/dtos/subcategory-dto'
 import { useMonetaryMask } from '@/hooks/use-monetary-mask'
 import { useTransaction } from '@/hooks/use-transaction'
 
-import { NewFinancialCategoryOrSubcategory } from '../new-financial-category-or-subcategory/new-financial-category-or-subcategory'
 import { Button } from '../ui/button'
 import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '../ui/drawer'
-import { Input } from '../ui/input'
 import { Separator } from '../ui/separator'
 import { AccountPayableFiled } from './account-payable/account-payable-field'
-import { CategorySelect } from './category-select/category-select'
+import { SharedField } from './shared-field/shared-field'
 import { TransactionField } from './transaction/transaction-field'
 
 type NewAccountTransactionProps = {
@@ -53,19 +37,51 @@ export function NewTransactionAccount({
     undefined,
   )
 
-  const { formattedValue, handleMaskChange, rawValue } = useMonetaryMask()
+  const { rawValue } = useMonetaryMask()
   const { createTransaction } = useTransaction()
 
-  const createTransactionForm = z
-    .object({
-      description: z.string().min(1, { message: 'Campo obrigatório' }),
-      amount: z.string().min(1, { message: 'Campo obrigatório' }),
-      date: z.date(),
+  const baseFormSchema = z.object({
+    description: z.string().min(1, { message: 'Campo obrigatório' }),
+    amount: z.string().min(1, { message: 'Campo obrigatório' }),
+    date: z.date(),
+    financialCategoryId: z.string().min(1, { message: 'Selecione uma opção' }),
+    subcategoryId: z.string().optional(),
+  })
+
+  const createAccountPayableForm = baseFormSchema
+    .extend({
+      installments: z.string().min(1, { message: 'Campo obrigatório' }),
+    })
+    .refine(
+      (data) => {
+        if (subcategories.length > 0 && !data.subcategoryId) {
+          return false
+        }
+        return true
+      },
+      {
+        message: 'Selecione uma opção',
+        path: ['subcategoryId'],
+      },
+    )
+
+  type CreateAccountPayableForm = z.infer<typeof createAccountPayableForm>
+
+  const accountPayableForm = useForm<CreateAccountPayableForm>({
+    resolver: zodResolver(createAccountPayableForm),
+    defaultValues: {
+      description: '',
+      amount: '',
+      date: new Date(),
+      installments: '1',
+      financialCategoryId: '',
+      subcategoryId: '',
+    },
+  })
+
+  const createTransactionForm = baseFormSchema
+    .extend({
       type: z.string().min(1, { message: 'Selecione uma opção' }),
-      financialCategoryId: z
-        .string()
-        .min(1, { message: 'Selecione uma opção' }),
-      subcategoryId: z.string().optional(),
     })
     .refine(
       (data) => {
@@ -82,7 +98,7 @@ export function NewTransactionAccount({
 
   type CreateTransactionForm = z.infer<typeof createTransactionForm>
 
-  const form = useForm<CreateTransactionForm>({
+  const transactionForm = useForm<CreateTransactionForm>({
     resolver: zodResolver(createTransactionForm),
     defaultValues: {
       description: '',
@@ -100,8 +116,8 @@ export function NewTransactionAccount({
 
   const cleanFileds = useCallback(() => {
     setIsDrawerOpen(false)
-    form.reset()
-  }, [form])
+    transactionForm.reset()
+  }, [transactionForm])
 
   const handleAllFinancialCategoryByUser = useCallback(async () => {
     const response = await apiListAllFinancialCategoryByUser()
@@ -148,11 +164,52 @@ export function NewTransactionAccount({
     [cleanFileds, createTransaction, rawValue],
   )
 
+  const handleCreateNewAccountPayable = useCallback(
+    async ({
+      description,
+      date,
+      installments,
+      financialCategoryId,
+      subcategoryId,
+    }: CreateAccountPayableForm) => {
+      try {
+        console.log(
+          'Account Payable',
+          description,
+          date,
+          installments,
+          financialCategoryId,
+          subcategoryId,
+        )
+
+        toast.success('Conta a Pagr salva com sucesso!')
+      } catch (err) {
+        console.log(err)
+        toast.error('Erro ao salvar, tente novamente mais tarde!')
+      }
+    },
+    [],
+  )
+
   useEffect(() => {
     if (subcategories.length > 0) {
-      form.clearErrors('subcategoryId')
+      transactionForm.clearErrors('subcategoryId')
     }
-  }, [subcategories, form])
+  }, [subcategories, transactionForm])
+
+  const SubmitButton = () => (
+    <>
+      <Separator />
+
+      <Button
+        className="h-12 w-full font-bold hover:bg-green-700  hover:text-slate-100"
+        type="submit"
+        disabled={false}
+      >
+        Cadastrar
+      </Button>
+    </>
+  )
 
   return (
     <div className="flex justify-end pb-3">
@@ -168,145 +225,70 @@ export function NewTransactionAccount({
         <DrawerContent>
           <div className="mt-3 p-4">
             <DrawerTitle>{title}</DrawerTitle>
-
-            <Form {...form}>
-              <form
-                className="mt-3 space-y-4"
-                onSubmit={form.handleSubmit(handleCreateNewTransaction)}
-              >
-                <div className="space-y-2">
-                  <FormField
-                    control={form.control}
-                    name="description"
-                    render={() => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="Descrição"
-                            {...form.register('description')}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="amount"
-                    render={() => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            className="h-10"
-                            placeholder="Valor"
-                            value={formattedValue}
-                            // inputMode="numeric"
-                            // type="number"
-                            {...form.register('amount', {
-                              onChange: (e: ChangeEvent<HTMLInputElement>) => {
-                                handleMaskChange(e)
-                              },
-                            })}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="date"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Popover>
-                            <PopoverTrigger asChild>
-                              <Button
-                                variant="outline"
-                                className="w-full justify-start text-left font-normal"
-                              >
-                                <CalendarIcon className="mr-2 h-4 w-4" />
-                                {field.value ? (
-                                  format(field.value, 'PPP')
-                                ) : (
-                                  <span>Pick a date</span>
-                                )}
-                              </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                              <Calendar
-                                mode="single"
-                                initialFocus
-                                selected={field.value}
-                                onSelect={(date) => field.onChange(date)}
-                              />
-                            </PopoverContent>
-                          </Popover>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <div className="flex  justify-center gap-2">
-                    <CategorySelect
-                      control={form.control}
-                      name="financialCategoryId"
-                      options={financialCategories}
-                      onValueChange={(value) => {
-                        setParentCategoryId(value)
-                        handleAllSubcategoryByCategory(value)
-                      }}
-                      onOpenChange={handleAllFinancialCategoryByUser}
-                      placeholder="Categoria"
-                    />
-
-                    <NewFinancialCategoryOrSubcategory
-                      title="Categoria"
-                      type="financialCategory"
-                    />
-                  </div>
-
-                  <div className="flex  justify-center gap-2">
-                    <CategorySelect
-                      control={form.control}
-                      name="subcategoryId"
-                      options={subcategories}
-                      onOpenChange={() =>
-                        handleAllSubcategoryByCategory(parentCategoryId)
-                      }
-                      placeholder="Subcategorias"
-                      disabled={!parentCategoryId}
-                    />
-
-                    <NewFinancialCategoryOrSubcategory
-                      title="Subcategoria"
-                      type="subcategory"
-                      parentCategoryId={parentCategoryId}
-                      disable={!parentCategoryId}
-                    />
-                  </div>
-
-                  {type === 'accountPayable' && <AccountPayableFiled />}
-
-                  {type === 'transaction' && (
-                    <TransactionField control={form.control} name="type" />
+            {type === 'accountPayable' ? (
+              <Form {...accountPayableForm}>
+                <form
+                  className="mt-3 space-y-4"
+                  onSubmit={accountPayableForm.handleSubmit(
+                    handleCreateNewAccountPayable,
                   )}
+                >
+                  <div className="space-y-2">
+                    <SharedField
+                      control={accountPayableForm.control}
+                      register={accountPayableForm.register}
+                      financialCategories={financialCategories}
+                      subcategories={subcategories}
+                      parentCategoryId={parentCategoryId}
+                      setParentCategoryId={setParentCategoryId}
+                      handleAllFinancialCategoryByUser={
+                        handleAllFinancialCategoryByUser
+                      }
+                      handleAllSubcategoryByCategory={
+                        handleAllSubcategoryByCategory
+                      }
+                    />
 
-                  <Separator />
+                    <AccountPayableFiled />
 
-                  <Button
-                    className="h-12 w-full bg-green-500 font-bold hover:border-green-700 hover:bg-green-700 hover:text-slate-100"
-                    type="submit"
-                    disabled={false}
-                  >
-                    Cadastrar
-                  </Button>
-                </div>
-              </form>
-            </Form>
+                    <SubmitButton />
+                  </div>
+                </form>
+              </Form>
+            ) : (
+              <Form {...transactionForm}>
+                <form
+                  className="mt-3 space-y-4"
+                  onSubmit={transactionForm.handleSubmit(
+                    handleCreateNewTransaction,
+                  )}
+                >
+                  <div className="space-y-2">
+                    <SharedField
+                      control={transactionForm.control}
+                      register={transactionForm.register}
+                      financialCategories={financialCategories}
+                      subcategories={subcategories}
+                      parentCategoryId={parentCategoryId}
+                      setParentCategoryId={setParentCategoryId}
+                      handleAllFinancialCategoryByUser={
+                        handleAllFinancialCategoryByUser
+                      }
+                      handleAllSubcategoryByCategory={
+                        handleAllSubcategoryByCategory
+                      }
+                    />
+
+                    <TransactionField
+                      control={transactionForm.control}
+                      name="type"
+                    />
+
+                    <SubmitButton />
+                  </div>
+                </form>
+              </Form>
+            )}
           </div>
         </DrawerContent>
       </Drawer>
