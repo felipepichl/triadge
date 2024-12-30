@@ -11,29 +11,27 @@ import {
 } from '@/components/ui/form'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
-type TransactionFieldProps<T extends FieldValues> = {
-  name: Path<T>
-}
+import { getFieldPaths } from '../@types/filed-paths'
 
-export function TransactionField<T extends FieldValues>({
-  name,
-}: TransactionFieldProps<T>) {
+export function TransactionField<T extends FieldValues>() {
   const [selectedValue, setSelectedValue] = useState<string | null>('')
+
   const form = useFormContext<T>()
+  const fileds = getFieldPaths<T>()
 
   const handleTypeChange = useCallback(
     (type: string) => {
       setSelectedValue(type)
-      form.setValue(name, type as PathValue<T, Path<T>>)
-      form.clearErrors(name)
+      form.setValue(fileds.type, type as PathValue<T, Path<T>>)
+      form.clearErrors()
     },
-    [form, name],
+    [form, fileds],
   )
 
   return (
     <FormField
       control={form.control}
-      name={name}
+      name={fileds.type}
       render={() => (
         <FormItem>
           <FormControl>

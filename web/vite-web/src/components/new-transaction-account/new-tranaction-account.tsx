@@ -11,10 +11,18 @@ import { useFinancialCategoryAndSubcategory } from '@/hooks/use-financial-catego
 import { Button } from '../ui/button'
 import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '../ui/drawer'
 import { Separator } from '../ui/separator'
-import { AccountPayableFiled } from './account-payable/account-payable-field'
+import { AccountPayableFiled } from './account-payable-field/account-payable-field'
 import { GenericForm } from './generic-form/generic-form'
 import { SharedField } from './shared-field/shared-field'
-import { TransactionField } from './transaction/transaction-field'
+import { TransactionField } from './transaction-field/transaction-field'
+
+const baseFormSchema = z.object({
+  description: z.string().min(1, { message: 'Campo obrigatório' }),
+  amount: z.string().min(1, { message: 'Campo obrigatório' }),
+  date: z.date(),
+  financialCategoryId: z.string().min(1, { message: 'Selecione uma opção' }),
+  subcategoryId: z.string().optional(),
+})
 
 type NewAccountTransactionProps = {
   title: string
@@ -29,6 +37,10 @@ export function NewTransactionAccount({
     undefined,
   )
 
+  // const { rawValue } = useMonetaryMask()
+  // const { createTransaction } = useTransaction()
+  const { subcategories } = useFinancialCategoryAndSubcategory()
+
   const SubmitButton = () => (
     <>
       <Separator />
@@ -42,18 +54,6 @@ export function NewTransactionAccount({
       </Button>
     </>
   )
-
-  // const { rawValue } = useMonetaryMask()
-  // const { createTransaction } = useTransaction()
-  const { subcategories } = useFinancialCategoryAndSubcategory()
-
-  const baseFormSchema = z.object({
-    description: z.string().min(1, { message: 'Campo obrigatório' }),
-    amount: z.string().min(1, { message: 'Campo obrigatório' }),
-    date: z.date(),
-    financialCategoryId: z.string().min(1, { message: 'Selecione uma opção' }),
-    subcategoryId: z.string().optional(),
-  })
 
   const createAccountPayableForm = baseFormSchema
     .extend({
@@ -117,9 +117,9 @@ export function NewTransactionAccount({
     },
   })
 
-  function handleToggleDrawer() {
+  const handleToggleDrawer = useCallback(() => {
     setIsDrawerOpen(undefined)
-  }
+  }, [])
 
   const cleanFileds = useCallback(() => {
     setIsDrawerOpen(false)
@@ -233,7 +233,7 @@ export function NewTransactionAccount({
                 fields={
                   <>
                     <SharedField />
-                    <TransactionField name="type" />
+                    <TransactionField />
                     <SubmitButton />
                   </>
                 }
