@@ -1,12 +1,6 @@
 import { ArrowDownCircle, ArrowUpCircle } from 'lucide-react'
 import { useCallback, useState } from 'react'
-import {
-  Control,
-  FieldValues,
-  Path,
-  PathValue,
-  useFormContext,
-} from 'react-hook-form'
+import { FieldValues, Path, PathValue, useFormContext } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -18,12 +12,10 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 type TransactionFieldProps<T extends FieldValues> = {
-  control: Control<T>
   name: Path<T>
 }
 
 export function TransactionField<T extends FieldValues>({
-  control,
   name,
 }: TransactionFieldProps<T>) {
   const [selectedValue, setSelectedValue] = useState<string | null>('')
@@ -40,7 +32,7 @@ export function TransactionField<T extends FieldValues>({
 
   return (
     <FormField
-      control={control}
+      control={form.control}
       name={name}
       render={() => (
         <FormItem>

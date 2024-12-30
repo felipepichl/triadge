@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { Form } from '@/components/ui/form'
 import { useFinancialCategoryAndSubcategory } from '@/hooks/use-financial-category-and-subcategory'
 
 // import { useMonetaryMask } from '@/hooks/use-monetary-mask'
@@ -13,6 +12,7 @@ import { Button } from '../ui/button'
 import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '../ui/drawer'
 import { Separator } from '../ui/separator'
 import { AccountPayableFiled } from './account-payable/account-payable-field'
+import { GenericForm } from './generic-form/generic-form'
 import { SharedField } from './shared-field/shared-field'
 import { TransactionField } from './transaction/transaction-field'
 
@@ -129,6 +129,7 @@ export function NewTransactionAccount({
   const handleCreateNewTransaction = useCallback(
     async ({
       description,
+      amount,
       type,
       date,
       financialCategoryId,
@@ -147,6 +148,7 @@ export function NewTransactionAccount({
         console.log(
           'Transaction',
           description,
+          amount,
           date,
           type,
           financialCategoryId,
@@ -166,6 +168,7 @@ export function NewTransactionAccount({
   const handleCreateNewAccountPayable = useCallback(
     async ({
       description,
+      amount,
       date,
       installments,
       financialCategoryId,
@@ -175,6 +178,7 @@ export function NewTransactionAccount({
         console.log(
           'Account Payable',
           description,
+          amount,
           date,
           installments,
           financialCategoryId,
@@ -211,48 +215,29 @@ export function NewTransactionAccount({
           <div className="mt-3 p-4">
             <DrawerTitle>{title}</DrawerTitle>
             {type === 'accountPayable' ? (
-              <Form {...accountPayableForm}>
-                <form
-                  className="mt-3 space-y-4"
-                  onSubmit={accountPayableForm.handleSubmit(
-                    handleCreateNewAccountPayable,
-                  )}
-                >
-                  <div className="space-y-2">
-                    <SharedField
-                      control={accountPayableForm.control}
-                      register={accountPayableForm.register}
-                    />
-
+              <GenericForm
+                onSubmit={handleCreateNewAccountPayable}
+                form={accountPayableForm}
+                fields={
+                  <>
+                    <SharedField />
                     <AccountPayableFiled />
-
                     <SubmitButton />
-                  </div>
-                </form>
-              </Form>
+                  </>
+                }
+              />
             ) : (
-              <Form {...transactionForm}>
-                <form
-                  className="mt-3 space-y-4"
-                  onSubmit={transactionForm.handleSubmit(
-                    handleCreateNewTransaction,
-                  )}
-                >
-                  <div className="space-y-2">
-                    <SharedField
-                      control={transactionForm.control}
-                      register={transactionForm.register}
-                    />
-
-                    <TransactionField
-                      control={transactionForm.control}
-                      name="type"
-                    />
-
+              <GenericForm
+                onSubmit={handleCreateNewTransaction}
+                form={transactionForm}
+                fields={
+                  <>
+                    <SharedField />
+                    <TransactionField name="type" />
                     <SubmitButton />
-                  </div>
-                </form>
-              </Form>
+                  </>
+                }
+              />
             )}
           </div>
         </DrawerContent>

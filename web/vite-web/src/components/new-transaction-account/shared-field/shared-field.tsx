@@ -2,7 +2,7 @@ import { Popover } from '@radix-ui/react-popover'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import { ChangeEvent, useState } from 'react'
-import { Control, FieldValues, Path, UseFormRegister } from 'react-hook-form'
+import { FieldValues, Path, useFormContext } from 'react-hook-form'
 
 import { NewFinancialCategoryOrSubcategory } from '@/components/new-financial-category-or-subcategory/new-financial-category-or-subcategory'
 import { Button } from '@/components/ui/button'
@@ -20,15 +20,12 @@ import { useMonetaryMask } from '@/hooks/use-monetary-mask'
 
 import { CategorySelect } from './category-select'
 
-type SharedFieldProps<T extends FieldValues> = {
-  control: Control<T>
-  register: UseFormRegister<T>
-}
+// type SharedFieldProps<T extends FieldValues> = {
+//   control: Control<T>
+//   register: UseFormRegister<T>
+// }
 
-export function SharedField<T extends FieldValues>({
-  control,
-  register,
-}: SharedFieldProps<T>) {
+export function SharedField<T extends FieldValues>() {
   const [parentCategoryId, setParentCategoryId] = useState<string>('')
 
   const { formattedValue, handleMaskChange } = useMonetaryMask()
@@ -39,17 +36,19 @@ export function SharedField<T extends FieldValues>({
     handleAllSubcategoryByCategory,
   } = useFinancialCategoryAndSubcategory()
 
+  const form = useFormContext<T>()
+
   return (
     <>
       <FormField
-        control={control}
+        control={form.control}
         name={'description' as Path<T>}
         render={() => (
           <FormItem>
             <FormControl>
               <Input
                 placeholder="Descrição"
-                {...register('description' as Path<T>)}
+                {...form.register('description' as Path<T>)}
               />
             </FormControl>
             <FormMessage />
@@ -58,7 +57,7 @@ export function SharedField<T extends FieldValues>({
       />
 
       <FormField
-        control={control}
+        control={form.control}
         name={'amount' as Path<T>}
         render={() => (
           <FormItem>
@@ -69,7 +68,7 @@ export function SharedField<T extends FieldValues>({
                 value={formattedValue}
                 // inputMode="numeric"
                 // type="number"
-                {...register('amount' as Path<T>, {
+                {...form.register('amount' as Path<T>, {
                   onChange: (e: ChangeEvent<HTMLInputElement>) => {
                     handleMaskChange(e)
                   },
@@ -82,7 +81,7 @@ export function SharedField<T extends FieldValues>({
       />
 
       <FormField
-        control={control}
+        control={form.control}
         name={'date' as Path<T>}
         render={({ field }) => (
           <FormItem>
@@ -118,7 +117,7 @@ export function SharedField<T extends FieldValues>({
 
       <div className="flex  justify-center gap-2">
         <CategorySelect
-          control={control}
+          control={form.control}
           name={'financialCategoryId' as Path<T>}
           options={financialCategories}
           onValueChange={(value) => {
@@ -137,7 +136,7 @@ export function SharedField<T extends FieldValues>({
 
       <div className="flex  justify-center gap-2">
         <CategorySelect
-          control={control}
+          control={form.control}
           name={'subcategoryId' as Path<T>}
           options={subcategories}
           onOpenChange={() => handleAllSubcategoryByCategory(parentCategoryId)}
