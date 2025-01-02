@@ -2,7 +2,7 @@ import { Popover } from '@radix-ui/react-popover'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import { ChangeEvent, useState } from 'react'
-import { FieldValues, useFormContext } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 
 import { NewFinancialCategoryOrSubcategory } from '@/components/new-financial-category-or-subcategory/new-financial-category-or-subcategory'
 import { Button } from '@/components/ui/button'
@@ -21,7 +21,7 @@ import { useMonetaryMask } from '@/hooks/use-monetary-mask'
 import { getFieldPaths } from '../@types/filed-paths'
 import { CategorySelect } from './category-select'
 
-export function SharedField<T extends FieldValues>() {
+export function SharedField() {
   const [parentCategoryId, setParentCategoryId] = useState<string>('')
 
   const { formattedValue, handleMaskChange } = useMonetaryMask()
@@ -32,9 +32,9 @@ export function SharedField<T extends FieldValues>() {
     handleAllSubcategoryByCategory,
   } = useFinancialCategoryAndSubcategory()
 
-  const form = useFormContext<T>()
+  const form = useFormContext()
   const { description, amount, date, financialCategoryId, subcategoryId } =
-    getFieldPaths<T>()
+    getFieldPaths()
 
   return (
     <>
@@ -112,7 +112,6 @@ export function SharedField<T extends FieldValues>() {
 
       <div className="flex  justify-center gap-2">
         <CategorySelect
-          control={form.control}
           name={financialCategoryId}
           options={financialCategories}
           onValueChange={(value) => {
@@ -131,7 +130,6 @@ export function SharedField<T extends FieldValues>() {
 
       <div className="flex  justify-center gap-2">
         <CategorySelect
-          control={form.control}
           name={subcategoryId}
           options={subcategories}
           onOpenChange={() => handleAllSubcategoryByCategory(parentCategoryId)}

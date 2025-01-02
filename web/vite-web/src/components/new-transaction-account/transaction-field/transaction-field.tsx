@@ -1,6 +1,6 @@
 import { ArrowDownCircle, ArrowUpCircle } from 'lucide-react'
 import { useCallback, useState } from 'react'
-import { FieldValues, Path, PathValue, useFormContext } from 'react-hook-form'
+import { Path, PathValue, useFormContext } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -13,11 +13,11 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 import { getFieldPaths } from '../@types/filed-paths'
 
-export function TransactionField<T extends FieldValues>() {
+export function TransactionField<T>() {
   const [selectedValue, setSelectedValue] = useState<string | null>('')
 
-  const form = useFormContext<T>()
-  const fileds = getFieldPaths<T>()
+  const form = useFormContext()
+  const fileds = getFieldPaths()
 
   const handleTypeChange = useCallback(
     (type: string) => {
