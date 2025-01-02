@@ -1,10 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { useFinancialCategoryAndSubcategory } from '@/hooks/use-financial-category-and-subcategory'
+import { useSubcategory } from '@/hooks/use-subcategory'
 
 // import { useMonetaryMask } from '@/hooks/use-monetary-mask'
 // import { useTransaction } from '@/hooks/use-transaction'
@@ -24,6 +24,17 @@ const baseFormSchema = z.object({
   subcategoryId: z.string().optional(),
 })
 
+const createAccountPayableForm = baseFormSchema.extend({
+  installments: z.string().min(1, { message: 'Campo obrigatório' }),
+})
+
+const createTransactionForm = baseFormSchema.extend({
+  type: z.string().min(1, { message: 'Selecione uma opção' }),
+})
+
+type CreateAccountPayableForm = z.infer<typeof createAccountPayableForm>
+type CreateTransactionForm = z.infer<typeof createTransactionForm>
+
 type NewAccountTransactionProps = {
   title: string
   type: 'transaction' | 'accountPayable'
@@ -39,7 +50,8 @@ export function NewTransactionAccount({
 
   // const { rawValue } = useMonetaryMask()
   // const { createTransaction } = useTransaction()
-  const { subcategories } = useFinancialCategoryAndSubcategory()
+
+  const { subcategories } = useSubcategory()
 
   const SubmitButton = () => (
     <>
@@ -55,27 +67,21 @@ export function NewTransactionAccount({
     </>
   )
 
-  const createAccountPayableForm = baseFormSchema
-    .extend({
-      installments: z.string().min(1, { message: 'Campo obrigatório' }),
-    })
-    .refine(
-      (data) => {
-        if (subcategories.length > 0 && !data.subcategoryId) {
-          return false
-        }
-        return true
-      },
-      {
-        message: 'Selecione uma opção',
-        path: ['subcategoryId'],
-      },
-    )
-
-  type CreateAccountPayableForm = z.infer<typeof createAccountPayableForm>
-
   const accountPayableForm = useForm<CreateAccountPayableForm>({
-    resolver: zodResolver(createAccountPayableForm),
+    resolver: zodResolver(
+      createAccountPayableForm.refine(
+        (data) => {
+          if (subcategories.length > 0 && !data.subcategoryId) {
+            return false
+          }
+          return true
+        },
+        {
+          message: 'Selecione uma opção',
+          path: ['subcategoryId'],
+        },
+      ),
+    ),
     defaultValues: {
       description: '',
       amount: '',
@@ -86,27 +92,21 @@ export function NewTransactionAccount({
     },
   })
 
-  const createTransactionForm = baseFormSchema
-    .extend({
-      type: z.string().min(1, { message: 'Selecione uma opção' }),
-    })
-    .refine(
-      (data) => {
-        if (subcategories.length > 0 && !data.subcategoryId) {
-          return false
-        }
-        return true
-      },
-      {
-        message: 'Selecione uma opção',
-        path: ['subcategoryId'],
-      },
-    )
-
-  type CreateTransactionForm = z.infer<typeof createTransactionForm>
-
   const transactionForm = useForm<CreateTransactionForm>({
-    resolver: zodResolver(createTransactionForm),
+    resolver: zodResolver(
+      createTransactionForm.refine(
+        (data) => {
+          if (subcategories.length > 0 && !data.subcategoryId) {
+            return false
+          }
+          return true
+        },
+        {
+          message: 'Selecione uma opção',
+          path: ['subcategoryId'],
+        },
+      ),
+    ),
     defaultValues: {
       description: '',
       amount: '',
@@ -118,13 +118,9 @@ export function NewTransactionAccount({
   })
 
   const handleToggleDrawer = useCallback(() => {
-    setIsDrawerOpen(undefined)
+    // setIsDrawerOpen(undefined)
+    setIsDrawerOpen((prevState) => !prevState)
   }, [])
-
-  const cleanFileds = useCallback(() => {
-    setIsDrawerOpen(false)
-    transactionForm.reset()
-  }, [transactionForm])
 
   const handleCreateNewTransaction = useCallback(
     async ({
@@ -155,14 +151,15 @@ export function NewTransactionAccount({
           subcategoryId,
         )
 
-        cleanFileds()
+        handleToggleDrawer()
+        transactionForm.reset()
         toast.success('Transação salva com sucesso!')
       } catch (err) {
         console.log(err)
         toast.error('Erro ao salvar, tente novamente mais tarde!')
       }
     },
-    [cleanFileds],
+    [transactionForm, handleToggleDrawer],
   )
 
   const handleCreateNewAccountPayable = useCallback(
@@ -185,20 +182,16 @@ export function NewTransactionAccount({
           subcategoryId,
         )
 
+        handleToggleDrawer()
+        accountPayableForm.reset()
         toast.success('Conta a Pagr salva com sucesso!')
       } catch (err) {
         console.log(err)
         toast.error('Erro ao salvar, tente novamente mais tarde!')
       }
     },
-    [],
+    [accountPayableForm, handleToggleDrawer],
   )
-
-  useEffect(() => {
-    if (subcategories.length > 0) {
-      transactionForm.clearErrors('subcategoryId')
-    }
-  }, [subcategories, transactionForm])
 
   return (
     <div className="flex justify-end pb-3">

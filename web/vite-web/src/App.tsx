@@ -5,6 +5,7 @@ import { RouterProvider } from 'react-router-dom'
 import { Toaster } from 'sonner'
 
 import { ThemeProvider } from './components/theme/theme-provider'
+import { SubcategoryProvider } from './contexts/app/subcategory-context'
 import { AuthProvider } from './contexts/auth-context'
 import { TransactionsProvider } from './contexts/transactions-context'
 import { router } from './routes'
@@ -18,7 +19,9 @@ export default function App() {
           <Toaster richColors position="top-right" />
 
           <TransactionsProvider>
-            <RouterProvider router={router} />
+            <SubcategoryProvider>
+              <RouterProvider router={router} />
+            </SubcategoryProvider>
           </TransactionsProvider>
         </HelmetProvider>
       </AuthProvider>

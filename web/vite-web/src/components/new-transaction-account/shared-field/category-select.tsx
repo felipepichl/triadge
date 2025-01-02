@@ -1,4 +1,4 @@
-import { Control, FieldValues, Path } from 'react-hook-form'
+import { Control, FieldValues, Path, useFormContext } from 'react-hook-form'
 
 import {
   FormControl,
@@ -35,6 +35,8 @@ export function CategorySelect<T extends FieldValues>({
   options,
   disabled = false,
 }: CategorySelectProps<T>) {
+  const { clearErrors } = useFormContext<T>()
+
   return (
     <FormField
       name={name}
@@ -46,6 +48,7 @@ export function CategorySelect<T extends FieldValues>({
               onValueChange={(value) => {
                 onChange(value)
                 onValueChange?.(value)
+                clearErrors()
               }}
               onOpenChange={onOpenChange}
               disabled={disabled}

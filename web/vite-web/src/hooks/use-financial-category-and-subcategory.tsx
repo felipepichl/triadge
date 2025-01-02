@@ -1,15 +1,15 @@
 import { useCallback, useState } from 'react'
 
 import { apiListAllFinancialCategoryByUser } from '@/api/list-all-financial-category-by-user'
-import { apiListAllSubcategoryByCategory } from '@/api/list-all-subcategory-by-category'
 import { FinancialCategoryDetailDTO } from '@/dtos/financial-category-dto'
-import { SubcategoryDetailDTO } from '@/dtos/subcategory-dto'
+import { useSubcategory } from '@/hooks/use-subcategory'
 
 export function useFinancialCategoryAndSubcategory() {
   const [financialCategories, setFinancialCategories] = useState<
     FinancialCategoryDetailDTO[]
   >([])
-  const [subcategories, setSubcategories] = useState<SubcategoryDetailDTO[]>([])
+
+  const { subcategories, loadSubcategoryByCategory } = useSubcategory()
 
   const handleAllFinancialCategoryByUser = useCallback(async () => {
     const response = await apiListAllFinancialCategoryByUser()
@@ -19,13 +19,9 @@ export function useFinancialCategoryAndSubcategory() {
 
   const handleAllSubcategoryByCategory = useCallback(
     async (parentCategoryId: string) => {
-      const response = await apiListAllSubcategoryByCategory({
-        parentCategoryId,
-      })
-
-      setSubcategories(response)
+      await loadSubcategoryByCategory(parentCategoryId)
     },
-    [],
+    [loadSubcategoryByCategory],
   )
 
   return {
