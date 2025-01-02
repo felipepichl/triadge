@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import {
   TransactionContextData,
   TransactionsContext,
-} from '@/contexts/transactions-context'
+} from '@/contexts/app/transactions-context'
 
 export function useTransaction(): TransactionContextData {
   const context = useContext(TransactionsContext)

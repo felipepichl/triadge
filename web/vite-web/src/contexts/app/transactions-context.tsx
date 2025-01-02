@@ -59,7 +59,9 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
     }: TransactionBody) => {
       await apiCreateTransaction({
         description,
-        amount: parseFloat(amount.replace('R$ ', '').replace(',', '.')),
+        amount: parseFloat(
+          amount.replace('R$ ', '').replace('.', '').replace(',', '.'),
+        ),
         type,
         date,
         financialCategoryId,

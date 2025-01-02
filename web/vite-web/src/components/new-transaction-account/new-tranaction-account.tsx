@@ -5,9 +5,8 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { useSubcategory } from '@/hooks/use-subcategory'
+import { useTransaction } from '@/hooks/use-transaction'
 
-// import { useMonetaryMask } from '@/hooks/use-monetary-mask'
-// import { useTransaction } from '@/hooks/use-transaction'
 import { Button } from '../ui/button'
 import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '../ui/drawer'
 import { Separator } from '../ui/separator'
@@ -49,8 +48,7 @@ export function NewTransactionAccount({
     undefined,
   )
 
-  // const { rawValue } = useMonetaryMask()
-  // const { createTransaction } = useTransaction()
+  const { createTransaction } = useTransaction()
 
   const { subcategories } = useSubcategory()
 
@@ -119,38 +117,27 @@ export function NewTransactionAccount({
   })
 
   const handleToggleDrawer = useCallback(() => {
-    // setIsDrawerOpen(undefined)
     setIsDrawerOpen((prevState) => !prevState)
   }, [])
 
   const handleCreateNewTransaction = useCallback(
     async ({
       description,
-      amount,
       type,
+      amount,
       date,
       financialCategoryId,
       subcategoryId,
     }: CreateTransactionForm) => {
       try {
-        // createTransaction({
-        //   description,
-        //   amount: String(rawValue),
-        //   type,
-        //   date,
-        //   financialCategoryId,
-        //   subcategoryId,
-        // })
-
-        console.log(
-          'Transaction',
+        createTransaction({
           description,
           amount,
-          date,
           type,
+          date,
           financialCategoryId,
           subcategoryId,
-        )
+        })
 
         handleToggleDrawer()
         transactionForm.reset()
@@ -160,7 +147,7 @@ export function NewTransactionAccount({
         toast.error('Erro ao salvar, tente novamente mais tarde!')
       }
     },
-    [transactionForm, handleToggleDrawer],
+    [createTransaction, transactionForm, handleToggleDrawer],
   )
 
   const handleCreateNewAccountPayable = useCallback(

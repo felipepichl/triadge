@@ -19,6 +19,7 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
       description,
       amount,
       date,
+      installments,
       financialCategoryId,
       subcategoryId,
     }: CreateAccountPayableDTO) => {
@@ -26,6 +27,7 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
         description,
         amount,
         date,
+        installments,
         financialCategoryId,
         subcategoryId,
       })
