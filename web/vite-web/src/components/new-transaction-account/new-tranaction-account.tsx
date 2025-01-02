@@ -26,6 +26,7 @@ const baseFormSchema = z.object({
 
 const createAccountPayableForm = baseFormSchema.extend({
   installments: z.string().min(1, { message: 'Campo obrigatório' }),
+  isFixed: z.boolean().optional(),
 })
 
 const createTransactionForm = baseFormSchema.extend({
@@ -168,6 +169,7 @@ export function NewTransactionAccount({
       amount,
       date,
       installments,
+      isFixed,
       financialCategoryId,
       subcategoryId,
     }: CreateAccountPayableForm) => {
@@ -182,6 +184,9 @@ export function NewTransactionAccount({
           subcategoryId,
         )
 
+        if (isFixed) {
+          console.log('Eh uma conta fixa')
+        }
         handleToggleDrawer()
         accountPayableForm.reset()
         toast.success('Conta a Pagr salva com sucesso!')

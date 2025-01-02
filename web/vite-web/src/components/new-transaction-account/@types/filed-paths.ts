@@ -6,6 +6,7 @@ export const getFieldPaths = <T>() => ({
   date: 'date' as Path<T>,
   type: 'type' as Path<T>,
   installments: 'installments' as Path<T>,
+  isFixed: 'isFixed' as Path<T>,
   financialCategoryId: 'financialCategoryId' as Path<T>,
   subcategoryId: 'subcategoryId' as Path<T>,
 })
