@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 
+import { AccountsPayableProvider } from '@/contexts/app/accounts-payable-context'
 /** Layouts */
 import { AppLayout } from '@/pages/_layouts/app'
 import { AuthLayout } from '@/pages/_layouts/auth'
@@ -31,7 +32,11 @@ export const router = createBrowserRouter([
       },
       {
         path: '/account-payable',
-        element: <AccountPayable />,
+        element: (
+          <AccountsPayableProvider>
+            <AccountPayable />
+          </AccountsPayableProvider>
+        ),
       },
     ],
   },

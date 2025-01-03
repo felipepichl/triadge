@@ -1,7 +1,7 @@
 export type CreateAccountPayableDTO = {
   description: string
   amount: number
-  date?: Date
+  dueDate?: Date
   installments?: number
   financialCategoryId: string
   subcategoryId?: string

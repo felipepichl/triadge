@@ -18,7 +18,7 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
     async ({
       description,
       amount,
-      date,
+      dueDate,
       installments,
       financialCategoryId,
       subcategoryId,
@@ -26,7 +26,7 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
       await apiCreateAccountPayable({
         description,
         amount,
-        date,
+        dueDate,
         installments,
         financialCategoryId,
         subcategoryId,
@@ -42,4 +42,5 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
   )
 }
 
-export { AccountsPayableProvider }
+export type { AccountPayableContextData }
+export { AccountPayableContext, AccountsPayableProvider }

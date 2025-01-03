@@ -4,14 +4,14 @@ import { api } from '@/lib/axios'
 export async function apiCreateAccountPayable({
   description,
   amount,
-  date,
+  dueDate,
   installments,
   financialCategoryId,
 }: CreateAccountPayableDTO): Promise<void> {
   await api.post('/accounts-payable', {
     description,
     amount,
-    date,
+    dueDate,
     installments,
     financialCategoryId,
   })

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import { useAccountPayable } from '@/hooks/use-account-payable'
 import { useSubcategory } from '@/hooks/use-subcategory'
 import { useTransaction } from '@/hooks/use-transaction'
 
@@ -48,9 +49,9 @@ export function NewTransactionAccount({
     undefined,
   )
 
-  const { createTransaction } = useTransaction()
-
   const { subcategories } = useSubcategory()
+  const { createTransaction } = useTransaction()
+  const { createAccountPayable } = useAccountPayable()
 
   const SubmitButton = () => (
     <>
@@ -161,15 +162,16 @@ export function NewTransactionAccount({
       subcategoryId,
     }: CreateAccountPayableForm) => {
       try {
-        console.log(
-          'Account Payable',
+        createAccountPayable({
           description,
-          amount,
-          date,
-          installments,
+          amount: parseFloat(
+            amount.replace('R$ ', '').replace('.', '').replace(',', '.'),
+          ),
+          dueDate: date,
+          installments: Number(installments),
           financialCategoryId,
           subcategoryId,
-        )
+        })
 
         if (isFixed) {
           console.log('Eh uma conta fixa')
@@ -182,7 +184,7 @@ export function NewTransactionAccount({
         toast.error('Erro ao salvar, tente novamente mais tarde!')
       }
     },
-    [accountPayableForm, handleToggleDrawer],
+    [createAccountPayable, accountPayableForm, handleToggleDrawer],
   )
 
   return (
