@@ -26,7 +26,7 @@ class TransactionsRepository implements ITransactionsRepository {
       amount,
       userId,
       financialCategoryId,
-      subcategoryId,
+      subcategoryId: subcategoryId || null,
     }
 
     await PrismaSingleton.getInstance().transaction.upsert({
