@@ -7,6 +7,7 @@ export async function apiCreateAccountPayable({
   dueDate,
   installments,
   financialCategoryId,
+  subcategoryId,
 }: CreateAccountPayableDTO): Promise<void> {
   await api.post('/accounts-payable', {
     description,
@@ -14,5 +15,6 @@ export async function apiCreateAccountPayable({
     dueDate,
     installments,
     financialCategoryId,
+    subcategoryId,
   })
 }
