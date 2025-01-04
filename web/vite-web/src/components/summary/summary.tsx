@@ -7,10 +7,18 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from './ui/card'
+} from '../ui/card'
+
+type ColorType = 'default' | 'green' | 'rose'
+
+const colorClasses = {
+  default: 'bg-gray-300 dark:bg-gray-700',
+  green: 'bg-green-600',
+  rose: 'bg-rose-500',
+}
 
 export type SummaryProps = {
-  color: 'default' | 'green'
+  color: ColorType
   description: string
   icon: React.ElementType
   iconColor: string
@@ -33,17 +41,13 @@ export function Summary({
   }
 
   return (
-    <Card
-      className={
-        color === 'green' ? 'bg-green-600' : 'bg-gray-300 dark:bg-gray-700'
-      }
-    >
+    <Card className={colorClasses[color] || colorClasses.default}>
       <CardHeader className="flex flex-row items-center justify-between">
         <div className="flex flex-col">
           <CardDescription
             className={`font-semibold ${
-              color === 'green'
-                ? 'text-slate-200'
+              color === 'green' || color === 'rose'
+                ? 'text-slate-50'
                 : 'text-gray-500 dark:text-slate-200'
             }`}
           >
@@ -76,8 +80,8 @@ export function Summary({
       <CardContent>
         <CardTitle
           className={
-            color === 'green'
-              ? 'text-slate-200'
+            color === 'green' || color === 'rose'
+              ? 'text-slate-50'
               : 'text-gray-500 dark:text-slate-200'
           }
         >

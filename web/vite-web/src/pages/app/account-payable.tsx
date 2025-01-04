@@ -1,12 +1,54 @@
+import { DollarSign, HandCoins, Pin, TrendingUpDown } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
 import { NewTransactionAccount } from '@/components/new-transaction-account/new-tranaction-account'
+import { SummaryProps } from '@/components/summary/summary'
+import { SummaryCarousel } from '@/components/summary/summary-carousel'
 
 export function AccountPayable() {
+  const [summaries, setSummaries] = useState<SummaryProps[]>()
+
+  useEffect(() => {
+    const summariesResume: SummaryProps[] = [
+      {
+        color: 'default',
+        description: 'Gastos Fixos',
+        icon: Pin,
+        iconColor: '#00b37e',
+        value: 'R$ 1.000,00',
+      },
+      {
+        color: 'default',
+        description: 'Gastos Variáveis',
+        icon: TrendingUpDown,
+        iconColor: '#ff0000',
+        value: 'R$ 800,00',
+      },
+      {
+        color: 'rose',
+        description: 'Contas a Pagar',
+        icon: HandCoins,
+        iconColor: '#fff',
+        value: 'R$ 800,00',
+      },
+      {
+        color: 'green',
+        description: 'Total Pago no Mês',
+        icon: DollarSign,
+        iconColor: '#fff',
+        value: 'R$ 1.000,00',
+      },
+    ]
+
+    setSummaries(summariesResume)
+  }, [])
   return (
     <>
       <Helmet title="Contas a Pagar" />
       <NewTransactionAccount title="Nova Conta a Pagar" type="accountPayable" />
+
+      <SummaryCarousel summaries={summaries} boxes={summaries?.length} />
     </>
   )
 }

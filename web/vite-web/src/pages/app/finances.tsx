@@ -11,17 +11,11 @@ import { DateRange } from 'react-day-picker'
 import { Helmet } from 'react-helmet-async'
 
 import { NewTransactionAccount } from '@/components/new-transaction-account/new-tranaction-account'
-import { Summary, SummaryProps } from '@/components/summary'
+import { SummaryProps } from '@/components/summary/summary'
+import { SummaryCarousel } from '@/components/summary/summary-carousel'
 import { Transactions } from '@/components/transactions/transactions'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel'
 import { Input } from '@/components/ui/input'
 import {
   Popover,
@@ -113,33 +107,7 @@ export function Finances() {
 
       <NewTransactionAccount title="Nova Transação" type="transaction" />
 
-      <Carousel>
-        <CarouselContent>
-          {summaries?.map((summary) => (
-            <CarouselItem
-              className="md:basis-1/2 lg:basis-1/3"
-              key={summary.description}
-            >
-              <Summary
-                description={summary.description}
-                color={summary.color}
-                icon={summary.icon}
-                iconColor={summary.iconColor}
-                value={summary.value}
-                totalAmount={summary.totalAmount}
-              />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <div className="flex h-min w-full items-center justify-center lg:hidden">
-          <div className="max-w-lg p-4">
-            <div className="flex justify-between space-x-16">
-              <CarouselPrevious />
-              <CarouselNext />
-            </div>
-          </div>
-        </div>
-      </Carousel>
+      <SummaryCarousel summaries={summaries} boxes={summaries?.length} />
 
       <div className="mb-4 flex flex-col items-center justify-between gap-2 lg:flex-row lg:pt-10">
         <div className="flex w-full flex-col gap-2 lg:w-auto lg:flex-1 lg:flex-row">
