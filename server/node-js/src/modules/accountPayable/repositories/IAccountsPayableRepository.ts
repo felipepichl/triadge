@@ -9,6 +9,22 @@ interface IAccountsPayableRepository {
     startDate: Date,
     endDate: Date,
   ): Promise<AccountPayable[]>
+  listAllFixedAccountsByMonth(
+    userId: string,
+    month: number,
+  ): Promise<AccountPayable[]>
+  listAllUnfixedAccountsByMonth(
+    userId: string,
+    month: number,
+  ): Promise<AccountPayable[]>
+  listAllUnpaidAccountsByMonth(
+    userId: string,
+    month: number,
+  ): Promise<AccountPayable[]>
+  listAllPaidAccountsByMonth(
+    userId: string,
+    month: number,
+  ): Promise<AccountPayable[]>
   markAccountAsPaid(accountPayableId: string): Promise<void>
 }
 

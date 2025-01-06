@@ -32,6 +32,54 @@ class AccountsPayableRepositoryInMemory implements IAccountsPayableRepository {
     )
   }
 
+  async listAllFixedAccountsByMonth(
+    userId: string,
+    month: number,
+  ): Promise<AccountPayable[]> {
+    return this.accountsPayable.filter(
+      (accountPayable) =>
+        accountPayable.userId === userId &&
+        accountPayable.isFixed === true &&
+        accountPayable.dueDate.getUTCMonth() + 1 === month,
+    )
+  }
+
+  async listAllUnfixedAccountsByMonth(
+    userId: string,
+    month: number,
+  ): Promise<AccountPayable[]> {
+    return this.accountsPayable.filter(
+      (accountPayable) =>
+        accountPayable.userId === userId &&
+        accountPayable.isFixed === null &&
+        accountPayable.dueDate.getUTCMonth() + 1 === month,
+    )
+  }
+
+  async listAllUnpaidAccountsByMonth(
+    userId: string,
+    month: number,
+  ): Promise<AccountPayable[]> {
+    return this.accountsPayable.filter(
+      (accountPayable) =>
+        accountPayable.userId === userId &&
+        accountPayable.isPaid === null &&
+        accountPayable.dueDate.getUTCMonth() + 1 === month,
+    )
+  }
+
+  async listAllPaidAccountsByMonth(
+    userId: string,
+    month: number,
+  ): Promise<AccountPayable[]> {
+    return this.accountsPayable.filter(
+      (accountPayable) =>
+        accountPayable.userId === userId &&
+        accountPayable.isPaid === true &&
+        accountPayable.dueDate.getUTCMonth() + 1 === month,
+    )
+  }
+
   async markAccountAsPaid(accountPayableId: string): Promise<void> {
     const findIndex = this.accountsPayable.findIndex(
       (accountPayable) => accountPayable.id.toString() === accountPayableId,
