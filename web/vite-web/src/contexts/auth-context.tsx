@@ -37,6 +37,7 @@ type AuthContextData = {
   signOut(): void
   signInWithGoogle(): Promise<void>
   isAuthenticated: boolean
+  isSignOut: boolean
   user: UserDTO | undefined
 }
 
@@ -85,6 +86,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   })
   const isAuthenticated = !!data.user
   const [isGoogleInitialized, setIsGoogleInitialized] = useState(false)
+  const [isSignOut, setIsSignOut] = useState(false)
 
   const signIn = useCallback(async ({ email, password }: SignInBody) => {
     const { user, token }: SignInResponse = await apiSignIn({ email, password })
@@ -102,6 +104,7 @@ function AuthProvider({ children }: AuthProviderProps) {
   const signOut = useCallback(() => {
     storageUserAndTokenRemove()
 
+    setIsSignOut(true)
     setData({} as AuthState)
   }, [])
 
@@ -147,6 +150,7 @@ function AuthProvider({ children }: AuthProviderProps) {
         signOut,
         signInWithGoogle,
         isAuthenticated,
+        isSignOut,
         user: data.user,
       }}
     >
