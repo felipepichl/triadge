@@ -1,13 +1,11 @@
-import axios, { AxiosInstance } from 'axios'
+import axios from 'axios'
 
 import { env } from '@/env'
 
-type SignOut = () => void
+import { APIInstanceProps } from './@types/api-types'
 
-type APIInstanceProps = AxiosInstance & {
-  registerInterceptTokenManager: (signOut: SignOut) => () => void
-}
-
-export const api = axios.create({
+const api = axios.create({
   baseURL: env.VITE_API_URL,
 }) as APIInstanceProps
+
+export { api }

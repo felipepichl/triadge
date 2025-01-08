@@ -13,6 +13,7 @@ import {
   SignInBody,
   SignInResponse,
 } from '@/api/sign-in'
+import { registerInterceptorTokenManager } from '@/api/sign-out'
 import { UserDTO } from '@/dtos/UserDTO'
 import { initializeGoogleClient } from '@/lib/google/google-client'
 import {
@@ -131,7 +132,13 @@ function AuthProvider({ children }: AuthProviderProps) {
       })
   }, [])
 
-  // useEffect(() => {}, [])
+  useEffect(() => {
+    const subcribe = registerInterceptorTokenManager(signOut)
+
+    return () => {
+      subcribe()
+    }
+  }, [signOut])
 
   return (
     <AuthContext.Provider
