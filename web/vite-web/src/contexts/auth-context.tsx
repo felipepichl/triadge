@@ -34,7 +34,7 @@ type AuthState = {
 
 type AuthContextData = {
   signIn(credentials: SignInBody): Promise<void>
-  signOut(): void
+  signOut(immediate?: boolean): void
   signInWithGoogle(): Promise<void>
   isAuthenticated: boolean
   isSignOut: boolean
@@ -101,11 +101,19 @@ function AuthProvider({ children }: AuthProviderProps) {
     })
   }, [])
 
-  const signOut = useCallback(() => {
-    storageUserAndTokenRemove()
+  const signOut = useCallback((immediate = false) => {
+    const performLogout = () => {
+      storageUserAndTokenRemove()
+      setData({} as AuthState)
+      setIsSignOut(false)
+    }
 
-    setIsSignOut(true)
-    setData({} as AuthState)
+    if (immediate) {
+      performLogout()
+    } else {
+      setIsSignOut(true)
+      setTimeout(performLogout, 7000)
+    }
   }, [])
 
   const signInWithGoogle = useCallback(async () => {
@@ -115,6 +123,8 @@ function AuthProvider({ children }: AuthProviderProps) {
     }
 
     const { accessToken } = await apiGoogleSignIn()
+
+    console.log('GoogleAccessToken => ', accessToken)
 
     localStorage.setItem('@triadge:googleToken', accessToken)
 

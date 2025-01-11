@@ -61,7 +61,7 @@ export function Manubar() {
           <Button
             className="flex items-center space-x-2 pl-2"
             variant="ghost"
-            onClick={signOut}
+            onClick={() => signOut(true)}
             type="button"
           >
             <LogOut className="h-4 w-4 text-red-500" />
