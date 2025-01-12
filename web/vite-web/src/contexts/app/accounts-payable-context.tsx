@@ -1,10 +1,23 @@
-import { createContext, ReactNode, useCallback } from 'react'
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 
-import { apiCreateAccountPayable } from '@/api/create-account-payable'
-import { CreateAccountPayableDTO } from '@/dtos/account-payable-dto'
+import { apiCreateAccountPayable } from '@/api/account-payable/create-account-payable'
+import { apiCreateFixedAccountPayable } from '@/api/account-payable/create-fixed-account-payable'
+import { apiListAllFixedAccountsPayableByMonth } from '@/api/account-payable/list-all-fixed-accounts-payable-by-month'
+import {
+  AccountPayableDTO,
+  CreateAccountPayableDTO,
+} from '@/dtos/account-payable-dto'
 
 type AccountPayableContextData = {
   createAccountPayable(data: CreateAccountPayableDTO): Promise<void>
+  createFixedAccountPayable(data: CreateAccountPayableDTO): Promise<void>
+  fixedAccountsPayable: AccountPayableDTO | undefined
 }
 
 type AccountPayableProvidersProps = {
@@ -14,6 +27,9 @@ type AccountPayableProvidersProps = {
 const AccountPayableContext = createContext({} as AccountPayableContextData)
 
 function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
+  const [fixedAccountsPayable, setFixedAccountsPayable] =
+    useState<AccountPayableDTO>()
+
   const createAccountPayable = useCallback(
     async ({
       description,
@@ -35,8 +51,48 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
     [],
   )
 
+  const createFixedAccountPayable = useCallback(
+    async ({
+      description,
+      amount,
+      dueDate,
+      financialCategoryId,
+      subcategoryId,
+    }: CreateAccountPayableDTO) => {
+      await apiCreateFixedAccountPayable({
+        description,
+        amount,
+        dueDate,
+        financialCategoryId,
+        subcategoryId,
+      })
+    },
+    [],
+  )
+
+  const listAllFixedAccountsPayableByMonth = useCallback(async () => {
+    const today = new Date()
+    const currentMonth = today.getMonth() + 1
+
+    const response = await apiListAllFixedAccountsPayableByMonth({
+      month: currentMonth,
+    })
+
+    setFixedAccountsPayable(response)
+  }, [])
+
+  useEffect(() => {
+    listAllFixedAccountsPayableByMonth()
+  }, [listAllFixedAccountsPayableByMonth])
+
   return (
-    <AccountPayableContext.Provider value={{ createAccountPayable }}>
+    <AccountPayableContext.Provider
+      value={{
+        createAccountPayable,
+        createFixedAccountPayable,
+        fixedAccountsPayable,
+      }}
+    >
       {children}
     </AccountPayableContext.Provider>
   )

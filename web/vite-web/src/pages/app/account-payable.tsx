@@ -5,9 +5,13 @@ import { Helmet } from 'react-helmet-async'
 import { NewTransactionAccount } from '@/components/new-transaction-account/new-tranaction-account'
 import { SummaryProps } from '@/components/summary/summary'
 import { SummaryCarousel } from '@/components/summary/summary-carousel'
+import { useAccountPayable } from '@/hooks/use-account-payable'
+import { priceFormatter } from '@/util/formatter'
 
 export function AccountPayable() {
   const [summaries, setSummaries] = useState<SummaryProps[]>()
+
+  const { fixedAccountsPayable } = useAccountPayable()
 
   useEffect(() => {
     const summariesResume: SummaryProps[] = [
@@ -16,7 +20,9 @@ export function AccountPayable() {
         description: 'Gastos Fixos',
         icon: Pin,
         iconColor: '#00b37e',
-        value: 'R$ 1.000,00',
+        value: priceFormatter.format(
+          fixedAccountsPayable?.fixedAccountsPayableTotalAmount ?? 0,
+        ),
       },
       {
         color: 'default',
@@ -42,7 +48,7 @@ export function AccountPayable() {
     ]
 
     setSummaries(summariesResume)
-  }, [])
+  }, [fixedAccountsPayable])
   return (
     <>
       <Helmet title="Contas a Pagar" />

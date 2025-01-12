@@ -140,7 +140,7 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
 
   useEffect(() => {
     loadTransactionByDateRange()
-  }, [reload, loadTransactionByDateRange])
+  }, [loadTransactionByDateRange])
 
   return (
     <TransactionsContext.Provider

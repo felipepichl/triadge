@@ -51,7 +51,8 @@ export function NewTransactionAccount({
 
   const { subcategories } = useSubcategory()
   const { createTransaction } = useTransaction()
-  const { createAccountPayable } = useAccountPayable()
+  const { createAccountPayable, createFixedAccountPayable } =
+    useAccountPayable()
 
   const SubmitButton = () => (
     <>
@@ -162,7 +163,7 @@ export function NewTransactionAccount({
       subcategoryId,
     }: CreateAccountPayableForm) => {
       try {
-        createAccountPayable({
+        const data = {
           description,
           amount: parseFloat(
             amount.replace('R$ ', '').replace('.', '').replace(',', '.'),
@@ -171,20 +172,28 @@ export function NewTransactionAccount({
           installments: Number(installments),
           financialCategoryId,
           subcategoryId,
-        })
+        }
 
         if (isFixed) {
-          console.log('Eh uma conta fixa')
+          createFixedAccountPayable(data)
+        } else {
+          createAccountPayable(data)
         }
+
         handleToggleDrawer()
         accountPayableForm.reset()
-        toast.success('Conta a Pagr salva com sucesso!')
+        toast.success('Conta a Pagar salva com sucesso!')
       } catch (err) {
         console.log(err)
         toast.error('Erro ao salvar, tente novamente mais tarde!')
       }
     },
-    [createAccountPayable, accountPayableForm, handleToggleDrawer],
+    [
+      createAccountPayable,
+      createFixedAccountPayable,
+      accountPayableForm,
+      handleToggleDrawer,
+    ],
   )
 
   return (

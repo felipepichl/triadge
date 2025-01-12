@@ -1,5 +1,7 @@
+import { useCallback } from 'react'
 import { Helmet } from 'react-helmet-async'
 
+import { apiGoogleAnalyticsGetViews } from '@/api/google/get-views'
 import { LineChartCategoryTransactions } from '@/components/charts/line-chart/line-chart'
 import { PieChartTransactions } from '@/components/charts/pie-chart/pie-chart'
 import { CardTitle } from '@/components/ui/card'
@@ -11,6 +13,10 @@ export function Dashboard() {
   const handleLogin = async () => {
     await signInWithGoogle()
   }
+
+  const handleViwes = useCallback(async () => {
+    await apiGoogleAnalyticsGetViews()
+  }, [])
 
   return (
     <>
@@ -26,6 +32,7 @@ export function Dashboard() {
 
       <div>
         <button onClick={handleLogin}>Login with Google</button>
+        <button onClick={handleViwes}>Get Youtube Viwes</button>
       </div>
     </>
   )
