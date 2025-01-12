@@ -94,6 +94,46 @@ class AccountsPayableRepository implements IAccountsPayableRepository {
     return AccountPayableMappers.getMapper().toDomainArray(result)
   }
 
+  async listAllFixedAccountsByMonth(
+    userId: string,
+    month: number,
+  ): Promise<AccountPayable[]> {
+    const year = new Date().getFullYear()
+    const startDate = new Date(year, month - 1, 1)
+    const endDate = new Date(year, month, 0)
+
+    const result = await PrismaSingleton.getInstance().accountPayable.findMany({
+      where: {
+        userId,
+        AND: [{ dueDate: { gte: startDate } }, { dueDate: { lte: endDate } }],
+        isFixed: true,
+      },
+    })
+
+    return AccountPayableMappers.getMapper().toDomainArray(result)
+  }
+
+  listAllUnfixedAccountsByMonth(
+    userId: string,
+    month: number,
+  ): Promise<AccountPayable[]> {
+    throw new Error('Method not implemented.')
+  }
+
+  listAllUnpaidAccountsByMonth(
+    userId: string,
+    month: number,
+  ): Promise<AccountPayable[]> {
+    throw new Error('Method not implemented.')
+  }
+
+  listAllPaidAccountsByMonth(
+    userId: string,
+    month: number,
+  ): Promise<AccountPayable[]> {
+    throw new Error('Method not implemented.')
+  }
+
   async markAccountAsPaid(accountPayableId: string): Promise<void> {
     await PrismaSingleton.getInstance().accountPayable.update({
       where: { id: accountPayableId },

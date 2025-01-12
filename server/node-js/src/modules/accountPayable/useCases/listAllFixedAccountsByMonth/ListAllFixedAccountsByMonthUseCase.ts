@@ -1,5 +1,6 @@
 import { AccountPayable } from '@modules/accountPayable/domain/AccountPayable'
 import { IAccountsPayableRepository } from '@modules/accountPayable/repositories/IAccountsPayableRepository'
+import { calculateAccountsPayableTotals } from '@modules/accountPayable/utils/AccountPayableUtils'
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { inject, injectable } from 'tsyringe'
 
@@ -10,6 +11,7 @@ interface IRequest {
 
 interface IResponse {
   fixedAccountsPayable: AccountPayable[]
+  fixedAccountsPayableTotalAmount: number
 }
 
 @injectable()
@@ -28,8 +30,11 @@ class ListAllFixedAccountsByMonthUseCase
         month,
       )
 
+    const { total } = calculateAccountsPayableTotals(fixedAccountsPayable)
+
     return {
       fixedAccountsPayable,
+      fixedAccountsPayableTotalAmount: total,
     }
   }
 }

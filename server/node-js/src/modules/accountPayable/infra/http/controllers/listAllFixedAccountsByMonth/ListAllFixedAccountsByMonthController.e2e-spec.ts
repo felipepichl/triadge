@@ -67,9 +67,20 @@ async function createFixedAccountPaybale() {
     .post('/accounts-payable/fixed')
     .set({ Authorization: `Bearer ${token}` })
     .send({
-      description: 'Description',
+      description: 'Description Account Payable 1',
       amount: 1000,
-      dueDate: new Date('2024-08-11'),
+      dueDate: new Date('2025-01-02'),
+      financialCategoryId,
+      subcategoryId,
+    })
+
+  await request(app)
+    .post('/accounts-payable/fixed')
+    .set({ Authorization: `Bearer ${token}` })
+    .send({
+      description: 'Description Account Payable 2',
+      amount: 500,
+      dueDate: new Date('2025-01-02'),
       financialCategoryId,
       subcategoryId,
     })
@@ -83,14 +94,14 @@ describe('[E2E] - List all fixed accounts payable by month', () => {
     await createFixedAccountPaybale()
   })
 
-  it('should be able to list all fixed accounts by month ', async () => {
+  it('should be able to list all fixed accounts by month', async () => {
     const response = await request(app)
       .get('/accounts-payable/fixed/month')
       .set({ Authorization: `Bearer ${token}` })
-      .query({ month: 8 })
+      .query({ month: 1 })
 
-    console.log(JSON.stringify(response, null, 2))
-
-    // expect(response.status).toBe(201)
+    expect(response.status).toBe(200)
+    expect(Array.isArray(response.body.fixedAccountsPayable)).toBe(true)
+    expect(response.body.fixedAccountsPayable.length).toBe(2)
   })
 })

@@ -15,7 +15,7 @@ const listAllFixedAccountsByMonthController =
 accounsPayableRoutes.post('', createAccountsPayableController.handle)
 accounsPayableRoutes.post('/fixed', createFixedAccountsPayableController.handle)
 accounsPayableRoutes.get(
-  'fixed/month',
+  '/fixed/month',
   listAllFixedAccountsByMonthController.handle,
 )
 
