@@ -51,7 +51,7 @@ class AccountsPayableRepositoryInMemory implements IAccountsPayableRepository {
     return this.accountsPayable.filter(
       (accountPayable) =>
         accountPayable.userId === userId &&
-        accountPayable.isFixed === null &&
+        accountPayable.isFixed === false &&
         accountPayable.dueDate.getUTCMonth() + 1 === month,
     )
   }
