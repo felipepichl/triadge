@@ -107,7 +107,7 @@ export function Finances() {
 
       <NewTransactionAccount title="Nova Transação" type="transaction" />
 
-      <SummaryCarousel summaries={summaries} boxes={summaries?.length} />
+      <SummaryCarousel summaries={summaries} boxes={3} />
 
       <div className="mb-4 flex flex-col items-center justify-between gap-2 lg:flex-row lg:pt-10">
         <div className="flex w-full flex-col gap-2 lg:w-auto lg:flex-1 lg:flex-row">

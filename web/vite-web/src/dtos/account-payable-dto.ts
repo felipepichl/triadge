@@ -19,7 +19,7 @@ export type AccountPayableDetailDTO = {
   financialCategory?: FinancialCategoryDetailDTO
 }
 
-export type AccountPayableResponseDTO = {
+export type FixedAccountPayableResponseDTO = {
   fixedAccountsPayable: {
     _id: string
     props: AccountPayableDetailDTO
@@ -27,7 +27,20 @@ export type AccountPayableResponseDTO = {
   fixedAccountsPayableTotalAmount: number
 }
 
-export type AccountPayableDTO = {
+export type FixedAccountPayableDTO = {
   fixedAccountsPayable: AccountPayableDetailDTO[]
   fixedAccountsPayableTotalAmount?: number
+}
+
+export type UnfixedAccountPayableResponseDTO = {
+  unfixedAccountsPayable: {
+    _id: string
+    props: AccountPayableDetailDTO
+  }[]
+  unfixedAccountsPayableTotalAmount: number
+}
+
+export type UnfixedAccountPayableDTO = {
+  unfixedAccountsPayable: AccountPayableDetailDTO[]
+  unfixedAccountsPayableTotalAmount?: number
 }

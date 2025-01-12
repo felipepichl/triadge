@@ -11,7 +11,7 @@ import { priceFormatter } from '@/util/formatter'
 export function AccountPayable() {
   const [summaries, setSummaries] = useState<SummaryProps[]>()
 
-  const { fixedAccountsPayable } = useAccountPayable()
+  const { fixedAccountsPayable, unfixedAccountsPayable } = useAccountPayable()
 
   useEffect(() => {
     const summariesResume: SummaryProps[] = [
@@ -29,7 +29,9 @@ export function AccountPayable() {
         description: 'Gastos Variáveis',
         icon: TrendingUpDown,
         iconColor: '#ff0000',
-        value: 'R$ 800,00',
+        value: priceFormatter.format(
+          unfixedAccountsPayable?.unfixedAccountsPayableTotalAmount ?? 0,
+        ),
       },
       {
         color: 'rose',
@@ -48,13 +50,13 @@ export function AccountPayable() {
     ]
 
     setSummaries(summariesResume)
-  }, [fixedAccountsPayable])
+  }, [fixedAccountsPayable, unfixedAccountsPayable])
   return (
     <>
       <Helmet title="Contas a Pagar" />
       <NewTransactionAccount title="Nova Conta a Pagar" type="accountPayable" />
 
-      <SummaryCarousel summaries={summaries} boxes={summaries?.length} />
+      <SummaryCarousel summaries={summaries} boxes={4} />
     </>
   )
 }

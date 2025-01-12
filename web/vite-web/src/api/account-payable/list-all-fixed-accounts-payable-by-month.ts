@@ -1,6 +1,6 @@
 import {
-  AccountPayableDTO,
-  AccountPayableResponseDTO,
+  FixedAccountPayableDTO,
+  FixedAccountPayableResponseDTO,
 } from '@/dtos/account-payable-dto'
 import { api } from '@/lib/axios'
 
@@ -10,8 +10,8 @@ type ListAllFixedAccountsPayableByMonthBody = {
 
 export async function apiListAllFixedAccountsPayableByMonth({
   month,
-}: ListAllFixedAccountsPayableByMonthBody): Promise<AccountPayableDTO> {
-  const { data } = await api.get<AccountPayableResponseDTO>(
+}: ListAllFixedAccountsPayableByMonthBody): Promise<FixedAccountPayableDTO> {
+  const { data } = await api.get<FixedAccountPayableResponseDTO>(
     '/accounts-payable/fixed/month',
     {
       params: { month },

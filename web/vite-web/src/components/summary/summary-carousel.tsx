@@ -9,7 +9,7 @@ import { Summary, SummaryProps } from './summary'
 
 type SummaryCarouselProps = {
   summaries: SummaryProps[] | undefined
-  boxes: number | undefined
+  boxes: number
 }
 
 export function SummaryCarousel({ summaries, boxes }: SummaryCarouselProps) {
