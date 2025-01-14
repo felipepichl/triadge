@@ -3,13 +3,13 @@ import { ArrowRightCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 // import { TransactionsData } from './transactions'
-import { Transaction } from '@/api/list-all-transaction'
+import { TransactionDTO } from '@/dtos/transaction-dto'
 import { priceFormatter } from '@/util/formatter'
 
 import { ScrollArea } from '../ui/scroll-area'
 import { Table, TableBody, TableHead, TableRow } from '../ui/table'
 
-export function TableTransactions({ transactions: data }: Transaction) {
+export function TableTransactions({ transactions: data }: TransactionDTO) {
   return (
     <>
       {/* <Table className="mt-8 hidden md:table md:basis-1/2"></Table> */}
@@ -32,7 +32,7 @@ export function TableTransactions({ transactions: data }: Transaction) {
                     {priceFormatter.format(transaction.amount)}
                   </TableHead>
                   <TableHead className={`${rowClass} w-1/6 `}>
-                    {transaction.financialCategory.description}
+                    {transaction.financialCategory?.description}
                   </TableHead>
                   <TableHead className={`${rowClass} `}>
                     {formattedDate}

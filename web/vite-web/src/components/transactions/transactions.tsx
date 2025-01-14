@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 
-import { Transaction } from '@/api/list-all-transaction'
+import { CardTransactionAccount } from '@/components/card-transaction-accout/card-transaction-account'
+import { TransactionDTO } from '@/dtos/transaction-dto'
 
-import { CardTransactions } from './card-transactions'
+// import { CardTransactions } from './card-transactions'
 import { TableTransactions } from './table-transactions'
 
 // export type TransactionsProps = {
@@ -27,7 +28,7 @@ import { TableTransactions } from './table-transactions'
 // }
 
 type TransactionsProps = {
-  transactions: Transaction['transactions']
+  transactions: TransactionDTO['transactions']
 }
 
 export function Transactions({ transactions }: TransactionsProps) {
@@ -50,7 +51,7 @@ export function Transactions({ transactions }: TransactionsProps) {
       {isWideScreen ? (
         <TableTransactions transactions={transactions} />
       ) : (
-        <CardTransactions transactions={transactions} />
+        <CardTransactionAccount transactions={transactions} />
       )}
     </>
   )

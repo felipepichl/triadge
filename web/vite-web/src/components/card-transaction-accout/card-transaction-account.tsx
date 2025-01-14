@@ -1,7 +1,8 @@
 import { format } from 'date-fns'
 import { Calendar, Tag } from 'lucide-react'
 
-import { Transaction } from '@/api/list-all-transaction'
+import { AccountPayableDetailDTO } from '@/dtos/account-payable-dto'
+import { TransactionDetailDTO } from '@/dtos/transaction-dto'
 import { priceFormatter } from '@/util/formatter'
 
 import {
@@ -20,54 +21,48 @@ import {
   CarouselPrevious,
 } from '../ui/carousel'
 
-export function CardTransactions({ transactions }: Transaction) {
+interface CardTransactionAccount {
+  transactions?: TransactionDetailDTO[]
+  accountsPayable?: AccountPayableDetailDTO[]
+}
+
+export function CardTransactionAccount({
+  transactions,
+  accountsPayable,
+}: CardTransactionAccount) {
+  const data = transactions || accountsPayable
+
   return (
     <Carousel
       opts={{
         align: 'start',
       }}
       orientation="vertical"
-      className="w-full"
+      className="mt-4 w-full"
     >
       <CarouselContent className="-mt-1 h-[180px]">
-        {transactions.map((transaction) => {
-          const formattedDate = format(new Date(transaction.date), 'dd/MM/yyyy')
+        {data?.map((item) => {
+          const isTransaction = 'type' in item
+
+          const formattedDate = isTransaction
+            ? format(new Date(item.date), 'dd/MM/yyyy')
+            : format(new Date(item.dueDate), 'dd/MM/yyyy')
+
           return (
-            <CarouselItem key={transaction._id} className="pt-1 md:basis-1/2">
+            <CarouselItem key={item._id} className="pt-1 md:basis-1/2">
               <Card className=" mb-2 bg-gray-300 dark:bg-gray-700">
                 <CardHeader>
                   <CardDescription className="font-semibold text-gray-500 dark:text-slate-200">
-                    {transaction.description}
+                    {item.description}
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <CardTitle
-                    className={`font-bold ${transaction.type === 'outcome' ? 'text-red-500' : 'text-green-500'}`}
+                    className={`font-bold ${isTransaction ? (item.type === 'outcome' ? 'text-red-500' : 'text-green-500') : ''}`}
                   >
-                    {priceFormatter.format(transaction.amount)}
+                    {priceFormatter.format(item.amount)}
                   </CardTitle>
                 </CardContent>
-
-                {/* <CardFooter className="flex items-center justify-between px-6 pb-6">
-                <div className="flex items-center">
-                  <Tag
-                    size={16}
-                    className="mr-2 text-gray-500 dark:text-gray-400"
-                  />
-                  <span className="font-semibold text-gray-500 dark:text-gray-400">
-                    {transaction.transactionCategory.description}
-                  </span>
-                </div>
-                <div className="flex items-center">
-                  <Calendar
-                    size={16}
-                    className="mr-2 text-gray-500 dark:text-gray-400"
-                  />
-                  <span className=" font-semibold text-gray-500 dark:text-gray-400">
-                    13/03/2025
-                  </span>
-                </div>
-              </CardFooter> */}
 
                 <CardFooter className="flex items-center justify-between gap-4 px-6 pb-6">
                   <div className="flex items-center overflow-hidden">
@@ -76,7 +71,7 @@ export function CardTransactions({ transactions }: Transaction) {
                       className="mr-2 flex-shrink-0 text-gray-500 dark:text-gray-400"
                     />
                     <span className="truncate font-semibold text-gray-500 dark:text-gray-400">
-                      {transaction.financialCategory.description}
+                      {item.financialCategory?.description}
                     </span>
                   </div>
                   <div className="flex items-center">
@@ -94,7 +89,7 @@ export function CardTransactions({ transactions }: Transaction) {
           )
         })}
       </CarouselContent>
-      <div className="flex h-min w-full items-center justify-center lg:hidden">
+      <div className="flex h-min w-full items-center justify-center">
         <div className="max-w-lg p-4">
           <div className="flex justify-between space-x-16">
             <CarouselPrevious className="rotate-90" />
