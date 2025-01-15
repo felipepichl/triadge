@@ -1,4 +1,5 @@
 import { AccountPayable } from '@modules/accountPayable/domain/AccountPayable'
+import { AccountPayableMappers } from '@modules/accountPayable/infra/prisma/mappers/AccountPayableMappers'
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
 import { IFinancialCategoriesRepository } from '@modules/financialCategory/repositories/IFinancialCategoriesRepository'
 import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
@@ -122,7 +123,56 @@ class FinancialCategoriesRepository implements IFinancialCategoriesRepository {
       financialCategoryAccountsPayable: AccountPayable[]
     }>
   > {
-    throw new Error('Method not implemented.')
+    const year = new Date().getFullYear()
+
+    const financialCategoriesWithAccountPayable =
+      await PrismaSingleton.getInstance().accountPayable.groupBy({
+        by: ['financialCategoryId'],
+        where: {
+          userId,
+          isFixed: true,
+          dueDate: {
+            gte: new Date(year, month - 1, 1),
+            lt: new Date(year, month, 1),
+          },
+        },
+        _count: {
+          financialCategoryId: true,
+        },
+      })
+
+    const categoryIds = financialCategoriesWithAccountPayable.map(
+      (account) => account.financialCategoryId,
+    )
+
+    const financialCategories =
+      await PrismaSingleton.getInstance().financialCategory.findMany({
+        where: {
+          id: {
+            in: categoryIds,
+          },
+        },
+        include: {
+          accountsPayable: {
+            where: {
+              isFixed: true,
+              dueDate: {
+                gte: new Date(year, month - 1, 1),
+                lt: new Date(year, month, 1),
+              },
+            },
+          },
+        },
+      })
+
+    return financialCategories.map((category) => ({
+      financialCategory:
+        FinancialCategoryMappers.getMapper().toDomain(category),
+      financialCategoryAccountsPayable:
+        AccountPayableMappers.getMapper().toDomainArray(
+          category.accountsPayable,
+        ),
+    }))
   }
 
   async findByDescription(description: string): Promise<FinancialCategory> {
