@@ -123,6 +123,10 @@ class FinancialCategoriesRepositoryInMemory
   async addTransaction(transaction: Transaction): Promise<void> {
     this.transactions.push(transaction)
   }
+
+  async addAccountPayable(accountPayable: AccountPayable): Promise<void> {
+    this.accountsPayable.push(accountPayable)
+  }
 }
 
 export { FinancialCategoriesRepositoryInMemory }
