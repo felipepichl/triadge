@@ -1,3 +1,4 @@
+import { AccountPayable } from '@modules/accountPayable/domain/AccountPayable'
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
 import { IFinancialCategoriesRepository } from '@modules/financialCategory/repositories/IFinancialCategoriesRepository'
 import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
@@ -110,6 +111,18 @@ class FinancialCategoriesRepository implements IFinancialCategoriesRepository {
       financialCategoryTransactions:
         TransactionMappers.getMapper().toDomainArray(category.transactions),
     }))
+  }
+
+  async listFinancialCategoriesWithFixedAccountsPayable(
+    userId: string,
+    month: number,
+  ): Promise<
+    Array<{
+      financialCategory: FinancialCategory
+      financialCategoryAccountsPayable: AccountPayable[]
+    }>
+  > {
+    throw new Error('Method not implemented.')
   }
 
   async findByDescription(description: string): Promise<FinancialCategory> {
