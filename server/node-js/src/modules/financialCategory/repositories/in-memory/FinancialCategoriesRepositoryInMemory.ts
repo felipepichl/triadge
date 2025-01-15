@@ -1,3 +1,4 @@
+import { AccountPayable } from '@modules/accountPayable/domain/AccountPayable'
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
 import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
 import { ITransactionType } from '@modules/transactions/domain/transaction/TransactionType'
@@ -9,6 +10,7 @@ class FinancialCategoriesRepositoryInMemory
 {
   private financialCategories: FinancialCategory[] = []
   private transactions: Transaction[] = []
+  private accountsPayable: AccountPayable[] = []
 
   async create(financialCategory: FinancialCategory): Promise<void> {
     this.financialCategories.push(financialCategory)
@@ -59,6 +61,38 @@ class FinancialCategoriesRepositoryInMemory
       return {
         financialCategory,
         financialCategoryTransactions,
+      }
+    })
+  }
+
+  async listFinancialCategoriesWithFixedAccountsPayable(
+    userId: string,
+    month: number,
+  ): Promise<
+    Array<{
+      financialCategory: FinancialCategory
+      financialCategoryAccountsPayable: AccountPayable[]
+    }>
+  > {
+    const year = new Date().getFullYear()
+
+    const userFinancialCategories = this.financialCategories.filter(
+      (financialCategory) => financialCategory.userId === userId,
+    )
+
+    return userFinancialCategories.map((financialCategory) => {
+      const financialCategoryAccountsPayable = this.accountsPayable.filter(
+        (accountPayable) =>
+          accountPayable.financialCategoryId ===
+            financialCategory.id.toString() &&
+          accountPayable.isFixed === true &&
+          accountPayable.dueDate.getFullYear() === year &&
+          accountPayable.dueDate.getMonth() === month - 1,
+      )
+
+      return {
+        financialCategory,
+        financialCategoryAccountsPayable,
       }
     })
   }

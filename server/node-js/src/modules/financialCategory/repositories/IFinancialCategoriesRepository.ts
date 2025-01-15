@@ -1,3 +1,4 @@
+import { AccountPayable } from '@modules/accountPayable/domain/AccountPayable'
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
 import { Transaction } from '@modules/transactions/domain/transaction/Transaction'
 import { ITransactionType } from '@modules/transactions/domain/transaction/TransactionType'
@@ -17,6 +18,15 @@ interface IFinancialCategoriesRepository {
     Array<{
       financialCategory: FinancialCategory
       financialCategoryTransactions: Transaction[]
+    }>
+  >
+  listFinancialCategoriesWithFixedAccountsPayable(
+    userId: string,
+    month: number,
+  ): Promise<
+    Array<{
+      financialCategory: FinancialCategory
+      financialCategoryAccountsPayable: AccountPayable[]
     }>
   >
   findByDescription(description: string): Promise<FinancialCategory>
