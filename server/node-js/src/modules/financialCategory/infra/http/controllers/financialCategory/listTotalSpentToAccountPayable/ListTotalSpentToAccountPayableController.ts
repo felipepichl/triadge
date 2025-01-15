@@ -2,24 +2,22 @@ import { ListTotalSpentByFinancialCategoryToAccountPayableUseCase } from '@modul
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 
-class ListTotalSpentByFinancialCategoryToAccountPayableController {
+class ListTotalSpentToAccountPayableController {
   async handle(request: Request, response: Response): Promise<Response> {
     const { month } = request.query
     const { id: userId } = request.user
 
-    const listTotalSpentByFinancialCategoryToAccountPayableUseCase =
-      container.resolve(
-        ListTotalSpentByFinancialCategoryToAccountPayableUseCase,
-      )
+    const listTotalSpentToAccountPayableUseCase = container.resolve(
+      ListTotalSpentByFinancialCategoryToAccountPayableUseCase,
+    )
 
-    const result =
-      await listTotalSpentByFinancialCategoryToAccountPayableUseCase.execute({
-        userId,
-        month: Number(month),
-      })
+    const result = await listTotalSpentToAccountPayableUseCase.execute({
+      userId,
+      month: Number(month),
+    })
 
     return response.status(200).json(result)
   }
 }
 
-export { ListTotalSpentByFinancialCategoryToAccountPayableController }
+export { ListTotalSpentToAccountPayableController }
