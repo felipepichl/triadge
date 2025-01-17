@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { Helmet } from 'react-helmet-async'
 
 import { apiGoogleAnalyticsGetViews } from '@/api/google/get-views'
-import { LineChartCategoryTransactions } from '@/components/charts/line-chart/line-chart'
+import { LineChartFinancialCategory } from '@/components/charts/line-chart-financial-category/line-chart-financial-category'
 import { PieChartTransactions } from '@/components/charts/pie-chart/pie-chart'
 import { CardTitle } from '@/components/ui/card'
 import { useAuth } from '@/hooks/use-auth'
@@ -26,7 +26,7 @@ export function Dashboard() {
       <div className="flex flex-col lg:flex-row">
         <PieChartTransactions />
         <div className="flex-1">
-          <LineChartCategoryTransactions />
+          <LineChartFinancialCategory type="transaction" />
         </div>
       </div>
 

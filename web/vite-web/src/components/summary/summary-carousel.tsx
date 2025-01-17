@@ -13,6 +13,7 @@ type SummaryCarouselProps = {
 }
 
 export function SummaryCarousel({ summaries, boxes }: SummaryCarouselProps) {
+  console.log(boxes)
   return (
     <Carousel>
       <CarouselContent>

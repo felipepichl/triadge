@@ -19,7 +19,7 @@ export function FixedAccountsPayable() {
   return (
     <Card className="mb-4 flex h-[400px] w-full flex-col lg:mr-2 lg:w-[480px]">
       <CardHeader>
-        <CardTitle>Lista de Gastos Fixos</CardTitle>
+        <CardTitle>Gastos Fixos</CardTitle>
       </CardHeader>
 
       <Separator />

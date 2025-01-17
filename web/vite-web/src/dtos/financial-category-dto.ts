@@ -13,3 +13,14 @@ export type FinancialCategoryResponseDTO = {
     description: string
   }
 }
+
+export type ListTotalSpentByFinancialCategoryResponseDTO = {
+  totalExpensesByFinancialCategory: {
+    financialCategory: {
+      props: {
+        description: string
+      }
+    }
+    totalSpent: number
+  }[]
+}

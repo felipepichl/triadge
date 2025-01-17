@@ -11,6 +11,7 @@ import {
   YAxis,
 } from 'recharts'
 
+import { apiListTotalSpentToAccountPayable } from '@/api/financial-category/list-total-spent-to-account-payable'
 import { apiListTotalSpentByFinancialCategory } from '@/api/list-total-spent-by-financial-category'
 import notFoundAnimation from '@/assets/not-found-new.json'
 import { MonthSelect } from '@/components/month-select/month-select'
@@ -56,39 +57,58 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export function LineChartCategoryTransactions() {
+type LineChartFinancialCategoryProps = {
+  type: 'transaction' | 'accountPayable'
+}
+
+export function LineChartFinancialCategory({
+  type,
+}: LineChartFinancialCategoryProps) {
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 690)
 
   const [chartData, setChartData] = useState<
     { financialCategory: string; value: number }[]
   >([])
 
-  const fetchTotalSpentByMonth = useCallback(async (monthNumber: number) => {
-    const response = await apiListTotalSpentByFinancialCategory({
-      type: 'outcome',
-      month: Number(monthNumber),
-    })
+  const listTotalSpent = useCallback(
+    async (monthNumber: number) => {
+      return type === 'accountPayable'
+        ? await apiListTotalSpentToAccountPayable({
+            month: Number(monthNumber),
+          })
+        : await apiListTotalSpentByFinancialCategory({
+            type: 'outcome',
+            month: Number(monthNumber),
+          })
+    },
+    [type],
+  )
 
-    const updatedChartData = response.totalExpensesByFinancialCategory.map(
-      (item) => ({
+  const fetchTotalSpent = useCallback(
+    async (monthNumber: number) => {
+      const { totalExpensesByFinancialCategory } =
+        await listTotalSpent(monthNumber)
+
+      const updatedChartData = totalExpensesByFinancialCategory.map((item) => ({
         financialCategory: item.financialCategory.props.description,
         value: item.totalSpent,
-      }),
-    )
+      }))
 
-    setChartData(updatedChartData)
-  }, [])
+      setChartData(updatedChartData)
+    },
+    [listTotalSpent],
+  )
 
   const handleMonthSelect = useCallback(
     async (monthNumber: string) => {
-      await fetchTotalSpentByMonth(Number(monthNumber))
+      await fetchTotalSpent(Number(monthNumber))
     },
-    [fetchTotalSpentByMonth],
+    [fetchTotalSpent],
   )
 
   useEffect(() => {
     const currentMonth = new Date().getMonth() + 1
-    fetchTotalSpentByMonth(currentMonth)
+    fetchTotalSpent(currentMonth)
 
     const handleResize = () => {
       setIsWideScreen(window.innerWidth >= 690)
@@ -99,14 +119,18 @@ export function LineChartCategoryTransactions() {
     return () => {
       window.removeEventListener('resize', handleResize)
     }
-  }, [fetchTotalSpentByMonth])
+  }, [fetchTotalSpent])
 
   return (
     <Card className="mb-4 flex w-full flex-col lg:mr-2 lg:h-[400px]">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-center">
         <CardHeader>
           <CardTitle>Categorias</CardTitle>
-          <CardDescription>Transação por categorias em saídas</CardDescription>
+          <CardDescription>
+            {type === 'accountPayable'
+              ? 'Gastos fixos por categorias de saída'
+              : 'Transação por categorias em saídas'}
+          </CardDescription>
         </CardHeader>
         <div className="flex-1 px-4 pb-4 lg:pb-0">
           <MonthSelect onMonthSelect={handleMonthSelect} />
