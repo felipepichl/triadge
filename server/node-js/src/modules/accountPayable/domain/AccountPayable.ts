@@ -78,10 +78,10 @@ class AccountPayable extends AggregateRoot<IAccounPayableProps> {
     isPaid,
     isFixed,
     userId,
-    financialCategoryId,
     financialCategory,
-    subcategoryId,
+    financialCategoryId,
     subcategory,
+    subcategoryId,
   }: IAccounPayableProps): AccountPayable {
     const accountPayableProps = {
       description,
@@ -91,10 +91,10 @@ class AccountPayable extends AggregateRoot<IAccounPayableProps> {
       isPaid,
       isFixed,
       userId,
-      financialCategoryId,
       financialCategory,
-      subcategoryId,
+      financialCategoryId,
       subcategory,
+      subcategoryId,
     }
 
     return AggregateRoot.create(

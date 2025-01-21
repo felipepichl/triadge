@@ -108,6 +108,7 @@ class AccountsPayableRepository implements IAccountsPayableRepository {
         AND: [{ dueDate: { gte: startDate } }, { dueDate: { lte: endDate } }],
         isFixed: true,
       },
+      include: { financialCategory: true },
     })
 
     return AccountPayableMappers.getMapper().toDomainArray(result)
@@ -127,6 +128,7 @@ class AccountsPayableRepository implements IAccountsPayableRepository {
         AND: [{ dueDate: { gte: startDate } }, { dueDate: { lte: endDate } }],
         isFixed: false,
       },
+      include: { financialCategory: true },
     })
 
     return AccountPayableMappers.getMapper().toDomainArray(result)

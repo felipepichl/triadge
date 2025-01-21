@@ -1,6 +1,11 @@
 import { AccountPayable } from '@modules/accountPayable/domain/AccountPayable'
+import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
 import { AccountPayable as RawAccountPayable } from '@prisma/client'
 import { IMapper } from '@shared/core/infra/Mapper'
+
+interface AccountPayableWithCategory extends RawAccountPayable {
+  financialCategory?: FinancialCategory
+}
 
 class AccountPayableMappers
   implements IMapper<AccountPayable, RawAccountPayable>
@@ -18,8 +23,9 @@ class AccountPayableMappers
     isPaid,
     isFixed,
     userId,
+    financialCategory,
     financialCategoryId,
-  }: RawAccountPayable): AccountPayable {
+  }: AccountPayableWithCategory): AccountPayable {
     return AccountPayable.createAccountPayable({
       id,
       description,
@@ -29,6 +35,7 @@ class AccountPayableMappers
       isPaid,
       isFixed,
       userId,
+      financialCategory,
       financialCategoryId,
     })
   }
