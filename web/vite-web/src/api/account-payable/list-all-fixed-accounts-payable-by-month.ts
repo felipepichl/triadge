@@ -19,11 +19,12 @@ export async function apiListAllFixedAccountsPayableByMonth({
   )
 
   const fixedAccountsPayable = data.fixedAccountsPayable.map(
-    ({ _id, props: { description, amount, dueDate } }) => ({
+    ({ _id, props: { description, amount, dueDate, financialCategory } }) => ({
       _id,
       description,
       amount,
       dueDate,
+      financialCategory,
     }),
   )
 
