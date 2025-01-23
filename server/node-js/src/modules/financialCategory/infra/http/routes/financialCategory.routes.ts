@@ -4,6 +4,7 @@ import { CreateFinancialCategoryController } from '../controllers/financialCateg
 import { ListAllCategoriesByUserController } from '../controllers/financialCategory/listAllCategoriesByUser/ListAllCategoriesByUserController'
 import { ListTotalSpentByFinancialCategoryController } from '../controllers/financialCategory/listTotalSpentByFinancialCategory/ListTotalSpentByFinancialCategoryController'
 import { ListTotalSpentToFixedAccountPayableController } from '../controllers/financialCategory/listTotalSpentToFixedAccountPayable/ListTotalSpentToFixedAccountPayableController'
+import { ListTotalSpentToUnfixedAccountsPayableController } from '../controllers/financialCategory/listTotalSpentToUnfixedAccountsPayable/ListTotalSpentToUnfixedAccountsPayableController'
 import { CreateSubcategoryController } from '../controllers/subcategory/createSubcategory/CreateSubcategoryController'
 import { ListSubcategoryByCategoryIdController } from '../controllers/subcategory/listSubcategoryByCategoryId/ListSubcategoryByCategoryIdController'
 
@@ -18,9 +19,10 @@ const listSubcategoryByCategoryIdController =
   new ListSubcategoryByCategoryIdController()
 const listTotalSpentByFinancialCategoryController =
   new ListTotalSpentByFinancialCategoryController()
-
 const listTotalSpentToFixedAccountPayableController =
   new ListTotalSpentToFixedAccountPayableController()
+const listTotalSpentToUnfixedAccountsPayableController =
+  new ListTotalSpentToUnfixedAccountsPayableController()
 
 financialCategoryRoutes.post('/', createFinancialCategoryController.handle)
 financialCategoryRoutes.get('/', listAllCategoriesByUserController.handle)
@@ -36,6 +38,10 @@ financialCategoryRoutes.get(
 financialCategoryRoutes.get(
   '/total-spent/fixed/account-payable',
   listTotalSpentToFixedAccountPayableController.handle,
+)
+financialCategoryRoutes.get(
+  '/total-spent/unfixed/account-payable',
+  listTotalSpentToUnfixedAccountsPayableController.handle,
 )
 
 export { financialCategoryRoutes }
