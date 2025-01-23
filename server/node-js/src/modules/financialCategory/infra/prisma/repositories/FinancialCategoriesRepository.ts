@@ -175,6 +175,67 @@ class FinancialCategoriesRepository implements IFinancialCategoriesRepository {
     }))
   }
 
+  async listFinancialCategoriesWithUnfixedAccountsPayable(
+    userId: string,
+    month: number,
+  ): Promise<
+    Array<{
+      financialCategory: FinancialCategory
+      financialCategoryAccountsPayable: AccountPayable[]
+    }>
+  > {
+    const year = new Date().getFullYear()
+
+    const financialCategoriesWithAccountPayable =
+      await PrismaSingleton.getInstance().accountPayable.groupBy({
+        by: ['financialCategoryId'],
+        where: {
+          userId,
+          isFixed: false,
+          dueDate: {
+            gte: new Date(year, month - 1, 1),
+            lt: new Date(year, month, 1),
+          },
+        },
+        _count: {
+          financialCategoryId: true,
+        },
+      })
+
+    const categoryIds = financialCategoriesWithAccountPayable.map(
+      (account) => account.financialCategoryId,
+    )
+
+    const financialCategories =
+      await PrismaSingleton.getInstance().financialCategory.findMany({
+        where: {
+          id: {
+            in: categoryIds,
+          },
+        },
+        include: {
+          accountsPayable: {
+            where: {
+              isFixed: false,
+              dueDate: {
+                gte: new Date(year, month - 1, 1),
+                lt: new Date(year, month, 1),
+              },
+            },
+          },
+        },
+      })
+
+    return financialCategories.map((category) => ({
+      financialCategory:
+        FinancialCategoryMappers.getMapper().toDomain(category),
+      financialCategoryAccountsPayable:
+        AccountPayableMappers.getMapper().toDomainArray(
+          category.accountsPayable,
+        ),
+    }))
+  }
+
   async findByDescription(description: string): Promise<FinancialCategory> {
     const result =
       await PrismaSingleton.getInstance().financialCategory.findFirst({
