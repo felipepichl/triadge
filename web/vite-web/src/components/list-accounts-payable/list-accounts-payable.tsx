@@ -7,8 +7,13 @@ import { MonthSelect } from '../month-select/month-select'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { Separator } from '../ui/separator'
 
-export function FixedAccountsPayable() {
-  const { fixedAccountsPayable } = useAccountPayable()
+type ListAccountsPayableProps = {
+  type: 'fixed' | 'unfixed'
+  title: string
+}
+
+export function ListAccountsPayable({ type, title }: ListAccountsPayableProps) {
+  const { fixedAccountsPayable, unfixedAccountsPayable } = useAccountPayable()
 
   const handleMonthSelect = useCallback(async (monthNumber: string) => {
     // await fetchListByMonth(Number(monthNumber))
@@ -17,9 +22,9 @@ export function FixedAccountsPayable() {
   }, [])
 
   return (
-    <Card className="mb-4 flex h-[400px] w-full flex-col lg:mr-2 lg:w-[480px]">
+    <Card className="mb-4 flex h-[400px] w-full flex-col lg:mr-4 lg:w-[480px]">
       <CardHeader>
-        <CardTitle>Gastos Fixos</CardTitle>
+        <CardTitle>{title}</CardTitle>
       </CardHeader>
 
       <Separator />
@@ -32,7 +37,11 @@ export function FixedAccountsPayable() {
         {}
 
         <CardTransactionAccount
-          accountsPayable={fixedAccountsPayable?.fixedAccountsPayable}
+          accountsPayable={
+            type === 'fixed'
+              ? fixedAccountsPayable?.fixedAccountsPayable
+              : unfixedAccountsPayable?.unfixedAccountsPayable
+          }
         />
       </CardContent>
     </Card>

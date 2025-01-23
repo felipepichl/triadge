@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
 import { LineChartFinancialCategory } from '@/components/charts/line-chart-financial-category/line-chart-financial-category'
-import { FixedAccountsPayable } from '@/components/fixed-accounts-payable/fixed-account-payable'
+import { ListAccountsPayable } from '@/components/list-accounts-payable/list-accounts-payable'
 import { NewTransactionAccount } from '@/components/new-transaction-account/new-tranaction-account'
 import { SummaryProps } from '@/components/summary/summary'
 import { SummaryCarousel } from '@/components/summary/summary-carousel'
@@ -64,10 +64,17 @@ export function AccountPayable() {
       <Separator className="mb-4 mt-4" />
 
       <div className="flex flex-col lg:flex-row">
-        <FixedAccountsPayable />
+        <ListAccountsPayable type="fixed" title="Gastos Fixos" />
         <div className="flex-1">
           <LineChartFinancialCategory type="accountPayable" />
         </div>
+      </div>
+
+      <Separator className="mb-4 mt-1" />
+
+      <div className="flex flex-col lg:flex-row">
+        <ListAccountsPayable type="unfixed" title="Gastos Variáveis" />
+        <div className="flex-1"></div>
       </div>
     </>
   )
