@@ -41,6 +41,7 @@ describe('[FinancialCategory] - List total spent by financial category to accoun
       description: 'Account Payable 1',
       amount: 100,
       dueDate: new Date(new Date().getFullYear(), currentMonth - 1, 1),
+      isFixed: false,
       userId: 'userId',
       financialCategoryId: financialCategory1.id.toString(),
     })
@@ -49,6 +50,7 @@ describe('[FinancialCategory] - List total spent by financial category to accoun
       description: 'Account Payable 2',
       amount: 200,
       dueDate: new Date(new Date().getFullYear(), currentMonth - 1, 15),
+      isFixed: false,
       userId: 'userId',
       financialCategoryId: financialCategory1.id.toString(),
     })
@@ -57,6 +59,7 @@ describe('[FinancialCategory] - List total spent by financial category to accoun
       description: 'Account Payable 3',
       amount: 50,
       dueDate: new Date(new Date().getFullYear(), currentMonth - 1, 20),
+      isFixed: false,
       userId: 'userId',
       financialCategoryId: financialCategory2.id.toString(),
     })
