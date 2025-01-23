@@ -16,7 +16,7 @@ interface IResponse {
 }
 
 @injectable()
-class ListTotalSpentByFinancialCategoryToAccountPayableUseCase
+class ListTotalSpentToFixedAccountPayableUseCase
   implements IUseCase<IRequest, IResponse>
 {
   constructor(
@@ -51,4 +51,4 @@ class ListTotalSpentByFinancialCategoryToAccountPayableUseCase
   }
 }
 
-export { ListTotalSpentByFinancialCategoryToAccountPayableUseCase }
+export { ListTotalSpentToFixedAccountPayableUseCase }

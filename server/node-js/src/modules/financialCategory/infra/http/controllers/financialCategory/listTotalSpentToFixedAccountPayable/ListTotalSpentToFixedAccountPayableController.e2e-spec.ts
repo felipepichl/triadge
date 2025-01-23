@@ -72,7 +72,7 @@ describe('[E2E] - List total spent by financial category to account payable', ()
 
   it('should be able to calculate the total spent by financial category to account payable', async () => {
     const response = await request(app)
-      .get('/financial-category/total-spent/account-payable')
+      .get('/financial-category/total-spent/fixed/account-payable')
       .set({ Authorization: `Bearer ${token}` })
       .query({ month })
 
