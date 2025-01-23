@@ -29,6 +29,15 @@ interface IFinancialCategoriesRepository {
       financialCategoryAccountsPayable: AccountPayable[]
     }>
   >
+  listFinancialCategoriesWithUnfixedAccountsPayable(
+    userId: string,
+    month: number,
+  ): Promise<
+    Array<{
+      financialCategory: FinancialCategory
+      financialCategoryAccountsPayable: AccountPayable[]
+    }>
+  >
   findByDescription(description: string): Promise<FinancialCategory>
   findByDescriptionAndParentCategory(
     description: string,

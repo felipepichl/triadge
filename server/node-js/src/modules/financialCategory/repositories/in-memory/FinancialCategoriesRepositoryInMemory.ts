@@ -97,6 +97,38 @@ class FinancialCategoriesRepositoryInMemory
     })
   }
 
+  async listFinancialCategoriesWithUnfixedAccountsPayable(
+    userId: string,
+    month: number,
+  ): Promise<
+    Array<{
+      financialCategory: FinancialCategory
+      financialCategoryAccountsPayable: AccountPayable[]
+    }>
+  > {
+    const year = new Date().getFullYear()
+
+    const userFinancialCategories = this.financialCategories.filter(
+      (financialCategory) => financialCategory.userId === userId,
+    )
+
+    return userFinancialCategories.map((financialCategory) => {
+      const financialCategoryAccountsPayable = this.accountsPayable.filter(
+        (accountPayable) =>
+          accountPayable.financialCategoryId ===
+            financialCategory.id.toString() &&
+          accountPayable.isFixed === false &&
+          accountPayable.dueDate.getFullYear() === year &&
+          accountPayable.dueDate.getMonth() === month - 1,
+      )
+
+      return {
+        financialCategory,
+        financialCategoryAccountsPayable,
+      }
+    })
+  }
+
   async findByDescription(description: string): Promise<FinancialCategory> {
     return this.financialCategories.find(
       (financialCategory) => financialCategory.description === description,

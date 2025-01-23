@@ -2,10 +2,10 @@ import { AccountPayable } from '@modules/accountPayable/domain/AccountPayable'
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
 import { FinancialCategoriesRepositoryInMemory } from '@modules/financialCategory/repositories/in-memory/FinancialCategoriesRepositoryInMemory'
 
-import { ListTotalSpentToFixedAccountPayableUseCase } from './ListTotalSpentToFixedAccountPayableUseCase'
+import { ListTotalSpentToUnfixedAccountPayableUseCase } from './ListTotalSpentToUnfixedAccountPayableUseCase'
 
 let financialCategoriesRepositoryInMemory: FinancialCategoriesRepositoryInMemory
-let listTotalSpentToFixedAccountPayableUseCase: ListTotalSpentToFixedAccountPayableUseCase
+let listTotalSpentToUnfixedAccountPayableUseCase: ListTotalSpentToUnfixedAccountPayableUseCase
 
 describe('[FinancialCategory] - List total spent by financial category to accounts payable', () => {
   const currentMonth = new Date().getMonth() + 1
@@ -14,13 +14,13 @@ describe('[FinancialCategory] - List total spent by financial category to accoun
     financialCategoriesRepositoryInMemory =
       new FinancialCategoriesRepositoryInMemory()
 
-    listTotalSpentToFixedAccountPayableUseCase =
-      new ListTotalSpentToFixedAccountPayableUseCase(
+    listTotalSpentToUnfixedAccountPayableUseCase =
+      new ListTotalSpentToUnfixedAccountPayableUseCase(
         financialCategoriesRepositoryInMemory,
       )
   })
 
-  it('should be able to calculate the total spent by financial category to accounts payable', async () => {
+  it('should be able to calculate the total spent by financial category to unfixed accounts payable', async () => {
     const financialCategory1 = FinancialCategory.createFinancialCategory({
       description: 'Category 1',
       userId: 'userId',
@@ -41,7 +41,6 @@ describe('[FinancialCategory] - List total spent by financial category to accoun
       description: 'Account Payable 1',
       amount: 100,
       dueDate: new Date(new Date().getFullYear(), currentMonth - 1, 1),
-      isFixed: true,
       userId: 'userId',
       financialCategoryId: financialCategory1.id.toString(),
     })
@@ -50,7 +49,6 @@ describe('[FinancialCategory] - List total spent by financial category to accoun
       description: 'Account Payable 2',
       amount: 200,
       dueDate: new Date(new Date().getFullYear(), currentMonth - 1, 15),
-      isFixed: true,
       userId: 'userId',
       financialCategoryId: financialCategory1.id.toString(),
     })
@@ -59,7 +57,6 @@ describe('[FinancialCategory] - List total spent by financial category to accoun
       description: 'Account Payable 3',
       amount: 50,
       dueDate: new Date(new Date().getFullYear(), currentMonth - 1, 20),
-      isFixed: true,
       userId: 'userId',
       financialCategoryId: financialCategory2.id.toString(),
     })
@@ -76,7 +73,7 @@ describe('[FinancialCategory] - List total spent by financial category to accoun
       )
     }
 
-    const result = await listTotalSpentToFixedAccountPayableUseCase.execute({
+    const result = await listTotalSpentToUnfixedAccountPayableUseCase.execute({
       userId: 'userId',
       month: currentMonth,
     })
@@ -101,7 +98,7 @@ describe('[FinancialCategory] - List total spent by financial category to accoun
   })
 
   it('should return an empty array if no accounts payable exist for the user', async () => {
-    const result = await listTotalSpentToFixedAccountPayableUseCase.execute({
+    const result = await listTotalSpentToUnfixedAccountPayableUseCase.execute({
       userId: 'userWithoutAccountsPayable',
       month: currentMonth,
     })
