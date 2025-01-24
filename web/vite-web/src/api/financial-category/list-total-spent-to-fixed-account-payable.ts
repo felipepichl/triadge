@@ -1,15 +1,15 @@
 import { ListTotalSpentByFinancialCategoryResponseDTO } from '@/dtos/financial-category-dto'
 import { api } from '@/lib/axios'
 
-export type ListTotalSpentToAccountPayableBody = {
+export type ListTotalSpentToFixedAccountPayableBody = {
   month: number
 }
 
-export async function apiListTotalSpentToAccountPayable({
+export async function apiListTotalSpentToFixedAccountPayable({
   month,
-}: ListTotalSpentToAccountPayableBody): Promise<ListTotalSpentByFinancialCategoryResponseDTO> {
+}: ListTotalSpentToFixedAccountPayableBody): Promise<ListTotalSpentByFinancialCategoryResponseDTO> {
   const { data } = await api.get<ListTotalSpentByFinancialCategoryResponseDTO>(
-    '/financial-category/total-spent/account-payable',
+    '/financial-category/total-spent/fixed/account-payable',
     {
       params: { month },
     },

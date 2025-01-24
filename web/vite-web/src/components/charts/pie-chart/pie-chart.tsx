@@ -1,11 +1,10 @@
 import { getMonth } from 'date-fns'
 import { useCallback, useEffect, useState } from 'react'
-import NotFound from 'react-lottie'
 import { Pie, PieChart } from 'recharts'
 
 import { apiListByMonth } from '@/api/list-by-month'
-import notFoundAnimation from '@/assets/not-found-new.json'
 import { MonthSelect } from '@/components/month-select/month-select'
+import { NotFound } from '@/components/not-found/not-found'
 import {
   Card,
   CardContent,
@@ -90,18 +89,7 @@ export function PieChartTransactions() {
           <MonthSelect onMonthSelect={handleMonthSelect} />
         </div>
         {chartData[0].value === 0 ? (
-          <>
-            <NotFound
-              options={{
-                animationData: notFoundAnimation,
-              }}
-              height={200}
-              width={200}
-            />
-            <CardDescription className="pb-3 text-center">
-              Nenhuma transação encontrada
-            </CardDescription>
-          </>
+          <NotFound />
         ) : (
           <ChartContainer
             config={chartConfig}

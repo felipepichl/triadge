@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react'
-import NotFound from 'react-lottie'
 import {
   Bar,
   BarChart,
@@ -11,10 +10,11 @@ import {
   YAxis,
 } from 'recharts'
 
-import { apiListTotalSpentToAccountPayable } from '@/api/financial-category/list-total-spent-to-account-payable'
+import { apiListTotalSpentToFixedAccountPayable } from '@/api/financial-category/list-total-spent-to-fixed-account-payable'
+import { apiListTotalSpentToUnfixedAccountPayable } from '@/api/financial-category/list-total-spent-to-unfixed-account-payable'
 import { apiListTotalSpentByFinancialCategory } from '@/api/list-total-spent-by-financial-category'
-import notFoundAnimation from '@/assets/not-found-new.json'
 import { MonthSelect } from '@/components/month-select/month-select'
+import { NotFound } from '@/components/not-found/not-found'
 import {
   Card,
   CardContent,
@@ -57,8 +57,13 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
+const descriptions = {
+  fixedAccountPayable: 'Gastos fixos por categorias de saída',
+  unfixedAccountPayable: 'Gastos variáveis por categorias de saída',
+  transaction: 'Transação por categorias em saídas',
+}
 type LineChartFinancialCategoryProps = {
-  type: 'transaction' | 'accountPayable'
+  type: 'transaction' | 'fixedAccountPayable' | 'unfixedAccountPayable'
 }
 
 export function LineChartFinancialCategory({
@@ -72,14 +77,23 @@ export function LineChartFinancialCategory({
 
   const listTotalSpent = useCallback(
     async (monthNumber: number) => {
-      return type === 'accountPayable'
-        ? await apiListTotalSpentToAccountPayable({
-            month: Number(monthNumber),
-          })
-        : await apiListTotalSpentByFinancialCategory({
+      switch (type) {
+        case 'transaction':
+          return await apiListTotalSpentByFinancialCategory({
             type: 'outcome',
             month: Number(monthNumber),
           })
+        case 'fixedAccountPayable':
+          return await apiListTotalSpentToFixedAccountPayable({
+            month: Number(monthNumber),
+          })
+        case 'unfixedAccountPayable':
+          return await apiListTotalSpentToUnfixedAccountPayable({
+            month: Number(monthNumber),
+          })
+        default:
+          throw new Error('Tipo inválido')
+      }
     },
     [type],
   )
@@ -126,11 +140,7 @@ export function LineChartFinancialCategory({
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-center">
         <CardHeader>
           <CardTitle>Categorias</CardTitle>
-          <CardDescription>
-            {type === 'accountPayable'
-              ? 'Gastos fixos por categorias de saída'
-              : 'Transação por categorias em saídas'}
-          </CardDescription>
+          <CardDescription>{descriptions[type]}</CardDescription>
         </CardHeader>
         <div className="flex-1 px-4 pb-4 lg:pb-0">
           <MonthSelect onMonthSelect={handleMonthSelect} />
@@ -140,18 +150,7 @@ export function LineChartFinancialCategory({
 
       <CardContent className="flex flex-1 flex-col items-center justify-end">
         {chartData.length === 0 ? (
-          <>
-            <NotFound
-              options={{
-                animationData: notFoundAnimation,
-              }}
-              height={208}
-              width={208}
-            />
-            <CardDescription className="text-center">
-              Nenhuma transação encontrada
-            </CardDescription>
-          </>
+          <NotFound />
         ) : isWideScreen ? (
           <ChartContainer className="max-h-[250px] w-full" config={chartConfig}>
             <LineChart

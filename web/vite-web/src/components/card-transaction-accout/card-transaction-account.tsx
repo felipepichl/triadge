@@ -5,6 +5,7 @@ import { AccountPayableDetailDTO } from '@/dtos/account-payable-dto'
 import { TransactionDetailDTO } from '@/dtos/transaction-dto'
 import { priceFormatter } from '@/util/formatter'
 
+import { NotFound } from '../not-found/not-found'
 import {
   Card,
   CardContent,
@@ -34,16 +35,18 @@ export function CardTransactionAccount({
   const data = transactions || accountsPayable
 
   return (
-    <div className="relative">
-      <Carousel
-        opts={{
-          align: 'start',
-        }}
-        orientation="vertical"
-        className="mt-4 w-full"
-      >
-        <CarouselContent className="-mt-1 h-[180px]">
-          {data?.map((item) => {
+    <Carousel
+      opts={{
+        align: 'start',
+      }}
+      orientation="vertical"
+      className="mt-4 w-full"
+    >
+      <CarouselContent className="-mt-1 h-[180px]">
+        {data?.length === 0 ? (
+          <NotFound />
+        ) : (
+          data?.map((item) => {
             const isTransaction = 'type' in item
 
             const formattedDate = isTransaction
@@ -58,7 +61,9 @@ export function CardTransactionAccount({
                       {item.description}
                     </CardDescription>
 
-                    {accountsPayable && <Switch />}
+                    {accountsPayable && (
+                      <Switch className="data-[state=unchecked]:bg-rose-500" />
+                    )}
                   </CardHeader>
                   <CardContent>
                     <CardTitle
@@ -91,17 +96,17 @@ export function CardTransactionAccount({
                 </Card>
               </CarouselItem>
             )
-          })}
-        </CarouselContent>
-        <div className="flex h-min w-full items-center justify-center">
-          <div className="max-w-lg p-4">
-            <div className="flex justify-between space-x-16">
-              <CarouselPrevious className="rotate-90" />
-              <CarouselNext className="rotate-90" />
-            </div>
+          })
+        )}
+      </CarouselContent>
+      <div className="flex h-min w-full items-center justify-center">
+        <div className="max-w-lg p-4">
+          <div className="flex justify-between space-x-16">
+            <CarouselPrevious className="rotate-90" />
+            <CarouselNext className="rotate-90" />
           </div>
         </div>
-      </Carousel>
-    </div>
+      </div>
+    </Carousel>
   )
 }

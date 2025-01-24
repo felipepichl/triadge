@@ -66,7 +66,7 @@ export function AccountPayable() {
       <div className="flex flex-col lg:flex-row">
         <ListAccountsPayable type="fixed" title="Gastos Fixos" />
         <div className="flex-1">
-          <LineChartFinancialCategory type="accountPayable" />
+          <LineChartFinancialCategory type="fixedAccountPayable" />
         </div>
       </div>
 
@@ -74,7 +74,9 @@ export function AccountPayable() {
 
       <div className="flex flex-col lg:flex-row">
         <ListAccountsPayable type="unfixed" title="Gastos Variáveis" />
-        <div className="flex-1"></div>
+        <div className="flex-1">
+          <LineChartFinancialCategory type="unfixedAccountPayable" />
+        </div>
       </div>
     </>
   )
