@@ -30,6 +30,8 @@ class CreateFixedAccountsPayableUseCase implements IUseCase<IRequest, void> {
     subcategoryId,
     months = 12,
   }: IRequest): Promise<void> {
+    const initialDueDate = new Date(dueDate)
+
     if (months <= 0) {
       throw new AppError('The number of months must be greater than zero.')
     }
@@ -37,8 +39,12 @@ class CreateFixedAccountsPayableUseCase implements IUseCase<IRequest, void> {
     const accounts: AccountPayable[] = []
 
     for (let i = 0; i < months; i++) {
-      const nextDueDate = new Date(dueDate)
+      const nextDueDate = new Date(initialDueDate)
       nextDueDate.setMonth(nextDueDate.getMonth() + i)
+
+      if (nextDueDate.getDate() !== initialDueDate.getDate()) {
+        nextDueDate.setDate(0)
+      }
 
       const accountPayable = AccountPayable.createAccountPayable({
         description,
