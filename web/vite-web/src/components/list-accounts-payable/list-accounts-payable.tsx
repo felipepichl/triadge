@@ -29,7 +29,7 @@ export function ListAccountsPayable({ type, title }: ListAccountsPayableProps) {
 
       <Separator />
 
-      <CardContent>
+      <CardContent className="max-sm:p-0">
         <div className="mt-4 w-full">
           <MonthSelect onMonthSelect={handleMonthSelect} />
         </div>

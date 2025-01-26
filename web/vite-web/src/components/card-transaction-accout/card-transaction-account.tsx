@@ -42,7 +42,7 @@ export function CardTransactionAccount({
       orientation="vertical"
       className="mt-4 w-full"
     >
-      <CarouselContent className="-mt-1 h-[180px]">
+      <CarouselContent className="mt-1 h-[180px]">
         {data?.length === 0 ? (
           <NotFound />
         ) : (
@@ -55,7 +55,9 @@ export function CardTransactionAccount({
 
             return (
               <CarouselItem key={item._id} className="pt-1 md:basis-1/2">
-                <Card className=" mb-2 bg-gray-300 dark:bg-gray-700">
+                <Card
+                  className={` ${accountsPayable && 'max-sm:rounded-none'} mb-2 bg-gray-300 dark:bg-gray-700`}
+                >
                   <CardHeader className="flex flex-row items-center justify-between">
                     <CardDescription className="font-semibold text-gray-500 dark:text-slate-200">
                       {item.description}
