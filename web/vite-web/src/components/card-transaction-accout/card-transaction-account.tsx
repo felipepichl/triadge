@@ -61,7 +61,7 @@ export function CardTransactionAccount({
                   className={` ${accountsPayable && 'max-sm:rounded-none'} mb-2 bg-gray-300 dark:bg-gray-700`}
                 >
                   <CardHeader className="flex flex-row items-center justify-between">
-                    <CardDescription className="font-semibold text-gray-500 dark:text-slate-200">
+                    <CardDescription className="truncate font-semibold text-gray-500 dark:text-slate-200">
                       {item.description}
                     </CardDescription>
 
