@@ -9,17 +9,15 @@ import { Summary, SummaryProps } from './summary'
 
 type SummaryCarouselProps = {
   summaries: SummaryProps[] | undefined
-  boxes: number
 }
 
-export function SummaryCarousel({ summaries, boxes }: SummaryCarouselProps) {
-  console.log(boxes)
+export function SummaryCarousel({ summaries }: SummaryCarouselProps) {
   return (
     <Carousel>
       <CarouselContent>
         {summaries?.map((summary) => (
           <CarouselItem
-            className={`md:basis-1/2 lg:basis-1/${boxes}`}
+            className={`md:basis-1/2 lg:basis-1/3 xl:basis-1/${summaries.length}`}
             key={summary.description}
           >
             <Summary

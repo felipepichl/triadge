@@ -59,7 +59,7 @@ export function AccountPayable() {
       <Helmet title="Contas a Pagar" />
       <NewTransactionAccount title="Nova Conta a Pagar" type="accountPayable" />
 
-      <SummaryCarousel summaries={summaries} boxes={4} />
+      <SummaryCarousel summaries={summaries} />
 
       <Separator className="mb-4 mt-4" />
 
