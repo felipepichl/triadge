@@ -109,6 +109,7 @@ class AccountsPayableRepository implements IAccountsPayableRepository {
         isFixed: true,
       },
       include: { financialCategory: true },
+      orderBy: { dueDate: 'desc' },
     })
 
     return AccountPayableMappers.getMapper().toDomainArray(result)
@@ -129,6 +130,7 @@ class AccountsPayableRepository implements IAccountsPayableRepository {
         isFixed: false,
       },
       include: { financialCategory: true },
+      orderBy: { dueDate: 'desc' },
     })
 
     return AccountPayableMappers.getMapper().toDomainArray(result)

@@ -52,6 +52,7 @@ class TransactionsRepository implements ITransactionsRepository {
         userId,
         AND: [{ date: { gte: startDate } }, { date: { lte: endDate } }],
       },
+      orderBy: { date: 'asc' },
     })
 
     return TransactionMappers.getMapper().toDomainArray(result)
@@ -71,6 +72,7 @@ class TransactionsRepository implements ITransactionsRepository {
         date: { gte: normalizedStartDate, lte: normalizedEndDate },
       },
       include: { financialCategory: true },
+      orderBy: { date: 'asc' },
     })
 
     return TransactionMappers.getMapper().toDomainArray(result)
@@ -86,6 +88,7 @@ class TransactionsRepository implements ITransactionsRepository {
         type: type.type,
       },
       include: { financialCategory: true },
+      orderBy: { date: 'asc' },
     })
 
     return TransactionMappers.getMapper().toDomainArray(result)

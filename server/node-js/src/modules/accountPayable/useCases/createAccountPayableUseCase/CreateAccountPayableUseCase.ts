@@ -44,7 +44,7 @@ class CreateAccountPayableUseCase implements IUseCase<IRequest, void> {
       nextDueDate.setMonth(nextDueDate.getMonth() + i)
 
       const accountPayable = AccountPayable.createAccountPayable({
-        description: `${description}${installments > 1 ? ` (Parcela ${i + 1}/${installments})` : ''}`,
+        description: `${description}${installments > 1 ? ` ${i + 1}/${installments}` : ''}`,
         amount: installmentAmount,
         dueDate: nextDueDate,
         userId,
