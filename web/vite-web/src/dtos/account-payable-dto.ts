@@ -13,6 +13,7 @@ export type AccountPayableDetailDTO = {
   _id: string
   description: string
   amount: number
+  isPaid: boolean
   dueDate: Date
   installments?: number
   subcategoryId?: string

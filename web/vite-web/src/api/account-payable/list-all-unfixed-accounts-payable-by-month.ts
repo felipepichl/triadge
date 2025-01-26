@@ -19,11 +19,15 @@ export async function apiListAllUnfixedAccountsPayableByMonth({
   )
 
   const unfixedAccountsPayable = data.unfixedAccountsPayable.map(
-    ({ _id, props: { description, amount, dueDate, financialCategory } }) => ({
+    ({
+      _id,
+      props: { description, amount, dueDate, isPaid, financialCategory },
+    }) => ({
       _id,
       description,
       amount,
       dueDate,
+      isPaid,
       financialCategory,
     }),
   )

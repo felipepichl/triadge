@@ -48,12 +48,11 @@ export function CardTransactionAccount({
         ) : (
           data?.map((item) => {
             const isTransaction = 'type' in item
+            const isAccountPayable = 'isPaid' in item
 
             const formattedDate = isTransaction
               ? format(new Date(item.date), 'dd/MM/yyyy')
               : format(new Date(item.dueDate), 'dd/MM/yyyy')
-
-            console.log(JSON.stringify(item, null, 2))
 
             return (
               <CarouselItem key={item._id} className="pt-1 md:basis-1/2">
@@ -66,12 +65,15 @@ export function CardTransactionAccount({
                     </CardDescription>
 
                     {accountsPayable && (
-                      <Switch className="data-[state=unchecked]:bg-rose-500" />
+                      <Switch
+                        className="data-[state=unchecked]:bg-rose-500"
+                        checked={isAccountPayable && item.isPaid}
+                      />
                     )}
                   </CardHeader>
                   <CardContent>
                     <CardTitle
-                      className={`font-bold ${isTransaction ? (item.type === 'outcome' ? 'text-red-500' : 'text-green-500') : ''}`}
+                      className={`font-bold ${isTransaction ? (item.type === 'outcome' ? 'text-red-500' : 'text-green-500') : ''} ${isAccountPayable && !item.isPaid ? 'text-red-500' : 'text-green-500'} `}
                     >
                       {priceFormatter.format(item.amount)}
                     </CardTitle>
