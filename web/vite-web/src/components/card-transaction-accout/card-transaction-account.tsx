@@ -53,6 +53,8 @@ export function CardTransactionAccount({
               ? format(new Date(item.date), 'dd/MM/yyyy')
               : format(new Date(item.dueDate), 'dd/MM/yyyy')
 
+            console.log(JSON.stringify(item, null, 2))
+
             return (
               <CarouselItem key={item._id} className="pt-1 md:basis-1/2">
                 <Card
