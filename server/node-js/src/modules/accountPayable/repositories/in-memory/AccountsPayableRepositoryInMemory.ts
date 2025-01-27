@@ -13,6 +13,22 @@ class AccountsPayableRepositoryInMemory implements IAccountsPayableRepository {
     this.accountsPayable.push(...accounts)
   }
 
+  async update(accountPayable: AccountPayable): Promise<void> {
+    const index = this.accountsPayable.findIndex(
+      (item) => item.id === accountPayable.id,
+    )
+
+    if (index !== -1) {
+      this.accountsPayable[index] = accountPayable
+    }
+  }
+
+  async listById(accountPayableId: string): Promise<AccountPayable> {
+    return this.accountsPayable.find(
+      (accountPayable) => accountPayable.id.toString() === accountPayableId,
+    )
+  }
+
   async listAll(userId: string): Promise<AccountPayable[]> {
     return this.accountsPayable.filter(
       (accountPayable) => accountPayable.userId === userId,

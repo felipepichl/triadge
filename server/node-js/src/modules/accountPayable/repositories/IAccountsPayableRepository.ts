@@ -3,7 +3,9 @@ import { AccountPayable } from '../domain/AccountPayable'
 interface IAccountsPayableRepository {
   create(accountPayable: AccountPayable): Promise<void>
   createMany(accounts: AccountPayable[]): Promise<void>
+  update(accountPayable: AccountPayable): Promise<void>
   listAll(userId: string): Promise<AccountPayable[]>
+  listById(accountPayableId: string): Promise<AccountPayable>
   listByDateRange(
     userId: string,
     startDate: Date,
