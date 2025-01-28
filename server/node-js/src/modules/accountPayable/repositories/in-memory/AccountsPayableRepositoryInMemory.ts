@@ -23,12 +23,6 @@ class AccountsPayableRepositoryInMemory implements IAccountsPayableRepository {
     }
   }
 
-  async listById(accountPayableId: string): Promise<AccountPayable> {
-    return this.accountsPayable.find(
-      (accountPayable) => accountPayable.id.toString() === accountPayableId,
-    )
-  }
-
   async listAll(userId: string): Promise<AccountPayable[]> {
     return this.accountsPayable.filter(
       (accountPayable) => accountPayable.userId === userId,
@@ -93,6 +87,12 @@ class AccountsPayableRepositoryInMemory implements IAccountsPayableRepository {
         accountPayable.userId === userId &&
         accountPayable.isPaid === true &&
         accountPayable.dueDate.getUTCMonth() + 1 === month,
+    )
+  }
+
+  async findById(accountPayableId: string): Promise<AccountPayable> {
+    return this.accountsPayable.find(
+      (accountPayable) => accountPayable.id.toString() === accountPayableId,
     )
   }
 
