@@ -25,5 +25,6 @@ accounsPayableRoutes.get(
   '/unfixed/month',
   listAllUnfixedAccountsByMonthController.handle,
 )
+accounsPayableRoutes.patch('/:id/pay')
 
 export { accounsPayableRoutes }
