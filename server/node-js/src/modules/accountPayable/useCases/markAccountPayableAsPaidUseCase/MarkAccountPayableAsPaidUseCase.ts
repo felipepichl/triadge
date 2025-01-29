@@ -9,7 +9,7 @@ interface IResquest {
 }
 
 class MarkAccountPayableAsPaidUseCase implements IUseCase<IResquest, void> {
-  private constructor(
+  constructor(
     private accountsPayableRepository: IAccountsPayableRepository,
     private transactionsRepository: ITransactionsRepository,
   ) {}
