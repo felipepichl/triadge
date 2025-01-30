@@ -4,6 +4,7 @@ import { CreateAccountsPayableController } from '../controllers/createAccountsPa
 import { CreateFixedAccountPayableController } from '../controllers/createFixedAccountPayable/CreateFixedAccountPayableController'
 import { ListAllFixedAccountsByMonthController } from '../controllers/listAllFixedAccountsByMonth/ListAllFixedAccountsByMonthController'
 import { ListAllUnfixedAccountsByMonthController } from '../controllers/listAllUnfixedAccountsByMonth/ListAllUnfixedAccountsByMonthController'
+import { MarkAccountPayableAsPaidController } from '../controllers/markAccountPayableAsPaidController/MarkAccountPayableAsPaidController'
 
 const accounsPayableRoutes = Router()
 
@@ -14,6 +15,8 @@ const listAllFixedAccountsByMonthController =
   new ListAllFixedAccountsByMonthController()
 const listAllUnfixedAccountsByMonthController =
   new ListAllUnfixedAccountsByMonthController()
+const markAccountPayableAsPaidController =
+  new MarkAccountPayableAsPaidController()
 
 accounsPayableRoutes.post('', createAccountsPayableController.handle)
 accounsPayableRoutes.post('/fixed', createFixedAccountsPayableController.handle)
@@ -25,6 +28,9 @@ accounsPayableRoutes.get(
   '/unfixed/month',
   listAllUnfixedAccountsByMonthController.handle,
 )
-accounsPayableRoutes.patch('/:id/pay')
+accounsPayableRoutes.patch(
+  '/:id/pay',
+  markAccountPayableAsPaidController.handle,
+)
 
 export { accounsPayableRoutes }

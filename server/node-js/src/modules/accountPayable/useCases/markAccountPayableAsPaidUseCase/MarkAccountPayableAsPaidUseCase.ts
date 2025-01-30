@@ -3,14 +3,17 @@ import { Transaction } from '@modules/transactions/domain/transaction/Transactio
 import { ITransactionsRepository } from '@modules/transactions/repositories/transaction/ITransactionsRepository'
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
+import { inject, injectable } from 'tsyringe'
 
 interface IResquest {
   accountPayableId: string
 }
-
+@injectable()
 class MarkAccountPayableAsPaidUseCase implements IUseCase<IResquest, void> {
   constructor(
+    @inject('AccountsPayableRepository')
     private accountsPayableRepository: IAccountsPayableRepository,
+    @inject('TransactionsRepository')
     private transactionsRepository: ITransactionsRepository,
   ) {}
 

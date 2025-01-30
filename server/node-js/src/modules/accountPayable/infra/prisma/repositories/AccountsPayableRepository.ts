@@ -67,6 +67,34 @@ class AccountsPayableRepository implements IAccountsPayableRepository {
     })
   }
 
+  async update({
+    id,
+    description,
+    amount,
+    dueDate,
+    paymentDate,
+    isPaid,
+    isFixed,
+    userId,
+    financialCategoryId,
+    subcategoryId,
+  }: AccountPayable): Promise<void> {
+    await PrismaSingleton.getInstance().accountPayable.update({
+      where: { id: id.toString() },
+      data: {
+        description,
+        amount,
+        dueDate,
+        paymentDate,
+        isPaid,
+        isFixed,
+        userId,
+        financialCategoryId,
+        subcategoryId,
+      },
+    })
+  }
+
   async listAll(userId: string): Promise<AccountPayable[]> {
     const result = await PrismaSingleton.getInstance().accountPayable.findMany({
       where: { userId },
@@ -148,6 +176,16 @@ class AccountsPayableRepository implements IAccountsPayableRepository {
     month: number,
   ): Promise<AccountPayable[]> {
     throw new Error('Method not implemented.')
+  }
+
+  async findById(accountPayableId: string): Promise<AccountPayable> {
+    const result = await PrismaSingleton.getInstance().accountPayable.findFirst(
+      {
+        where: { id: accountPayableId },
+      },
+    )
+
+    return AccountPayableMappers.getMapper().toDomain(result)
   }
 
   async markAccountAsPaid(accountPayableId: string): Promise<void> {

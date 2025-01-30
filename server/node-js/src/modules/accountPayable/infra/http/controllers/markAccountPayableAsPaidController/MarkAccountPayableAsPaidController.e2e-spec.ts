@@ -1,0 +1,95 @@
+import { app } from '@shared/infra/http/start/app'
+import { PrismaSingleton } from '@shared/infra/prisma'
+import request from 'supertest'
+
+async function authenticateUser(): Promise<string> {
+  await request(app).post('/users').send({
+    name: 'Jonh Due',
+    email: 'johndue@example.com',
+    password: 'hash123',
+    phoneNumber: '51999999999',
+  })
+
+  const response = await request(app).post('/sessions').send({
+    email: 'johndue@example.com',
+    password: 'hash123',
+  })
+  const { token } = response.body
+  return token
+}
+
+async function createFinancialCategory(): Promise<string> {
+  const token = await authenticateUser()
+
+  await request(app)
+    .post('/financial-category')
+    .set({ Authorization: `Bearer ${token}` })
+    .send({
+      description: 'Financial Category Description',
+    })
+
+  const response = await request(app)
+    .get('/financial-category')
+    .set({ Authorization: `Bearer ${token}` })
+
+  const { financialCategories } = response.body
+
+  const { _id } = financialCategories[0]
+
+  return _id
+}
+
+async function createAccountPaybale() {
+  const token = await authenticateUser()
+  const financialCategoryId = await createFinancialCategory()
+
+  await request(app)
+    .post('/accounts-payable')
+    .set({ Authorization: `Bearer ${token}` })
+    .send({
+      description: 'Description Account Payable 1',
+      amount: 1000,
+      dueDate: new Date('2025-01-02'),
+      financialCategoryId,
+    })
+
+  await request(app)
+    .post('/accounts-payable')
+    .set({ Authorization: `Bearer ${token}` })
+    .send({
+      description: 'Description Account Payable 2',
+      amount: 500,
+      dueDate: new Date('2025-01-02'),
+      financialCategoryId,
+    })
+}
+
+async function getAccountPayable() {
+  const result = await PrismaSingleton.getInstance().accountPayable.findFirst({
+    where: { description: 'Description Account Payable 1' },
+  })
+
+  return result
+}
+
+describe('[E2E] - Mark account payable as to paid', () => {
+  let token: string
+
+  beforeEach(async () => {
+    token = await authenticateUser()
+    await createAccountPaybale()
+  })
+
+  it('should be able to mark account payable as to paid', async () => {
+    const { id } = await getAccountPayable()
+
+    const response = await request(app)
+      .patch(`/accounts-payable/${id}/pay`)
+      .set({ Authorization: `Bearer ${token}` })
+
+    const { isPaid } = await getAccountPayable()
+
+    expect(response.status).toBe(201)
+    expect(isPaid).toBe(true)
+  })
+})
