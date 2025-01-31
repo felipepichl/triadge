@@ -179,11 +179,10 @@ class AccountsPayableRepository implements IAccountsPayableRepository {
   }
 
   async findById(accountPayableId: string): Promise<AccountPayable> {
-    const result = await PrismaSingleton.getInstance().accountPayable.findFirst(
-      {
+    const result =
+      await PrismaSingleton.getInstance().accountPayable.findUnique({
         where: { id: accountPayableId },
-      },
-    )
+      })
 
     return AccountPayableMappers.getMapper().toDomain(result)
   }

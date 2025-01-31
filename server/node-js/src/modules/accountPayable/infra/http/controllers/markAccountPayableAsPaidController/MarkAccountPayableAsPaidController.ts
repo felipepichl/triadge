@@ -4,7 +4,7 @@ import { container } from 'tsyringe'
 
 class MarkAccountPayableAsPaidController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { accountPayableId } = request.params
+    const { id: accountPayableId } = request.params
 
     const markAccountPayableAsPaidUseCase = container.resolve(
       MarkAccountPayableAsPaidUseCase,
