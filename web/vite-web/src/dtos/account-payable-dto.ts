@@ -45,3 +45,7 @@ export type UnfixedAccountPayableDTO = {
   unfixedAccountsPayable: AccountPayableDetailDTO[]
   unfixedAccountsPayableTotalAmount?: number
 }
+
+export type MarkAccountPayableAsPaidDTO = {
+  accoutPayableId: string
+}
