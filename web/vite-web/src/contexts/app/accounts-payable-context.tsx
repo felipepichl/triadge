@@ -10,9 +10,11 @@ import { apiCreateAccountPayable } from '@/api/account-payable/create-account-pa
 import { apiCreateFixedAccountPayable } from '@/api/account-payable/create-fixed-account-payable'
 import { apiListAllFixedAccountsPayableByMonth } from '@/api/account-payable/list-all-fixed-accounts-payable-by-month'
 import { apiListAllUnfixedAccountsPayableByMonth } from '@/api/account-payable/list-all-unfixed-accounts-payable-by-month'
+import { apiMarkAccountPayableAsPaid } from '@/api/account-payable/mark-account-payable-as-paid'
 import {
   CreateAccountPayableDTO,
   FixedAccountPayableDTO,
+  MarkAccountPayableAsPaidDTO,
   UnfixedAccountPayableDTO,
 } from '@/dtos/account-payable-dto'
 
@@ -21,6 +23,7 @@ type AccountPayableContextData = {
   createFixedAccountPayable(data: CreateAccountPayableDTO): Promise<void>
   fixedAccountsPayable: FixedAccountPayableDTO | undefined
   unfixedAccountsPayable: UnfixedAccountPayableDTO | undefined
+  markAccountPayableAsPaid(data: MarkAccountPayableAsPaidDTO): Promise<void>
 }
 
 type AccountPayableProvidersProps = {
@@ -97,6 +100,15 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
     setUnfixedAccountsPayable(response)
   }, [])
 
+  const markAccountPayableAsPaid = useCallback(
+    async ({ accoutPayableId }: MarkAccountPayableAsPaidDTO) => {
+      await apiMarkAccountPayableAsPaid({ accoutPayableId })
+
+      await listAllFixedAccountsPayableByMonth()
+    },
+    [listAllFixedAccountsPayableByMonth],
+  )
+
   useEffect(() => {
     listAllFixedAccountsPayableByMonth()
     listAllUnfixedAccountsPayableByMonth()
@@ -109,6 +121,7 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
         createFixedAccountPayable,
         fixedAccountsPayable,
         unfixedAccountsPayable,
+        markAccountPayableAsPaid,
       }}
     >
       {children}
