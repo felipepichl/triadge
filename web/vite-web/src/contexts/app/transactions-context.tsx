@@ -88,6 +88,7 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
       })
 
       setTransactionByDateRangeAndType(response)
+      setReload((prev) => !prev)
     },
     [],
   )
@@ -136,7 +137,8 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
     }
 
     loadTransaction()
-  }, [user, reload])
+    loadTransactionByDateRange()
+  }, [user, reload, loadTransactionByDateRange])
 
   useEffect(() => {
     loadTransactionByDateRange()
