@@ -2,9 +2,9 @@ import { format } from 'date-fns'
 import { Calendar, Tag } from 'lucide-react'
 import { useCallback, useState } from 'react'
 
-import { apiMarkAccountPayableAsPaid } from '@/api/account-payable/mark-account-payable-as-paid'
 import { AccountPayableDetailDTO } from '@/dtos/account-payable-dto'
 import { TransactionDetailDTO } from '@/dtos/transaction-dto'
+import { useAccountPayable } from '@/hooks/use-account-payable'
 import { priceFormatter } from '@/util/formatter'
 
 import { NotFound } from '../not-found/not-found'
@@ -47,13 +47,15 @@ export function CardTransactionAccount({
   const [isOpen, setIsOpen] = useState(false)
   const [accountPayableId, setAccountPayableId] = useState<string>('')
 
+  const { markAccountPayableAsPaid } = useAccountPayable()
+
   const data = transactions || accountsPayable
 
   const handleMarkAsPaid = useCallback(async () => {
     setIsOpen((prevState) => !prevState)
 
-    await apiMarkAccountPayableAsPaid({ accountPayableId })
-  }, [accountPayableId])
+    await markAccountPayableAsPaid({ accountPayableId })
+  }, [accountPayableId, markAccountPayableAsPaid])
 
   return (
     <>

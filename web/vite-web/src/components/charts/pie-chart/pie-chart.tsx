@@ -49,7 +49,7 @@ export function PieChartTransactions() {
   const fetchListByMonth = useCallback(async (monthNumber: number) => {
     const response = await apiListByMonth({ month: Number(monthNumber) })
 
-    console.log(JSON.stringify(response, null, 2))
+    // console.log(JSON.stringify(response, null, 2))
 
     const { balance } = response
 

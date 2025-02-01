@@ -37,6 +37,7 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
     useState<FixedAccountPayableDTO>()
   const [unfixedAccountsPayable, setUnfixedAccountsPayable] =
     useState<UnfixedAccountPayableDTO>()
+  const [reload, setReload] = useState(false)
 
   const createAccountPayable = useCallback(
     async ({
@@ -55,6 +56,8 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
         financialCategoryId,
         subcategoryId,
       })
+
+      setReload((prev) => !prev)
     },
     [],
   )
@@ -74,6 +77,8 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
         financialCategoryId,
         subcategoryId,
       })
+
+      setReload((prev) => !prev)
     },
     [],
   )
@@ -104,18 +109,18 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
     async ({ accountPayableId }: MarkAccountPayableAsPaidDTO) => {
       await apiMarkAccountPayableAsPaid({ accountPayableId })
 
-      await listAllFixedAccountsPayableByMonth()
+      setReload((prev) => !prev)
     },
-    [listAllFixedAccountsPayableByMonth],
+    [],
   )
 
   useEffect(() => {
     listAllFixedAccountsPayableByMonth()
     listAllUnfixedAccountsPayableByMonth()
   }, [
+    reload,
     listAllFixedAccountsPayableByMonth,
     listAllUnfixedAccountsPayableByMonth,
-    markAccountPayableAsPaid,
   ])
 
   return (
