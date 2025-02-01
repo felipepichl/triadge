@@ -101,8 +101,8 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
   }, [])
 
   const markAccountPayableAsPaid = useCallback(
-    async ({ accoutPayableId }: MarkAccountPayableAsPaidDTO) => {
-      await apiMarkAccountPayableAsPaid({ accoutPayableId })
+    async ({ accountPayableId }: MarkAccountPayableAsPaidDTO) => {
+      await apiMarkAccountPayableAsPaid({ accountPayableId })
 
       await listAllFixedAccountsPayableByMonth()
     },
@@ -112,7 +112,11 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
   useEffect(() => {
     listAllFixedAccountsPayableByMonth()
     listAllUnfixedAccountsPayableByMonth()
-  }, [listAllFixedAccountsPayableByMonth, listAllUnfixedAccountsPayableByMonth])
+  }, [
+    listAllFixedAccountsPayableByMonth,
+    listAllUnfixedAccountsPayableByMonth,
+    markAccountPayableAsPaid,
+  ])
 
   return (
     <AccountPayableContext.Provider

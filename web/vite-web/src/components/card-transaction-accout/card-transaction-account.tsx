@@ -2,6 +2,7 @@ import { format } from 'date-fns'
 import { Calendar, Tag } from 'lucide-react'
 import { useCallback, useState } from 'react'
 
+import { apiMarkAccountPayableAsPaid } from '@/api/account-payable/mark-account-payable-as-paid'
 import { AccountPayableDetailDTO } from '@/dtos/account-payable-dto'
 import { TransactionDetailDTO } from '@/dtos/transaction-dto'
 import { priceFormatter } from '@/util/formatter'
@@ -44,13 +45,15 @@ export function CardTransactionAccount({
   accountsPayable,
 }: CardTransactionAccount) {
   const [isOpen, setIsOpen] = useState(false)
+  const [accountPayableId, setAccountPayableId] = useState<string>('')
 
   const data = transactions || accountsPayable
 
-  const handleMarkAsPaid = useCallback(() => {
+  const handleMarkAsPaid = useCallback(async () => {
     setIsOpen((prevState) => !prevState)
-    console.log('PAY')
-  }, [])
+
+    await apiMarkAccountPayableAsPaid({ accountPayableId })
+  }, [accountPayableId])
 
   return (
     <>
@@ -87,7 +90,11 @@ export function CardTransactionAccount({
                         <Switch
                           className="data-[state=unchecked]:bg-rose-500"
                           checked={isAccountPayable && item.isPaid}
-                          onCheckedChange={setIsOpen}
+                          disabled={isAccountPayable && item.isPaid}
+                          onCheckedChange={() => {
+                            setIsOpen(true)
+                            setAccountPayableId(item._id)
+                          }}
                         />
                       )}
                     </CardHeader>

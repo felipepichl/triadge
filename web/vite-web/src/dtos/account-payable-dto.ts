@@ -47,5 +47,5 @@ export type UnfixedAccountPayableDTO = {
 }
 
 export type MarkAccountPayableAsPaidDTO = {
-  accoutPayableId: string
+  accountPayableId: string
 }
