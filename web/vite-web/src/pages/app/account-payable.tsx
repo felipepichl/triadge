@@ -72,12 +72,12 @@ export function AccountPayable() {
 
       <Separator className="mb-4 mt-1" />
 
-      {/* <div className="flex flex-col lg:flex-row">
+      <div className="flex flex-col lg:flex-row">
         <ListAccountsPayable type="unfixed" title="Gastos Variáveis" />
         <div className="flex-1">
           <LineChartFinancialCategory type="unfixedAccountPayable" />
         </div>
-      </div> */}
+      </div>
     </>
   )
 }

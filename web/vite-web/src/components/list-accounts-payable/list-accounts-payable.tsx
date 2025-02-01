@@ -13,13 +13,31 @@ type ListAccountsPayableProps = {
 }
 
 export function ListAccountsPayable({ type, title }: ListAccountsPayableProps) {
-  const { fixedAccountsPayable, unfixedAccountsPayable } = useAccountPayable()
+  const {
+    fixedAccountsPayable,
+    unfixedAccountsPayable,
+    listAllFixedAccountsPayableByMonth,
+    listAllUnfixedAccountsPayableByMonth,
+  } = useAccountPayable()
 
-  const handleMonthSelect = useCallback(async (monthNumber: string) => {
-    // await fetchListByMonth(Number(monthNumber))
+  const handleMonthSelect = useCallback(
+    async (monthNumber: string) => {
+      const apiMap = {
+        fixed: listAllFixedAccountsPayableByMonth,
+        unfixed: listAllUnfixedAccountsPayableByMonth,
+      }
 
-    console.log(monthNumber)
-  }, [])
+      const selectedApi = apiMap[type]
+      if (selectedApi) {
+        await selectedApi(monthNumber)
+      }
+    },
+    [
+      listAllFixedAccountsPayableByMonth,
+      listAllUnfixedAccountsPayableByMonth,
+      type,
+    ],
+  )
 
   return (
     <Card className="mb-4 flex h-[400px] w-full flex-col lg:mr-4 lg:w-[480px]">

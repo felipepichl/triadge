@@ -22,7 +22,9 @@ type AccountPayableContextData = {
   createAccountPayable(data: CreateAccountPayableDTO): Promise<void>
   createFixedAccountPayable(data: CreateAccountPayableDTO): Promise<void>
   fixedAccountsPayable: FixedAccountPayableDTO | undefined
+  listAllFixedAccountsPayableByMonth(month?: string): Promise<void>
   unfixedAccountsPayable: UnfixedAccountPayableDTO | undefined
+  listAllUnfixedAccountsPayableByMonth(month?: string): Promise<void>
   markAccountPayableAsPaid(data: MarkAccountPayableAsPaidDTO): Promise<void>
 }
 
@@ -83,27 +85,35 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
     [],
   )
 
-  const listAllFixedAccountsPayableByMonth = useCallback(async () => {
-    const today = new Date()
-    const currentMonth = today.getMonth() + 1
+  const listAllFixedAccountsPayableByMonth = useCallback(
+    async (month?: string) => {
+      const today = new Date()
+      const currentMonth = today.getMonth() + 1
+      const monthToFetch = month ? Number(month) : currentMonth
 
-    const response = await apiListAllFixedAccountsPayableByMonth({
-      month: currentMonth,
-    })
+      const response = await apiListAllFixedAccountsPayableByMonth({
+        month: monthToFetch,
+      })
 
-    setFixedAccountsPayable(response)
-  }, [])
+      setFixedAccountsPayable(response)
+    },
+    [],
+  )
 
-  const listAllUnfixedAccountsPayableByMonth = useCallback(async () => {
-    const today = new Date()
-    const currentMonth = today.getMonth() + 1
+  const listAllUnfixedAccountsPayableByMonth = useCallback(
+    async (month?: string) => {
+      const today = new Date()
+      const currentMonth = today.getMonth() + 1
+      const monthToFetch = month ? Number(month) : currentMonth
 
-    const response = await apiListAllUnfixedAccountsPayableByMonth({
-      month: currentMonth,
-    })
+      const response = await apiListAllUnfixedAccountsPayableByMonth({
+        month: monthToFetch,
+      })
 
-    setUnfixedAccountsPayable(response)
-  }, [])
+      setUnfixedAccountsPayable(response)
+    },
+    [],
+  )
 
   const markAccountPayableAsPaid = useCallback(
     async ({ accountPayableId }: MarkAccountPayableAsPaidDTO) => {
@@ -129,7 +139,9 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
         createAccountPayable,
         createFixedAccountPayable,
         fixedAccountsPayable,
+        listAllFixedAccountsPayableByMonth,
         unfixedAccountsPayable,
+        listAllUnfixedAccountsPayableByMonth,
         markAccountPayableAsPaid,
       }}
     >
