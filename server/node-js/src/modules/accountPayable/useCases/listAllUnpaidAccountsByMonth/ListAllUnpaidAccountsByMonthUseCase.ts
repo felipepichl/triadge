@@ -20,7 +20,7 @@ class ListAllUnpaidAccountsByMonthUseCase
 
   async execute({ userId, month }: IRequest): Promise<IResponse> {
     const unpaidAccountsPayable =
-      await this.accountsPayableRepository.listAllUnfixedAccountsByMonth(
+      await this.accountsPayableRepository.listAllUnpaidAccountsByMonth(
         userId,
         month,
       )
