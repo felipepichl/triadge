@@ -58,7 +58,7 @@ class AccountsPayableRepository implements IAccountsPayableRepository {
         isFixed,
         userId,
         financialCategoryId,
-        subcategoryId,
+        subcategoryId: subcategoryId || null,
       }),
     )
 
