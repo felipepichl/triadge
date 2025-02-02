@@ -50,6 +50,7 @@ export function PieChartTransactions() {
     const response = await apiListByMonth({ month: Number(monthNumber) })
 
     // console.log(JSON.stringify(response, null, 2))
+    // console.log(monthNumber)
 
     const { balance } = response
 
