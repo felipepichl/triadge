@@ -30,6 +30,8 @@ class CreateAccountPayableUseCase implements IUseCase<IRequest, void> {
     subcategoryId,
     installments = 1,
   }: IRequest): Promise<void> {
+    const initialDueDate = new Date(dueDate)
+
     if (installments <= 0) {
       throw new AppError(
         'The number of installments must be greater than zero.',
@@ -42,6 +44,10 @@ class CreateAccountPayableUseCase implements IUseCase<IRequest, void> {
     for (let i = 0; i < installments; i++) {
       const nextDueDate = new Date(dueDate)
       nextDueDate.setMonth(nextDueDate.getMonth() + i)
+
+      if (nextDueDate.getDate() !== initialDueDate.getDate()) {
+        nextDueDate.setDate(0)
+      }
 
       const accountPayable = AccountPayable.createAccountPayable({
         description: `${description}${installments > 1 ? ` ${i + 1}/${installments}` : ''}`,
