@@ -46,6 +46,19 @@ export type UnfixedAccountPayableDTO = {
   unfixedAccountsPayableTotalAmount?: number
 }
 
+export type UnpaidAccountPayableResponseDTO = {
+  unpaidAccountsPayable: {
+    _id: string
+    props: AccountPayableDetailDTO
+  }[]
+  unpaidAccountsPayableTotalAmount: number
+}
+
+export type UnpaidAccountPayableDTO = {
+  unpaidAccountsPayable: AccountPayableDetailDTO[]
+  unpaidAccountsPayableTotalAmount?: number
+}
+
 export type MarkAccountPayableAsPaidDTO = {
   accountPayableId: string
 }
