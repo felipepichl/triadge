@@ -8,7 +8,7 @@ type ListAllUnpaidAccountsPayableByMonthBody = {
   month: number
 }
 
-export async function apiListAllUnfixedAccountsPayableByMonth({
+export async function apiListAllUnpaidAccountsPayableByMonth({
   month,
 }: ListAllUnpaidAccountsPayableByMonthBody): Promise<UnpaidAccountPayableDTO> {
   const { data } = await api.get<UnpaidAccountPayableResponseDTO>(

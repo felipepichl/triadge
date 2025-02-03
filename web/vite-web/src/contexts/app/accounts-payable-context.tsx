@@ -10,12 +10,14 @@ import { apiCreateAccountPayable } from '@/api/account-payable/create-account-pa
 import { apiCreateFixedAccountPayable } from '@/api/account-payable/create-fixed-account-payable'
 import { apiListAllFixedAccountsPayableByMonth } from '@/api/account-payable/list-all-fixed-accounts-payable-by-month'
 import { apiListAllUnfixedAccountsPayableByMonth } from '@/api/account-payable/list-all-unfixed-accounts-payable-by-month'
+import { apiListAllUnpaidAccountsPayableByMonth } from '@/api/account-payable/list-all-unpaid-account-payable-by-month'
 import { apiMarkAccountPayableAsPaid } from '@/api/account-payable/mark-account-payable-as-paid'
 import {
   CreateAccountPayableDTO,
   FixedAccountPayableDTO,
   MarkAccountPayableAsPaidDTO,
   UnfixedAccountPayableDTO,
+  UnpaidAccountPayableDTO,
 } from '@/dtos/account-payable-dto'
 
 type AccountPayableContextData = {
@@ -25,6 +27,8 @@ type AccountPayableContextData = {
   listAllFixedAccountsPayableByMonth(month?: string): Promise<void>
   unfixedAccountsPayable: UnfixedAccountPayableDTO | undefined
   listAllUnfixedAccountsPayableByMonth(month?: string): Promise<void>
+  unpaidAccountsPayable: UnpaidAccountPayableDTO | undefined
+  listAllUnpaidAccountsPayableByMonth(month?: string): Promise<void>
   markAccountPayableAsPaid(data: MarkAccountPayableAsPaidDTO): Promise<void>
 }
 
@@ -39,6 +43,9 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
     useState<FixedAccountPayableDTO>()
   const [unfixedAccountsPayable, setUnfixedAccountsPayable] =
     useState<UnfixedAccountPayableDTO>()
+  const [unpaidAccountsPayable, setUnpaidAccountsPayable] =
+    useState<UnpaidAccountPayableDTO>()
+
   const [reload, setReload] = useState(false)
 
   const createAccountPayable = useCallback(
@@ -115,6 +122,21 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
     [],
   )
 
+  const listAllUnpaidAccountsPayableByMonth = useCallback(
+    async (month?: string) => {
+      const today = new Date()
+      const currentMonth = today.getMonth() + 1
+      const monthToFetch = month ? Number(month) : currentMonth
+
+      const response = await apiListAllUnpaidAccountsPayableByMonth({
+        month: monthToFetch,
+      })
+
+      setUnpaidAccountsPayable(response)
+    },
+    [],
+  )
+
   const markAccountPayableAsPaid = useCallback(
     async ({ accountPayableId }: MarkAccountPayableAsPaidDTO) => {
       await apiMarkAccountPayableAsPaid({ accountPayableId })
@@ -127,10 +149,12 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
   useEffect(() => {
     listAllFixedAccountsPayableByMonth()
     listAllUnfixedAccountsPayableByMonth()
+    listAllUnpaidAccountsPayableByMonth()
   }, [
     reload,
     listAllFixedAccountsPayableByMonth,
     listAllUnfixedAccountsPayableByMonth,
+    listAllUnpaidAccountsPayableByMonth,
   ])
 
   return (
@@ -142,6 +166,8 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
         listAllFixedAccountsPayableByMonth,
         unfixedAccountsPayable,
         listAllUnfixedAccountsPayableByMonth,
+        unpaidAccountsPayable,
+        listAllUnpaidAccountsPayableByMonth,
         markAccountPayableAsPaid,
       }}
     >
