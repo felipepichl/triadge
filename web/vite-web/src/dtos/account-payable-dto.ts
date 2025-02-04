@@ -59,6 +59,19 @@ export type UnpaidAccountPayableDTO = {
   unpaidAccountsPayableTotalAmount?: number
 }
 
+export type PaidAccountPayableResponseDTO = {
+  paidAccountsPayable: {
+    _id: string
+    props: AccountPayableDetailDTO
+  }[]
+  paidAccountsPayableTotalAmount: number
+}
+
+export type PaidAccountPayableDTO = {
+  paidAccountsPayable: AccountPayableDetailDTO[]
+  paidAccountsPayableTotalAmount?: number
+}
+
 export type MarkAccountPayableAsPaidDTO = {
   accountPayableId: string
 }
