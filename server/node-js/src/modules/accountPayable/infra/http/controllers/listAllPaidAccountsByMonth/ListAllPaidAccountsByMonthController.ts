@@ -4,12 +4,12 @@ import { container } from 'tsyringe'
 
 class ListAllPaidAccountsByMonthController {
   async handle(request: Request, response: Response) {
-    const { month } = request.params
+    const { month } = request.query
     const { id: userId } = request.user
 
     const useCase = container.resolve(ListAllPaidAccountsByMonthUseCase)
 
-    const result = useCase.execute({
+    const result = await useCase.execute({
       userId,
       month: Number(month),
     })
