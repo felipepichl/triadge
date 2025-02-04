@@ -18,6 +18,7 @@ export function AccountPayable() {
     fixedAccountsPayable,
     unfixedAccountsPayable,
     unpaidAccountsPayable,
+    paidAccountsPayable,
   } = useAccountPayable()
 
   useEffect(() => {
@@ -54,12 +55,19 @@ export function AccountPayable() {
         description: 'Total Pago no Mês',
         icon: DollarSign,
         iconColor: '#fff',
-        value: 'R$ 1.000,00',
+        value: priceFormatter.format(
+          paidAccountsPayable?.paidAccountsPayableTotalAmount ?? 0,
+        ),
       },
     ]
 
     setSummaries(summariesResume)
-  }, [fixedAccountsPayable, unfixedAccountsPayable, unpaidAccountsPayable])
+  }, [
+    fixedAccountsPayable,
+    unfixedAccountsPayable,
+    unpaidAccountsPayable,
+    paidAccountsPayable,
+  ])
   return (
     <>
       <Helmet title="Contas a Pagar" />
