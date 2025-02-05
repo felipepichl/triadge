@@ -49,9 +49,6 @@ export function PieChartTransactions() {
   const fetchListByMonth = useCallback(async (monthNumber: number) => {
     const response = await apiListByMonth({ month: Number(monthNumber) })
 
-    // console.log(JSON.stringify(response, null, 2))
-    // console.log(monthNumber)
-
     const { balance } = response
 
     setChartData([
@@ -66,6 +63,10 @@ export function PieChartTransactions() {
         fill: THEME.COLORS.OUTCOME,
       },
     ])
+
+    if (response.transactions.length === 0) {
+      setChartData([])
+    }
   }, [])
 
   const handleMonthSelect = useCallback(
@@ -91,7 +92,7 @@ export function PieChartTransactions() {
         <div className="mt-4 w-full">
           <MonthSelect onMonthSelect={handleMonthSelect} />
         </div>
-        {chartData[0].value === 0 ? (
+        {chartData.length === 0 ? (
           <NotFound />
         ) : (
           <ChartContainer
