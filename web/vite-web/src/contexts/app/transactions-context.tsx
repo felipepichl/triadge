@@ -136,7 +136,7 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
     }
 
     loadTransaction()
-  }, [user])
+  }, [user, reload])
 
   useEffect(() => {
     loadTransactionByDateRange()
