@@ -1,9 +1,10 @@
 import { DollarSign, HandCoins, Pin, TrendingUpDown } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
 import { LineChartFinancialCategory } from '@/components/charts/line-chart-financial-category/line-chart-financial-category'
 import { ListAccountsPayable } from '@/components/list-accounts-payable/list-accounts-payable'
+import { MonthSelect } from '@/components/month-select/month-select'
 import { NewTransactionAccount } from '@/components/new-transaction-account/new-tranaction-account'
 import { SummaryProps } from '@/components/summary/summary'
 import { SummaryCarousel } from '@/components/summary/summary-carousel'
@@ -20,6 +21,10 @@ export function AccountPayable() {
     unpaidAccountsPayable,
     paidAccountsPayable,
   } = useAccountPayable()
+
+  const handleMonthSelect = useCallback(async (monthNumber: string) => {
+    console.log(monthNumber)
+  }, [])
 
   useEffect(() => {
     const summariesResume: SummaryProps[] = [
@@ -71,7 +76,17 @@ export function AccountPayable() {
   return (
     <>
       <Helmet title="Contas a Pagar" />
-      <NewTransactionAccount title="Nova Conta a Pagar" type="accountPayable" />
+      <div className="flex flex-row items-center justify-end max-md:flex-col ">
+        <div className="mr-3 w-48 pb-3 max-md:w-full">
+          <MonthSelect onMonthSelect={handleMonthSelect} />
+        </div>
+        <div className="max-md:w-full">
+          <NewTransactionAccount
+            title="Nova Conta a Pagar"
+            type="accountPayable"
+          />
+        </div>
+      </div>
 
       <SummaryCarousel summaries={summaries} />
 

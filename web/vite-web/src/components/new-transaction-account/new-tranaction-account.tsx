@@ -202,7 +202,7 @@ export function NewTransactionAccount({
         <DrawerTrigger asChild>
           <Button
             variant="outline"
-            className="w-48 min-w-48 rounded-sm bg-green-500 text-slate-100 hover:bg-green-700 hover:text-slate-100"
+            className="w-48 min-w-48 rounded-sm bg-green-500 text-slate-100 hover:bg-green-700 hover:text-slate-100 max-md:w-full"
           >
             {title}
           </Button>
