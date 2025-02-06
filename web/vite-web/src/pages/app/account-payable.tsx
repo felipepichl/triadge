@@ -20,11 +20,37 @@ export function AccountPayable() {
     unfixedAccountsPayable,
     unpaidAccountsPayable,
     paidAccountsPayable,
+    listAllFixedAccountsPayableByMonth,
+    listAllUnfixedAccountsPayableByMonth,
+    listAllUnpaidAccountsPayableByMonth,
+    listAllPaidAccountsPayableByMonth,
   } = useAccountPayable()
 
-  const handleMonthSelect = useCallback(async (monthNumber: string) => {
-    console.log(monthNumber)
-  }, [])
+  const handleMonthSelect = useCallback(
+    async (monthNumber: string) => {
+      listAllFixedAccountsPayableByMonth(monthNumber)
+      listAllUnfixedAccountsPayableByMonth(monthNumber)
+      listAllUnpaidAccountsPayableByMonth(monthNumber)
+      listAllPaidAccountsPayableByMonth(monthNumber)
+
+      /**
+      Move to Context
+      await apiListTotalSpentToFixedAccountPayable({
+        month: Number(monthNumber),
+      })
+
+      await apiListTotalSpentToUnfixedAccountPayable({
+        month: Number(monthNumber),
+      })
+       */
+    },
+    [
+      listAllFixedAccountsPayableByMonth,
+      listAllUnfixedAccountsPayableByMonth,
+      listAllUnpaidAccountsPayableByMonth,
+      listAllPaidAccountsPayableByMonth,
+    ],
+  )
 
   useEffect(() => {
     const summariesResume: SummaryProps[] = [
