@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { apiCreateFinancialCategory } from '@/api/create-financial-category'
-import { apiCreateSubcategory } from '@/api/create-subcategory'
+import { apiCreateFinancialCategory } from '@/api/financial-category/create-financial-category'
+import { apiCreateSubcategory } from '@/api/financial-category/create-subcategory'
 import { Button } from '@/components/ui/button'
 import {
   Form,

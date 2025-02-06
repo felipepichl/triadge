@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 
-import { apiListAllFinancialCategoryByUser } from '@/api/list-all-financial-category-by-user'
+import { apiListAllFinancialCategoryByUser } from '@/api/financial-category/list-all-financial-category-by-user'
 import { FinancialCategoryDetailDTO } from '@/dtos/financial-category-dto'
 import { useSubcategory } from '@/hooks/use-subcategory'
 

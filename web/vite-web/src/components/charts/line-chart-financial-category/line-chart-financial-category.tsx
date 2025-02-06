@@ -10,9 +10,9 @@ import {
   YAxis,
 } from 'recharts'
 
+import { apiListTotalSpentByFinancialCategory } from '@/api/financial-category/list-total-spent-by-financial-category'
 import { apiListTotalSpentToFixedAccountPayable } from '@/api/financial-category/list-total-spent-to-fixed-account-payable'
 import { apiListTotalSpentToUnfixedAccountPayable } from '@/api/financial-category/list-total-spent-to-unfixed-account-payable'
-import { apiListTotalSpentByFinancialCategory } from '@/api/list-total-spent-by-financial-category'
 import { MonthSelect } from '@/components/month-select/month-select'
 import { NotFound } from '@/components/not-found/not-found'
 import {

@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useCallback, useState } from 'react'
 
-import { apiListAllSubcategoryByCategory } from '@/api/list-all-subcategory-by-category'
+import { apiListAllSubcategoryByCategory } from '@/api/financial-category/list-all-subcategory-by-category'
 import { SubcategoryDetailDTO } from '@/dtos/subcategory-dto'
 
 type SubcategoryContextData = {

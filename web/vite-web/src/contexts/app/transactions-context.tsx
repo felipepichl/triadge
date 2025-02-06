@@ -7,10 +7,10 @@ import {
   useState,
 } from 'react'
 
-import { apiCreateTransaction } from '@/api/create-transaction'
-import { apiListAllTransaction } from '@/api/list-all-transaction'
-import { apiListByDateRange } from '@/api/list-by-date-range'
-import { apiListByType } from '@/api/list-by-type'
+import { apiCreateTransaction } from '@/api/transactions/create-transaction'
+import { apiListAllTransaction } from '@/api/transactions/list-all-transaction'
+import { apiListByDateRange } from '@/api/transactions/list-by-date-range'
+import { apiListByType } from '@/api/transactions/list-by-type'
 import { TransactionDTO } from '@/dtos/transaction-dto'
 import { useAuth } from '@/hooks/use-auth'
 
