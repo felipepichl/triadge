@@ -4,7 +4,7 @@ import { CalendarIcon } from 'lucide-react'
 import { ChangeEvent, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 
-import { NewFinancialCategoryOrSubcategory } from '@/components/new-financial-category-or-subcategory/new-financial-category-or-subcategory'
+import { NewFinancialCategoryOrSubcategory } from '@/components/new-financial-category-or-subcategory'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {

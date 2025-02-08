@@ -3,8 +3,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { Pie, PieChart } from 'recharts'
 
 import { apiListByMonth } from '@/api/transactions/list-by-month'
-import { MonthSelect } from '@/components/month-select/month-select'
-import { NotFound } from '@/components/not-found/not-found'
+import { MonthSelect } from '@/components/month-select'
+import { NotFound } from '@/components/not-found'
 import {
   Card,
   CardContent,

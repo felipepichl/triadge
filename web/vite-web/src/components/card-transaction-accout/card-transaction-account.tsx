@@ -7,7 +7,7 @@ import { TransactionDetailDTO } from '@/dtos/transaction-dto'
 import { useAccountPayable } from '@/hooks/use-account-payable'
 import { priceFormatter } from '@/util/formatter'
 
-import { NotFound } from '../not-found/not-found'
+import { NotFound } from '../not-found'
 import {
   AlertDialog,
   AlertDialogAction,

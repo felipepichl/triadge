@@ -2,8 +2,8 @@ import { useCallback } from 'react'
 import { Helmet } from 'react-helmet-async'
 
 import { apiGoogleAnalyticsGetViews } from '@/api/google/get-views'
-import { LineChartFinancialCategory } from '@/components/charts/line-chart-financial-category/line-chart-financial-category'
-import { PieChartTransactions } from '@/components/charts/pie-chart/pie-chart'
+import { LineChartFinancialCategory } from '@/components/charts/line-chart-financial-category'
+import { PieChartTransactions } from '@/components/charts/pie-chart'
 import { CardTitle } from '@/components/ui/card'
 import { useAuth } from '@/hooks/use-auth'
 

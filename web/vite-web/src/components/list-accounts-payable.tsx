@@ -2,10 +2,10 @@ import { useCallback } from 'react'
 
 import { useAccountPayable } from '@/hooks/use-account-payable'
 
-import { CardTransactionAccount } from '../card-transaction-accout/card-transaction-account'
-import { MonthSelect } from '../month-select/month-select'
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
-import { Separator } from '../ui/separator'
+import { CardTransactionAccount } from './card-transaction-accout/card-transaction-account'
+import { MonthSelect } from './month-select'
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
+import { Separator } from './ui/separator'
 
 type ListAccountsPayableProps = {
   type: 'fixed' | 'unfixed'

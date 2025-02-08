@@ -2,7 +2,7 @@ import Container from 'react-lottie'
 
 import notFoundAnimation from '@/assets/not-found-new.json'
 
-import { CardDescription } from '../ui/card'
+import { CardDescription } from './ui/card'
 
 export function NotFound() {
   return (

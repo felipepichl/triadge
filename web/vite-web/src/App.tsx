@@ -7,7 +7,7 @@ import { Toaster } from 'sonner'
 import { ThemeProvider } from './components/theme/theme-provider'
 import { SubcategoryProvider } from './contexts/app/subcategory-context'
 import { TransactionsProvider } from './contexts/app/transactions-context'
-import { AuthProvider } from './contexts/auth-context'
+import { AuthProvider } from './contexts/auth/auth-context'
 import { router } from './routes'
 
 export default function App() {

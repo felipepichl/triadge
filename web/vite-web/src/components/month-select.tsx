@@ -7,7 +7,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../ui/select'
+} from './ui/select'
 
 type MonthSelectProps = {
   onMonthSelect: (monthNumber: string) => void
