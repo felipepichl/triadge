@@ -103,7 +103,7 @@ export function AccountPayable() {
     <>
       <Helmet title="Contas a Pagar" />
       <div className="flex flex-row items-center justify-end max-md:flex-col ">
-        <div className="mr-3 w-48 pb-3 max-md:w-full">
+        <div className="mr-3 w-48 pb-3 max-md:mr-0 max-md:w-full">
           <MonthSelect onMonthSelect={handleMonthSelect} />
         </div>
         <div className="max-md:w-full">
@@ -116,7 +116,7 @@ export function AccountPayable() {
 
       <SummaryCarousel summaries={summaries} />
 
-      <Separator className="mb-4 mt-4" />
+      <Separator className="mb-4 mt-4 max-md:mt-0" />
 
       <div className="flex flex-col lg:flex-row">
         <ListAccountsPayable type="fixed" title="Gastos Fixos" />
