@@ -1,3 +1,5 @@
+import clsx from 'clsx'
+
 import {
   Carousel,
   CarouselContent,
@@ -8,16 +10,23 @@ import {
 import { Summary, SummaryProps } from './summary'
 
 type SummaryCarouselProps = {
-  summaries: SummaryProps[] | undefined
+  summaries: SummaryProps[] | []
 }
 
 export function SummaryCarousel({ summaries }: SummaryCarouselProps) {
+  const xlBasisClasses: { [key: number]: string } = {
+    3: 'xl:basis-1/3',
+    4: 'xl:basis-1/4',
+  }
+
+  const xlBasisClass = xlBasisClasses[summaries?.length] || 'xl:basis-1/4'
   return (
     <Carousel>
       <CarouselContent>
         {summaries?.map((summary) => (
           <CarouselItem
-            className={`md:basis-1/2 lg:basis-1/3 xl:basis-1/${summaries.length}`}
+            // className={`md:basis-1/2 lg:basis-1/3 xl:basis-1/${summaries?.length}`}
+            className={clsx('md:basis-1/2 lg:basis-1/3', xlBasisClass)}
             key={summary.description}
           >
             <Summary
