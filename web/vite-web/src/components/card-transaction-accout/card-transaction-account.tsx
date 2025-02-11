@@ -102,7 +102,12 @@ export function CardTransactionAccount({
                     </CardHeader>
                     <CardContent>
                       <CardTitle
-                        className={`font-bold ${isTransaction ? (item.type === 'outcome' ? 'text-red-500' : 'text-green-500') : ''} ${isAccountPayable && !item.isPaid ? 'text-red-500' : 'text-green-500'} `}
+                        className={`font-bold ${
+                          (isTransaction && item.type === 'outcome') ||
+                          (isAccountPayable && !item.isPaid)
+                            ? 'text-red-500'
+                            : 'text-green-500'
+                        }`}
                       >
                         {priceFormatter.format(item.amount)}
                       </CardTitle>
