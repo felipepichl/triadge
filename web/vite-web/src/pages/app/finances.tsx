@@ -40,7 +40,7 @@ export function Finances() {
     loadTransactionByDateRangeAndType,
   } = useTransaction()
 
-  const [summaries, setSummaries] = useState<SummaryProps[]>()
+  const [summaries, setSummaries] = useState<SummaryProps[]>([])
   const [selectedType, setSelectedType] = useState<string | undefined>(
     undefined,
   )

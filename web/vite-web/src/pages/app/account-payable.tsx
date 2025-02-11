@@ -13,7 +13,7 @@ import { useAccountPayable } from '@/hooks/use-account-payable'
 import { priceFormatter } from '@/util/formatter'
 
 export function AccountPayable() {
-  const [summaries, setSummaries] = useState<SummaryProps[]>()
+  const [summaries, setSummaries] = useState<SummaryProps[]>([])
 
   const {
     fixedAccountsPayable,

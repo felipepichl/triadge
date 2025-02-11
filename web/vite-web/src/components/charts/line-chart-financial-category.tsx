@@ -29,38 +29,18 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart'
 import { Separator } from '@/components/ui/separator'
+import { priceFormatter } from '@/util/formatter'
 
 const chartConfig = {
-  visitors: {
-    // label: 'Visitors',
+  financialCategory: {
     color: 'hsl(var(--chart-2))',
-  },
-  chrome: {
-    label: 'Chrome',
-    color: 'hsl(var(--chart-1))',
-  },
-  safari: {
-    label: 'Safari',
-    color: 'hsl(var(--chart-2))',
-  },
-  firefox: {
-    label: 'Firefox',
-    color: 'hsl(var(--chart-3))',
-  },
-  edge: {
-    label: 'Edge',
-    color: 'hsl(var(--chart-4))',
-  },
-  other: {
-    label: 'Other',
-    color: 'hsl(var(--chart-5))',
   },
 } satisfies ChartConfig
 
 const descriptions = {
-  fixedAccountPayable: 'Gastos fixos por categorias de saída',
-  unfixedAccountPayable: 'Gastos variáveis por categorias de saída',
-  transaction: 'Transação por categorias em saídas',
+  fixedAccountPayable: 'Gastos fixos de saída',
+  unfixedAccountPayable: 'Gastos variáveis de saída',
+  transaction: 'Transação de saídas',
 }
 type LineChartFinancialCategoryProps = {
   type: 'transaction' | 'fixedAccountPayable' | 'unfixedAccountPayable'
@@ -157,10 +137,10 @@ export function LineChartFinancialCategory({
               accessibilityLayer
               data={chartData}
               margin={{
-                top: 48,
-                left: 48,
-                right: 48,
-                bottom: 48,
+                top: 46,
+                left: 52,
+                right: 52,
+                bottom: 46,
               }}
             >
               <CartesianGrid vertical={true} />
@@ -170,26 +150,31 @@ export function LineChartFinancialCategory({
                   <ChartTooltipContent
                     indicator="line"
                     nameKey="value"
-                    hideLabel
+                    formatter={(value) => {
+                      const numericValue = Number(value)
+                      return isNaN(numericValue)
+                        ? '-'
+                        : priceFormatter.format(numericValue)
+                    }}
                   />
                 }
               />
               <Line
                 dataKey="value"
                 type="natural"
-                stroke="var(--color-visitors)"
+                stroke="var(--color-financialCategory)"
                 strokeWidth={2}
                 dot={{
-                  fill: 'var(--color-visitors)',
+                  fill: 'var(--color-financialCategory)',
                 }}
                 activeDot={{
-                  r: 6,
+                  r: 3,
                 }}
               >
                 <LabelList
-                  position="top"
-                  offset={12}
-                  className="fill-foreground"
+                  position="insideBottomLeft"
+                  angle={-20}
+                  className="fill-foreground p-2"
                   fontSize={12}
                   dataKey="financialCategory"
                 />
@@ -197,24 +182,41 @@ export function LineChartFinancialCategory({
             </LineChart>
           </ChartContainer>
         ) : (
-          <ChartContainer className="min-h-screen w-full" config={chartConfig}>
+          <ChartContainer
+            className="w-full"
+            config={chartConfig}
+            style={{
+              height: Math.min(Math.max(chartData.length * 48 + 32, 130), 600),
+            }}
+          >
             <BarChart
               accessibilityLayer
               data={chartData}
               layout="vertical"
-              margin={{
-                right: 16,
-                top: 16,
-              }}
+              margin={{ top: 18 }}
             >
+              <CartesianGrid horizontal={false} />
+
+              <ChartTooltip
+                cursor={false}
+                content={
+                  <ChartTooltipContent
+                    indicator="line"
+                    nameKey="value"
+                    hideLabel
+                    formatter={(value) => {
+                      const numericValue = Number(value)
+                      return isNaN(numericValue)
+                        ? '-'
+                        : priceFormatter.format(numericValue)
+                    }}
+                  />
+                }
+              />
+
               <YAxis dataKey="value" type="category" hide />
               <XAxis dataKey="value" type="number" hide />
-              {/* 
-                <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent indicator="line" />}
-                  /> 
-              */}
+
               <Bar
                 dataKey="value"
                 layout="vertical"
@@ -224,9 +226,9 @@ export function LineChartFinancialCategory({
                 <LabelList
                   dataKey="financialCategory"
                   position="insideLeft"
-                  offset={8}
-                  fill="white"
+                  className="fill-foreground"
                   fontSize={12}
+                  width={window.innerWidth}
                 />
               </Bar>
             </BarChart>
