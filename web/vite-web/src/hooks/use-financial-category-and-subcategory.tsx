@@ -1,33 +1,18 @@
-import { useCallback, useState } from 'react'
+import { useContext } from 'react'
 
-import { apiListAllFinancialCategoryByUser } from '@/api/financial-category/list-all-financial-category-by-user'
-import { FinancialCategoryDetailDTO } from '@/dtos/financial-category-dto'
-import { useSubcategory } from '@/hooks/use-subcategory'
+import {
+  FinancialCategoryAndSubcategoriesContext,
+  FinancialCaterogyAndSubcategoryContextData,
+} from '@/contexts/app/financial-category-and-subcategory-context'
 
-export function useFinancialCategoryAndSubcategory() {
-  const [financialCategories, setFinancialCategories] = useState<
-    FinancialCategoryDetailDTO[]
-  >([])
+export function useFinancialCategoryAndSubcategory(): FinancialCaterogyAndSubcategoryContextData {
+  const context = useContext(FinancialCategoryAndSubcategoriesContext)
 
-  const { subcategories, loadSubcategoryByCategory } = useSubcategory()
-
-  const handleAllFinancialCategoryByUser = useCallback(async () => {
-    const response = await apiListAllFinancialCategoryByUser()
-
-    setFinancialCategories(response)
-  }, [])
-
-  const handleAllSubcategoryByCategory = useCallback(
-    async (parentCategoryId: string) => {
-      await loadSubcategoryByCategory(parentCategoryId)
-    },
-    [loadSubcategoryByCategory],
-  )
-
-  return {
-    financialCategories,
-    subcategories,
-    handleAllFinancialCategoryByUser,
-    handleAllSubcategoryByCategory,
+  if (!context) {
+    throw new Error(
+      'useFinancialCategoryAndSubcategory must be used within an SubcategoryProvider',
+    )
   }
+
+  return context
 }

@@ -5,7 +5,7 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { useAccountPayable } from '@/hooks/use-account-payable'
-import { useSubcategory } from '@/hooks/use-subcategory'
+import { useFinancialCategoryAndSubcategory } from '@/hooks/use-financial-category-and-subcategory'
 import { useTransaction } from '@/hooks/use-transaction'
 
 import { Button } from '../ui/button'
@@ -49,7 +49,7 @@ export function NewTransactionAccount({
     undefined,
   )
 
-  const { subcategories } = useSubcategory()
+  const { subcategories } = useFinancialCategoryAndSubcategory()
   const { createTransaction } = useTransaction()
   const { createAccountPayable, createFixedAccountPayable } =
     useAccountPayable()

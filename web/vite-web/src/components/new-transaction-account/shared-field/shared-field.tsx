@@ -1,7 +1,7 @@
 import { Popover } from '@radix-ui/react-popover'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useCallback, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 
 import { NewFinancialCategoryOrSubcategory } from '@/components/new-financial-category-or-subcategory'
@@ -27,14 +27,25 @@ export function SharedField() {
   const { formattedValue, handleMaskChange } = useMonetaryMask()
   const {
     financialCategories,
+    listAllFinancialCategoriesByUser,
     subcategories,
-    handleAllFinancialCategoryByUser,
-    handleAllSubcategoryByCategory,
+    listSubcategoryByCategory,
   } = useFinancialCategoryAndSubcategory()
 
   const form = useFormContext()
   const { description, amount, date, financialCategoryId, subcategoryId } =
     getFieldPaths()
+
+  const handleAllFinancialCategoryByUser = useCallback(async () => {
+    await listAllFinancialCategoriesByUser()
+  }, [listAllFinancialCategoriesByUser])
+
+  const handleAllSubcategoryByCategory = useCallback(
+    async (parentCategoryId: string) => {
+      await listSubcategoryByCategory(parentCategoryId)
+    },
+    [listSubcategoryByCategory],
+  )
 
   return (
     <>
