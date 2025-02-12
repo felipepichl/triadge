@@ -24,3 +24,8 @@ export type ListTotalSpentByFinancialCategoryResponseDTO = {
     totalSpent: number
   }[]
 }
+
+export type TotalSpentDTO = {
+  financialCategory: string
+  value: number
+}

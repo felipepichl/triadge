@@ -2,7 +2,11 @@ import { createContext, ReactNode, useCallback, useState } from 'react'
 
 import { apiListAllFinancialCategoryByUser } from '@/api/financial-category/list-all-financial-category-by-user'
 import { apiListAllSubcategoryByCategory } from '@/api/financial-category/list-all-subcategory-by-category'
-import { FinancialCategoryDetailDTO } from '@/dtos/financial-category-dto'
+import { apiListTotalSpentByFinancialCategory } from '@/api/financial-category/list-total-spent-by-financial-category'
+import {
+  FinancialCategoryDetailDTO,
+  TotalSpentDTO,
+} from '@/dtos/financial-category-dto'
 import { SubcategoryDetailDTO } from '@/dtos/subcategory-dto'
 
 type FinancialCaterogyAndSubcategoryContextData = {
@@ -10,6 +14,8 @@ type FinancialCaterogyAndSubcategoryContextData = {
   listAllFinancialCategoriesByUser(): Promise<void>
   subcategories: SubcategoryDetailDTO[]
   listSubcategoryByCategory(parentCategoryId: string): Promise<void>
+  totalSpent: TotalSpentDTO[]
+  listTotalSpentByFinancialCategory(month: number): Promise<void>
 }
 
 type FinancialCategoryAndSubcategoryProviderProps = {
@@ -27,6 +33,7 @@ function FinancialCategoryAndSubcategoryProvider({
     FinancialCategoryDetailDTO[]
   >([])
   const [subcategories, setSubcategories] = useState<SubcategoryDetailDTO[]>([])
+  const [totalSpent, setTotalSpent] = useState<TotalSpentDTO[]>([])
 
   const listAllFinancialCategoriesByUser = useCallback(async () => {
     const response = await apiListAllFinancialCategoryByUser()
@@ -45,6 +52,24 @@ function FinancialCategoryAndSubcategoryProvider({
     [],
   )
 
+  const listTotalSpentByFinancialCategory = useCallback(
+    async (month: number) => {
+      const { totalExpensesByFinancialCategory } =
+        await apiListTotalSpentByFinancialCategory({
+          month,
+          type: 'outcome',
+        })
+
+      const result = totalExpensesByFinancialCategory.map((item) => ({
+        financialCategory: item.financialCategory.props.description,
+        value: item.totalSpent,
+      }))
+
+      setTotalSpent(result)
+    },
+    [],
+  )
+
   return (
     <FinancialCategoryAndSubcategoriesContext.Provider
       value={{
@@ -52,6 +77,8 @@ function FinancialCategoryAndSubcategoryProvider({
         listAllFinancialCategoriesByUser,
         subcategories,
         listSubcategoryByCategory,
+        totalSpent,
+        listTotalSpentByFinancialCategory,
       }}
     >
       {children}
