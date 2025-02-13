@@ -5,6 +5,7 @@ import { apiListAllSubcategoryByCategory } from '@/api/financial-category/list-a
 import { apiListTotalSpentByFinancialCategory } from '@/api/financial-category/list-total-spent-by-financial-category'
 import {
   FinancialCategoryDetailDTO,
+  ListTotalSpentByFinancialCategoryResponseDTO,
   TotalSpentDTO,
 } from '@/dtos/financial-category-dto'
 import { SubcategoryDetailDTO } from '@/dtos/subcategory-dto'
@@ -35,6 +36,21 @@ function FinancialCategoryAndSubcategoryProvider({
   const [subcategories, setSubcategories] = useState<SubcategoryDetailDTO[]>([])
   const [totalSpent, setTotalSpent] = useState<TotalSpentDTO[]>([])
 
+  function totalSpentMap(
+    totalSpent: ListTotalSpentByFinancialCategoryResponseDTO,
+  ): TotalSpentDTO[] {
+    const { totalExpensesByFinancialCategory } = totalSpent
+
+    const result = totalExpensesByFinancialCategory.map(
+      ({ financialCategory, totalSpent }) => ({
+        financialCategory: financialCategory.props.description,
+        value: totalSpent,
+      }),
+    )
+
+    return result
+  }
+
   const listAllFinancialCategoriesByUser = useCallback(async () => {
     const response = await apiListAllFinancialCategoryByUser()
 
@@ -54,16 +70,12 @@ function FinancialCategoryAndSubcategoryProvider({
 
   const listTotalSpentByFinancialCategory = useCallback(
     async (month: number) => {
-      const { totalExpensesByFinancialCategory } =
-        await apiListTotalSpentByFinancialCategory({
-          month,
-          type: 'outcome',
-        })
+      const totalSpent = await apiListTotalSpentByFinancialCategory({
+        month,
+        type: 'outcome',
+      })
 
-      const result = totalExpensesByFinancialCategory.map((item) => ({
-        financialCategory: item.financialCategory.props.description,
-        value: item.totalSpent,
-      }))
+      const result = totalSpentMap(totalSpent)
 
       setTotalSpent(result)
     },
