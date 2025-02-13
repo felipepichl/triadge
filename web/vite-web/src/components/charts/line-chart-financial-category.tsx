@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   Bar,
   BarChart,
@@ -10,9 +10,6 @@ import {
   YAxis,
 } from 'recharts'
 
-import { apiListTotalSpentByFinancialCategory } from '@/api/financial-category/list-total-spent-by-financial-category'
-import { apiListTotalSpentToFixedAccountPayable } from '@/api/financial-category/list-total-spent-to-fixed-account-payable'
-import { apiListTotalSpentToUnfixedAccountPayable } from '@/api/financial-category/list-total-spent-to-unfixed-account-payable'
 import { MonthSelect } from '@/components/month-select'
 import { NotFound } from '@/components/not-found'
 import {
@@ -29,6 +26,7 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart'
 import { Separator } from '@/components/ui/separator'
+import { useFinancialCategoryAndSubcategory } from '@/hooks/use-financial-category-and-subcategory'
 import { priceFormatter } from '@/util/formatter'
 
 const chartConfig = {
@@ -50,47 +48,41 @@ export function LineChartFinancialCategory({
   type,
 }: LineChartFinancialCategoryProps) {
   const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 690)
-
   const [chartData, setChartData] = useState<
     { financialCategory: string; value: number }[]
   >([])
 
-  const listTotalSpent = useCallback(
-    async (monthNumber: number) => {
-      switch (type) {
-        case 'transaction':
-          return await apiListTotalSpentByFinancialCategory({
-            type: 'outcome',
-            month: Number(monthNumber),
-          })
-        case 'fixedAccountPayable':
-          return await apiListTotalSpentToFixedAccountPayable({
-            month: Number(monthNumber),
-          })
-        case 'unfixedAccountPayable':
-          return await apiListTotalSpentToUnfixedAccountPayable({
-            month: Number(monthNumber),
-          })
-        default:
-          throw new Error('Tipo inválido')
-      }
-    },
-    [type],
-  )
+  const {
+    totalSpentByFinancialCategory,
+    listTotalSpentByFinancialCategory,
+    totalSpentToFixedAccount,
+    listTotalSpentToFixedAccountPayable,
+    totalSpentToUnfixedAccount,
+    listTotalSpentToUnfixedAccountPayable,
+  } = useFinancialCategoryAndSubcategory()
 
   const fetchTotalSpent = useCallback(
     async (monthNumber: number) => {
-      const { totalExpensesByFinancialCategory } =
-        await listTotalSpent(monthNumber)
+      const typeToFunctionMap = {
+        transaction: listTotalSpentByFinancialCategory,
+        fixedAccountPayable: listTotalSpentToFixedAccountPayable,
+        unfixedAccountPayable: listTotalSpentToUnfixedAccountPayable,
+      }
 
-      const updatedChartData = totalExpensesByFinancialCategory.map((item) => ({
-        financialCategory: item.financialCategory.props.description,
-        value: item.totalSpent,
-      }))
+      const fetchFunction = typeToFunctionMap[type]
 
-      setChartData(updatedChartData)
+      if (!fetchFunction) {
+        throw new Error('Tipo inválido')
+      }
+
+      await fetchFunction(monthNumber)
     },
-    [listTotalSpent],
+    [
+      type,
+      listTotalSpentByFinancialCategory,
+      listTotalSpentToFixedAccountPayable,
+      listTotalSpentToUnfixedAccountPayable,
+    ],
   )
 
   const handleMonthSelect = useCallback(
@@ -114,6 +106,21 @@ export function LineChartFinancialCategory({
       window.removeEventListener('resize', handleResize)
     }
   }, [fetchTotalSpent])
+
+  useEffect(() => {
+    const updatedChartData = {
+      transaction: totalSpentByFinancialCategory,
+      fixedAccountPayable: totalSpentToFixedAccount,
+      unfixedAccountPayable: totalSpentToUnfixedAccount,
+    }[type]
+
+    setChartData(updatedChartData.length > 0 ? [...updatedChartData] : [])
+  }, [
+    totalSpentByFinancialCategory,
+    totalSpentToFixedAccount,
+    totalSpentToUnfixedAccount,
+    type,
+  ])
 
   return (
     <Card className="mb-4 flex w-full flex-col lg:mr-2 lg:h-[400px]">

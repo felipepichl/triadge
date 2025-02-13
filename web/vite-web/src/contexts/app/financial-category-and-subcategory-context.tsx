@@ -17,9 +17,11 @@ type FinancialCaterogyAndSubcategoryContextData = {
   listAllFinancialCategoriesByUser(): Promise<void>
   subcategories: SubcategoryDetailDTO[]
   listSubcategoryByCategory(parentCategoryId: string): Promise<void>
-  totalSpent: TotalSpentDTO[]
+  totalSpentByFinancialCategory: TotalSpentDTO[]
   listTotalSpentByFinancialCategory(month: number): Promise<void>
+  totalSpentToFixedAccount: TotalSpentDTO[]
   listTotalSpentToFixedAccountPayable(month: number): Promise<void>
+  totalSpentToUnfixedAccount: TotalSpentDTO[]
   listTotalSpentToUnfixedAccountPayable(month: number): Promise<void>
 }
 
@@ -38,7 +40,14 @@ function FinancialCategoryAndSubcategoryProvider({
     FinancialCategoryDetailDTO[]
   >([])
   const [subcategories, setSubcategories] = useState<SubcategoryDetailDTO[]>([])
-  const [totalSpent, setTotalSpent] = useState<TotalSpentDTO[]>([])
+  const [totalSpentByFinancialCategory, setTotalSpentByFinancialCategory] =
+    useState<TotalSpentDTO[]>([])
+  const [totalSpentToFixedAccount, setTotalSpentToFixedAccount] = useState<
+    TotalSpentDTO[]
+  >([])
+  const [totalSpentToUnfixedAccount, setTotalSpentToUnfixedAccount] = useState<
+    TotalSpentDTO[]
+  >([])
 
   function totalSpentMap(
     totalSpent: ListTotalSpentByFinancialCategoryResponseDTO,
@@ -81,7 +90,7 @@ function FinancialCategoryAndSubcategoryProvider({
 
       const result = totalSpentMap(totalSpent)
 
-      setTotalSpent(result)
+      setTotalSpentByFinancialCategory(result)
     },
     [],
   )
@@ -94,7 +103,7 @@ function FinancialCategoryAndSubcategoryProvider({
 
       const result = totalSpentMap(totalSpent)
 
-      setTotalSpent(result)
+      setTotalSpentToFixedAccount(result)
     },
     [],
   )
@@ -107,7 +116,7 @@ function FinancialCategoryAndSubcategoryProvider({
 
       const result = totalSpentMap(totalSpent)
 
-      setTotalSpent(result)
+      setTotalSpentToUnfixedAccount(result)
     },
     [],
   )
@@ -119,9 +128,11 @@ function FinancialCategoryAndSubcategoryProvider({
         listAllFinancialCategoriesByUser,
         subcategories,
         listSubcategoryByCategory,
-        totalSpent,
+        totalSpentByFinancialCategory,
         listTotalSpentByFinancialCategory,
+        totalSpentToFixedAccount,
         listTotalSpentToFixedAccountPayable,
+        totalSpentToUnfixedAccount,
         listTotalSpentToUnfixedAccountPayable,
       }}
     >
