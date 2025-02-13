@@ -4,6 +4,7 @@ import { apiListAllFinancialCategoryByUser } from '@/api/financial-category/list
 import { apiListAllSubcategoryByCategory } from '@/api/financial-category/list-all-subcategory-by-category'
 import { apiListTotalSpentByFinancialCategory } from '@/api/financial-category/list-total-spent-by-financial-category'
 import { apiListTotalSpentToFixedAccountPayable } from '@/api/financial-category/list-total-spent-to-fixed-account-payable'
+import { apiListTotalSpentToUnfixedAccountPayable } from '@/api/financial-category/list-total-spent-to-unfixed-account-payable'
 import {
   FinancialCategoryDetailDTO,
   ListTotalSpentByFinancialCategoryResponseDTO,
@@ -19,6 +20,7 @@ type FinancialCaterogyAndSubcategoryContextData = {
   totalSpent: TotalSpentDTO[]
   listTotalSpentByFinancialCategory(month: number): Promise<void>
   listTotalSpentToFixedAccountPayable(month: number): Promise<void>
+  listTotalSpentToUnfixedAccountPayable(month: number): Promise<void>
 }
 
 type FinancialCategoryAndSubcategoryProviderProps = {
@@ -97,6 +99,19 @@ function FinancialCategoryAndSubcategoryProvider({
     [],
   )
 
+  const listTotalSpentToUnfixedAccountPayable = useCallback(
+    async (month: number) => {
+      const totalSpent = await apiListTotalSpentToUnfixedAccountPayable({
+        month,
+      })
+
+      const result = totalSpentMap(totalSpent)
+
+      setTotalSpent(result)
+    },
+    [],
+  )
+
   return (
     <FinancialCategoryAndSubcategoriesContext.Provider
       value={{
@@ -107,6 +122,7 @@ function FinancialCategoryAndSubcategoryProvider({
         totalSpent,
         listTotalSpentByFinancialCategory,
         listTotalSpentToFixedAccountPayable,
+        listTotalSpentToUnfixedAccountPayable,
       }}
     >
       {children}
