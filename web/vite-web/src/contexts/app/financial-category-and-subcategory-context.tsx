@@ -3,6 +3,7 @@ import { createContext, ReactNode, useCallback, useState } from 'react'
 import { apiListAllFinancialCategoryByUser } from '@/api/financial-category/list-all-financial-category-by-user'
 import { apiListAllSubcategoryByCategory } from '@/api/financial-category/list-all-subcategory-by-category'
 import { apiListTotalSpentByFinancialCategory } from '@/api/financial-category/list-total-spent-by-financial-category'
+import { apiListTotalSpentToFixedAccountPayable } from '@/api/financial-category/list-total-spent-to-fixed-account-payable'
 import {
   FinancialCategoryDetailDTO,
   ListTotalSpentByFinancialCategoryResponseDTO,
@@ -17,6 +18,7 @@ type FinancialCaterogyAndSubcategoryContextData = {
   listSubcategoryByCategory(parentCategoryId: string): Promise<void>
   totalSpent: TotalSpentDTO[]
   listTotalSpentByFinancialCategory(month: number): Promise<void>
+  listTotalSpentToFixedAccountPayable(month: number): Promise<void>
 }
 
 type FinancialCategoryAndSubcategoryProviderProps = {
@@ -82,6 +84,19 @@ function FinancialCategoryAndSubcategoryProvider({
     [],
   )
 
+  const listTotalSpentToFixedAccountPayable = useCallback(
+    async (month: number) => {
+      const totalSpent = await apiListTotalSpentToFixedAccountPayable({
+        month,
+      })
+
+      const result = totalSpentMap(totalSpent)
+
+      setTotalSpent(result)
+    },
+    [],
+  )
+
   return (
     <FinancialCategoryAndSubcategoriesContext.Provider
       value={{
@@ -91,6 +106,7 @@ function FinancialCategoryAndSubcategoryProvider({
         listSubcategoryByCategory,
         totalSpent,
         listTotalSpentByFinancialCategory,
+        listTotalSpentToFixedAccountPayable,
       }}
     >
       {children}
