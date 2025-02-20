@@ -108,6 +108,18 @@ model AccountPayable {
   transactionId String?
 }
 
+model Stock {
+  id        String   @id @default(uuid())
+  shortName String
+  symbol    String
+  price     Decimal
+  date      DateTime
+  quantity  Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Product {
   id          String  @id @default(uuid())
   name        String
