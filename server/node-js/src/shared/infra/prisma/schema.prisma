@@ -28,6 +28,7 @@ model User {
   Transaction       Transaction[]
   AccountPayable    AccountPayable[]
   FinancialCategory FinancialCategory[]
+  Stock             Stock[]
 }
 
 model UserTokens {
@@ -115,6 +116,9 @@ model Stock {
   price     Decimal
   date      DateTime
   quantity  Int
+
+  users  User   @relation(fields: [userId], references: [id])
+  userId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
