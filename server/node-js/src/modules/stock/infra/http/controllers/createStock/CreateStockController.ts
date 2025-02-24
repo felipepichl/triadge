@@ -4,12 +4,13 @@ import { container } from 'tsyringe'
 
 class CreateStockController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { price, date, quantity } = request.body
+    const { symbol, price, date, quantity } = request.body
     const { id: userId } = request.user
 
     const useCase = container.resolve(CreateStocksUseCase)
 
     await useCase.execute({
+      symbol,
       price,
       date,
       quantity,

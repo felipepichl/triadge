@@ -5,6 +5,7 @@ import { IUseCase } from '@shared/core/domain/IUseCase'
 // import { brapiQuoteTickers } from '@shared/services/brapi/getQuoteTickers'
 
 interface IRequest {
+  symbol: string
   price: number
   date?: Date
   quantity: number
@@ -14,7 +15,13 @@ interface IRequest {
 class CreateStocksUseCase implements IUseCase<IRequest, void> {
   constructor(private stocksRepository: IStockRepository) {}
 
-  async execute({ price, date, quantity, userId }: IRequest): Promise<void> {
+  async execute({
+    symbol,
+    price,
+    date,
+    quantity,
+    userId,
+  }: IRequest): Promise<void> {
     // const b3Stock = await brapiQuoteTickers({
     //   ticket: symbol,
     // })
