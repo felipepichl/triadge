@@ -4,6 +4,10 @@ interface brapiQuoteTickersBody {
   ticket: string
 }
 
+// interface brapiQuoteTickersResponse {
+//   ticket: string
+// }
+
 export async function brapiQuoteTickers({ ticket }: brapiQuoteTickersBody) {
   const data = brapi.get(`/quote/${ticket}?token=${process.env.BRAPI_TOKEN}`)
 

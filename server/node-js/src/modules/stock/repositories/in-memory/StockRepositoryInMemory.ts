@@ -6,7 +6,7 @@ class StockRepositoryInMemory implements IStockRepository {
   private stocks: Stock[] = []
 
   async create(stock: Stock): Promise<void> {
-    await this.create(stock)
+    this.stocks.push(stock)
   }
 
   async listAll(userId: string): Promise<Stock[]> {
