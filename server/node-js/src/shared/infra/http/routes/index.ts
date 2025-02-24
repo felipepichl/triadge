@@ -5,6 +5,7 @@ import { refreshTokenRoutes } from '@modules/accounts/infra/http/routes/refreshT
 import { usersRouter } from '@modules/accounts/infra/http/routes/users.routes'
 import { financialCategoryRoutes } from '@modules/financialCategory/infra/http/routes/financialCategory.routes'
 import { categoriesRoutes } from '@modules/products/infra/http/routes/category/categories.routes'
+import { stocksRoutes } from '@modules/stock/infra/http/routes/stocks.routes'
 import { transactionsRoutes } from '@modules/transactions/infra/http/routes/transaction/transaction.routes'
 import { Router } from 'express'
 
@@ -22,13 +23,9 @@ routes.use(ensureAuthenticated)
 
 routes.use('/categories', categoriesRoutes)
 
-/**
- * Transactions
- */
-routes.use('/transactions', transactionsRoutes)
-
 routes.use('/financial-category', financialCategoryRoutes)
-
+routes.use('/transactions', transactionsRoutes)
 routes.use('/accounts-payable', accounsPayableRoutes)
+routes.use('/stocks', stocksRoutes)
 
 export { routes }
