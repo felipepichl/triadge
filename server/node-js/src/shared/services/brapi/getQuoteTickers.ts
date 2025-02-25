@@ -1,15 +1,30 @@
 import { brapi } from '@shared/lib/axios'
 
-interface brapiQuoteTickersBody {
+interface IBrapiQuoteTickersBody {
   ticket: string
 }
 
-// interface brapiQuoteTickersResponse {
-//   ticket: string
-// }
+interface IBrapiQuoteTickersResponse {
+  results: {
+    shortName: string
+    symbol: string
+  }[]
+}
 
-export async function brapiQuoteTickers({ ticket }: brapiQuoteTickersBody) {
-  const data = brapi.get(`/quote/${ticket}?token=${process.env.BRAPI_TOKEN}`)
+interface IBbrapiQuoteTickersDTO {
+  shortName: string
+  symbol: string
+}
 
-  console.log(data)
+export async function brapiQuoteTickers({
+  ticket,
+}: IBrapiQuoteTickersBody): Promise<IBbrapiQuoteTickersDTO> {
+  // const data = brapi.get(`/quote/${ticket}?token=${process.env.BRAPI_TOKEN}`)
+  const { data } = await brapi.get<IBrapiQuoteTickersResponse>(
+    `/quote/${ticket}?token=ga7GdaD5rpNB8MHmRmYdpf`,
+  )
+
+  const { shortName, symbol } = data.results[0]
+
+  return { shortName, symbol }
 }

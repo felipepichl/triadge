@@ -14,7 +14,7 @@ describe('[Stock] - Create a stock', () => {
 
   it('should be able to create a new stock', async () => {
     await createStocksUseCase.execute({
-      symbol: 'RAAA11',
+      symbol: 'RZAK11',
       price: 10,
       quantity: 7,
       userId: 'userId',
