@@ -12,6 +12,8 @@ import { FinancialCategoriesRepository } from '@modules/financialCategory/infra/
 import { IFinancialCategoriesRepository } from '@modules/financialCategory/repositories/IFinancialCategoriesRepository'
 import { CategoriesRepository } from '@modules/products/infra/prisma/repositories/category/CategoriesRepository'
 import { ICategoryRepositry } from '@modules/products/repositories/category/ICategoryRepository'
+import { StockRepository } from '@modules/stock/infra/prisma/repositories/StockRepository'
+import { IStockRepository } from '@modules/stock/repositories/IStockRepository'
 import { TransactionsRepository } from '@modules/transactions/infra/prisma/repositories/transaction/TransactionsRepository'
 import { ITransactionsRepository } from '@modules/transactions/repositories/transaction/ITransactionsRepository'
 import { container } from 'tsyringe'
@@ -44,4 +46,9 @@ container.registerSingleton<IFinancialCategoriesRepository>(
 container.registerSingleton<IAccountsPayableRepository>(
   'AccountsPayableRepository',
   AccountsPayableRepository,
+)
+
+container.registerSingleton<IStockRepository>(
+  'StockRepository',
+  StockRepository,
 )
