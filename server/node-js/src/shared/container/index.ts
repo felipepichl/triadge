@@ -1,4 +1,5 @@
 import '@modules/accounts/providers'
+import '@modules/stock/providers'
 import './providers'
 
 import { AccountsPayableRepository } from '@modules/accountPayable/infra/prisma/repositories/AccountsPayableRepository'

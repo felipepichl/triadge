@@ -12,7 +12,7 @@ class B3ProviderInMemory implements IB3Provider {
 
     this.tickets.push(ticketInMemory)
 
-    return this.tickets.find((item) => item.shortName === ticket)
+    return this.tickets.find((item) => item.symbol === ticket)
   }
 }
 
