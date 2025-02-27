@@ -32,7 +32,7 @@ class CreateStocksUseCase implements IUseCase<IRequest, void> {
     const b3Stock = await this.b3Provider.getQuoteTickers(symbol)
 
     if (!b3Stock) {
-      throw new AppError('Ticket does not exists')
+      throw new AppError('Ticket does not exists', 404)
     }
 
     const stock = Stock.createStock({
