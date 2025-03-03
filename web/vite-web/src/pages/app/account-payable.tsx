@@ -10,6 +10,7 @@ import { SummaryProps } from '@/components/summary/summary'
 import { SummaryCarousel } from '@/components/summary/summary-carousel'
 import { Separator } from '@/components/ui/separator'
 import { useAccountPayable } from '@/hooks/use-account-payable'
+import { useFinancialCategoryAndSubcategory } from '@/hooks/use-financial-category-and-subcategory'
 import { priceFormatter } from '@/util/formatter'
 
 export function AccountPayable() {
@@ -26,6 +27,9 @@ export function AccountPayable() {
     listAllPaidAccountsPayableByMonth,
   } = useAccountPayable()
 
+  const { listTotalSpentToUnfixedAccountPayable } =
+    useFinancialCategoryAndSubcategory()
+
   const handleMonthSelect = useCallback(
     async (monthNumber: string) => {
       listAllFixedAccountsPayableByMonth(monthNumber)
@@ -33,22 +37,14 @@ export function AccountPayable() {
       listAllUnpaidAccountsPayableByMonth(monthNumber)
       listAllPaidAccountsPayableByMonth(monthNumber)
 
-      /**
-      Move to Context
-      await apiListTotalSpentToFixedAccountPayable({
-        month: Number(monthNumber),
-      })
-
-      await apiListTotalSpentToUnfixedAccountPayable({
-        month: Number(monthNumber),
-      })
-       */
+      listTotalSpentToUnfixedAccountPayable(Number(monthNumber))
     },
     [
       listAllFixedAccountsPayableByMonth,
       listAllUnfixedAccountsPayableByMonth,
       listAllUnpaidAccountsPayableByMonth,
       listAllPaidAccountsPayableByMonth,
+      listTotalSpentToUnfixedAccountPayable,
     ],
   )
 
