@@ -1,6 +1,7 @@
 import { IB3DTO } from '../dtos/IB3DTO'
 import { IB3Provider } from '../models/IB3Provider'
 import { brapi } from '../services/brapi'
+import { BrapiErrorHandler } from '../utils/BrapiErrorHandler'
 
 class BrapiB3Provider implements IB3Provider {
   async getQuoteTickers(ticket: string): Promise<IB3DTO> {
@@ -10,13 +11,13 @@ class BrapiB3Provider implements IB3Provider {
       )
 
       const { shortName, symbol } = data.results[0]
-      return { shortName, symbol }
-    } catch (error) {
-      if (error.response?.status === 404) {
-        return null
-      }
 
-      throw error
+      return {
+        shortName,
+        symbol,
+      }
+    } catch (error) {
+      BrapiErrorHandler.handle(error)
     }
   }
 }
