@@ -21,7 +21,7 @@ class BrapiErrorHandler {
         throw new AppError('Request limit reached for the BrAPI', 402)
       }
       if (status === 404) {
-        return null
+        throw new AppError('Stock not found for the BrAPI', 404)
       }
     }
 
