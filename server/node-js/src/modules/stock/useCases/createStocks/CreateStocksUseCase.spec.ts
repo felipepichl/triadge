@@ -1,5 +1,6 @@
 import { B3ProviderInMemory } from '@modules/stock/providers/B3Provider/in-memory/B3ProviderInMemory'
 import { StockRepositoryInMemory } from '@modules/stock/repositories/in-memory/StockRepositoryInMemory'
+import { AppError } from '@shared/error/AppError'
 
 import { CreateStocksUseCase } from './CreateStocksUseCase'
 
@@ -32,5 +33,16 @@ describe('[Stock] - Create a stock', () => {
     expect(stockCreated.length).toBe(1)
     expect(stockCreated[0].price).toBe(10)
     expect(stockCreated[0].symbol).toBe('RAAA11')
+  })
+
+  it('should not be able to create a new stock with nonexistent ticket', async () => {
+    await expect(
+      createStocksUseCase.execute({
+        symbol: 'nonexistent',
+        price: 10,
+        quantity: 7,
+        userId: 'userId',
+      }),
+    ).rejects.toEqual(new AppError('Ticket does not exists', 404))
   })
 })
