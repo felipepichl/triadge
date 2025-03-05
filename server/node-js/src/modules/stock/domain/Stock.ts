@@ -1,6 +1,8 @@
 import { AggregateRoot } from '@shared/core/domain/AggregateRoot'
 import { UniqueEntityID } from '@shared/core/domain/UniqueEntityID'
 
+import { IStockType } from './StockType'
+
 interface IStockProps {
   id?: string
   shortName: string
@@ -8,6 +10,7 @@ interface IStockProps {
   price: number
   date: Date
   quantity: number
+  type: IStockType
 
   userId: string
 }
@@ -37,6 +40,10 @@ class Stock extends AggregateRoot<IStockProps> {
     return this.props.quantity
   }
 
+  get type(): IStockType {
+    return this.props.type
+  }
+
   get userId(): string {
     return this.props.userId
   }
@@ -48,6 +55,7 @@ class Stock extends AggregateRoot<IStockProps> {
     price,
     date,
     quantity,
+    type,
     userId,
   }: IStockProps): Stock {
     const stockProps = {
@@ -56,6 +64,7 @@ class Stock extends AggregateRoot<IStockProps> {
       price,
       date: date ? new Date(date) : new Date(),
       quantity,
+      type,
       userId,
     }
 
