@@ -116,6 +116,7 @@ model Stock {
   price     Decimal
   date      DateTime
   quantity  Int
+  type      String
 
   users  User   @relation(fields: [userId], references: [id])
   userId String
