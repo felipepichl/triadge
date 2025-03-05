@@ -8,6 +8,7 @@ import { AuthLayout } from '@/pages/_layouts/auth'
 import { AccountPayable } from '@/pages/app/account-payable'
 import { Dashboard } from '@/pages/app/dashboard'
 import { Finances } from '@/pages/app/finances'
+import { Stock } from '@/pages/app/stock'
 /** Pages */
 import { SignIn } from '@/pages/auth/sign-in'
 
@@ -37,6 +38,10 @@ export const router = createBrowserRouter([
             <AccountPayable />
           </AccountsPayableProvider>
         ),
+      },
+      {
+        path: '/stock',
+        element: <Stock />,
       },
     ],
   },

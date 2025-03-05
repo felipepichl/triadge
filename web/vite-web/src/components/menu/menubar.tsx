@@ -1,5 +1,6 @@
 import {
   ArrowLeftRight,
+  ChartCandlestick,
   LogOut,
   MenuSquare,
   ScanBarcode,
@@ -54,6 +55,13 @@ export function Manubar() {
             to="/account-payable"
             icon={ScanBarcode}
             description="Contas a Pagar"
+          />
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <CustomNavlink
+            to="/stock"
+            icon={ChartCandlestick}
+            description="Ações e FIIs"
           />
         </DropdownMenuItem>
         <DropdownMenuSeparator />
