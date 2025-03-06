@@ -32,6 +32,7 @@ describe('[E2E] - Create Stock', () => {
         symbol: 'PETR4',
         price: 25,
         quantity: 1,
+        type: 'fii',
       })
     expect(response.status).toBe(201)
   })
