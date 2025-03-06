@@ -1,4 +1,5 @@
 import { Stock } from '@modules/stock/domain/Stock'
+import { IStockType } from '@modules/stock/domain/StockType'
 import { IB3Provider } from '@modules/stock/providers/B3Provider/models/IB3Provider'
 import { IStockRepository } from '@modules/stock/repositories/IStockRepository'
 import { IUseCase } from '@shared/core/domain/IUseCase'
@@ -10,6 +11,7 @@ interface IRequest {
   price: number
   date?: Date
   quantity: number
+  type: IStockType
   userId: string
 }
 
@@ -27,6 +29,7 @@ class CreateStocksUseCase implements IUseCase<IRequest, void> {
     price,
     date,
     quantity,
+    type,
     userId,
   }: IRequest): Promise<void> {
     const b3Stock = await this.b3Provider.getQuoteTickers(symbol)
@@ -41,6 +44,7 @@ class CreateStocksUseCase implements IUseCase<IRequest, void> {
       price,
       date,
       quantity,
+      type,
       userId,
     })
 
