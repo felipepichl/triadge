@@ -24,6 +24,7 @@ describe('[Stock] - Create a stock', () => {
       symbol: 'RAAA11',
       price: 10,
       quantity: 7,
+      type: { type: 'stock' },
       userId: 'userId',
     })
 
@@ -41,6 +42,7 @@ describe('[Stock] - Create a stock', () => {
         symbol: 'nonexistent',
         price: 10,
         quantity: 7,
+        type: { type: 'fii' },
         userId: 'userId',
       }),
     ).rejects.toEqual(new AppError('Ticket does not exists', 404))
