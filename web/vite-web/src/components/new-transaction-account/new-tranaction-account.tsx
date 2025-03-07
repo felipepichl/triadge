@@ -8,8 +8,8 @@ import { useAccountPayable } from '@/hooks/use-account-payable'
 import { useFinancialCategoryAndSubcategory } from '@/hooks/use-financial-category-and-subcategory'
 import { useTransaction } from '@/hooks/use-transaction'
 
+import { DrawerForm } from '../drawer-form'
 import { Button } from '../ui/button'
-import { Drawer, DrawerContent, DrawerTitle, DrawerTrigger } from '../ui/drawer'
 import { Separator } from '../ui/separator'
 import { AccountPayableFiled } from './account-payable-field/account-payable-field'
 import { GenericForm } from './generic-form/generic-form'
@@ -197,47 +197,36 @@ export function NewTransactionAccount({
   )
 
   return (
-    <div className="flex justify-end pb-3">
-      <Drawer onOpenChange={handleToggleDrawer} open={isDrawerOpen}>
-        <DrawerTrigger asChild>
-          <Button
-            variant="outline"
-            className="w-48 min-w-48 rounded-sm bg-green-500 text-slate-100 hover:bg-green-700 hover:text-slate-100 max-md:w-full"
-          >
-            {title}
-          </Button>
-        </DrawerTrigger>
-        <DrawerContent>
-          <div className="mt-3 p-4">
-            <DrawerTitle>{title}</DrawerTitle>
-            {type === 'accountPayable' ? (
-              <GenericForm
-                onSubmit={handleCreateNewAccountPayable}
-                form={accountPayableForm}
-                fields={
-                  <>
-                    <SharedField />
-                    <AccountPayableFiled />
-                    <SubmitButton />
-                  </>
-                }
-              />
-            ) : (
-              <GenericForm
-                onSubmit={handleCreateNewTransaction}
-                form={transactionForm}
-                fields={
-                  <>
-                    <SharedField />
-                    <TransactionField />
-                    <SubmitButton />
-                  </>
-                }
-              />
-            )}
-          </div>
-        </DrawerContent>
-      </Drawer>
-    </div>
+    <DrawerForm
+      title={title}
+      isOpen={isDrawerOpen}
+      onOpenChange={handleToggleDrawer}
+    >
+      {type === 'accountPayable' ? (
+        <GenericForm
+          onSubmit={handleCreateNewAccountPayable}
+          form={accountPayableForm}
+          fields={
+            <>
+              <SharedField />
+              <AccountPayableFiled />
+              <SubmitButton />
+            </>
+          }
+        />
+      ) : (
+        <GenericForm
+          onSubmit={handleCreateNewTransaction}
+          form={transactionForm}
+          fields={
+            <>
+              <SharedField />
+              <TransactionField />
+              <SubmitButton />
+            </>
+          }
+        />
+      )}
+    </DrawerForm>
   )
 }
