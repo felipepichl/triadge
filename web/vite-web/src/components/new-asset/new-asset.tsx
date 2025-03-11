@@ -1,17 +1,14 @@
-import { format } from 'date-fns'
-import { CalendarIcon } from 'lucide-react'
-import { ChangeEvent } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { useMonetaryMask } from '@/hooks/use-monetary-mask'
-
 import { DrawerForm } from '../drawer-form'
-import { Button } from '../ui/button'
-import { Calendar } from '../ui/calendar'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '../ui/form'
+import { DatePicker } from '../generic-form-and-fields/fields/data-picker'
+import { Monetary } from '../generic-form-and-fields/fields/monetary'
+import { GenericForm } from '../generic-form-and-fields/generic-form'
+import { FormControl, FormField, FormItem, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import {
   Select,
   SelectContent,
@@ -32,9 +29,12 @@ const formSchema = z.object({
 type CreateAssetForm = z.infer<typeof formSchema>
 
 export function NewAsset() {
-  const { formattedValue, handleMaskChange } = useMonetaryMask()
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(
+    undefined,
+  )
 
   const form = useForm<CreateAssetForm>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       symbol: '',
       price: '',
@@ -44,11 +44,28 @@ export function NewAsset() {
     },
   })
 
+  const handleToggleDrawer = useCallback(() => {
+    setIsDrawerOpen((prevState) => !prevState)
+  }, [])
+
+  const handleCreateNewAsset = useCallback(
+    async ({ symbol, price, date, quantity, type }: CreateAssetForm) => {
+      console.log(symbol, price, date, quantity, type)
+    },
+    [],
+  )
+
   return (
-    <DrawerForm title="Novo ativo" isOpen={true} onOpenChange={() => {}}>
-      <Form {...form}>
-        <form className="mt-3 space-y-4">
-          <div className="space-y-2">
+    <DrawerForm
+      title="Novo ativo"
+      isOpen={isDrawerOpen}
+      onOpenChange={handleToggleDrawer}
+    >
+      <GenericForm
+        onSubmit={handleCreateNewAsset}
+        form={form}
+        fields={
+          <>
             <FormField
               control={form.control}
               name={'symbol'}
@@ -64,63 +81,8 @@ export function NewAsset() {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name={'price'}
-              render={() => (
-                <FormItem>
-                  <FormControl>
-                    <Input
-                      className="h-10"
-                      placeholder="Valor pago"
-                      value={formattedValue}
-                      // inputMode="numeric"
-                      // type="number"
-                      {...form.register('price', {
-                        onChange: (e: ChangeEvent<HTMLInputElement>) => {
-                          handleMaskChange(e)
-                        },
-                      })}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name={'date'}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className="w-full justify-start text-left font-normal"
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {field.value ? (
-                            format(field.value, 'PPP')
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
-                        <Calendar
-                          mode="single"
-                          initialFocus
-                          selected={field.value}
-                          onSelect={(date) => field.onChange(date)}
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <Monetary name="price" placeholder="Valor pago" />
+            <DatePicker />
             <FormField
               control={form.control}
               name={'quantity'}
@@ -163,9 +125,9 @@ export function NewAsset() {
                 </FormItem>
               )}
             />
-          </div>
-        </form>
-      </Form>
+          </>
+        }
+      />
     </DrawerForm>
   )
 }
