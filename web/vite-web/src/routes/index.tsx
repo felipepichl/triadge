@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom'
 
 import { AccountsPayableProvider } from '@/contexts/app/accounts-payable-context'
+import { StockProvider } from '@/contexts/app/stock-context'
 /** Layouts */
 import { AppLayout } from '@/pages/_layouts/app'
 import { AuthLayout } from '@/pages/_layouts/auth'
@@ -41,7 +42,11 @@ export const router = createBrowserRouter([
       },
       {
         path: '/stock',
-        element: <Stock />,
+        element: (
+          <StockProvider>
+            <Stock />
+          </StockProvider>
+        ),
       },
     ],
   },

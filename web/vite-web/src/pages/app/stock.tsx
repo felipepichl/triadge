@@ -1,12 +1,12 @@
 import { Helmet } from 'react-helmet-async'
 
-import { NewAsset } from '@/components/new-asset/new-asset'
+import { NewStock } from '@/components/new-stock/new-stock'
 
 export function Stock() {
   return (
     <>
       <Helmet title="Ações e FIIs" />
-      <NewAsset />
+      <NewStock />
     </>
   )
 }

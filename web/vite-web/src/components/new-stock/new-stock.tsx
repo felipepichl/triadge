@@ -3,6 +3,8 @@ import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
+import { useStock } from '@/hooks/use-stock'
+
 import { DrawerForm } from '../drawer-form'
 import { DatePicker } from '../generic-form-and-fields/fields/data-picker'
 import { Monetary } from '../generic-form-and-fields/fields/monetary'
@@ -22,16 +24,18 @@ const formSchema = z.object({
   symbol: z.string().min(1, { message: 'Campo obrigatório' }),
   price: z.string().min(1, { message: 'Campo obrigatório' }),
   date: z.date(),
-  quantity: z.number().min(1, { message: 'Campo obrigatório' }),
-  type: z.string().min(1, { message: 'Selecione uma opção' }),
+  quantity: z.string().min(1, { message: 'Campo obrigatório' }),
+  // type: z.string().min(1, { message: 'Selecione uma opção' }),
 })
 
 type CreateAssetForm = z.infer<typeof formSchema>
 
-export function NewAsset() {
+export function NewStock() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(
     undefined,
   )
+
+  const { createStock } = useStock()
 
   const form = useForm<CreateAssetForm>({
     resolver: zodResolver(formSchema),
@@ -39,7 +43,7 @@ export function NewAsset() {
       symbol: '',
       price: '',
       date: new Date(),
-      quantity: 0,
+      quantity: '',
       type: '',
     },
   })
@@ -49,10 +53,16 @@ export function NewAsset() {
   }, [])
 
   const handleCreateNewAsset = useCallback(
-    async ({ symbol, price, date, quantity, type }: CreateAssetForm) => {
-      console.log(symbol, price, date, quantity, type)
+    async ({ symbol, price, date, quantity }: CreateAssetForm) => {
+      await createStock({
+        symbol,
+        price,
+        date,
+        quantity: Number(quantity),
+        type: 'FII',
+      })
     },
-    [],
+    [createStock],
   )
 
   return (
