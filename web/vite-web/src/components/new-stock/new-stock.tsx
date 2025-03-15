@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { useStock } from '@/hooks/use-stock'
@@ -25,7 +26,7 @@ const formSchema = z.object({
   price: z.string().min(1, { message: 'Campo obrigatório' }),
   date: z.date(),
   quantity: z.string().min(1, { message: 'Campo obrigatório' }),
-  // type: z.string().min(1, { message: 'Selecione uma opção' }),
+  type: z.string().min(1, { message: 'Selecione uma opção' }),
 })
 
 type CreateAssetForm = z.infer<typeof formSchema>
@@ -53,16 +54,27 @@ export function NewStock() {
   }, [])
 
   const handleCreateNewAsset = useCallback(
-    async ({ symbol, price, date, quantity }: CreateAssetForm) => {
-      await createStock({
-        symbol,
-        price,
-        date,
-        quantity: Number(quantity),
-        type: 'FII',
-      })
+    async ({ symbol, price, date, quantity, type }: CreateAssetForm) => {
+      try {
+        const data = {
+          symbol,
+          price: parseFloat(
+            price.replace('R$ ', '').replace('.', '').replace(',', '.'),
+          ),
+          date,
+          quantity: Number(quantity),
+          type,
+        }
+
+        await createStock(data)
+        handleToggleDrawer()
+        form.reset()
+        toast.success('Ativo salvo com sucesso!')
+      } catch (error) {
+        toast.error('Erro ao salvar, tente novamente mais tarde!')
+      }
     },
-    [createStock],
+    [createStock, handleToggleDrawer, form],
   )
 
   return (
@@ -116,9 +128,7 @@ export function NewStock() {
                   <FormControl>
                     <Select
                       {...form.register('type')}
-                      // onValueChange={(value) =>
-                      //   setSelectedType(value === 'all' ? undefined : value)
-                      // }
+                      onValueChange={(value) => form.setValue('type', value)}
                     >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="Selecione o tipo" />

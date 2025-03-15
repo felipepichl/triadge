@@ -1,6 +1,6 @@
 export type CreateStockDTO = {
   symbol: string
-  price: string
+  price: number
   date: Date
   quantity: number
   type: string
