@@ -12,6 +12,10 @@ class BrapiB3Provider implements IB3Provider {
 
       const { shortName, symbol } = data.results[0]
 
+      if (!shortName) {
+        return null
+      }
+
       return {
         shortName,
         symbol,
