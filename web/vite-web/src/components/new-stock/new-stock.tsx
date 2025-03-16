@@ -126,8 +126,11 @@ export function NewStock() {
                         variant="outline"
                         size="icon"
                         className="mr-2 h-8 w-8 shrink-0 rounded-full"
-                        onClick={() => {}}
-                        disabled={quantity <= 1}
+                        onClick={() => {
+                          setQuantity(quantity - 1)
+                        }}
+                        disabled={quantity < 2}
+                        type="button"
                       >
                         <Minus />
                       </Button>
@@ -136,12 +139,17 @@ export function NewStock() {
                         placeholder="Quantidade"
                         {...form.register('quantity')}
                         type="number"
+                        value={quantity === 0 ? '' : quantity}
+                        disabled
                       />
                       <Button
                         variant="outline"
                         size="icon"
                         className="ml-2 h-8 w-8 shrink-0 rounded-full"
-                        onClick={() => {}}
+                        onClick={() => {
+                          setQuantity(quantity + 1)
+                        }}
+                        type="button"
                       >
                         <Plus />
                       </Button>

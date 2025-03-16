@@ -6,13 +6,13 @@ import {
   useState,
 } from 'react'
 
-import { apiCreateAccountPayable } from '@/api/account-payable/create-account-payable'
-import { apiCreateFixedAccountPayable } from '@/api/account-payable/create-fixed-account-payable'
-import { apiListAllFixedAccountsPayableByMonth } from '@/api/account-payable/list-all-fixed-accounts-payable-by-month'
-import { apiListAllPaidAccountsPayableByMonth } from '@/api/account-payable/list-all-paid-account-payable-by-month'
-import { apiListAllUnfixedAccountsPayableByMonth } from '@/api/account-payable/list-all-unfixed-accounts-payable-by-month'
-import { apiListAllUnpaidAccountsPayableByMonth } from '@/api/account-payable/list-all-unpaid-account-payable-by-month'
-import { apiMarkAccountPayableAsPaid } from '@/api/account-payable/mark-account-payable-as-paid'
+import { apiCreateAccountPayable } from '@/api/app/account-payable/create-account-payable'
+import { apiCreateFixedAccountPayable } from '@/api/app/account-payable/create-fixed-account-payable'
+import { apiListAllFixedAccountsPayableByMonth } from '@/api/app/account-payable/list-all-fixed-accounts-payable-by-month'
+import { apiListAllPaidAccountsPayableByMonth } from '@/api/app/account-payable/list-all-paid-account-payable-by-month'
+import { apiListAllUnfixedAccountsPayableByMonth } from '@/api/app/account-payable/list-all-unfixed-accounts-payable-by-month'
+import { apiListAllUnpaidAccountsPayableByMonth } from '@/api/app/account-payable/list-all-unpaid-account-payable-by-month'
+import { apiMarkAccountPayableAsPaid } from '@/api/app/account-payable/mark-account-payable-as-paid'
 import {
   CreateAccountPayableDTO,
   FixedAccountPayableDTO,
