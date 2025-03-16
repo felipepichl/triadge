@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import { ApiError } from '@/api/app/utils/api-error'
 import { useStock } from '@/hooks/use-stock'
 
 import { DrawerForm } from '../drawer-form'
@@ -71,7 +72,13 @@ export function NewStock() {
         form.reset()
         toast.success('Ativo salvo com sucesso!')
       } catch (error) {
-        toast.error('Erro ao salvar, tente novamente mais tarde!')
+        if (error instanceof ApiError) {
+          if (error.statusCode === 404) {
+            toast.error('Ativo não encontrado')
+          } else {
+            toast.error(error.message)
+          }
+        }
       }
     },
     [createStock, handleToggleDrawer, form],
