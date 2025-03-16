@@ -58,6 +58,18 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+
+  /* styles/globals.css */
+  .input-no-spinner::-webkit-inner-spin-button,
+  .input-no-spinner::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .input-no-spinner {
+    -moz-appearance: textfield;
+  }
+
 }
 
 

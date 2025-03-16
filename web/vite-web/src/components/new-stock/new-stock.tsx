@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Minus, Plus } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -11,6 +12,7 @@ import { DrawerForm } from '../drawer-form'
 import { DatePicker } from '../generic-form-and-fields/fields/data-picker'
 import { Monetary } from '../generic-form-and-fields/fields/monetary'
 import { GenericForm } from '../generic-form-and-fields/generic-form'
+import { Button } from '../ui/button'
 import { FormControl, FormField, FormItem, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
 import {
@@ -36,6 +38,7 @@ export function NewStock() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(
     undefined,
   )
+  const [quantity, setQuantity] = useState(0)
 
   const { createStock } = useStock()
 
@@ -118,10 +121,31 @@ export function NewStock() {
               render={() => (
                 <FormItem>
                   <FormControl>
-                    <Input
-                      placeholder="Quantidade"
-                      {...form.register('quantity')}
-                    />
+                    <div className="flex flex-row items-center justify-center">
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="mr-2 h-8 w-8 shrink-0 rounded-full"
+                        onClick={() => {}}
+                        disabled={quantity <= 1}
+                      >
+                        <Minus />
+                      </Button>
+                      <Input
+                        className="input-no-spinner"
+                        placeholder="Quantidade"
+                        {...form.register('quantity')}
+                        type="number"
+                      />
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        className="ml-2 h-8 w-8 shrink-0 rounded-full"
+                        onClick={() => {}}
+                      >
+                        <Plus />
+                      </Button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
