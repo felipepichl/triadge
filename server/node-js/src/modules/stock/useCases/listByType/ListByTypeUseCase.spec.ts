@@ -15,7 +15,7 @@ async function createStock() {
     price: 7,
     date: new Date(),
     quantity: 1,
-    type: { type: 'stock' },
+    type: { stockType: 'stock' },
     userId: 'userId',
   })
 
@@ -25,7 +25,7 @@ async function createStock() {
     price: 7,
     date: new Date(),
     quantity: 1,
-    type: { type: 'fii' },
+    type: { stockType: 'fii' },
     userId: 'userId',
   })
 
@@ -47,7 +47,7 @@ describe('[Stock] - List by type', () => {
   it('should be able to list all stocks by type', async () => {
     const result = await listByTypeUseCase.execute({
       userId: 'userId',
-      type: { type: 'fii' },
+      type: { stockType: 'fii' },
     })
 
     const { stocks } = result

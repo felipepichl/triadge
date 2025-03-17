@@ -8,7 +8,7 @@ describe('[Stock] - Create a new Stock', () => {
       price: 7,
       date: new Date(),
       quantity: 1,
-      type: { type: 'stock' },
+      type: { stockType: 'stock' },
       userId: 'userId',
     })
 

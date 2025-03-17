@@ -1,3 +1,3 @@
 export interface IStockType {
-  type: 'stock' | 'fii'
+  stockType: 'stock' | 'fii'
 }
