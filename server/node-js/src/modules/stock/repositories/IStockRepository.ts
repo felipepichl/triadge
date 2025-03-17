@@ -1,4 +1,5 @@
 import { Stock } from '../domain/Stock'
+import { IStockType } from '../domain/StockType'
 
 interface IStockRepository {
   create(stock: Stock): Promise<void>
@@ -8,6 +9,7 @@ interface IStockRepository {
     startDate: Date,
     endDate: Date,
   ): Promise<Stock[]>
+  listByType(userId: string, type: IStockType): Promise<Stock[]>
 }
 
 export { IStockRepository }
