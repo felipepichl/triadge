@@ -28,8 +28,9 @@ class StockRepositoryInMemory implements IStockRepository {
   }
 
   async listByType(userId: string, type: IStockType): Promise<Stock[]> {
+    const { type: stockType } = type
     return this.stocks.filter(
-      (stock) => stock.userId === userId && stock.type === type,
+      (stock) => stock.userId === userId && stock.type.type === stockType,
     )
   }
 }
