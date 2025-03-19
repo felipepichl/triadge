@@ -1,4 +1,5 @@
 import { Stock } from '@modules/stock/domain/Stock'
+import { IStockType } from '@modules/stock/domain/StockType'
 import { IStockRepository } from '@modules/stock/repositories/IStockRepository'
 import { PrismaSingleton } from '@shared/infra/prisma'
 import { endOfDay, startOfDay } from 'date-fns'
@@ -54,6 +55,14 @@ class StockRepository implements IStockRepository {
         userId,
         date: { gte: normalizedStartDate, lte: normalizedEndDate },
       },
+    })
+
+    return StockMappers.getMapper().toDomainArray(result)
+  }
+
+  async listByType(userId: string, type: IStockType): Promise<Stock[]> {
+    const result = await PrismaSingleton.getInstance().stock.findMany({
+      where: { userId, type: type.stockType },
     })
 
     return StockMappers.getMapper().toDomainArray(result)
