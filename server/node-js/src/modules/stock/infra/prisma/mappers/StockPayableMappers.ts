@@ -25,7 +25,7 @@ class StockMappers implements IMapper<Stock, RawStock> {
       price: Number(price),
       date,
       quantity,
-      type: { type } as IStockType,
+      type: { stockType: type } as IStockType,
       userId,
     })
   }

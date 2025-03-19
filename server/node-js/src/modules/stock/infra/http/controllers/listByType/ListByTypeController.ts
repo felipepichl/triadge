@@ -10,12 +10,12 @@ class ListByTypeController {
 
     const useCase = container.resolve(ListByTypeUseCase)
 
-    const { stocks } = await useCase.execute({
+    const result = await useCase.execute({
       userId,
       type: { stockType: type } as IStockType,
     })
 
-    return response.status(200).json(stocks)
+    return response.status(200).json(result)
   }
 }
 
