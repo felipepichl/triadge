@@ -33,6 +33,18 @@ class StockRepositoryInMemory implements IStockRepository {
         stock.userId === userId && stock.type.stockType === type.stockType,
     )
   }
+
+  async listAllSymbolsByUserIdAndType(
+    userId: string,
+    type: IStockType,
+  ): Promise<string[]> {
+    return this.stocks
+      .filter(
+        (stock) =>
+          stock.userId === userId && stock.type.stockType === type.stockType,
+      )
+      .map((stock) => stock.symbol)
+  }
 }
 
 export { StockRepositoryInMemory }
