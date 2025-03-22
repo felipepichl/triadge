@@ -1,4 +1,5 @@
 export interface IB3DTO {
   shortName: string
-  symbol: string
+  symbol?: string
+  regularMarketPrice?: string
 }

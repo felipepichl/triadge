@@ -24,6 +24,23 @@ class BrapiB3Provider implements IB3Provider {
       BrapiErrorHandler.handle(error)
     }
   }
+
+  async getPortfolioQuotes(tickets: string[]): Promise<IB3DTO[]> {
+    try {
+      const ticket = tickets.join(',')
+      const { data } = await brapi.get(
+        `/quote/${ticket}?token=${process.env.BRAPI_TOKEN}`,
+      )
+
+      return data.results.map((result: any) => ({
+        shortName: result.shortName,
+        symbol: result.symbol,
+        regularMarketPrice: result.regularMarketPrice,
+      }))
+    } catch (error) {
+      BrapiErrorHandler.handle(error)
+    }
+  }
 }
 
 export { BrapiB3Provider }

@@ -2,7 +2,7 @@ import { IB3DTO } from '../dtos/IB3DTO'
 import { IB3Provider } from '../models/IB3Provider'
 
 class B3ProviderInMemory implements IB3Provider {
-  tickets: IB3DTO[] = []
+  stocks: IB3DTO[] = []
 
   async getQuoteTickers(ticket: string): Promise<IB3DTO> {
     const ticketInMemory = {
@@ -10,9 +10,15 @@ class B3ProviderInMemory implements IB3Provider {
       symbol: 'RAAA11',
     }
 
-    this.tickets.push(ticketInMemory)
+    this.stocks.push(ticketInMemory)
 
-    return this.tickets.find((item) => item.symbol === ticket)
+    return this.stocks.find((item) => item.symbol === ticket)
+  }
+
+  async getPortfolioQuotes(tickets: string[]): Promise<IB3DTO[]> {
+    const ticketString = tickets.join(',')
+
+    return this.stocks.filter((item) => item.symbol === ticketString)
   }
 }
 
