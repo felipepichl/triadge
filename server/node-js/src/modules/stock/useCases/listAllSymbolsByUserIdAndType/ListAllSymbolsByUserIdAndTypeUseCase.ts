@@ -32,17 +32,18 @@ class ListAllSymbolsByUserIdAndTypeUseCase
       throw new AppError('Symbols not found', 404)
     }
 
-    const stockArray = await this.b3Provider.getPortfolioQuotes(symbols)
+    const stockByB3 = await this.b3Provider.getPortfolioQuotes(symbols)
 
-    if (!stockArray) {
+    if (!stockByB3) {
       throw new AppError('Stocks from BrAPI not found', 404)
     }
 
-    const stocks: Stock[] = stockArray.map((stock) =>
+    const stocks: Stock[] = stockByB3.map((stock) =>
       Stock.createStock({
         symbol: stock.symbol,
         shortName: stock.shortName,
         price: Number(stock.regularMarketPrice),
+        type,
       }),
     )
 

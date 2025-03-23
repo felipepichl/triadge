@@ -16,9 +16,17 @@ class B3ProviderInMemory implements IB3Provider {
   }
 
   async getPortfolioQuotes(tickets: string[]): Promise<IB3DTO[]> {
-    const ticketString = tickets.join(',')
+    return this.stocks.filter((item) => tickets.includes(item.symbol))
+  }
 
-    return this.stocks.filter((item) => item.symbol === ticketString)
+  async addSymbol(symbols: string[]): Promise<void> {
+    for (const symbol of symbols) {
+      this.stocks.push({
+        shortName: `shortname to ${symbol}`,
+        symbol,
+        regularMarketPrice: '13.00',
+      })
+    }
   }
 }
 
