@@ -31,7 +31,9 @@ class BrapiB3Provider implements IB3Provider {
       const { data } = await brapi.get(
         `/quote/${ticket}?token=${process.env.BRAPI_TOKEN}`,
       )
-
+      /**
+       * WIP
+       */
       return data.results.map((result: any) => ({
         shortName: result.shortName,
         symbol: result.symbol,

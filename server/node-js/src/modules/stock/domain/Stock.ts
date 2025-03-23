@@ -8,11 +8,11 @@ interface IStockProps {
   shortName: string
   symbol: string
   price: number
-  date: Date
-  quantity: number
-  type: IStockType
+  date?: Date
+  quantity?: number
+  type?: IStockType
 
-  userId: string
+  userId?: string
 }
 
 class Stock extends AggregateRoot<IStockProps> {

@@ -3,6 +3,7 @@ import { IStockType } from '@modules/stock/domain/StockType'
 import { IB3Provider } from '@modules/stock/providers/B3Provider/models/IB3Provider'
 import { IStockRepository } from '@modules/stock/repositories/IStockRepository'
 import { IUseCase } from '@shared/core/domain/IUseCase'
+import { AppError } from '@shared/error/AppError'
 
 interface IRequest {
   userId: string
@@ -26,6 +27,28 @@ class ListAllSymbolsByUserIdAndTypeUseCase
       userId,
       type,
     )
+
+    if (!symbols) {
+      throw new AppError('Symbols not found', 404)
+    }
+
+    const stockArray = await this.b3Provider.getPortfolioQuotes(symbols)
+
+    if (!stockArray) {
+      throw new AppError('Stocks from BrAPI not found', 404)
+    }
+
+    const stocks: Stock[] = stockArray.map((stock) =>
+      Stock.createStock({
+        symbol: stock.symbol,
+        shortName: stock.shortName,
+        price: Number(stock.regularMarketPrice),
+      }),
+    )
+
+    return {
+      stocks,
+    }
   }
 }
 
