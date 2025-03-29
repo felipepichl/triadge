@@ -11,7 +11,7 @@ interface IRequest {
 }
 
 interface IResponse {
-  portifolio: {
+  portfolio: {
     stock: {
       shortName: string
       symbol: string
@@ -74,7 +74,7 @@ class GetPortfolioQuotesUseCase implements IUseCase<IRequest, IResponse> {
       }),
     )
 
-    const portifolio = symbols.map((symbol) => {
+    const portfolio = symbols.map((symbol) => {
       const stockData = groupedStocks[symbol]
       const quote = quotes.find((item) => item.symbol === symbol)
 
@@ -90,7 +90,7 @@ class GetPortfolioQuotesUseCase implements IUseCase<IRequest, IResponse> {
     })
 
     return {
-      portifolio,
+      portfolio,
     }
   }
 }

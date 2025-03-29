@@ -67,6 +67,13 @@ class StockRepository implements IStockRepository {
 
     return StockMappers.getMapper().toDomainArray(result)
   }
+
+  listAllSymbolsByUserIdAndType(
+    userId: string,
+    type: IStockType,
+  ): Promise<string[]> {
+    throw new Error('Method not implemented.')
+  }
 }
 
 export { StockRepository }

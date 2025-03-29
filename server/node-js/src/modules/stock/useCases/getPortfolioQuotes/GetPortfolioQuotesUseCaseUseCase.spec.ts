@@ -79,13 +79,13 @@ describe('[Stock] - List stock and total invested e current value to stock', () 
       type: { stockType: 'fii' },
     })
 
-    const { portifolio } = result
+    const { portfolio } = result
 
-    expect(portifolio).toBeDefined()
-    expect(portifolio.length).toBe(2)
-    expect(portifolio[0].totalInvested).toBe(21)
-    expect(portifolio[0].currentValue).toBe(39)
-    expect(portifolio[0].stock.symbol).toBe('symbol2')
-    // expect(portifolio[0].stock.type).toStrictEqual({ stockType: 'fii' })
+    expect(portfolio).toBeDefined()
+    expect(portfolio.length).toBe(2)
+    expect(portfolio[0].totalInvested).toBe(21)
+    expect(portfolio[0].currentValue).toBe(39)
+    expect(portfolio[0].stock.symbol).toBe('symbol2')
+    // expect(portfolio[0].stock.type).toStrictEqual({ stockType: 'fii' })
   })
 })
