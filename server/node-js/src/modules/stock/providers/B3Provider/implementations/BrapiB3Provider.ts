@@ -10,7 +10,7 @@ class BrapiB3Provider implements IB3Provider {
         `/quote/${ticket}?token=${process.env.BRAPI_TOKEN}`,
       )
 
-      const { shortName, symbol } = data.results[0]
+      const { shortName, symbol, regularMarketPrice } = data.results[0]
 
       if (!shortName) {
         return null
@@ -19,6 +19,7 @@ class BrapiB3Provider implements IB3Provider {
       return {
         shortName,
         symbol,
+        regularMarketPrice,
       }
     } catch (error) {
       BrapiErrorHandler.handle(error)
