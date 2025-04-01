@@ -1,10 +1,12 @@
 import { createContext, ReactNode, useCallback } from 'react'
 
 import { apiCreateStock } from '@/api/app/stock/create-stock'
+import { apiGetPortfolioQuotes } from '@/api/app/stock/get-portfolio-quotes'
 import { CreateStockDTO } from '@/dtos/stock'
 
 type StockContextData = {
   createStock(data: CreateStockDTO): Promise<void>
+  getPortfolioQuotes(type: string): Promise<void>
 }
 
 type StockProvidersProps = {
@@ -21,8 +23,12 @@ function StockProvider({ children }: StockProvidersProps) {
     [],
   )
 
+  const getPortfolioQuotes = useCallback(async (type: string) => {
+    await apiGetPortfolioQuotes(type)
+  }, [])
+
   return (
-    <StockContext.Provider value={{ createStock }}>
+    <StockContext.Provider value={{ createStock, getPortfolioQuotes }}>
       {children}
     </StockContext.Provider>
   )
