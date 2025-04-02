@@ -1,14 +1,17 @@
+import { PortfolioResponseDTO } from '@/dtos/stock-dto'
 import { api } from '@/lib/axios'
 
 import { handleApiError } from '../utils/api-error-handler'
 
-export async function apiGetPortfolioQuotes(type: string) {
+export async function apiGetPortfolioQuotes(
+  type: string,
+): Promise<PortfolioResponseDTO> {
   try {
-    const { data } = await api.get('/stocks/portfolio', {
+    const { data } = await api.get<PortfolioResponseDTO>('/stocks/portifolio', {
       params: { type },
     })
 
-    console.log(JSON.stringify(data, null, 2))
+    return data
   } catch (error) {
     throw handleApiError(error)
   }

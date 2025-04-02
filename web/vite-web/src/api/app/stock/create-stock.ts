@@ -1,4 +1,4 @@
-import { CreateStockDTO } from '@/dtos/stock'
+import { CreateStockDTO } from '@/dtos/stock-dto'
 import { api } from '@/lib/axios'
 
 import { handleApiError } from '../utils/api-error-handler'
