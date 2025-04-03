@@ -1,6 +1,7 @@
 import { IStockType } from '@modules/stock/domain/StockType'
 import { IB3Provider } from '@modules/stock/providers/B3Provider/models/IB3Provider'
 import { IStockRepository } from '@modules/stock/repositories/IStockRepository'
+import { groupedStocksUtils } from '@modules/stock/utils/grouped-stocks-utils'
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
 import { inject, injectable } from 'tsyringe'
@@ -38,25 +39,7 @@ class GetPortfolioQuotesUseCase implements IUseCase<IRequest, IResponse> {
       throw new AppError('User stock not found', 404)
     }
 
-    const groupedStocks = stocks.reduce<
-      Record<
-        string,
-        { totalStock: number; totalInvested: number; shortName: string }
-      >
-    >((acc, stock) => {
-      if (!acc[stock.symbol]) {
-        acc[stock.symbol] = {
-          totalStock: 0,
-          totalInvested: 0,
-          shortName: stock.shortName,
-        }
-      }
-
-      acc[stock.symbol].totalStock += stock.quantity ?? 0
-      acc[stock.symbol].totalInvested += (stock.quantity ?? 0) * stock.price
-
-      return acc
-    }, {})
+    const groupedStocks = groupedStocksUtils(stocks)
 
     const symbols = Object.keys(groupedStocks)
     const quotes = await Promise.all(
