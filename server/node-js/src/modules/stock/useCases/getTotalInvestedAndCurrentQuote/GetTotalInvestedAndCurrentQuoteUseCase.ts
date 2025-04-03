@@ -1,6 +1,7 @@
 import { IStockType } from '@modules/stock/domain/StockType'
 import { IB3Provider } from '@modules/stock/providers/B3Provider/models/IB3Provider'
 import { IStockRepository } from '@modules/stock/repositories/IStockRepository'
+import { fetchStockQuotes } from '@modules/stock/utils/fetch-stock-quotes'
 import { groupedStocksUtils } from '@modules/stock/utils/grouped-stocks-utils'
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
@@ -33,20 +34,8 @@ class GetTotalInvestedAndCurrentQuoteUseCase
     const groupedStocks = groupedStocksUtils(stocks)
 
     const symbols = Object.keys(groupedStocks)
-    const quotes = await Promise.all(
-      symbols.map(async (symbol) => {
-        const quote = await this.b3Provider.getQuoteTickers(symbol)
 
-        if (!quote) {
-          throw new AppError(`Stock ${symbol} not found on BrAPI`, 404)
-        }
-
-        return {
-          symbol,
-          price: Number(quote.regularMarketPrice),
-        }
-      }),
-    )
+    const quotes = await fetchStockQuotes(symbols, this.b3Provider)
 
     const { totalInvested, currentValue } = symbols.reduce(
       (acc, symbol) => {
