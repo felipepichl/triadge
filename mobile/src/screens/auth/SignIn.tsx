@@ -1,5 +1,6 @@
 import BackgroundImage from '@assets/background.png'
 import Logo from '@assets/logo.svg'
+import { Button } from '@components/Button'
 import { Input } from '@components/Input'
 import { Center, Heading, Image, Text, VStack } from '@gluestack-ui/themed'
 
@@ -15,7 +16,7 @@ export function SignIn() {
         position="absolute"
       />
 
-      <VStack flex={1} px="$10" pb="$16">
+      <Center flex={1} px="$10" pb="$16" gap="$8">
         <Center my="$24">
           <Logo />
         </Center>
@@ -35,7 +36,9 @@ export function SignIn() {
             <Input placeholder="Senha" secureTextEntry />
           </Center>
         </Center>
-      </VStack>
+
+        <Button title="Acessar Painel" />
+      </Center>
     </VStack>
   )
 }
