@@ -4,7 +4,8 @@ import {
   Roboto_700Bold,
   useFonts,
 } from '@expo-google-fonts/roboto'
-import { Center, GluestackUIProvider, Text } from '@gluestack-ui/themed'
+import { GluestackUIProvider } from '@gluestack-ui/themed'
+import { SignIn } from '@screens/auth/SignIn'
 import { StatusBar } from 'react-native'
 
 import { config } from './config/gluestack-ui.config'
@@ -20,13 +21,7 @@ export default function App() {
         translucent
       />
 
-      {!fontsLoaded ? (
-        <Center flex={1} bg="$gray700">
-          <Text style={{ fontFamily: 'Roboto_700Bold' }}>Triadge</Text>
-        </Center>
-      ) : (
-        <Loading />
-      )}
+      {fontsLoaded ? <SignIn /> : <Loading />}
     </GluestackUIProvider>
   )
 }
