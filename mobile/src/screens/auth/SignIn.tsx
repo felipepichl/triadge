@@ -23,7 +23,7 @@ export function SignIn() {
           h={624}
           source={BackgroundImage}
           defaultSource={BackgroundImage}
-          alt="Pessoas treinando"
+          alt="Colunas Gregas"
           position="absolute"
         />
 
