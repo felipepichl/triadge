@@ -7,7 +7,7 @@ export async function apiGetPortfolioQuotes(
   type: string,
 ): Promise<PortfolioResponseDTO> {
   try {
-    const { data } = await api.get<PortfolioResponseDTO>('/stocks/portifolio', {
+    const { data } = await api.get<PortfolioResponseDTO>('/stocks/portfolio', {
       params: { type },
     })
 
