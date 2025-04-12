@@ -5,6 +5,7 @@ import { fetchStockQuotes } from '@modules/stock/utils/fetch-stock-quotes'
 import { groupedStocksUtils } from '@modules/stock/utils/grouped-stocks-utils'
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
+import { inject, injectable } from 'tsyringe'
 
 interface IRequest {
   userId: string
@@ -16,11 +17,14 @@ interface IResponse {
   currentValue: number
 }
 
+@injectable()
 class GetTotalInvestedAndCurrentQuoteUseCase
   implements IUseCase<IRequest, IResponse>
 {
   constructor(
+    @inject('StockRepository')
     private stocksRpository: IStockRepository,
+    @inject('BrapiB3Provider')
     private b3Provider: IB3Provider,
   ) {}
 
