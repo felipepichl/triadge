@@ -2,6 +2,7 @@ import { createContext, ReactNode, useCallback, useState } from 'react'
 
 import { apiCreateStock } from '@/api/app/stock/create-stock'
 import { apiGetPortfolioQuotes } from '@/api/app/stock/get-portfolio-quotes'
+import { apiGetTotalInvestedAndCurrentQuote } from '@/api/app/stock/get-total-invested-and-current-quote'
 import { CreateStockDTO, PortfolioResponseDTO } from '@/dtos/stock-dto'
 
 type StockContextData = {
@@ -30,6 +31,10 @@ function StockProvider({ children }: StockProvidersProps) {
     const portfolio = await apiGetPortfolioQuotes(type)
 
     setPortfolio(portfolio)
+  }, [])
+
+  const getTotalInvestedAndCurrentQuote = useCallback(async (type: string) => {
+    const result = await apiGetTotalInvestedAndCurrentQuote(type)
   }, [])
 
   return (
