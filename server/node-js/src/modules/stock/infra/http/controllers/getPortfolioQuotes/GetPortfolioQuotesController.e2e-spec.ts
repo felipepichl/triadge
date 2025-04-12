@@ -41,7 +41,7 @@ describe('[E2E] - Get user portifolio with total invested and current value', ()
 
   it('should be able to get user portifolio with invested and current value', async () => {
     const response = await request(app)
-      .get('/stocks/portifolio')
+      .get('/stocks/portfolio')
       .set({ Authorization: `Bearer ${token}` })
       .query({ type })
 

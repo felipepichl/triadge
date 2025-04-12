@@ -15,7 +15,7 @@ const getTotalInvestedAndCurrentQuote =
 
 stocksRoutes.post('', createStockController.handle)
 stocksRoutes.get('/type', listByType.handle)
-stocksRoutes.get('/portifolio', getPortfolioQuotes.handle)
+stocksRoutes.get('/portfolio', getPortfolioQuotes.handle)
 stocksRoutes.get('/investement', getTotalInvestedAndCurrentQuote.handle)
 
 export { stocksRoutes }
