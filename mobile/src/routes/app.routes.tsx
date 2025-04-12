@@ -18,7 +18,11 @@ const { Navigator, Screen } = createBottomTabNavigator<AppRoutes>()
 
 export function AppRoutes() {
   return (
-    <Navigator>
+    <Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
       <Screen name="dashboard" component={Dashboard} />
       <Screen name="transaction" component={Transaction} />
       <Screen name="accountPayable" component={AccountPayable} />
