@@ -1,9 +1,10 @@
-import { Center, Text } from '@gluestack-ui/themed'
+import { DashboardHeader } from '@components/DashboardHeader'
+import { VStack } from '@gluestack-ui/themed'
 
 export function Dashboard() {
   return (
-    <Center flex={1}>
-      <Text>Dashboard</Text>
-    </Center>
+    <VStack flex={1}>
+      <DashboardHeader />
+    </VStack>
   )
 }
