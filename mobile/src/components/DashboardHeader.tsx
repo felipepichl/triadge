@@ -1,4 +1,5 @@
-import { Heading, HStack, Text, VStack } from '@gluestack-ui/themed'
+import { Heading, HStack, Icon, Text, VStack } from '@gluestack-ui/themed'
+import { LogOut } from 'lucide-react-native'
 
 import { UserPhoto } from './UserPhoto'
 
@@ -11,7 +12,7 @@ export function DashboardHeader() {
         h="$16"
       />
 
-      <VStack>
+      <VStack flex={1}>
         <Text color="$gray100" fontSize="$sm">
           Olá,
         </Text>
@@ -19,6 +20,8 @@ export function DashboardHeader() {
           Felipe Pichl
         </Heading>
       </VStack>
+
+      <Icon as={LogOut} color="$red500" size="xl" />
     </HStack>
   )
 }
