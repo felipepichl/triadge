@@ -12,6 +12,7 @@ import {
   ScanBarcode,
   School,
 } from 'lucide-react-native'
+import { Platform } from 'react-native'
 
 import { gluestackUIConfig } from '../../config/gluestack-ui.config'
 
@@ -37,6 +38,13 @@ export function AppRoutes() {
         tabBarShowLabel: false,
         tabBarActiveTintColor: tokens.colors.green500,
         tabBarInactiveTintColor: tokens.colors.gray200,
+        tabBarStyle: {
+          backgroundColor: tokens.colors.gray600,
+          borderTopWidth: 0,
+          height: Platform.OS === 'android' ? 'auto' : 96,
+          paddingBottom: tokens.space['14'],
+          paddingTop: tokens.space['4'],
+        },
       }}
     >
       <Screen
