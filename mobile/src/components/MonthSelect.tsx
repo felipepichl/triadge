@@ -42,11 +42,10 @@ export function MonthSelect({ onMonthSelect, defaultMonth }: MonthSelectProps) {
     <Select
       px="$8"
       onValueChange={handleSelectChange}
-      // selectedValue={selectedValue}
       defaultValue={selectedValue}
       initialLabel={selectedLabel}
     >
-      <SelectTrigger borderRadius="$xl" h="$14" borderColor="$gray400">
+      <SelectTrigger borderRadius="$xl" h="$14" borderColor="$gray300">
         <SelectInput color="$gray100" />
         <SelectIcon as={ChevronDownIcon} mr="$2" />
       </SelectTrigger>
@@ -74,6 +73,8 @@ export function MonthSelect({ onMonthSelect, defaultMonth }: MonthSelectProps) {
                 $checked-bgColor="$gray700"
                 $checked-backgroundColor="$gray700"
                 $checked-borderRadius="$xl"
+                $checked-borderColor="$green500"
+                $checked-borderWidth={1}
               />
             ))}
           </SelectScrollView>

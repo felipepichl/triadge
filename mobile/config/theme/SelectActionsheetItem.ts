@@ -16,21 +16,21 @@ export const SelectActionsheetItem = createStyle({
     },
   },
 
-  ':hover': {
-    bg: '$backgroundLight100',
-  },
+  // ':hover': {
+  //   bg: '$backgroundLight100',
+  // },
 
-  ':active': {
-    bg: '$backgroundLight200',
-  },
+  // ':active': {
+  //   bg: '$backgroundLight200',
+  // },
 
-  ':checked': {
-    bg: '$backgroundLight300',
-  },
+  // ':checked': {
+  //   bg: '$backgroundLight300',
+  // },
 
-  ':focus': {
-    bg: '$backgroundLight100',
-  },
+  // ':focus': {
+  //   bg: '$backgroundLight100',
+  // },
 
   _dark: {
     ':hover': {
