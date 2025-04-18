@@ -1,24 +1,9 @@
-import {
-  Box,
-  Center,
-  Heading,
-  HStack,
-  Icon,
-  Text,
-  VStack,
-} from '@gluestack-ui/themed'
+import { Heading, HStack, Icon, Text, VStack } from '@gluestack-ui/themed'
 import { LogOut } from 'lucide-react-native'
-import { useCallback } from 'react'
-import { VictoryPie } from 'victory-native'
 
-import { MonthSelect } from './MonthSelect'
 import { UserPhoto } from './UserPhoto'
 
 export function DashboardHeader() {
-  const handleMonthSelect = useCallback(async (monthNumber: string) => {
-    console.log(monthNumber)
-  }, [])
-
   return (
     <VStack>
       <HStack
@@ -46,35 +31,6 @@ export function DashboardHeader() {
 
         <Icon as={LogOut} color="$red500" size="xl" />
       </HStack>
-
-      <Box px="$8" pt="$5" pb="$5">
-        <Heading color="$gray100" fontSize="$xl">
-          Transações
-        </Heading>
-        <Text color="$gray300" fontSize="$sm">
-          Por entrada e saída
-        </Text>
-      </Box>
-      <MonthSelect onMonthSelect={handleMonthSelect} />
-      <Center mt="$5">
-        <VictoryPie
-          data={[
-            { x: 'Entrada', y: 97 },
-            { x: 'Saída', y: 35 },
-          ]}
-          colorScale={['green', 'red']}
-          width={300}
-          height={300}
-          labelRadius={60}
-          style={{
-            labels: {
-              fill: 'white',
-              fontSize: 18,
-            },
-          }}
-          padding={{ top: 0, bottom: 0, left: 0, right: 0 }}
-        />
-      </Center>
     </VStack>
   )
 }
