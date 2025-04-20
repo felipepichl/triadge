@@ -1,9 +1,14 @@
-import { Input as GluestackInput, InputField } from '@gluestack-ui/themed'
-import { ComponentProps } from 'react'
+import { Icon, Input as GluestackInput, InputField } from '@gluestack-ui/themed'
+import { LucideIcon } from 'lucide-react-native'
+import { ComponentProps, useState } from 'react'
 
-type InputProps = ComponentProps<typeof InputField>
+type InputProps = ComponentProps<typeof InputField> & {
+  icon?: LucideIcon
+}
 
-export function Input({ ...rest }: InputProps) {
+export function Input({ icon, ...rest }: InputProps) {
+  const [isFocused, setIsFocused] = useState(false)
+
   return (
     <GluestackInput
       bg="$gray700"
@@ -15,11 +20,21 @@ export function Input({ ...rest }: InputProps) {
         borderWidth: 1,
         borderColor: '$green500',
       }}
+      alignItems="center"
     >
+      {icon && (
+        <Icon
+          as={icon}
+          color={isFocused ? '$green500' : '$gray300'}
+          size="xl"
+        />
+      )}
       <InputField
         color="$white"
         fontFamily="$body"
         placeholderTextColor="$gray300"
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         {...rest}
       />
     </GluestackInput>

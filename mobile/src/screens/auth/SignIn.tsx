@@ -10,6 +10,7 @@ import {
   Text,
   VStack,
 } from '@gluestack-ui/themed'
+import { KeyRound, Mail } from 'lucide-react-native'
 
 export function SignIn() {
   return (
@@ -40,11 +41,12 @@ export function SignIn() {
 
             <Center gap="$4">
               <Input
-                placeholder="Matrícula"
+                placeholder="E-mail"
                 keyboardType="email-address"
                 autoCapitalize="none"
+                icon={Mail}
               />
-              <Input placeholder="Senha" secureTextEntry />
+              <Input placeholder="Senha" secureTextEntry icon={KeyRound} />
             </Center>
           </Center>
 
