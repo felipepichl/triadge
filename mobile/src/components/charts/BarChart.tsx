@@ -5,7 +5,6 @@ import {
   VictoryBar,
   VictoryChart,
   VictoryLabel,
-  VictoryTheme,
 } from 'victory-native'
 
 export function BarChart() {
@@ -28,7 +27,6 @@ export function BarChart() {
         width={300}
         height={Math.min(Math.max(chartData.length * 62 + 32, 130), 600)}
         padding={{ top: 48, left: 0, bottom: 48 }}
-        theme={VictoryTheme.clean}
         animate={{
           duration: 1000,
           easing: 'exp',
@@ -63,7 +61,6 @@ export function BarChart() {
             data: {
               fill: barColor,
               stroke: 'none',
-              fillOpacity: 0.4,
             },
             labels: {
               fontSize: 12,
