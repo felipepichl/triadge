@@ -35,8 +35,8 @@ export function Button({
 }: ButtonProps) {
   return (
     <GluestackButton
-      w={iconSize === 'default' ? '$full' : '$14'}
-      h="$14"
+      w={iconSize === 'default' ? '$full' : '$12'}
+      h={iconSize === 'default' ? '$14' : '$12'}
       bg={variant === 'outline' ? 'transparent' : '$green700'}
       borderWidth={variant === 'outline' ? '$1' : '$0'}
       borderColor="$green500"
@@ -48,7 +48,7 @@ export function Button({
       {isLoading ? (
         <ButtonSpinner color="$gray100" />
       ) : icon ? (
-        <Icon as={icon} color="$green500" size="2xl" />
+        <Icon as={icon} color="$green500" size="xl" />
       ) : (
         <Text color="$gray100" fontFamily="$heading">
           {title}
