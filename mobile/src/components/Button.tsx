@@ -1,30 +1,54 @@
 import {
   Button as GluestackButton,
   ButtonSpinner,
+  Icon,
   Text,
 } from '@gluestack-ui/themed'
+import { LucideIcon } from 'lucide-react-native'
 import { ComponentProps } from 'react'
 
-type ButtonProps = ComponentProps<typeof GluestackButton> & {
-  title: string
+type ButtonPropsBase = ComponentProps<typeof GluestackButton> & {
+  variant?: 'solid' | 'outline'
+  iconSize?: 'default' | 'icon'
   isLoading?: boolean
 }
 
-export function Button({ title, isLoading = false, ...rest }: ButtonProps) {
+type ButtonPropsWithIcon = ButtonPropsBase & {
+  icon: LucideIcon
+  title?: string
+}
+
+type ButtonPropsWithTitle = ButtonPropsBase & {
+  icon?: never
+  title: string
+}
+
+type ButtonProps = ButtonPropsWithIcon | ButtonPropsWithTitle
+
+export function Button({
+  title,
+  variant = 'solid',
+  iconSize = 'default',
+  icon,
+  isLoading = false,
+  ...rest
+}: ButtonProps) {
   return (
     <GluestackButton
-      w="$full"
+      w={iconSize === 'default' ? '$full' : '$14'}
       h="$14"
-      bg="$green700"
-      borderWidth="$0"
+      bg={variant === 'outline' ? 'transparent' : '$green700'}
+      borderWidth={variant === 'outline' ? '$1' : '$0'}
       borderColor="$green500"
       rounded="$xl"
-      $active-bg="$green500"
+      $active-bg={variant === 'outline' ? '$gray500' : '$green500'}
       disabled={isLoading}
       {...rest}
     >
       {isLoading ? (
         <ButtonSpinner color="$gray100" />
+      ) : icon ? (
+        <Icon as={icon} color="$green500" size="2xl" />
       ) : (
         <Text color="$gray100" fontFamily="$heading">
           {title}
