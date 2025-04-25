@@ -4,7 +4,6 @@ import {
 } from '@react-navigation/bottom-tabs'
 import { AccountPayable } from '@screens/app/AccountPayable'
 import { Dashboard } from '@screens/app/Dashboard'
-import { NewTransaction } from '@screens/app/NewTransaction'
 import { Stock } from '@screens/app/Stock'
 import { Transaction } from '@screens/app/Transaction'
 import {
@@ -15,20 +14,20 @@ import {
 } from 'lucide-react-native'
 import { Platform } from 'react-native'
 
-import { gluestackUIConfig } from '../../config/gluestack-ui.config'
+import { gluestackUIConfig } from '../../../config/gluestack-ui.config'
 
-type AppRoutes = {
+type TabsRoutes = {
   dashboard: undefined
   transaction: undefined
   accountPayable: undefined
   stock: undefined
 }
 
-export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>
+export type TabsNavigatorRoutesProps = BottomTabNavigationProp<TabsRoutes>
 
-const { Navigator, Screen } = createBottomTabNavigator<AppRoutes>()
+const { Navigator, Screen } = createBottomTabNavigator<TabsRoutes>()
 
-export function AppRoutes() {
+export function TabsRoutes() {
   const { tokens } = gluestackUIConfig
   const iconSize = tokens.space['6']
 
