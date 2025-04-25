@@ -24,7 +24,6 @@ export function StackRoutes() {
         component={NewTransaction}
         options={{
           presentation: 'modal',
-          headerShown: true,
           headerTitle: 'Nova Transação',
         }}
       />
