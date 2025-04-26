@@ -15,7 +15,7 @@ export function ScreenHeader() {
     <HStack bg="$gray600" height="$64" pt="$16" justifyContent="flex-end">
       <Button
         variant="outline"
-        iconSize="icon"
+        type="icon"
         icon={CircleFadingPlus}
         mr="$4"
         onPress={handleNewTransaction}

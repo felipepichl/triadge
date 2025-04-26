@@ -50,7 +50,7 @@ export function SignIn() {
             </Center>
           </Center>
 
-          <Button title="Acessar Painel" />
+          <Button type="default" title="Acessar Painel" />
         </Center>
       </VStack>
     </ScrollView>
