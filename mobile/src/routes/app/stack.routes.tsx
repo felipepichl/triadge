@@ -3,7 +3,7 @@ import {
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack'
 import { NewAccountPayable } from '@screens/app/AccountPayable/NewAccountPayable'
-import { NewTransaction } from '@screens/app/NewTransaction'
+import { NewTransaction } from '@screens/app/Transaction/NewTransaction'
 
 import { TabsRoutes } from './tabs.routes'
 

@@ -5,7 +5,7 @@ import {
 import { AccountPayable } from '@screens/app/AccountPayable/AccountPayable'
 import { Dashboard } from '@screens/app/Dashboard'
 import { Stock } from '@screens/app/Stock'
-import { Transaction } from '@screens/app/Transaction'
+import { Transaction } from '@screens/app/Transaction/Transaction'
 import {
   ArrowLeftRightIcon,
   ChartCandlestick,
