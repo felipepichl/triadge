@@ -4,11 +4,17 @@ import { useNavigation } from '@react-navigation/native'
 import { StackNavigatorRoutesProps } from '@routes/app/stack.routes'
 import { CircleFadingPlus } from 'lucide-react-native'
 
-export function ScreenHeader() {
+type ScreenHeaderProps = {
+  type: 'newTransactions' | 'newAccountPayable'
+}
+
+export function ScreenHeader({ type }: ScreenHeaderProps) {
   const navigator = useNavigation<StackNavigatorRoutesProps>()
 
   function handleNewTransaction() {
-    navigator.navigate('newTransactions')
+    if (type === 'newTransactions') {
+      navigator.navigate('newTransactions')
+    }
   }
 
   return (

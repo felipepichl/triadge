@@ -1,9 +1,10 @@
-import { Center, Text } from '@gluestack-ui/themed'
+import { ScreenHeader } from '@components/ScreenHeader'
+import { VStack } from '@gluestack-ui/themed'
 
 export function AccountPayable() {
   return (
-    <Center flex={1}>
-      <Text>Felipe</Text>
-    </Center>
+    <VStack flex={1}>
+      <ScreenHeader type="newAccountPayable" />
+    </VStack>
   )
 }

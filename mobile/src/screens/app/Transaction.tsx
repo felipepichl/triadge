@@ -40,7 +40,7 @@ export function Transaction() {
   }, [])
   return (
     <VStack>
-      <ScreenHeader />
+      <ScreenHeader type="newTransactions" />
 
       <ScrollView
         horizontal
