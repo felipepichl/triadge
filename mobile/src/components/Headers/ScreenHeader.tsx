@@ -15,6 +15,9 @@ export function ScreenHeader({ type }: ScreenHeaderProps) {
     if (type === 'newTransactions') {
       navigator.navigate('newTransactions')
     }
+    if (type === 'newAccountPayable') {
+      navigator.navigate('newAccountPayable')
+    }
   }
 
   return (

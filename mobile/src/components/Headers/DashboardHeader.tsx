@@ -1,7 +1,7 @@
 import { Heading, HStack, Icon, Text, VStack } from '@gluestack-ui/themed'
 import { LogOut } from 'lucide-react-native'
 
-import { UserPhoto } from './UserPhoto'
+import { UserPhoto } from '../UserPhoto'
 
 export function DashboardHeader() {
   return (

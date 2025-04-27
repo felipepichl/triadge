@@ -1,4 +1,4 @@
-import { ScreenHeader } from '@components/ScreenHeader'
+import { ScreenHeader } from '@components/Headers/ScreenHeader'
 import { VStack } from '@gluestack-ui/themed'
 
 export function AccountPayable() {

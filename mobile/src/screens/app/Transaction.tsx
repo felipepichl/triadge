@@ -1,4 +1,4 @@
-import { ScreenHeader } from '@components/ScreenHeader'
+import { ScreenHeader } from '@components/Headers/ScreenHeader'
 import { Summary, SummaryProps } from '@components/Summary'
 import { ScrollView, VStack } from '@gluestack-ui/themed'
 import { ArrowDownCircle, ArrowUpCircle, DollarSign } from 'lucide-react-native'

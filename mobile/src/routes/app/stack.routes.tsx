@@ -2,6 +2,7 @@ import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from '@react-navigation/native-stack'
+import { NewAccountPayable } from '@screens/app/AccountPayable/NewAccountPayable'
 import { NewTransaction } from '@screens/app/NewTransaction'
 
 import { TabsRoutes } from './tabs.routes'
@@ -9,6 +10,7 @@ import { TabsRoutes } from './tabs.routes'
 type StackRoutes = {
   tabs: undefined
   newTransactions: undefined
+  newAccountPayable: undefined
 }
 
 export type StackNavigatorRoutesProps = NativeStackNavigationProp<StackRoutes>
@@ -24,7 +26,13 @@ export function StackRoutes() {
         component={NewTransaction}
         options={{
           presentation: 'modal',
-          headerTitle: 'Nova Transação',
+        }}
+      />
+      <Screen
+        name="newAccountPayable"
+        component={NewAccountPayable}
+        options={{
+          presentation: 'modal',
         }}
       />
     </Navigator>

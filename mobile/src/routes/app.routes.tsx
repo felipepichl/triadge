@@ -4,7 +4,6 @@ import {
 } from '@react-navigation/bottom-tabs'
 import { AccountPayable } from '@screens/app/AccountPayable'
 import { Dashboard } from '@screens/app/Dashboard'
-import { NewTransaction } from '@screens/app/NewTransaction'
 import { Stock } from '@screens/app/Stock'
 import { Transaction } from '@screens/app/Transaction'
 import {
