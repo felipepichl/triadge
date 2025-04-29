@@ -1,14 +1,25 @@
-import { createContext, ReactNode, useCallback, useState } from 'react'
+import {
+  createContext,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 
 import { apiCreateStock } from '@/api/app/stock/create-stock'
 import { apiGetPortfolioQuotes } from '@/api/app/stock/get-portfolio-quotes'
 import { apiGetTotalInvestedAndCurrentQuote } from '@/api/app/stock/get-total-invested-and-current-quote'
-import { CreateStockDTO, PortfolioResponseDTO } from '@/dtos/stock-dto'
+import {
+  CreateStockDTO,
+  InvestementResponseDTO,
+  PortfolioResponseDTO,
+} from '@/dtos/stock-dto'
 
 type StockContextData = {
   createStock(data: CreateStockDTO): Promise<void>
   getPortfolioQuotes(type: string): Promise<void>
   portfolio: PortfolioResponseDTO | undefined
+  investment: InvestementResponseDTO | undefined
 }
 
 type StockProvidersProps = {
@@ -19,6 +30,7 @@ const StockContext = createContext({} as StockContextData)
 
 function StockProvider({ children }: StockProvidersProps) {
   const [portfolio, setPortfolio] = useState<PortfolioResponseDTO>()
+  const [investment, setInvestment] = useState<InvestementResponseDTO>()
 
   const createStock = useCallback(
     async ({ symbol, price, date, quantity, type }: CreateStockDTO) => {
@@ -33,13 +45,23 @@ function StockProvider({ children }: StockProvidersProps) {
     setPortfolio(portfolio)
   }, [])
 
-  const getTotalInvestedAndCurrentQuote = useCallback(async (type: string) => {
-    const result = await apiGetTotalInvestedAndCurrentQuote(type)
+  const getTotalInvestedAndCurrentQuote = useCallback(async (type?: string) => {
+    if (!type) {
+      type = 'fii'
+    }
+
+    const investiment = await apiGetTotalInvestedAndCurrentQuote(type)
+
+    setInvestment(investiment)
   }, [])
+
+  useEffect(() => {
+    getTotalInvestedAndCurrentQuote()
+  }, [getTotalInvestedAndCurrentQuote])
 
   return (
     <StockContext.Provider
-      value={{ createStock, getPortfolioQuotes, portfolio }}
+      value={{ createStock, getPortfolioQuotes, portfolio, investment }}
     >
       {children}
     </StockContext.Provider>

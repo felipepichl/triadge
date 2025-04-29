@@ -1,18 +1,14 @@
+import { InvestementResponseDTO } from '@/dtos/stock-dto'
 import { api } from '@/lib/axios'
 
 import { handleApiError } from '../utils/api-error-handler'
-
-type InvestementResponseDTO = {
-  totalInvested: number
-  currentValue: number
-}
 
 export async function apiGetTotalInvestedAndCurrentQuote(
   type: string,
 ): Promise<InvestementResponseDTO> {
   try {
     const { data } = await api.get<InvestementResponseDTO>(
-      '/stocks/invenstment',
+      '/stocks/investement',
       {
         params: { type },
       },

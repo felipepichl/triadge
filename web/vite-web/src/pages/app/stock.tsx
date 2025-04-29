@@ -6,12 +6,12 @@ import { NewStock } from '@/components/new-stock/new-stock'
 import { SummaryProps } from '@/components/summary/summary'
 import { SummaryCarousel } from '@/components/summary/summary-carousel'
 import { useStock } from '@/hooks/use-stock'
-// import { priceFormatter } from '@/util/formatter'
+import { priceFormatter } from '@/util/formatter'
 
 export function Stock() {
   const [summaries, setSummaries] = useState<SummaryProps[]>([])
 
-  const { getPortfolioQuotes } = useStock()
+  const { getPortfolioQuotes, investment } = useStock()
 
   const portfolioQuotes = useCallback(async () => {
     await getPortfolioQuotes('fii')
@@ -28,17 +28,14 @@ export function Stock() {
         description: 'Total Investido',
         icon: DollarSign,
         iconColor: '#00b37e',
-        value: 'R$ 1.000,00',
-        // priceFormatter.format(
-        //   transactionByDateRangeAndType.balance?.income ?? 0,
-        // ),
+        value: priceFormatter.format(investment?.totalInvested ?? 0),
       },
       {
         color: 'default',
         description: 'Cotação Atual',
         icon: Activity,
         iconColor: '#ff0000',
-        value: 'R$ 1.250,00',
+        value: priceFormatter.format(investment?.currentValue ?? 0),
       },
       {
         color: 'green',
@@ -50,7 +47,7 @@ export function Stock() {
     ]
 
     setSummaries(summariesResume)
-  }, [])
+  }, [investment])
 
   return (
     <>

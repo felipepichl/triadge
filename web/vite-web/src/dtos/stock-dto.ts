@@ -19,3 +19,8 @@ export type PortfolioResponseDTO = {
     currentValue: number
   }[]
 }
+
+export type InvestementResponseDTO = {
+  totalInvested: number
+  currentValue: number
+}

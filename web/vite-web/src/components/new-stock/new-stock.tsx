@@ -28,7 +28,9 @@ const formSchema = z.object({
   symbol: z.string().min(1, { message: 'Campo obrigatório' }),
   price: z.string().min(1, { message: 'Campo obrigatório' }),
   date: z.date(),
-  quantity: z.string().min(1, { message: 'Campo obrigatório' }),
+  quantity: z.number().min(1, {
+    message: 'Quantidade deve ser maior que zero',
+  }),
   type: z.string().min(1, { message: 'Selecione uma opção' }),
 })
 
@@ -38,7 +40,7 @@ export function NewStock() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(
     undefined,
   )
-  const [quantity, setQuantity] = useState(0)
+  // const [quantity, setQuantity] = useState(0)
 
   const { createStock } = useStock()
 
@@ -48,10 +50,11 @@ export function NewStock() {
       symbol: '',
       price: '',
       date: new Date(),
-      quantity: '',
+      quantity: 0,
       type: '',
     },
   })
+  const quantity = form.watch('quantity')
 
   const handleToggleDrawer = useCallback(() => {
     setIsDrawerOpen((prevState) => !prevState)
@@ -127,9 +130,9 @@ export function NewStock() {
                         size="icon"
                         className="mr-2 h-8 w-8 shrink-0 rounded-full"
                         onClick={() => {
-                          setQuantity(quantity - 1)
+                          form.setValue('quantity', quantity - 1)
                         }}
-                        disabled={quantity < 2}
+                        disabled={quantity <= 1}
                         type="button"
                       >
                         <Minus />
@@ -138,8 +141,7 @@ export function NewStock() {
                         className="input-no-spinner"
                         placeholder="Quantidade"
                         {...form.register('quantity')}
-                        type="number"
-                        value={quantity === 0 ? '' : quantity}
+                        value={quantity}
                         disabled
                       />
                       <Button
@@ -147,7 +149,7 @@ export function NewStock() {
                         size="icon"
                         className="ml-2 h-8 w-8 shrink-0 rounded-full"
                         onClick={() => {
-                          setQuantity(quantity + 1)
+                          form.setValue('quantity', quantity + 1)
                         }}
                         type="button"
                       >
