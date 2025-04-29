@@ -1,6 +1,7 @@
 import { ScreenHeader } from '@components/Headers/ScreenHeader'
-import { Summary, SummaryProps } from '@components/Summary'
-import { ScrollView, VStack } from '@gluestack-ui/themed'
+import { SummaryProps } from '@components/Summary/Summary'
+import { SummaryScroll } from '@components/Summary/SummaryScroll'
+import { VStack } from '@gluestack-ui/themed'
 import { ArrowDownCircle, ArrowUpCircle, DollarSign } from 'lucide-react-native'
 import { useEffect, useState } from 'react'
 
@@ -42,25 +43,7 @@ export function Transaction() {
     <VStack>
       <ScreenHeader type="newTransactions" />
 
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingLeft: 24 }}
-        width="100%"
-        position="absolute"
-        mt="$33"
-      >
-        {summaries.map((summary) => (
-          <Summary
-            key={summary.description}
-            color={summary.color}
-            description={summary.description}
-            icon={summary.icon}
-            iconColor={summary.iconColor}
-            value={summary.value}
-          />
-        ))}
-      </ScrollView>
+      <SummaryScroll summaries={summaries} />
     </VStack>
   )
 }
