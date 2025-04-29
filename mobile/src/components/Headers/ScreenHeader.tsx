@@ -11,7 +11,7 @@ type ScreenHeaderProps = {
 export function ScreenHeader({ type }: ScreenHeaderProps) {
   const navigator = useNavigation<StackNavigatorRoutesProps>()
 
-  function handleNewTransaction() {
+  function handleNewScreen() {
     if (type === 'newTransactions') {
       navigator.navigate('newTransactions')
     }
@@ -27,7 +27,7 @@ export function ScreenHeader({ type }: ScreenHeaderProps) {
         type="icon"
         icon={CircleFadingPlus}
         mr="$4"
-        onPress={handleNewTransaction}
+        onPress={handleNewScreen}
       />
     </HStack>
   )
