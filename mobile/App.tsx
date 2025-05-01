@@ -1,3 +1,5 @@
+import '@config/calendarLocale'
+
 import { Loading } from '@components/Loading'
 import {
   Roboto_400Regular,
