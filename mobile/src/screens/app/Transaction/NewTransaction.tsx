@@ -21,7 +21,7 @@ export function NewTransaction() {
         <Input placeholder="Descrição" />
         <Input placeholder="Valor" />
         <DatePicker />
-        <CategorySelect placeholder="Categoria" options={categorias} />
+        <CategorySelect type="financialCategory" options={categorias} />
       </VStack>
     </VStack>
   )

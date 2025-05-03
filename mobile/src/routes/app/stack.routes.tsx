@@ -1,3 +1,4 @@
+import { NewFinancialCategoryOrSubcategory } from '@components/NewFinancialCategoryOrSubcategory'
 import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
@@ -7,10 +8,14 @@ import { NewTransaction } from '@screens/app/Transaction/NewTransaction'
 
 import { TabsRoutes } from './tabs.routes'
 
-type StackRoutes = {
+export type StackRoutes = {
   tabs: undefined
   newTransactions: undefined
   newAccountPayable: undefined
+  newFinancialCategoryOrSubcategory: {
+    type: 'financialCategory' | 'subcategory'
+    parentCategoryId?: string
+  }
 }
 
 export type StackNavigatorRoutesProps = NativeStackNavigationProp<StackRoutes>
@@ -31,6 +36,13 @@ export function StackRoutes() {
       <Screen
         name="newAccountPayable"
         component={NewAccountPayable}
+        options={{
+          presentation: 'modal',
+        }}
+      />
+      <Screen
+        name="newFinancialCategoryOrSubcategory"
+        component={NewFinancialCategoryOrSubcategory}
         options={{
           presentation: 'modal',
         }}
