@@ -10,12 +10,18 @@ import { ComponentProps, useState } from 'react'
 
 type InputProps = ComponentProps<typeof InputField> & {
   icon?: LucideIcon
-  inputSlot?: boolean
+  isPassword?: boolean
 }
 
-export function Input({ icon, inputSlot = false, ...rest }: InputProps) {
+export function Input({ icon, isPassword = false, ...rest }: InputProps) {
   const [isFocused, setIsFocused] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+
+  const inputType = isPassword
+    ? showPassword
+      ? 'text'
+      : 'password'
+    : rest.type
 
   return (
     <GluestackInput
@@ -43,11 +49,11 @@ export function Input({ icon, inputSlot = false, ...rest }: InputProps) {
         placeholderTextColor="$gray300"
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        type={showPassword ? 'text' : 'password'}
+        type={inputType}
         {...rest}
       />
 
-      {inputSlot && (
+      {isPassword && (
         <InputSlot onPress={() => setShowPassword(!showPassword)}>
           <InputIcon
             as={showPassword ? Eye : EyeOff}
