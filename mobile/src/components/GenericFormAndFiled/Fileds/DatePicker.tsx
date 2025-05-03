@@ -41,7 +41,7 @@ export function DatePicker() {
         borderWidth="$1"
         alignItems="center"
       >
-        <Icon as={Calendar} color="$gray300" size="xl" mr="$4" />
+        <Icon as={Calendar} color="$gray300" size="xl" px="$6" />
         <Text color="$gray300" fontFamily="$body">
           {formattedDate}
         </Text>
