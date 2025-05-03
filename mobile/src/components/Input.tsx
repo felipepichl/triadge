@@ -1,13 +1,21 @@
-import { Icon, Input as GluestackInput, InputField } from '@gluestack-ui/themed'
-import { LucideIcon } from 'lucide-react-native'
+import {
+  Icon,
+  Input as GluestackInput,
+  InputField,
+  InputIcon,
+  InputSlot,
+} from '@gluestack-ui/themed'
+import { Eye, EyeOff, LucideIcon } from 'lucide-react-native'
 import { ComponentProps, useState } from 'react'
 
 type InputProps = ComponentProps<typeof InputField> & {
   icon?: LucideIcon
+  inputSlot?: boolean
 }
 
-export function Input({ icon, ...rest }: InputProps) {
+export function Input({ icon, inputSlot = false, ...rest }: InputProps) {
   const [isFocused, setIsFocused] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   return (
     <GluestackInput
@@ -35,8 +43,19 @@ export function Input({ icon, ...rest }: InputProps) {
         placeholderTextColor="$gray300"
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
+        type={showPassword ? 'text' : 'password'}
         {...rest}
       />
+
+      {inputSlot && (
+        <InputSlot onPress={() => setShowPassword(!showPassword)}>
+          <InputIcon
+            as={showPassword ? Eye : EyeOff}
+            color={isFocused ? '$green500' : '$gray300'}
+            size="xl"
+          />
+        </InputSlot>
+      )}
     </GluestackInput>
   )
 }

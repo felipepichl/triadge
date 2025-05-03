@@ -46,7 +46,7 @@ export function SignIn() {
                 autoCapitalize="none"
                 icon={Mail}
               />
-              <Input placeholder="Senha" secureTextEntry icon={KeyRound} />
+              <Input placeholder="Senha" icon={KeyRound} inputSlot />
             </Center>
           </Center>
 
