@@ -1,7 +1,7 @@
 import BackgroundImage from '@assets/background.png'
 import Logo from '@assets/logo.svg'
 import { Button } from '@components/Button'
-import { Input } from '@components/Input'
+import { Input } from '@components/GenericFormAndFileds/Fileds/Input'
 import {
   Center,
   Heading,

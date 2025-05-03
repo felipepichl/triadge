@@ -1,9 +1,10 @@
-import { CategorySelect } from '@components/GenericFormAndFiled/Fileds/CategorySelect'
-import { DatePicker } from '@components/GenericFormAndFiled/Fileds/DatePicker'
-import { Input } from '@components/Input'
+import { DatePicker } from '@components/GenericFormAndFileds/Fileds/DatePicker'
+import { Input } from '@components/GenericFormAndFileds/Fileds/Input'
 import { VStack } from '@gluestack-ui/themed'
 import { useMonetaryMask } from '@hooks/useMonetaryMask'
 import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native'
+
+import { CategorySelect } from '../Fileds/CategorySelect'
 
 const categorias = Array.from({ length: 8 }, (_, index) => {
   const letra = String.fromCharCode(65 + index) // 65 = 'A'
