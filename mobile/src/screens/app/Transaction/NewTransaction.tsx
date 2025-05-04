@@ -1,5 +1,6 @@
 import { StackHeader } from '@components/Headers/StackHeader'
 import { SharedFields } from '@components/NewTransactionAndAccount/SharedFields/'
+import { TransactionTypeButton } from '@components/NewTransactionAndAccount/TransactionFileds/TransactionTypeButton'
 import { VStack } from '@gluestack-ui/themed'
 
 export function NewTransaction() {
@@ -8,6 +9,7 @@ export function NewTransaction() {
       <StackHeader title="Nova Transação" />
 
       <SharedFields />
+      <TransactionTypeButton />
     </VStack>
   )
 }

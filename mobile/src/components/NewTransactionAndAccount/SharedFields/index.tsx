@@ -7,7 +7,7 @@ import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native'
 import { CategorySelect } from '../Fileds/CategorySelect'
 
 const categorias = Array.from({ length: 8 }, (_, index) => {
-  const letra = String.fromCharCode(65 + index) // 65 = 'A'
+  const letra = String.fromCharCode(65 + index)
   return {
     _id: String(index),
     description: `Categoria ${letra}`,
