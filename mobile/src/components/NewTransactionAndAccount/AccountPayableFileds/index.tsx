@@ -2,9 +2,14 @@ import {
   HStack,
   Select,
   SelectBackdrop,
+  SelectContent,
+  SelectDragIndicator,
+  SelectDragIndicatorWrapper,
   SelectIcon,
   SelectInput,
+  SelectItem,
   SelectPortal,
+  SelectScrollView,
   SelectTrigger,
   Switch,
   Text,
@@ -48,6 +53,36 @@ export function AccountPayableFileds() {
         </SelectTrigger>
         <SelectPortal>
           <SelectBackdrop />
+          <SelectContent bg="$gray600">
+            <SelectDragIndicatorWrapper>
+              <SelectDragIndicator bg="$gray400" />
+            </SelectDragIndicatorWrapper>
+            <SelectScrollView showsVerticalScrollIndicator={false}>
+              {Array.from({ length: 12 }, (_, index) => index + 1).map(
+                (value) => (
+                  <SelectItem
+                    key={value}
+                    value={value.toString()}
+                    label={value.toString()}
+                    textStyle={{
+                      color: '$gray100',
+                    }}
+                    $pressed-bg="$gray700"
+                    $active-bg="$gray700"
+                    $active-bgColor="$gray700"
+                    $active-backgroundColor="$gray700"
+                    $active-borderRadius="$xl"
+                    $checked-bg="$gray700"
+                    $checked-bgColor="$gray700"
+                    $checked-backgroundColor="$gray700"
+                    $checked-borderRadius="$xl"
+                    $checked-borderColor="$green500"
+                    $checked-borderWidth={1}
+                  />
+                ),
+              )}
+            </SelectScrollView>
+          </SelectContent>
         </SelectPortal>
       </Select>
     </VStack>
