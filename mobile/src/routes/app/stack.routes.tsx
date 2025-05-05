@@ -26,26 +26,11 @@ export function StackRoutes() {
   return (
     <Navigator screenOptions={{ headerShown: false }}>
       <Screen name="tabs" component={TabsRoutes} />
-      <Screen
-        name="newTransactions"
-        component={NewTransaction}
-        options={{
-          presentation: 'modal',
-        }}
-      />
-      <Screen
-        name="newAccountPayable"
-        component={NewAccountPayable}
-        options={{
-          presentation: 'modal',
-        }}
-      />
+      <Screen name="newTransactions" component={NewTransaction} />
+      <Screen name="newAccountPayable" component={NewAccountPayable} />
       <Screen
         name="newFinancialCategoryOrSubcategory"
         component={NewFinancialCategoryOrSubcategory}
-        options={{
-          presentation: 'modal',
-        }}
       />
     </Navigator>
   )
