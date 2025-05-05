@@ -1,6 +1,7 @@
 import { StackHeader } from '@components/Headers/StackHeader'
 import { AccountPayableFileds } from '@components/NewTransactionAndAccount/AccountPayableFileds'
 import { SharedFields } from '@components/NewTransactionAndAccount/SharedFields'
+import { SubmitButton } from '@components/NewTransactionAndAccount/SubmitButton'
 import { VStack } from '@gluestack-ui/themed'
 
 export function NewAccountPayable() {
@@ -10,6 +11,7 @@ export function NewAccountPayable() {
 
       <SharedFields />
       <AccountPayableFileds />
+      <SubmitButton />
     </VStack>
   )
 }
