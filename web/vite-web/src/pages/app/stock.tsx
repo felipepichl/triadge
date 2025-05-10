@@ -2,6 +2,7 @@ import { Activity, DollarSign, TrendingUpDown } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
+import { ListStock } from '@/components/list-stock'
 import { NewStock } from '@/components/new-stock/new-stock'
 import { SummaryProps } from '@/components/summary/summary'
 import { SummaryCarousel } from '@/components/summary/summary-carousel'
@@ -55,6 +56,10 @@ export function Stock() {
       <NewStock />
 
       <SummaryCarousel summaries={summaries} />
+
+      <div className="mt-8 flex flex-col lg:flex-row">
+        <ListStock type="fii" />
+      </div>
     </>
   )
 }

@@ -52,8 +52,6 @@ export function ListAccountsPayable({ type, title }: ListAccountsPayableProps) {
           <MonthSelect onMonthSelect={handleMonthSelect} />
         </div>
 
-        {}
-
         <CardTransactionAccount
           accountsPayable={
             type === 'fixed'
