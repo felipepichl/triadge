@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import { Calendar, Tag } from 'lucide-react'
+import { Calendar, SquarePen, Tag } from 'lucide-react'
 import { useCallback, useState } from 'react'
 
 import { AccountPayableDetailDTO } from '@/dtos/account-payable-dto'
@@ -18,6 +18,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '../ui/alert-dialog'
+import { Button } from '../ui/button'
 import {
   Card,
   CardContent,
@@ -33,16 +34,30 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '../ui/carousel'
+import { Input } from '../ui/input'
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Switch } from '../ui/switch'
 
-interface CardTransactionAccount {
-  transactions?: TransactionDetailDTO[]
-  accountsPayable?: AccountPayableDetailDTO[]
+type BaseCardTransactionAccount = {
+  transactions?: TransactionDetailDTO[] | undefined
 }
+
+type WithAccountsPayable = BaseCardTransactionAccount & {
+  accountsPayable: AccountPayableDetailDTO[] | undefined
+  type: 'fixed' | 'unfixed'
+}
+
+type WithoutAccountsPayable = BaseCardTransactionAccount & {
+  accountsPayable?: undefined
+  type?: never
+}
+
+type CardTransactionAccount = WithAccountsPayable | WithoutAccountsPayable
 
 export function CardTransactionAccount({
   transactions,
   accountsPayable,
+  type,
 }: CardTransactionAccount) {
   const [isOpen, setIsOpen] = useState(false)
   const [accountPayableId, setAccountPayableId] = useState<string>('')
@@ -59,14 +74,8 @@ export function CardTransactionAccount({
 
   return (
     <>
-      <Carousel
-        opts={{
-          align: 'start',
-        }}
-        orientation="vertical"
-        className="mt-4 w-full"
-      >
-        <CarouselContent className="mt-1 h-[180px]">
+      <Carousel>
+        <CarouselContent className="pt-4">
           {data?.length === 0 ? (
             <NotFound />
           ) : (
@@ -79,9 +88,9 @@ export function CardTransactionAccount({
                 : format(new Date(item.dueDate), 'dd/MM/yyyy')
 
               return (
-                <CarouselItem key={item._id} className="pt-1 md:basis-1/2">
+                <CarouselItem key={item._id}>
                   <Card
-                    className={` ${accountsPayable && 'max-sm:rounded-none'} mb-2 bg-gray-300 dark:bg-gray-700`}
+                    className={` ${accountsPayable && 'max-sm:rounded-none'} bg-gray-300 dark:bg-gray-700`}
                   >
                     <CardHeader className="flex flex-row items-center justify-between">
                       <CardDescription className="truncate font-semibold text-gray-500 dark:text-slate-200">
@@ -100,7 +109,7 @@ export function CardTransactionAccount({
                         />
                       )}
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="flex flex-row items-center justify-between">
                       <CardTitle
                         className={`font-bold ${
                           (isTransaction && item.type === 'outcome') ||
@@ -111,6 +120,26 @@ export function CardTransactionAccount({
                       >
                         {priceFormatter.format(item.amount)}
                       </CardTitle>
+
+                      {isAccountPayable && type === 'fixed' && (
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              className="border-none bg-transparent"
+                            >
+                              <SquarePen className="h-5 w-5" />
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="space-y-4 py-4">
+                            <Input />
+                            <Button type="submit" className="h-10 w-full">
+                              Atualizar
+                            </Button>
+                          </PopoverContent>
+                        </Popover>
+                      )}
                     </CardContent>
 
                     <CardFooter className="flex items-center justify-between gap-4 px-6 pb-6">
@@ -139,12 +168,10 @@ export function CardTransactionAccount({
             })
           )}
         </CarouselContent>
-        <div className="flex h-min w-full items-center justify-center">
-          <div className="max-w-lg p-4">
-            <div className="flex justify-between space-x-16">
-              <CarouselPrevious className="rotate-90" />
-              <CarouselNext className="rotate-90" />
-            </div>
+        <div className="flex h-min w-full items-center justify-center p-4">
+          <div className="flex justify-between space-x-16">
+            <CarouselPrevious />
+            <CarouselNext />
           </div>
         </div>
       </Carousel>

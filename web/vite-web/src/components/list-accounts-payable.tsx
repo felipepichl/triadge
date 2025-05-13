@@ -58,6 +58,7 @@ export function ListAccountsPayable({ type, title }: ListAccountsPayableProps) {
               ? fixedAccountsPayable?.fixedAccountsPayable
               : unfixedAccountsPayable?.unfixedAccountsPayable
           }
+          type={type === 'fixed' ? 'fixed' : 'unfixed'}
         />
       </CardContent>
     </Card>
