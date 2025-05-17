@@ -2,8 +2,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { SquarePen, TrendingUpDown } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
+import { apiUpdateAmountVariableToAccountPayable } from '@/api/app/account-payable/update-amount-variable-to-account-payable'
 import { Form, FormField } from '@/components/ui/form'
 
 import { Monetary } from './generic-form-and-fields/fields/monetary'
@@ -11,7 +13,7 @@ import { Button } from './ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 
 const updateAmountVariableToAccountPayableForm = z.object({
-  amount: z.string().min(1, { message: 'Campo obrigatóriosss' }),
+  amount: z.string().min(1, { message: 'Campo obrigatórios' }),
 })
 
 type UpdateAmountVariableToAccountPayableForm = z.infer<
@@ -42,9 +44,21 @@ export function UpdateAmountVariableToAccountPayable({
 
   const handleUpdateAmountVariableToAccountPayable = useCallback(
     async ({ amount }: UpdateAmountVariableToAccountPayableForm) => {
-      handleTogglePopover()
+      try {
+        await apiUpdateAmountVariableToAccountPayable({
+          amount: parseFloat(
+            amount.replace('R$ ', '').replace('.', '').replace(',', '.'),
+          ),
+          accountPayableId,
+        })
 
-      form.reset()
+        handleTogglePopover()
+        form.reset()
+        toast.success('Valor atualizado com sucesso!')
+      } catch (err) {
+        console.log(err)
+        toast.error('Erro ao autualizar, tente novamente mais tarde!')
+      }
     },
     [form, accountPayableId],
   )
