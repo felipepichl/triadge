@@ -13,6 +13,7 @@ import { apiListAllPaidAccountsPayableByMonth } from '@/api/app/account-payable/
 import { apiListAllUnfixedAccountsPayableByMonth } from '@/api/app/account-payable/list-all-unfixed-accounts-payable-by-month'
 import { apiListAllUnpaidAccountsPayableByMonth } from '@/api/app/account-payable/list-all-unpaid-account-payable-by-month'
 import { apiMarkAccountPayableAsPaid } from '@/api/app/account-payable/mark-account-payable-as-paid'
+import { apiUpdateAmountVariableToAccountPayable } from '@/api/app/account-payable/update-amount-variable-to-account-payable'
 import {
   CreateAccountPayableDTO,
   FixedAccountPayableDTO,
@@ -20,6 +21,7 @@ import {
   PaidAccountPayableDTO,
   UnfixedAccountPayableDTO,
   UnpaidAccountPayableDTO,
+  UpdateAmountVariableDTO,
 } from '@/dtos/account-payable-dto'
 
 type AccountPayableContextData = {
@@ -34,6 +36,9 @@ type AccountPayableContextData = {
   paidAccountsPayable: PaidAccountPayableDTO | undefined
   listAllPaidAccountsPayableByMonth(month?: string): Promise<void>
   markAccountPayableAsPaid(data: MarkAccountPayableAsPaidDTO): Promise<void>
+  updateAmountVariableToAccountPayable(
+    data: UpdateAmountVariableDTO,
+  ): Promise<void>
 }
 
 type AccountPayableProvidersProps = {
@@ -167,6 +172,18 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
     [],
   )
 
+  const updateAmountVariableToAccountPayable = useCallback(
+    async ({ amount, accountPayableId }: UpdateAmountVariableDTO) => {
+      await apiUpdateAmountVariableToAccountPayable({
+        amount,
+        accountPayableId,
+      })
+
+      setReload((prev) => !prev)
+    },
+    [],
+  )
+
   useEffect(() => {
     listAllFixedAccountsPayableByMonth()
     listAllUnfixedAccountsPayableByMonth()
@@ -194,6 +211,7 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
         paidAccountsPayable,
         listAllPaidAccountsPayableByMonth,
         markAccountPayableAsPaid,
+        updateAmountVariableToAccountPayable,
       }}
     >
       {children}

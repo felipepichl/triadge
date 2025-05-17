@@ -75,3 +75,8 @@ export type PaidAccountPayableDTO = {
 export type MarkAccountPayableAsPaidDTO = {
   accountPayableId: string
 }
+
+export type UpdateAmountVariableDTO = {
+  amount: number
+  accountPayableId: string
+}
