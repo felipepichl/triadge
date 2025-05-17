@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import { Calendar, SquarePen, Tag } from 'lucide-react'
+import { Calendar, Tag } from 'lucide-react'
 import { useCallback, useState } from 'react'
 
 import { AccountPayableDetailDTO } from '@/dtos/account-payable-dto'
@@ -18,7 +18,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '../ui/alert-dialog'
-import { Button } from '../ui/button'
 import {
   Card,
   CardContent,
@@ -34,9 +33,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '../ui/carousel'
-import { Input } from '../ui/input'
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Switch } from '../ui/switch'
+import { UpdateAmountVariableToAccountPayable } from '../update-amount-variable-to-account-payable'
 
 type BaseCardTransactionAccount = {
   transactions?: TransactionDetailDTO[] | undefined
@@ -57,7 +55,7 @@ type CardTransactionAccount = WithAccountsPayable | WithoutAccountsPayable
 export function CardTransactionAccount({
   transactions,
   accountsPayable,
-  type,
+  type = 'fixed',
 }: CardTransactionAccount) {
   const [isOpen, setIsOpen] = useState(false)
   const [accountPayableId, setAccountPayableId] = useState<string>('')
@@ -121,24 +119,11 @@ export function CardTransactionAccount({
                         {priceFormatter.format(item.amount)}
                       </CardTitle>
 
-                      {isAccountPayable && type === 'fixed' && (
-                        <Popover>
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant="outline"
-                              size="icon"
-                              className="border-none bg-transparent"
-                            >
-                              <SquarePen className="h-5 w-5" />
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="space-y-4 py-4">
-                            <Input />
-                            <Button type="submit" className="h-10 w-full">
-                              Atualizar
-                            </Button>
-                          </PopoverContent>
-                        </Popover>
+                      {isAccountPayable && (
+                        <UpdateAmountVariableToAccountPayable
+                          type={type}
+                          accountPayableId={item._id}
+                        />
                       )}
                     </CardContent>
 
