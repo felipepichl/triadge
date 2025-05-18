@@ -1,10 +1,10 @@
 import { AccountPayable } from '@modules/accountPayable/domain/AccountPayable'
 import { AccountsPayableRepositoryInMemory } from '@modules/accountPayable/repositories/in-memory/AccountsPayableRepositoryInMemory'
 
-import { UpdateAmountVariable } from './UpdateAmountVariable'
+import { UpdateAmountVariableUseCase } from './UpdateAmountVariableUseCase'
 
 let accountsPayableRepositoryInMemory: AccountsPayableRepositoryInMemory
-let updateAmountVariable: UpdateAmountVariable
+let updateAmountVariableUseCase: UpdateAmountVariableUseCase
 
 async function createAccountPayable(): Promise<string> {
   accountsPayableRepositoryInMemory = new AccountsPayableRepositoryInMemory()
@@ -42,13 +42,13 @@ describe('[AccountPayable] - Update amount variable to account payable', () => {
   beforeEach(async () => {
     accountPayableId = await createAccountPayable()
 
-    updateAmountVariable = new UpdateAmountVariable(
+    updateAmountVariableUseCase = new UpdateAmountVariableUseCase(
       accountsPayableRepositoryInMemory,
     )
   })
 
   it('should be able to update amount variable to account payable', async () => {
-    await updateAmountVariable.execute({
+    await updateAmountVariableUseCase.execute({
       accountPayableId,
       amount: 200,
     })

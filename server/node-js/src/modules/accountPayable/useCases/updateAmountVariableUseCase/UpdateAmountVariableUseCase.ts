@@ -8,7 +8,7 @@ interface IRequest {
 }
 
 // @injectable()
-class UpdateAmountVariable implements IUseCase<IRequest, void> {
+class UpdateAmountVariableUseCase implements IUseCase<IRequest, void> {
   constructor(
     // @inject('AccountsPayableRepository')
     private accountsPayableRepository: IAccountsPayableRepository,
@@ -28,4 +28,4 @@ class UpdateAmountVariable implements IUseCase<IRequest, void> {
   }
 }
 
-export { UpdateAmountVariable }
+export { UpdateAmountVariableUseCase }
