@@ -1,0 +1,31 @@
+import { IAccountsPayableRepository } from '@modules/accountPayable/repositories/IAccountsPayableRepository'
+import { IUseCase } from '@shared/core/domain/IUseCase'
+import { AppError } from '@shared/error/AppError'
+
+interface IRequest {
+  amount: number
+  accountPayableId: string
+}
+
+// @injectable()
+class UpdateAmountVariable implements IUseCase<IRequest, void> {
+  constructor(
+    // @inject('AccountsPayableRepository')
+    private accountsPayableRepository: IAccountsPayableRepository,
+  ) {}
+
+  async execute({ amount, accountPayableId }: IRequest): Promise<void> {
+    const accountPayable =
+      await this.accountsPayableRepository.findById(accountPayableId)
+
+    if (!accountPayable) {
+      throw new AppError('Account Payable not found')
+    }
+
+    accountPayable.updateAmountVariable(amount)
+
+    await this.accountsPayableRepository.update(accountPayable)
+  }
+}
+
+export { UpdateAmountVariable }

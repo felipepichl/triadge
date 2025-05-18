@@ -106,6 +106,10 @@ class AccountPayable extends AggregateRoot<IAccounPayableProps> {
   public markAsPaid() {
     this.props.isPaid = true
   }
+
+  public updateAmountVariable(amount: number) {
+    this.props.amount = amount
+  }
 }
 
 export { AccountPayable }
