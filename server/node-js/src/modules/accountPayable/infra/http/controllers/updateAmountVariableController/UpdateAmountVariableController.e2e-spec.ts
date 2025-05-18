@@ -93,6 +93,6 @@ describe('[E2E] - Update amount variable to account payable', () => {
     const { amount } = await getAccountPayable()
 
     expect(response.status).toBe(201)
-    expect(amount).toBe(2000)
+    expect(Number(amount)).toBe(2000)
   })
 })

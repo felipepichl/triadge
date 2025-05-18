@@ -1,16 +1,17 @@
 import { IAccountsPayableRepository } from '@modules/accountPayable/repositories/IAccountsPayableRepository'
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
+import { inject, injectable } from 'tsyringe'
 
 interface IRequest {
   amount: number
   accountPayableId: string
 }
 
-// @injectable()
+@injectable()
 class UpdateAmountVariableUseCase implements IUseCase<IRequest, void> {
   constructor(
-    // @inject('AccountsPayableRepository')
+    @inject('AccountsPayableRepository')
     private accountsPayableRepository: IAccountsPayableRepository,
   ) {}
 
