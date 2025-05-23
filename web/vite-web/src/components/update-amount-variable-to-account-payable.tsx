@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { apiUpdateAmountVariableToAccountPayable } from '@/api/app/account-payable/update-amount-variable-to-account-payable'
 import { Form, FormField } from '@/components/ui/form'
+import { useAccountPayable } from '@/hooks/use-account-payable'
 
 import { Monetary } from './generic-form-and-fields/fields/monetary'
 import { Button } from './ui/button'
@@ -31,6 +31,8 @@ export function UpdateAmountVariableToAccountPayable({
 }: UpdateAmountVariableToAccountPayableProps) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
 
+  const { updateAmountVariableToAccountPayable } = useAccountPayable()
+
   const form = useForm<UpdateAmountVariableToAccountPayableForm>({
     resolver: zodResolver(updateAmountVariableToAccountPayableForm),
     defaultValues: {
@@ -45,7 +47,7 @@ export function UpdateAmountVariableToAccountPayable({
   const handleUpdateAmountVariableToAccountPayable = useCallback(
     async ({ amount }: UpdateAmountVariableToAccountPayableForm) => {
       try {
-        await apiUpdateAmountVariableToAccountPayable({
+        updateAmountVariableToAccountPayable({
           amount: parseFloat(
             amount.replace('R$ ', '').replace('.', '').replace(',', '.'),
           ),
@@ -60,7 +62,7 @@ export function UpdateAmountVariableToAccountPayable({
         toast.error('Erro ao autualizar, tente novamente mais tarde!')
       }
     },
-    [form, accountPayableId],
+    [form, accountPayableId, updateAmountVariableToAccountPayable],
   )
 
   return (
@@ -70,6 +72,7 @@ export function UpdateAmountVariableToAccountPayable({
           variant="outline"
           size="icon"
           className="border-none bg-transparent"
+          disabled={type === 'unfixed'}
         >
           {type === 'fixed' ? (
             <SquarePen className="h-5 w-5" />
