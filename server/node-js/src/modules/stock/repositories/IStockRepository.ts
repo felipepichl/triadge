@@ -10,6 +10,7 @@ interface IStockRepository {
     endDate: Date,
   ): Promise<Stock[]>
   listByType(userId: string, type: IStockType): Promise<Stock[]>
+  listByMonth(userId: string, month: number): Promise<Stock[]>
   listAllSymbolsByUserIdAndType(
     userId: string,
     type: IStockType,
