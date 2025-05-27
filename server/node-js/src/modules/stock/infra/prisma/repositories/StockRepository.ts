@@ -68,6 +68,22 @@ class StockRepository implements IStockRepository {
     return StockMappers.getMapper().toDomainArray(result)
   }
 
+  async listByMonth(userId: string, month: number): Promise<Stock[]> {
+    const year = new Date().getFullYear()
+    const startDate = new Date(year, month - 1, 1)
+    const endDate = new Date(year, month, 0)
+
+    const result = await PrismaSingleton.getInstance().stock.findMany({
+      where: {
+        userId,
+        AND: [{ date: { gte: startDate } }, { date: { lte: endDate } }],
+      },
+      orderBy: { date: 'asc' },
+    })
+
+    return StockMappers.getMapper().toDomainArray(result)
+  }
+
   listAllSymbolsByUserIdAndType(
     userId: string,
     type: IStockType,
