@@ -1,6 +1,7 @@
 import { Stock } from '@modules/stock/domain/Stock'
 import { IStockRepository } from '@modules/stock/repositories/IStockRepository'
 import { IUseCase } from '@shared/core/domain/IUseCase'
+import { inject, injectable } from 'tsyringe'
 
 interface IRequest {
   userId: string
@@ -11,9 +12,10 @@ interface IResponse {
   stocks: Stock[]
 }
 
+@injectable()
 class ListFIIPurchasesByMonthUseCase implements IUseCase<IRequest, IResponse> {
   constructor(
-    // @inject('StockRepository')
+    @inject('StockRepository')
     private stocksRepository: IStockRepository,
   ) {}
 
