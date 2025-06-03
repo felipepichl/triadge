@@ -34,7 +34,7 @@ async function createStock(token: string) {
     .send({
       symbol: 'RZAK11',
       price: 88,
-      date: new Date('2025-08-01'),
+      date: new Date(2025, 7, 1),
       quantity: 2,
       type: 'fii',
     })
@@ -45,7 +45,7 @@ async function createStock(token: string) {
     .send({
       symbol: 'LIFE11',
       price: 88,
-      date: new Date('2025-08-05'),
+      date: new Date(2025, 7, 5),
       quantity: 2,
       type: 'fii',
     })
