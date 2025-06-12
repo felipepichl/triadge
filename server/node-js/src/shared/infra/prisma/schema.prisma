@@ -95,6 +95,9 @@ model AccountPayable {
   isFixed          Boolean @default(false)
   isAmountVariable Boolean @default(false)
 
+  interestPaid   Decimal?
+  isInterestPaid Boolean  @default(false)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
