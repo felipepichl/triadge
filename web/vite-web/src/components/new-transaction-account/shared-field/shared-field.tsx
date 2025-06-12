@@ -121,7 +121,7 @@ export function SharedField() {
         )}
       />
 
-      <div className="flex  justify-center gap-2">
+      <div className="flex justify-center gap-2">
         <CategorySelect
           name={financialCategoryId}
           options={financialCategories}
@@ -139,7 +139,7 @@ export function SharedField() {
         />
       </div>
 
-      <div className="flex  justify-center gap-2">
+      <div className="flex justify-center gap-2">
         <CategorySelect
           name={subcategoryId}
           options={subcategories}

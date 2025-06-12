@@ -11,6 +11,7 @@ import { useAccountPayable } from '@/hooks/use-account-payable'
 import { Monetary } from './generic-form-and-fields/fields/monetary'
 import { Button } from './ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
+import { Switch } from './ui/switch'
 
 const updateAmountVariableToAccountPayableForm = z.object({
   amount: z.string().min(1, { message: 'Campo obrigatórios' }),
@@ -72,7 +73,6 @@ export function UpdateAmountVariableToAccountPayable({
           variant="outline"
           size="icon"
           className="border-none bg-transparent"
-          disabled={type === 'unfixed'}
         >
           {type === 'fixed' ? (
             <SquarePen className="h-5 w-5" />
@@ -84,7 +84,7 @@ export function UpdateAmountVariableToAccountPayable({
       <PopoverContent className="space-y-4 py-4">
         <Form {...form}>
           <form
-            className="space-y-4"
+            className="space-y-2"
             onSubmit={form.handleSubmit(
               handleUpdateAmountVariableToAccountPayable,
             )}
@@ -96,6 +96,20 @@ export function UpdateAmountVariableToAccountPayable({
                 <Monetary placeholder="Atualizar valor base" name="amount" />
               )}
             />
+
+            {type === 'unfixed' && (
+              <span className="flex min-h-10 items-center rounded-md border bg-background">
+                <Switch
+                  className="ml-3 mr-3"
+                  // checked={value}
+                  // onCheckedChange={(value) => {
+                  //   onChange(value)
+                  //   handleSwitchChange()
+                  // }}
+                />
+                <p className="text-sm">Pagamento com juros</p>
+              </span>
+            )}
 
             <Button type="submit" className="h-10 w-full">
               Atualizar
