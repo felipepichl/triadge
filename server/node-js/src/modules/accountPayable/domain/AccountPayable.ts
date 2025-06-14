@@ -11,6 +11,9 @@ interface IAccounPayableProps {
   isPaid?: boolean
   isFixed?: boolean
 
+  interestPaid?: number
+  isInterestPaid?: boolean
+
   userId: string
 
   financialCategory?: FinancialCategory
@@ -49,6 +52,14 @@ class AccountPayable extends AggregateRoot<IAccounPayableProps> {
     return this.props.isFixed
   }
 
+  get interestPaid(): number {
+    return this.props.interestPaid
+  }
+
+  get isInterestPaid(): boolean {
+    return this.props.isInterestPaid
+  }
+
   get userId(): string {
     return this.props.userId
   }
@@ -77,6 +88,8 @@ class AccountPayable extends AggregateRoot<IAccounPayableProps> {
     paymentDate,
     isPaid,
     isFixed,
+    interestPaid,
+    isInterestPaid,
     userId,
     financialCategory,
     financialCategoryId,
@@ -90,6 +103,8 @@ class AccountPayable extends AggregateRoot<IAccounPayableProps> {
       paymentDate,
       isPaid,
       isFixed,
+      interestPaid,
+      isInterestPaid,
       userId,
       financialCategory,
       financialCategoryId,
@@ -109,6 +124,11 @@ class AccountPayable extends AggregateRoot<IAccounPayableProps> {
 
   public updateAmountVariable(amount: number) {
     this.props.amount = amount
+  }
+
+  public updateInterestPaid(interest: number) {
+    this.props.interestPaid = interest
+    this.props.isInterestPaid = true
   }
 }
 
