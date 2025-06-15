@@ -23,9 +23,14 @@ class UpdateInterestPaidUseCase implements IUseCase<IRequest, void> {
       throw new AppError('Account Payable not found')
     }
 
-    const interest = accountPayable.amount - amount
+    if (amount < accountPayable.amount) {
+      throw new AppError('Amount cannot be less than the interest')
+    }
+
+    const interest = amount - accountPayable.amount
 
     accountPayable.updateInterestPaid(interest)
+    accountPayable.updateAmountVariable(amount)
 
     await this.accountsPayableRepository.update(accountPayable)
   }
