@@ -90,12 +90,11 @@ describe('[E2E] - Update amount with interest pay to account payable', () => {
         amount: 2000,
       })
 
-    const { amount } = await getAccountPayable()
-    const result = await getAccountPayable()
-
-    console.log(JSON.stringify(result, null, 2))
+    const { amount, interestPaid, isInterestPaid } = await getAccountPayable()
 
     expect(response.status).toBe(201)
     expect(Number(amount)).toBe(2000)
+    expect(Number(interestPaid)).toBe(1000)
+    expect(isInterestPaid).toBe(true)
   })
 })
