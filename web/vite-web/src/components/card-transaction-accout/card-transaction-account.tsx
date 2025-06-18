@@ -55,7 +55,6 @@ type CardTransactionAccount = WithAccountsPayable | WithoutAccountsPayable
 export function CardTransactionAccount({
   transactions,
   accountsPayable,
-  type = 'fixed',
 }: CardTransactionAccount) {
   const [isOpen, setIsOpen] = useState(false)
   const [accountPayableId, setAccountPayableId] = useState<string>('')
@@ -121,7 +120,6 @@ export function CardTransactionAccount({
 
                       {isAccountPayable && (
                         <UpdateAmountVariableToAccountPayable
-                          type={type}
                           accountPayableId={item._id}
                         />
                       )}

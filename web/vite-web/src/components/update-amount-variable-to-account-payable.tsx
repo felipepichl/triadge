@@ -23,18 +23,17 @@ type UpdateAmountVariableToAccountPayableForm = z.infer<
 >
 
 type UpdateAmountVariableToAccountPayableProps = {
-  type: 'fixed' | 'unfixed'
   accountPayableId: string
 }
 
 export function UpdateAmountVariableToAccountPayable({
-  type,
   accountPayableId,
 }: UpdateAmountVariableToAccountPayableProps) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
   const [isSwitchOn, setIsSwitchOn] = useState(false)
 
-  const { updateAmountVariableToAccountPayable } = useAccountPayable()
+  const { updateAmountVariableToAccountPayable, updateInterestPaid } =
+    useAccountPayable()
 
   const form = useForm<UpdateAmountVariableToAccountPayableForm>({
     resolver: zodResolver(updateAmountVariableToAccountPayableForm),
@@ -60,7 +59,10 @@ export function UpdateAmountVariableToAccountPayable({
         )
 
         if (isSwitchOn) {
-          console.log('select')
+          updateInterestPaid({
+            amount: formattedAmount,
+            accountPayableId,
+          })
         } else {
           updateAmountVariableToAccountPayable({
             amount: formattedAmount,
@@ -76,7 +78,13 @@ export function UpdateAmountVariableToAccountPayable({
         toast.error('Erro ao autualizar, tente novamente mais tarde!')
       }
     },
-    [form, accountPayableId, updateAmountVariableToAccountPayable, isSwitchOn],
+    [
+      form,
+      accountPayableId,
+      updateAmountVariableToAccountPayable,
+      updateInterestPaid,
+      isSwitchOn,
+    ],
   )
 
   return (
