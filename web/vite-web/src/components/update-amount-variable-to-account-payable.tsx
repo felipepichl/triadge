@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { SquarePen, TrendingUpDown } from 'lucide-react'
+import { SquarePen } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -15,6 +15,7 @@ import { Switch } from './ui/switch'
 
 const updateAmountVariableToAccountPayableForm = z.object({
   amount: z.string().min(1, { message: 'Campo obrigatórios' }),
+  interest: z.boolean().default(false),
 })
 
 type UpdateAmountVariableToAccountPayableForm = z.infer<
@@ -31,6 +32,7 @@ export function UpdateAmountVariableToAccountPayable({
   accountPayableId,
 }: UpdateAmountVariableToAccountPayableProps) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+  const [isSwitchOn, setIsSwitchOn] = useState(false)
 
   const { updateAmountVariableToAccountPayable } = useAccountPayable()
 
@@ -38,6 +40,7 @@ export function UpdateAmountVariableToAccountPayable({
     resolver: zodResolver(updateAmountVariableToAccountPayableForm),
     defaultValues: {
       amount: '',
+      interest: false,
     },
   })
 
@@ -45,15 +48,25 @@ export function UpdateAmountVariableToAccountPayable({
     setIsPopoverOpen((prevState) => !prevState)
   }
 
+  function handleSwitchChange() {
+    setIsSwitchOn(!isSwitchOn)
+  }
+
   const handleUpdateAmountVariableToAccountPayable = useCallback(
     async ({ amount }: UpdateAmountVariableToAccountPayableForm) => {
       try {
-        updateAmountVariableToAccountPayable({
-          amount: parseFloat(
-            amount.replace('R$ ', '').replace('.', '').replace(',', '.'),
-          ),
-          accountPayableId,
-        })
+        const formattedAmount = parseFloat(
+          amount.replace('R$ ', '').replace('.', '').replace(',', '.'),
+        )
+
+        if (isSwitchOn) {
+          console.log('select')
+        } else {
+          updateAmountVariableToAccountPayable({
+            amount: formattedAmount,
+            accountPayableId,
+          })
+        }
 
         handleTogglePopover()
         form.reset()
@@ -63,7 +76,7 @@ export function UpdateAmountVariableToAccountPayable({
         toast.error('Erro ao autualizar, tente novamente mais tarde!')
       }
     },
-    [form, accountPayableId, updateAmountVariableToAccountPayable],
+    [form, accountPayableId, updateAmountVariableToAccountPayable, isSwitchOn],
   )
 
   return (
@@ -74,11 +87,7 @@ export function UpdateAmountVariableToAccountPayable({
           size="icon"
           className="border-none bg-transparent"
         >
-          {type === 'fixed' ? (
-            <SquarePen className="h-5 w-5" />
-          ) : (
-            <TrendingUpDown className="h-5 w-5" />
-          )}
+          <SquarePen className="h-5 w-5" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="space-y-4 py-4">
@@ -97,19 +106,23 @@ export function UpdateAmountVariableToAccountPayable({
               )}
             />
 
-            {type === 'unfixed' && (
-              <span className="flex min-h-10 items-center rounded-md border bg-background">
-                <Switch
-                  className="ml-3 mr-3"
-                  // checked={value}
-                  // onCheckedChange={(value) => {
-                  //   onChange(value)
-                  //   handleSwitchChange()
-                  // }}
-                />
-                <p className="text-sm">Pagamento com juros</p>
-              </span>
-            )}
+            <FormField
+              name="interest"
+              control={form.control}
+              render={({ field: { onChange, value } }) => (
+                <span className="flex min-h-10 items-center rounded-md border bg-background">
+                  <Switch
+                    className="ml-3 mr-3"
+                    checked={value}
+                    onCheckedChange={(value) => {
+                      onChange(value)
+                      handleSwitchChange()
+                    }}
+                  />
+                  <p className="text-sm">Pagamento com juros</p>
+                </span>
+              )}
+            />
 
             <Button type="submit" className="h-10 w-full">
               Atualizar
