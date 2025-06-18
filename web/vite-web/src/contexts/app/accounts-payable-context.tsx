@@ -14,6 +14,7 @@ import { apiListAllUnfixedAccountsPayableByMonth } from '@/api/app/account-payab
 import { apiListAllUnpaidAccountsPayableByMonth } from '@/api/app/account-payable/list-all-unpaid-account-payable-by-month'
 import { apiMarkAccountPayableAsPaid } from '@/api/app/account-payable/mark-account-payable-as-paid'
 import { apiUpdateAmountVariableToAccountPayable } from '@/api/app/account-payable/update-amount-variable-to-account-payable'
+import { apiUpdateInterestPaid } from '@/api/app/account-payable/update-interest-paid'
 import {
   CreateAccountPayableDTO,
   FixedAccountPayableDTO,
@@ -39,6 +40,7 @@ type AccountPayableContextData = {
   updateAmountVariableToAccountPayable(
     data: UpdateAmountVariableDTO,
   ): Promise<void>
+  updateInterestPaid(data: UpdateAmountVariableDTO): Promise<void>
 }
 
 type AccountPayableProvidersProps = {
@@ -184,6 +186,18 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
     [],
   )
 
+  const updateInterestPaid = useCallback(
+    async ({ amount, accountPayableId }: UpdateAmountVariableDTO) => {
+      await apiUpdateInterestPaid({
+        amount,
+        accountPayableId,
+      })
+
+      setReload((prev) => !prev)
+    },
+    [],
+  )
+
   useEffect(() => {
     listAllFixedAccountsPayableByMonth()
     listAllUnfixedAccountsPayableByMonth()
@@ -212,6 +226,7 @@ function AccountsPayableProvider({ children }: AccountPayableProvidersProps) {
         listAllPaidAccountsPayableByMonth,
         markAccountPayableAsPaid,
         updateAmountVariableToAccountPayable,
+        updateInterestPaid,
       }}
     >
       {children}
