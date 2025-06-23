@@ -126,9 +126,9 @@ class AccountPayable extends AggregateRoot<IAccounPayableProps> {
     this.props.amount = amount
   }
 
-  public updateInterestPaid(interest: number) {
+  public updateInterestPaid(interest: number, isInterestPaid: boolean = true) {
     this.props.interestPaid = interest
-    this.props.isInterestPaid = true
+    this.props.isInterestPaid = isInterestPaid
   }
 }
 

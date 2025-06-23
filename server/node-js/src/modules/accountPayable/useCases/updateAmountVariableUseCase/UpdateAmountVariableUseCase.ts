@@ -23,6 +23,7 @@ class UpdateAmountVariableUseCase implements IUseCase<IRequest, void> {
       throw new AppError('Account Payable not found')
     }
 
+    accountPayable.updateInterestPaid(0, false)
     accountPayable.updateAmountVariable(amount)
 
     await this.accountsPayableRepository.update(accountPayable)
