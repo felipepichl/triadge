@@ -93,7 +93,7 @@ model AccountPayable {
   isPaid      Boolean   @default(false)
 
   isFixed          Boolean @default(false)
-  isAmountVariable Boolean @default(false)
+  //isAmountVariable Boolean @default(false)
 
   interestPaid   Decimal?
   isInterestPaid Boolean  @default(false)
