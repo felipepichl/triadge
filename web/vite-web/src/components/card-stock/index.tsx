@@ -54,9 +54,9 @@ export function CardStock({ wallet }: CardStockProps) {
 
                   <Separator className="mt-6 bg-gray-600" />
 
-                  <InfoRow label="Preço atual" value={0} />
-                  <InfoRow label="Menor compra" value={0} />
-                  <InfoRow label="Maior compra" value={0} />
+                  <InfoRow label="Preço atual" value={item.quote} />
+                  <InfoRow label="Menor compra" value={item.minPrice} />
+                  <InfoRow label="Maior compra" value={item.maxPrice} />
                 </CardContent>
 
                 <Separator className="bg-gray-600" />

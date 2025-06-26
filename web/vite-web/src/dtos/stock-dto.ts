@@ -17,6 +17,9 @@ export type PortfolioResponseDTO = {
     stock: StockDetailDTO
     totalInvested: number
     currentValue: number
+    quote: number
+    minPrice: number
+    maxPrice: number
   }[]
 }
 
