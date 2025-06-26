@@ -21,6 +21,9 @@ interface IResponse {
     }
     totalInvested: number
     currentValue: number
+    quote: number
+    minPrice: number
+    maxPrice: number
   }[]
 }
 
@@ -57,6 +60,9 @@ class GetPortfolioQuotesUseCase implements IUseCase<IRequest, IResponse> {
         },
         totalInvested: stockData.totalInvested,
         currentValue: stockData.totalStock * (quote?.price ?? 0),
+        quote: quote.price,
+        minPrice: stockData.minPrice,
+        maxPrice: stockData.maxPrice,
       }
     })
 
