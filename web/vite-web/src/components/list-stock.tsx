@@ -12,7 +12,7 @@ export function ListStock({ type }: ListStockProps) {
   const { portfolio } = useStock()
 
   return (
-    <Card className="mb-4 flex flex-col lg:mr-4 lg:w-[480px]">
+    <Card className="mb-4 flex min-h-[574px] flex-col lg:mr-4 lg:w-[480px]">
       <CardHeader>
         <CardTitle>
           {type === 'fii' ? 'Fundos Imobiliários' : 'Ações'}
