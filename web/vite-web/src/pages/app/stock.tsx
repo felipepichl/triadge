@@ -1,54 +1,29 @@
 import { Activity, DollarSign, TrendingUpDown } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  LabelList,
-  Line,
-  LineChart,
-  XAxis,
-  YAxis,
-} from 'recharts'
 
-import { BarChartGeneric } from '@/components/charts/bar-chart-generic'
+import {
+  GenericPieChart,
+  GenericPieChartProps,
+} from '@/components/charts/generic-pie-chart'
 import { ListStock } from '@/components/list-stock'
 import { NewStock } from '@/components/new-stock/new-stock'
 import { SummaryProps } from '@/components/summary/summary'
 import { SummaryCarousel } from '@/components/summary/summary-carousel'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from '@/components/ui/chart'
 import { Separator } from '@/components/ui/separator'
 import { useStock } from '@/hooks/use-stock'
 import { priceFormatter } from '@/util/formatter'
 
-const chartConfig = {
-  name: {
-    color: 'hsl(var(--chart-2))',
-  },
-} satisfies ChartConfig
-
-const chartData = [
-  { name: 'January', value: 1186 },
-  { name: 'February', value: 30005 },
-  { name: 'March', value: 23700 },
-  { name: 'April', value: 73 },
-  { name: 'May', value: 209 },
-  { name: 'June', value: 214 },
-  { name: 'June', value: 2207 },
-  { name: 'June', value: 224 },
-]
-
 export function Stock() {
   const [summaries, setSummaries] = useState<SummaryProps[]>([])
+  const [chartData, setChartData] = useState<GenericPieChartProps['data']>()
 
-  const { getPortfolioQuotes, investment } = useStock()
+  const {
+    getPortfolioQuotes,
+    investment,
+    portfolio: portfolioResponse,
+  } = useStock()
 
   const portfolioQuotes = useCallback(async () => {
     await getPortfolioQuotes('fii')
@@ -86,6 +61,15 @@ export function Stock() {
     setSummaries(summariesResume)
   }, [investment])
 
+  useEffect(() => {
+    const mappedData = portfolioResponse?.portfolio.map((item) => ({
+      name: item.stock.symbol,
+      value: item.currentValue,
+    }))
+
+    setChartData(mappedData)
+  }, [portfolioResponse])
+
   return (
     <>
       <Helmet title="Ações e FIIs" />
@@ -96,15 +80,15 @@ export function Stock() {
       <div className="mt-8 flex flex-col lg:flex-row">
         <ListStock type="fii" />
         <div className="flex-1">
-          <Card className="min-h-[574px]">
+          <Card className="flex min-h-[574px] flex-col">
             <CardHeader>
               <CardTitle>Compisição</CardTitle>
             </CardHeader>
 
             <Separator />
 
-            <CardContent className="flex flex-1 flex-col items-center justify-end">
-              <BarChartGeneric data={chartData} />
+            <CardContent className="flex flex-1 items-center justify-center p-1">
+              <GenericPieChart data={chartData} />
             </CardContent>
           </Card>
         </div>
