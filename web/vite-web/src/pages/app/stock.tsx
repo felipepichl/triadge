@@ -2,6 +2,7 @@ import { Activity, DollarSign, TrendingUpDown } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
+import { GenericBarChart } from '@/components/charts/generic-bar-chart'
 import {
   GenericPieChart,
   GenericPieChartProps,
@@ -92,6 +93,22 @@ export function Stock() {
             </CardContent>
           </Card>
         </div>
+      </div>
+
+      <div className="mb-4 mt-4 flex-1 lg:mt-0">
+        <Card>
+          <CardHeader>
+            <CardTitle>Alocação Monetária</CardTitle>
+          </CardHeader>
+
+          <Separator />
+
+          <CardContent
+          // className="flex flex-1 items-center justify-center p-1"
+          >
+            <GenericBarChart data={chartData} />
+          </CardContent>
+        </Card>
       </div>
     </>
   )

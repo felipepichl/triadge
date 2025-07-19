@@ -1,17 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Cell, Pie, PieChart, PieLabelRenderProps } from 'recharts'
+import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from 'recharts'
 
-import { ChartContainer } from '@/components/ui/chart'
+import { priceFormatter } from '@/util/formatter'
 
-const COLORS = [
-  'hsl(var(--chart-1))',
-  'hsl(var(--chart-2))',
-  'hsl(var(--chart-3))',
-  'hsl(var(--chart-4))',
-  'hsl(var(--chart-5))',
-]
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '../ui/chart'
 
-export type GenericPieChartProps = {
+export type GenericBarChartProps = {
   data:
     | {
         name: string
@@ -20,65 +14,27 @@ export type GenericPieChartProps = {
     | undefined
 }
 
-export function GenericPieChart({ data }: GenericPieChartProps) {
+export function GenericBarChart({ data }: GenericBarChartProps) {
   const [internalData, setInternalData] = useState<typeof data>([])
-
-  function createRenderLabel(
-    internalData: { name: string; value: number }[] | undefined,
-  ) {
-    if (!internalData) return null
-
-    const total = internalData.reduce((acc, entry) => acc + entry.value, 0)
-
-    return (props: PieLabelRenderProps) => {
-      const { value, name } = props
-      const percent = ((value as number) / total) * 100
-      return `${name}: ${percent.toFixed(1)}%`
-    }
-  }
-
-  const renderLabel = createRenderLabel(internalData)
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setInternalData(data)
-    }, 450)
+    }, 500)
 
     return () => clearTimeout(timeout)
   }, [data])
 
   return (
-    <ChartContainer className="w-full" config={{}}>
-      <PieChart>
-        {internalData! && (
-          <Pie
-            data={internalData}
-            dataKey="value"
-            label={renderLabel ?? undefined}
-            labelLine={false}
-            key={internalData.length}
-          >
-            {internalData.map((_entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
-              />
-            ))}
-          </Pie>
-        )}
-      </PieChart>
-    </ChartContainer>
-  )
-}
-
-/* <BarChart
+    <ChartContainer className="max-h-96 w-full" config={{}}>
+      <BarChart
         accessibilityLayer
-        data={data}
+        data={internalData}
         margin={{
           top: 46,
           left: 36,
           right: 36,
-          bottom: 46,
+          // bottom: 46,
         }}
       >
         <CartesianGrid vertical={true} />
@@ -119,4 +75,7 @@ export function GenericPieChart({ data }: GenericPieChartProps) {
             formatter={(value: number) => priceFormatter.format(value)}
           />
         </Bar>
-      </BarChart> */
+      </BarChart>
+    </ChartContainer>
+  )
+}
