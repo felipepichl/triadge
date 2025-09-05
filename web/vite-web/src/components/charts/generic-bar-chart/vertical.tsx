@@ -1,35 +1,20 @@
-import { useEffect, useState } from 'react'
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from 'recharts'
 
 import { priceFormatter } from '@/util/formatter'
 
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '../ui/chart'
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '../../ui/chart'
+import { GenericBarChartProps } from '../generic-bar-chart'
 
-export type GenericBarChartProps = {
-  data:
-    | {
-        name: string
-        value: number
-      }[]
-    | undefined
-}
-
-export function GenericBarChart({ data }: GenericBarChartProps) {
-  const [internalData, setInternalData] = useState<typeof data>([])
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      setInternalData(data)
-    }, 500)
-
-    return () => clearTimeout(timeout)
-  }, [data])
-
+export function Vertical({ data }: GenericBarChartProps) {
   return (
     <ChartContainer className="max-h-96 w-full" config={{}}>
       <BarChart
         accessibilityLayer
-        data={internalData}
+        data={data}
         margin={{
           top: 46,
           left: 36,

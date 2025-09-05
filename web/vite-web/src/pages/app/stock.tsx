@@ -3,10 +3,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
 import { GenericBarChart } from '@/components/charts/generic-bar-chart'
-import {
-  GenericPieChart,
-  GenericPieChartProps,
-} from '@/components/charts/generic-pie-chart'
+import { GenericBarChartProps } from '@/components/charts/generic-bar-chart/dtos/generic-bar-chart-dto'
+import { GenericPieChart } from '@/components/charts/generic-pie-chart'
 import { ListStock } from '@/components/list-stock'
 import { NewStock } from '@/components/new-stock/new-stock'
 import { SummaryProps } from '@/components/summary/summary'
@@ -18,7 +16,7 @@ import { priceFormatter } from '@/util/formatter'
 
 export function Stock() {
   const [summaries, setSummaries] = useState<SummaryProps[]>([])
-  const [chartData, setChartData] = useState<GenericPieChartProps['data']>()
+  const [chartData, setChartData] = useState<GenericBarChartProps['data']>([])
 
   const {
     getPortfolioQuotes,
@@ -63,7 +61,7 @@ export function Stock() {
   }, [investment])
 
   useEffect(() => {
-    const mappedData = portfolioResponse?.portfolio.map((item) => ({
+    const mappedData = (portfolioResponse?.portfolio ?? []).map((item) => ({
       name: item.stock.symbol,
       value: item.currentValue,
     }))
@@ -106,6 +104,7 @@ export function Stock() {
           <CardContent
           // className="flex flex-1 items-center justify-center p-1"
           >
+            {/* <GenericBarChart data={chartData} /> */}
             <GenericBarChart data={chartData} />
           </CardContent>
         </Card>
