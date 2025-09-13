@@ -79,14 +79,14 @@ export function Stock() {
       <div className="mt-8 flex flex-col lg:flex-row">
         <ListStock type="fii" />
         <div className="flex-1">
-          <Card className="flex min-h-[574px] flex-col">
+          <Card className="flex flex-col md:min-h-[574px]">
             <CardHeader>
               <CardTitle>Compisição</CardTitle>
             </CardHeader>
 
             <Separator />
 
-            <CardContent className="flex flex-1 items-center justify-center p-1">
+            <CardContent className="flex flex-1 items-center justify-center">
               <GenericPieChart data={chartData} />
             </CardContent>
           </Card>
@@ -101,10 +101,7 @@ export function Stock() {
 
           <Separator />
 
-          <CardContent
-          // className="flex flex-1 items-center justify-center p-1"
-          >
-            {/* <GenericBarChart data={chartData} /> */}
+          <CardContent>
             <GenericBarChart data={chartData} />
           </CardContent>
         </Card>
