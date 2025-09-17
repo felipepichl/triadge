@@ -3,6 +3,7 @@ import { ChevronUp } from 'lucide-react'
 import { PortfolioResponseDTO } from '@/dtos/stock-dto'
 
 import { NotFound } from '../not-found'
+import { SellStock } from '../sell-stock'
 import {
   Card,
   CardContent,
@@ -34,11 +35,14 @@ export function CardStock({ wallet }: CardStockProps) {
           wallet?.portfolio.map((item) => (
             <CarouselItem key={item.stock.shortName}>
               <Card className="bg-gray-300 dark:bg-gray-700 max-sm:rounded-none">
-                <CardHeader className="flex p-6">
-                  <CardDescription className="truncate font-semibold text-gray-500 dark:text-slate-200">
-                    {item.stock.shortName}
-                  </CardDescription>
-                  <CardDescription>{item.stock.symbol}</CardDescription>
+                <CardHeader className="flex-row justify-between">
+                  <div>
+                    <CardDescription className="truncate font-semibold text-gray-500 dark:text-slate-200">
+                      {item.stock.shortName}
+                    </CardDescription>
+                    <CardDescription>{item.stock.symbol}</CardDescription>
+                  </div>
+                  <SellStock />
                 </CardHeader>
 
                 <Separator className="bg-gray-600" />
