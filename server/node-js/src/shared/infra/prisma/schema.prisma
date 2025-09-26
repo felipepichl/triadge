@@ -29,6 +29,7 @@ model User {
   AccountPayable    AccountPayable[]
   FinancialCategory FinancialCategory[]
   Stock             Stock[]
+  StockPosition     StockPosition[]
 }
 
 model UserTokens {
@@ -92,7 +93,7 @@ model AccountPayable {
   paymentDate DateTime?
   isPaid      Boolean   @default(false)
 
-  isFixed          Boolean @default(false)
+  isFixed Boolean @default(false)
   //isAmountVariable Boolean @default(false)
 
   interestPaid   Decimal?
@@ -114,17 +115,43 @@ model AccountPayable {
   transactionId String?
 }
 
+// enum OperationType {
+//   BUY
+//   SELL
+// }
+
 model Stock {
   id        String   @id @default(uuid())
   shortName String
   symbol    String
+  type      String
+  operation String
   price     Decimal
   date      DateTime
   quantity  Int
-  type      String
 
   users  User   @relation(fields: [userId], references: [id])
   userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// enum AssetType {
+//   STOCK      // ação
+//   REIT       // fundo imobiliário
+//   ETF        // fundo de índice
+// }
+
+model StockPosition {
+  id       String  @id @default(uuid())
+  symbol   String
+  type     String
+  quantity Int
+  avgPrice Decimal
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
