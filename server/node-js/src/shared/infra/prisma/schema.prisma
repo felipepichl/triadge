@@ -125,7 +125,7 @@ model Stock {
   shortName String
   symbol    String
   type      String
-  operation String
+  operation String?
   price     Decimal
   date      DateTime
   quantity  Int
