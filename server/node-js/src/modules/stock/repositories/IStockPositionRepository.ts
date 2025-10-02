@@ -1,6 +1,6 @@
 import { StockPosition } from '../domain/StockPosition'
 
-interface IStockRepository {
+interface IStockPositionRepository {
   create(stockPosition: StockPosition): Promise<void>
   update(stockPosition: StockPosition): Promise<void>
   findByUserAndSymbol(
@@ -9,4 +9,4 @@ interface IStockRepository {
   ): Promise<StockPosition | null>
 }
 
-export { IStockRepository }
+export { IStockPositionRepository }
