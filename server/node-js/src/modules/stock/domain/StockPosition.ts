@@ -4,7 +4,7 @@ import { UniqueEntityID } from '@shared/core/domain/UniqueEntityID'
 import { IStockType } from './StockType'
 
 interface IStockPositionProps {
-  id?: string
+  id?: UniqueEntityID
   symbol: string
   quantity?: number
   type?: IStockType

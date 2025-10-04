@@ -15,7 +15,7 @@ interface IRequest {
   date?: Date
   quantity: number
   type: IStockType
-  operation: IStockOperationType
+  operation?: IStockOperationType
   userId: string
 }
 

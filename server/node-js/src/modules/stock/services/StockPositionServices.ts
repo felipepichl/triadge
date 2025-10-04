@@ -12,6 +12,7 @@ class StockPositionServices {
     const newAvgPrice = newTotal / newQuantity
 
     return StockPosition.createStockPosition({
+      id: stockPosition.id,
       symbol: stockPosition.symbol,
       quantity: newQuantity,
       type: stockPosition.type,
