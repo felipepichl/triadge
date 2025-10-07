@@ -13,6 +13,7 @@ import { IFinancialCategoriesRepository } from '@modules/financialCategory/repos
 import { CategoriesRepository } from '@modules/products/infra/prisma/repositories/category/CategoriesRepository'
 import { ICategoryRepositry } from '@modules/products/repositories/category/ICategoryRepository'
 import { StockRepository } from '@modules/stock/infra/prisma/repositories/StockRepository'
+import { IStockPositionRepository } from '@modules/stock/repositories/IStockPositionRepository'
 import { IStockRepository } from '@modules/stock/repositories/IStockRepository'
 import { TransactionsRepository } from '@modules/transactions/infra/prisma/repositories/transaction/TransactionsRepository'
 import { ITransactionsRepository } from '@modules/transactions/repositories/transaction/ITransactionsRepository'
@@ -52,3 +53,5 @@ container.registerSingleton<IStockRepository>(
   'StockRepository',
   StockRepository,
 )
+
+container.registerSingleton<IStockPositionRepository>('StockPositionRepository')

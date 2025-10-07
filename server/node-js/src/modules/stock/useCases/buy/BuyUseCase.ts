@@ -8,6 +8,7 @@ import { IStockRepository } from '@modules/stock/repositories/IStockRepository'
 import { StockPositionServices } from '@modules/stock/services/StockPositionServices'
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
+import { inject, injectable } from 'tsyringe'
 
 interface IRequest {
   symbol: string
@@ -19,13 +20,14 @@ interface IRequest {
   userId: string
 }
 
+@injectable()
 class BuyUseCase implements IUseCase<IRequest, void> {
   constructor(
-    // @inject('StockRepository')
+    @inject('StockRepository')
     private stockRepository: IStockRepository,
-    // @inject('BrapiB3Provider')
+    @inject('BrapiB3Provider')
     private b3Provider: IB3Provider,
-    // @inject()
+    @inject('StockPositionRepository')
     private stockPositionRepository: IStockPositionRepository,
   ) {}
 
