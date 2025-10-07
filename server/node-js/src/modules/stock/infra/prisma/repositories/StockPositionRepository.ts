@@ -14,7 +14,7 @@ class StockPositionRepository implements IStockPositionRepository {
     userId,
   }: StockPosition): Promise<void> {
     const data = {
-      id: String(id),
+      id: id.toString(),
       symbol,
       type: String(type),
       quantity,
@@ -54,6 +54,10 @@ class StockPositionRepository implements IStockPositionRepository {
     const result = await PrismaSingleton.getInstance().stockPosition.findFirst({
       where: { symbol, userId },
     })
+
+    if (!result) {
+      return null
+    }
 
     return StockPositionMappers.getMapper().toDomain(result)
   }

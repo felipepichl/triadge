@@ -1,5 +1,6 @@
 import { Router } from 'express'
 
+import { BuyController } from '../controllers/buy/BuyController'
 import { CreateStockController } from '../controllers/createStock/CreateStockController'
 import { GetPortfolioQuotesController } from '../controllers/getPortfolioQuotes/GetPortfolioQuotesController'
 import { GetTotalInvestedAndCurrentQuoteController } from '../controllers/getTotalInvestedAndCurrentQuote/GetTotalInvestedAndCurrentQuoteController'
@@ -9,6 +10,7 @@ import { ListFIIPurchasesByMonthController } from '../controllers/listFIIPurchas
 const stocksRoutes = Router()
 
 const createStockController = new CreateStockController()
+const buyController = new BuyController()
 const listByType = new ListByTypeController()
 const getPortfolioQuotes = new GetPortfolioQuotesController()
 const getTotalInvestedAndCurrentQuote =
@@ -17,6 +19,7 @@ const listFIIPurchasesByMonthController =
   new ListFIIPurchasesByMonthController()
 
 stocksRoutes.post('', createStockController.handle)
+stocksRoutes.post('/buy', buyController.handle)
 stocksRoutes.get('/type', listByType.handle)
 stocksRoutes.get('/portfolio', getPortfolioQuotes.handle)
 stocksRoutes.get('/investement', getTotalInvestedAndCurrentQuote.handle)
