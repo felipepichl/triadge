@@ -1,3 +1,5 @@
+import { AppError } from '@shared/error/AppError'
+
 import { StockPosition } from '../domain/StockPosition'
 
 class StockPositionServices {
@@ -17,6 +19,24 @@ class StockPositionServices {
       quantity: newQuantity,
       type: stockPosition.type,
       avgPrice: newAvgPrice,
+      userId: stockPosition.userId,
+    })
+  }
+
+  static decreasePosition(
+    stockPosition: StockPosition,
+    quantity: number,
+  ): StockPosition {
+    if (quantity > stockPosition.quantity) {
+      throw new AppError('Cannot sell more then current position')
+    }
+
+    return StockPosition.createStockPosition({
+      id: stockPosition.id,
+      symbol: stockPosition.symbol,
+      quantity,
+      type: stockPosition.type,
+      avgPrice: stockPosition.avgPrice,
       userId: stockPosition.userId,
     })
   }

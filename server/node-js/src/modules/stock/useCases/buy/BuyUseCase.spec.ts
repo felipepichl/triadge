@@ -10,7 +10,7 @@ let b3ProviderInMemory: B3ProviderInMemory
 let stockPositionRepositoryInMemory: StockPositionRepositoryInMemory
 let buyUseCase: BuyUseCase
 
-describe('[Stock] - Buy a stock', () => {
+describe('[StockPosition] - Buy a stock', () => {
   beforeEach(() => {
     stockRepositoryInMemory = new StockRepositoryInMemory()
     b3ProviderInMemory = new B3ProviderInMemory()
