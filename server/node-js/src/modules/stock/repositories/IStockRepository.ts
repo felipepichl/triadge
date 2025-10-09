@@ -15,6 +15,7 @@ interface IStockRepository {
     userId: string,
     type: IStockType,
   ): Promise<string[]>
+  findBySymbol(symbol: string): Promise<Stock>
 }
 
 export { IStockRepository }

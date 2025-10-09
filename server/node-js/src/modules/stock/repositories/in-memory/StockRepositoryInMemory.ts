@@ -51,6 +51,10 @@ class StockRepositoryInMemory implements IStockRepository {
       )
       .map((stock) => stock.symbol)
   }
+
+  async findBySymbol(symbol: string): Promise<Stock> {
+    return this.stocks.find((stock) => stock.symbol === symbol)
+  }
 }
 
 export { StockRepositoryInMemory }
