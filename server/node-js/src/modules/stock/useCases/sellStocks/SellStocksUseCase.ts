@@ -3,6 +3,7 @@ import { IStockOperationType } from '@modules/stock/domain/StockOperationType'
 import { IStockType } from '@modules/stock/domain/StockType'
 import { IStockPositionRepository } from '@modules/stock/repositories/IStockPositionRepository'
 import { IStockRepository } from '@modules/stock/repositories/IStockRepository'
+import { StockPositionServices } from '@modules/stock/services/StockPositionServices'
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
 
@@ -44,7 +45,7 @@ class SellStocksUseCase implements IUseCase<IRequest, void> {
 
     const stockCreated = await this.stockRepository.findBySymbol(symbol)
 
-    const stockUpdated = Stock.createStock({
+    const stock = Stock.createStock({
       shortName: stockCreated.shortName,
       symbol: stockCreated.symbol,
       price,
@@ -54,6 +55,15 @@ class SellStocksUseCase implements IUseCase<IRequest, void> {
       operation,
       userId,
     })
+
+    await this.stockRepository.create(stock)
+
+    const updated = StockPositionServices.decreasePosition(
+      stockPosition,
+      quantity,
+    )
+
+    await this.stockPositionRepository.update(updated)
   }
 }
 
