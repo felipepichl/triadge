@@ -40,7 +40,7 @@ class SellStocksUseCase implements IUseCase<IRequest, void> {
       await this.stockPositionRepository.findByUserAndSymbol(userId, symbol)
 
     if (!stockPosition) {
-      throw new AppError('Cannot sell, no stock position found')
+      throw new AppError('Cannot sell, no stock position found', 404)
     }
 
     const stockCreated = await this.stockRepository.findBySymbol(symbol)

@@ -34,7 +34,7 @@ class StockPositionServices {
     return StockPosition.createStockPosition({
       id: stockPosition.id,
       symbol: stockPosition.symbol,
-      quantity,
+      quantity: stockPosition.quantity - quantity,
       type: stockPosition.type,
       avgPrice: stockPosition.avgPrice,
       userId: stockPosition.userId,
