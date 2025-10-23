@@ -7,7 +7,6 @@ describe('[AccountPayable] - Create a new account payable', () => {
       amount: 100,
       dueDate: new Date(),
       isPaid: false,
-      totalInstallments: 1,
       isFixed: false,
       userId: 'user_id',
       financialCategoryId: 'financial_category_id',

@@ -32,7 +32,6 @@ class CreateFixedAccountsPayableUseCase implements IUseCase<IRequest, void> {
   }: IRequest): Promise<void> {
     const initialDueDate = new Date(dueDate)
     const currentYear = initialDueDate.getFullYear()
-
     if (months <= 0) {
       throw new AppError('The number of months must be greater than zero.')
     }

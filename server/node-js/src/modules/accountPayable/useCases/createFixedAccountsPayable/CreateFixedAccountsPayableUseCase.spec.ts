@@ -5,6 +5,13 @@ import { CreateFixedAccountsPayableUseCase } from './CreateFixedAccounsPayableUs
 let accountsPayableRepositoryInMemory: AccountsPayableRepositoryInMemory
 let createFixedAccountsPayableUseCase: CreateFixedAccountsPayableUseCase
 
+function monthsUntilEndOfYear(): number {
+  const today = new Date()
+  const currentMonth = today.getMonth()
+  const monthsLeft = 12 - currentMonth
+  return monthsLeft
+}
+
 describe('[AccountPayable] - Create a fixed account payable', () => {
   beforeEach(() => {
     accountsPayableRepositoryInMemory = new AccountsPayableRepositoryInMemory()
@@ -28,6 +35,6 @@ describe('[AccountPayable] - Create a fixed account payable', () => {
       await accountsPayableRepositoryInMemory.listAll('user_id')
 
     expect(accountPayableCreated[0]).toBeDefined()
-    expect(accountPayableCreated.length).toBe(12)
+    expect(accountPayableCreated.length).toBe(monthsUntilEndOfYear())
   })
 })
