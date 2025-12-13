@@ -6,11 +6,13 @@ import { GetPortfolioQuotesController } from '../controllers/getPortfolioQuotes/
 import { GetTotalInvestedAndCurrentQuoteController } from '../controllers/getTotalInvestedAndCurrentQuote/GetTotalInvestedAndCurrentQuoteController'
 import { ListByTypeController } from '../controllers/listByType/ListByTypeController'
 import { ListFIIPurchasesByMonthController } from '../controllers/listFIIPurchasesByMonth/ListFIIPurchasesByMonthController'
+import { SellController } from '../controllers/sell/SellContrller'
 
 const stocksRoutes = Router()
 
 const createStockController = new CreateStockController()
 const buyController = new BuyController()
+const sellController = new SellController()
 const listByType = new ListByTypeController()
 const getPortfolioQuotes = new GetPortfolioQuotesController()
 const getTotalInvestedAndCurrentQuote =
@@ -20,6 +22,7 @@ const listFIIPurchasesByMonthController =
 
 stocksRoutes.post('', createStockController.handle)
 stocksRoutes.post('/buy', buyController.handle)
+stocksRoutes.post('/sell', sellController.handle)
 stocksRoutes.get('/type', listByType.handle)
 stocksRoutes.get('/portfolio', getPortfolioQuotes.handle)
 stocksRoutes.get('/investement', getTotalInvestedAndCurrentQuote.handle)
