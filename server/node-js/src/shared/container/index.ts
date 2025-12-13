@@ -10,8 +10,6 @@ import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepositor
 import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository'
 import { FinancialCategoriesRepository } from '@modules/financialCategory/infra/prisma/repositories/FinancialCategoriesRepository'
 import { IFinancialCategoriesRepository } from '@modules/financialCategory/repositories/IFinancialCategoriesRepository'
-import { CategoriesRepository } from '@modules/products/infra/prisma/repositories/category/CategoriesRepository'
-import { ICategoryRepositry } from '@modules/products/repositories/category/ICategoryRepository'
 import { StockPositionRepository } from '@modules/stock/infra/prisma/repositories/StockPositionRepository'
 import { StockRepository } from '@modules/stock/infra/prisma/repositories/StockRepository'
 import { IStockPositionRepository } from '@modules/stock/repositories/IStockPositionRepository'
@@ -28,11 +26,6 @@ container.registerSingleton<IUsersRepository>(
 container.registerSingleton<IUsersTokensRepository>(
   'UsersTokensRepository',
   UsersTokensRepository,
-)
-
-container.registerSingleton<ICategoryRepositry>(
-  'CategoriesRepository',
-  CategoriesRepository,
 )
 
 container.registerSingleton<ITransactionsRepository>(

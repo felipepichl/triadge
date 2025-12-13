@@ -90,6 +90,10 @@ class StockRepository implements IStockRepository {
   ): Promise<string[]> {
     throw new Error('Method not implemented.')
   }
+
+  findBySymbol(symbol: string): Promise<Stock> {
+    throw new Error('Method not implemented.')
+  }
 }
 
 export { StockRepository }
