@@ -15,6 +15,7 @@ class StockRepository implements IStockRepository {
     date,
     quantity,
     type,
+    operation,
     userId,
   }: Stock): Promise<void> {
     const data = {
@@ -24,6 +25,7 @@ class StockRepository implements IStockRepository {
       date,
       quantity,
       type: String(type),
+      operation: operation.stockOperationType,
       userId,
     }
 
