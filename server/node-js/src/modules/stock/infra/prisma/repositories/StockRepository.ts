@@ -91,8 +91,12 @@ class StockRepository implements IStockRepository {
     throw new Error('Method not implemented.')
   }
 
-  findBySymbol(symbol: string): Promise<Stock> {
-    throw new Error('Method not implemented.')
+  async findBySymbol(symbol: string): Promise<Stock> {
+    const result = await PrismaSingleton.getInstance().stock.findFirst({
+      where: { symbol },
+    })
+
+    return StockMappers.getMapper().toDomain(result)
   }
 }
 

@@ -20,7 +20,7 @@ class StockPositionMappers implements IMapper<StockPosition, RawStockPosition> {
       id,
       symbol,
       quantity,
-      type: { stockType: type } as IStockType,
+      type: { stockType: type.toString() } as IStockType,
       avgPrice: Number(avgPrice),
       userId,
     })
