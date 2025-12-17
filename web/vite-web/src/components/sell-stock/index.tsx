@@ -20,11 +20,12 @@ const sellStockForm = z.object({
 type SellStockForm = z.infer<typeof sellStockForm>
 
 type SellStockProps = {
+  symbol: string
   position: number
   quote: number
 }
 
-export function SellStock({ position, quote }: SellStockProps) {
+export function SellStock({ symbol, position, quote }: SellStockProps) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
   const [quantity, setQuantity] = useState(0)
 

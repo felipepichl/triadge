@@ -55,6 +55,8 @@ function StockProvider({ children }: StockProvidersProps) {
     setInvestment(investiment)
   }, [])
 
+  const sellStock = useCallback(() => {}, [])
+
   useEffect(() => {
     getTotalInvestedAndCurrentQuote()
   }, [getTotalInvestedAndCurrentQuote])

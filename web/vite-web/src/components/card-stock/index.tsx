@@ -43,6 +43,7 @@ export function CardStock({ wallet }: CardStockProps) {
                     <CardDescription>{item.stock.symbol}</CardDescription>
                   </div>
                   <SellStock
+                    symbol={item.stock.symbol}
                     position={item.stock.totalStock}
                     quote={item.quote}
                   />
