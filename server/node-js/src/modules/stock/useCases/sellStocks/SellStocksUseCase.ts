@@ -1,6 +1,5 @@
 import { Stock } from '@modules/stock/domain/Stock'
 import { IStockOperationType } from '@modules/stock/domain/StockOperationType'
-import { IStockType } from '@modules/stock/domain/StockType'
 import { IStockPositionRepository } from '@modules/stock/repositories/IStockPositionRepository'
 import { IStockRepository } from '@modules/stock/repositories/IStockRepository'
 import { StockPositionServices } from '@modules/stock/services/StockPositionServices'
@@ -13,7 +12,6 @@ interface IRequest {
   price: number
   date?: Date
   quantity: number
-  type: IStockType
   operation?: IStockOperationType
   userId: string
 }
@@ -32,7 +30,6 @@ class SellStocksUseCase implements IUseCase<IRequest, void> {
     price,
     date,
     quantity,
-    type,
     operation = { stockOperationType: 'sell' },
     userId,
   }: IRequest): Promise<void> {
@@ -51,7 +48,7 @@ class SellStocksUseCase implements IUseCase<IRequest, void> {
       price,
       date,
       quantity,
-      type,
+      type: stockCreated.type,
       operation,
       userId,
     })
