@@ -42,7 +42,10 @@ export function CardStock({ wallet }: CardStockProps) {
                     </CardDescription>
                     <CardDescription>{item.stock.symbol}</CardDescription>
                   </div>
-                  <SellStock />
+                  <SellStock
+                    position={item.stock.totalStock}
+                    quote={item.quote}
+                  />
                 </CardHeader>
 
                 <Separator className="bg-gray-600" />

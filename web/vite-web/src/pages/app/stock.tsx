@@ -79,7 +79,7 @@ export function Stock() {
       <div className="mt-8 flex flex-col lg:flex-row">
         <ListStock type="fii" />
         <div className="flex-1">
-          <Card className="flex flex-col md:min-h-[574px]">
+          <Card className="flex max-h-[574px] flex-col md:min-h-[574px]">
             <CardHeader>
               <CardTitle>Compisição</CardTitle>
             </CardHeader>

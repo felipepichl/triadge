@@ -10,7 +10,6 @@ export async function apiGetPortfolioQuotes(
     const { data } = await api.get<PortfolioResponseDTO>('/stocks/portfolio', {
       params: { type },
     })
-
     return data
   } catch (error) {
     throw handleApiError(error)

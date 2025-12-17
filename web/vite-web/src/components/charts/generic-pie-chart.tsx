@@ -80,7 +80,10 @@ export function GenericPieChart({ data }: GenericPieChartProps) {
   }, [])
 
   return (
-    <ChartContainer className="h-full min-h-[320px] w-full" config={{}}>
+    <ChartContainer
+      className="h-full max-h-[574px] min-h-[320px] w-full"
+      config={{}}
+    >
       <PieChart>
         {internalData! && (
           <Pie
@@ -89,6 +92,7 @@ export function GenericPieChart({ data }: GenericPieChartProps) {
             label={isWideScreen ? (renderLabel ?? undefined) : undefined}
             labelLine={false}
             key={internalData.length}
+            width={574}
           >
             {internalData.map((_entry, index) => (
               <Cell
