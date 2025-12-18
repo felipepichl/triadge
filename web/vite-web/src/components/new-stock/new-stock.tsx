@@ -42,7 +42,7 @@ export function NewStock() {
   )
   // const [quantity, setQuantity] = useState(0)
 
-  const { createStock } = useStock()
+  const { buyStock } = useStock()
 
   const form = useForm<CreateAssetForm>({
     resolver: zodResolver(formSchema),
@@ -73,7 +73,7 @@ export function NewStock() {
           type,
         }
 
-        await createStock(data)
+        await buyStock(data)
         handleToggleDrawer()
         form.reset()
         toast.success('Ativo salvo com sucesso!')
@@ -87,7 +87,7 @@ export function NewStock() {
         }
       }
     },
-    [createStock, handleToggleDrawer, form],
+    [buyStock, handleToggleDrawer, form],
   )
 
   return (

@@ -6,11 +6,13 @@ import {
   useState,
 } from 'react'
 
+import { apiBuyStock } from '@/api/app/stock/buy-stock'
 import { apiCreateStock } from '@/api/app/stock/create-stock'
 import { apiGetPortfolioQuotes } from '@/api/app/stock/get-portfolio-quotes'
 import { apiGetTotalInvestedAndCurrentQuote } from '@/api/app/stock/get-total-invested-and-current-quote'
 import { apiSellStock } from '@/api/app/stock/sell-stock'
 import {
+  BuyStockDTO,
   CreateStockDTO,
   InvestementResponseDTO,
   PortfolioResponseDTO,
@@ -22,6 +24,7 @@ type StockContextData = {
   getPortfolioQuotes(type: string): Promise<void>
   portfolio: PortfolioResponseDTO | undefined
   investment: InvestementResponseDTO | undefined
+  buyStock(data: BuyStockDTO): Promise<void>
   sellStock(data: SellStockDTO): Promise<void>
 }
 
@@ -58,6 +61,13 @@ function StockProvider({ children }: StockProvidersProps) {
     setInvestment(investiment)
   }, [])
 
+  const buyStock = useCallback(
+    async ({ symbol, price, date, quantity, type }: BuyStockDTO) => {
+      await apiBuyStock({ symbol, price, date, quantity, type })
+    },
+    [],
+  )
+
   const sellStock = useCallback(
     async ({ symbol, price, date, quantity }: SellStockDTO) => {
       await apiSellStock({ symbol, price, date, quantity })
@@ -76,6 +86,7 @@ function StockProvider({ children }: StockProvidersProps) {
         getPortfolioQuotes,
         portfolio,
         investment,
+        buyStock,
         sellStock,
       }}
     >
