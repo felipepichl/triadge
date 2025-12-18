@@ -2,7 +2,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { HandCoins, Minus, Plus } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import z from 'zod'
+
+import { useStock } from '@/hooks/use-stock'
 
 import { Monetary } from '../generic-form-and-fields/fields/monetary'
 import { Button } from '../ui/button'
@@ -29,6 +32,8 @@ export function SellStock({ symbol, position, quote }: SellStockProps) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
   const [quantity, setQuantity] = useState(0)
 
+  const { sellStock } = useStock()
+
   const form = useForm<SellStockForm>({
     resolver: zodResolver(sellStockForm),
     defaultValues: {
@@ -42,20 +47,43 @@ export function SellStock({ symbol, position, quote }: SellStockProps) {
   }
 
   const handleSellStock = useCallback(
-    ({ quantity, amount }: SellStockForm) => {
-      if (amount && quantity > 0) {
-        console.log('Chama a rota e passa amount:', quantity, amount)
+    async ({ quantity, amount }: SellStockForm) => {
+      try {
+        const formattedAmount = parseFloat(
+          amount.replace('R$ ', '').replace('.', '').replace(',', '.'),
+        )
 
-        handleTogglePopover()
-        form.reset()
-      } else {
-        console.log('Chama a rota e passa quote:', quantity, quote, amount)
+        if (amount && quantity > 0) {
+          console.log('Chama a rota e passa amount:', quantity, amount)
 
-        handleTogglePopover()
-        form.reset()
+          await sellStock({
+            symbol,
+            price: formattedAmount,
+            quantity,
+          })
+
+          handleTogglePopover()
+          form.reset()
+          toast.success('Venda realizada com sucesso!')
+        } else {
+          console.log('Chama a rota e passa quote:', quantity, quote, amount)
+
+          await sellStock({
+            symbol,
+            price: quote,
+            quantity,
+          })
+
+          handleTogglePopover()
+          form.reset()
+          toast.success('Venda realizada com sucesso!')
+        }
+      } catch (err) {
+        console.log(err)
+        toast.error('Erro ao vender, tente novamente mais tarde!')
       }
     },
-    [quote, form],
+    [symbol, quote, form, sellStock],
   )
 
   return (

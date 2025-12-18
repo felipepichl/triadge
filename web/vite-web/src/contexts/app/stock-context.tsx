@@ -9,10 +9,12 @@ import {
 import { apiCreateStock } from '@/api/app/stock/create-stock'
 import { apiGetPortfolioQuotes } from '@/api/app/stock/get-portfolio-quotes'
 import { apiGetTotalInvestedAndCurrentQuote } from '@/api/app/stock/get-total-invested-and-current-quote'
+import { apiSellStock } from '@/api/app/stock/sell-stock'
 import {
   CreateStockDTO,
   InvestementResponseDTO,
   PortfolioResponseDTO,
+  SellStockDTO,
 } from '@/dtos/stock-dto'
 
 type StockContextData = {
@@ -20,6 +22,7 @@ type StockContextData = {
   getPortfolioQuotes(type: string): Promise<void>
   portfolio: PortfolioResponseDTO | undefined
   investment: InvestementResponseDTO | undefined
+  sellStock(data: SellStockDTO): Promise<void>
 }
 
 type StockProvidersProps = {
@@ -55,7 +58,12 @@ function StockProvider({ children }: StockProvidersProps) {
     setInvestment(investiment)
   }, [])
 
-  const sellStock = useCallback(() => {}, [])
+  const sellStock = useCallback(
+    async ({ symbol, price, date, quantity }: SellStockDTO) => {
+      await apiSellStock({ symbol, price, date, quantity })
+    },
+    [],
+  )
 
   useEffect(() => {
     getTotalInvestedAndCurrentQuote()
@@ -63,7 +71,13 @@ function StockProvider({ children }: StockProvidersProps) {
 
   return (
     <StockContext.Provider
-      value={{ createStock, getPortfolioQuotes, portfolio, investment }}
+      value={{
+        createStock,
+        getPortfolioQuotes,
+        portfolio,
+        investment,
+        sellStock,
+      }}
     >
       {children}
     </StockContext.Provider>

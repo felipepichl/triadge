@@ -27,3 +27,10 @@ export type InvestementResponseDTO = {
   totalInvested: number
   currentValue: number
 }
+
+export type SellStockDTO = {
+  symbol: string
+  price: number
+  date?: Date
+  quantity: number
+}
