@@ -16,7 +16,7 @@ class StockPositionRepository implements IStockPositionRepository {
     const data = {
       id: id.toString(),
       symbol,
-      type: String(type),
+      type: type.stockType,
       quantity,
       avgPrice,
       userId,
@@ -39,7 +39,7 @@ class StockPositionRepository implements IStockPositionRepository {
       where: { id: id.toString() },
       data: {
         symbol,
-        type: String(type),
+        type: type.stockType,
         quantity,
         avgPrice,
         userId,

@@ -6,7 +6,7 @@ import { GetPortfolioQuotesController } from '../controllers/getPortfolioQuotes/
 import { GetTotalInvestedAndCurrentQuoteController } from '../controllers/getTotalInvestedAndCurrentQuote/GetTotalInvestedAndCurrentQuoteController'
 import { ListByTypeController } from '../controllers/listByType/ListByTypeController'
 import { ListFIIPurchasesByMonthController } from '../controllers/listFIIPurchasesByMonth/ListFIIPurchasesByMonthController'
-import { SellController } from '../controllers/sell/SellContrller'
+import { SellController } from '../controllers/sell/SellController'
 
 const stocksRoutes = Router()
 

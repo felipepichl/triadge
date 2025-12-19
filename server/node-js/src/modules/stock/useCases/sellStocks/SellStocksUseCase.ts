@@ -48,7 +48,7 @@ class SellStocksUseCase implements IUseCase<IRequest, void> {
       price,
       date,
       quantity,
-      type: stockCreated.type,
+      type: { stockType: stockCreated.type.stockType },
       operation,
       userId,
     })

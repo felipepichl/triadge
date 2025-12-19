@@ -24,7 +24,7 @@ class StockRepository implements IStockRepository {
       price,
       date,
       quantity,
-      type: String(type),
+      type: type.stockType,
       operation: operation.stockOperationType,
       userId,
     }

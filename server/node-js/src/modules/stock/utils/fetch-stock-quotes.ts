@@ -8,8 +8,6 @@ export async function fetchStockQuotes(
 ): Promise<{ symbol: string; price: number }[]> {
   return await Promise.all(
     symbols.map(async (symbol) => {
-      console.log(symbol)
-
       const quote = await b3Provider.getQuoteTickers(symbol)
 
       if (!quote) {

@@ -14,7 +14,7 @@ class BuyController {
       price,
       date,
       quantity,
-      type,
+      type: { stockType: type },
       userId,
     })
 
