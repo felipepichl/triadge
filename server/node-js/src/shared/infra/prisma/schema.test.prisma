@@ -156,3 +156,5 @@ model StockPosition {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+

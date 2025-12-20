@@ -29,8 +29,6 @@ class StockRepository implements IStockRepository {
       userId,
     }
 
-    console.log(data)
-
     await PrismaSingleton.getInstance().stock.upsert({
       where: { id: id.toString() },
       create: data,

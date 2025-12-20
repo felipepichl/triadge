@@ -95,7 +95,6 @@ describe('[StockPosition] - Sell a stock', () => {
       symbol: 'symbol1',
       price: 11,
       quantity: 9,
-      type: { stockType: 'fii' },
       userId: 'userId',
     })
 
@@ -116,7 +115,6 @@ describe('[StockPosition] - Sell a stock', () => {
         symbol: 'nonexistent',
         price: 10,
         quantity: 7,
-        type: { stockType: 'fii' },
         userId: 'userId',
       }),
     ).rejects.toEqual(new AppError('Cannot sell, no stock position found', 404))
