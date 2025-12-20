@@ -27,19 +27,64 @@ export default class PrismaTestEnvironment extends NodeEnvironment {
 
     this.schema = `test_${crypto.randomUUID()}.db`
     this.connectionString = `file:./${this.schema}`
-    this.prismaLocation = '--schema=./src/shared/infra/prisma/schema.prisma'
+    this.prismaLocation =
+      '--schema=./src/shared/infra/prisma/schema.test.prisma'
   }
 
   async setup() {
     process.env.DATABASE_URL = this.connectionString
     this.global.process.env.DATABASE_URL = this.connectionString
 
-    await execSync(`${prismaBinary} migrate deploy ${this.prismaLocation}`)
+    // Reset Prisma singleton to ensure it uses the new DATABASE_URL
+    const { PrismaSingleton } = await import('./index')
+    await PrismaSingleton.closeConnection()
+
+    await execSync(
+      `${prismaBinary} db push ${this.prismaLocation} --accept-data-loss`,
+    )
 
     return super.setup()
   }
 
   async teardown() {
-    fs.unlinkSync(path.join(__dirname, '..', 'prisma', this.schema))
+    try {
+      // Disconnect Prisma client before removing database files
+      const { PrismaSingleton } = await import('./index')
+      await PrismaSingleton.closeConnection()
+
+      // Small delay to ensure SQLite releases the file
+      await new Promise((resolve) => setTimeout(resolve, 100))
+
+      // Remove both .db and .db-journal files
+      const dbPath = path.join(__dirname, '..', 'prisma', this.schema)
+      const journalPath = `${dbPath}-journal`
+
+      // Try to remove files immediately
+      const removeFile = (filePath: string) => {
+        if (fs.existsSync(filePath)) {
+          try {
+            fs.unlinkSync(filePath)
+          } catch (err) {
+            // If file is locked, truncate it to zero bytes instead
+            try {
+              fs.truncateSync(filePath, 0)
+            } catch (truncateErr) {
+              console.warn(`Warning: Failed to cleanup ${filePath}:`, err)
+            }
+          }
+        }
+      }
+
+      removeFile(dbPath)
+      removeFile(journalPath)
+    } catch (error) {
+      // Log error but don't fail the test teardown
+      console.warn(
+        `Warning: Failed to cleanup test database ${this.schema}:`,
+        error,
+      )
+    }
+
+    return super.teardown()
   }
 }
