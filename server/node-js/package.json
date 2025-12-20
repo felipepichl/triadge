@@ -8,6 +8,7 @@
     "prisma:studio": "prisma studio --schema=./src/shared/infra/prisma/schema.prisma",
     "test": "NODE_ENV=test jest --verbose --maxWorkers=1",
     "test:e2e": "jest --config jest-e2e.config.ts --verbose --maxWorkers=1",
+    "test:clean": "rm -f src/shared/infra/prisma/test*.db src/shared/infra/prisma/*.db-journal",
     "lint": "eslint src --ext .ts --fix"
   },
   "dependencies": {
