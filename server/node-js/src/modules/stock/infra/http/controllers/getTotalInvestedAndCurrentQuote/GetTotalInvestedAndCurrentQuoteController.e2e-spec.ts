@@ -19,7 +19,7 @@ async function authenticateUser(): Promise<string> {
 
 async function createStock(token: string) {
   await request(app)
-    .post('/stocks')
+    .post('/stocks/buy')
     .set({ Authorization: `Bearer ${token}` })
     .send({
       symbol: 'PETR4',
@@ -44,6 +44,8 @@ describe('[E2E] - Get user total invested and current value', () => {
       .get('/stocks/investement')
       .set({ Authorization: `Bearer ${token}` })
       .query({ type })
+
+    console.log(response.body)
 
     expect(response.status).toBe(200)
     expect(response.body.totalInvested).toBe(63)

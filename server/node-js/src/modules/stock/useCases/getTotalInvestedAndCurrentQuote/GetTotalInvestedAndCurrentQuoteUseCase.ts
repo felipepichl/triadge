@@ -15,6 +15,7 @@ interface IRequest {
 interface IResponse {
   totalInvested: number
   currentValue: number
+  position: number
 }
 
 @injectable()
@@ -35,7 +36,12 @@ class GetTotalInvestedAndCurrentQuoteUseCase
       throw new AppError('User stock not found', 404)
     }
 
-    const groupedStocks = groupedStocksUtils(stocks)
+    console.log(stocks)
+    const stocksInWallet = stocks.filter(
+      (stock) => stock.operation.stockOperationType === 'buy',
+    )
+
+    const groupedStocks = groupedStocksUtils(stocksInWallet)
 
     const symbols = Object.keys(groupedStocks)
 
@@ -54,9 +60,12 @@ class GetTotalInvestedAndCurrentQuoteUseCase
       { totalInvested: 0, currentValue: 0 },
     )
 
+    const position = totalInvested - currentValue
+
     return {
       totalInvested,
       currentValue,
+      position,
     }
   }
 }

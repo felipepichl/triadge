@@ -8,7 +8,7 @@ let stockRepositoryInMemory: StockRepositoryInMemory
 let b3ProviderInMemory: B3ProviderInMemory
 let getTotalInvestedAndCurrentQuoteUseCase: GetTotalInvestedAndCurrentQuoteUseCase
 
-async function createStock() {
+async function buyStocks() {
   stockRepositoryInMemory = new StockRepositoryInMemory()
 
   const stock1 = Stock.createStock({
@@ -18,6 +18,7 @@ async function createStock() {
     date: new Date(),
     quantity: 1,
     type: { stockType: 'stock' },
+    operation: { stockOperationType: 'buy' },
     userId: 'userId',
   })
 
@@ -28,6 +29,7 @@ async function createStock() {
     date: new Date(),
     quantity: 3,
     type: { stockType: 'fii' },
+    operation: { stockOperationType: 'buy' },
     userId: 'userId',
   })
 
@@ -38,6 +40,7 @@ async function createStock() {
     date: new Date(),
     quantity: 1,
     type: { stockType: 'fii' },
+    operation: { stockOperationType: 'buy' },
     userId: 'userId',
   })
 
@@ -48,10 +51,22 @@ async function createStock() {
     date: new Date(),
     quantity: 1,
     type: { stockType: 'fii' },
+    operation: { stockOperationType: 'buy' },
     userId: 'userId',
   })
 
-  const stocksToCreate = [stock1, stock2, stock3, stock4]
+  const stock5 = Stock.createStock({
+    shortName: 'short name 3',
+    symbol: 'symbol3',
+    price: 8,
+    date: new Date(),
+    quantity: 1,
+    type: { stockType: 'fii' },
+    operation: { stockOperationType: 'sell' },
+    userId: 'userId',
+  })
+
+  const stocksToCreate = [stock1, stock2, stock3, stock4, stock5]
 
   for (const stockData of stocksToCreate) {
     const stock = stockData
@@ -65,7 +80,7 @@ describe('[Stock] - List total invested e current value to wallet', () => {
   beforeEach(async () => {
     b3ProviderInMemory = new B3ProviderInMemory()
 
-    await createStock()
+    await buyStocks()
 
     getTotalInvestedAndCurrentQuoteUseCase =
       new GetTotalInvestedAndCurrentQuoteUseCase(
