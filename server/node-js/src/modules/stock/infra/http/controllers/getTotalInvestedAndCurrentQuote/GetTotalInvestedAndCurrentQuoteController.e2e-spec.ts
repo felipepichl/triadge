@@ -45,10 +45,14 @@ describe('[E2E] - Get user total invested and current value', () => {
       .set({ Authorization: `Bearer ${token}` })
       .query({ type })
 
-    console.log(response.body)
-
     expect(response.status).toBe(200)
     expect(response.body.totalInvested).toBe(63)
     expect(response.body.currentValue).toBeDefined()
+    expect(response.body.position).toBeDefined()
+
+    const { totalInvested, currentValue, position } = response.body
+
+    // Position should be currentValue - totalInvested
+    expect(position).toBe(currentValue - totalInvested)
   })
 })
