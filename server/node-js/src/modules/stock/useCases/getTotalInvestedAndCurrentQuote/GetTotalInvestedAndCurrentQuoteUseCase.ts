@@ -36,7 +36,6 @@ class GetTotalInvestedAndCurrentQuoteUseCase
       throw new AppError('User stock not found', 404)
     }
 
-    console.log(stocks)
     const stocksInWallet = stocks.filter(
       (stock) => stock.operation.stockOperationType === 'buy',
     )
@@ -60,7 +59,7 @@ class GetTotalInvestedAndCurrentQuoteUseCase
       { totalInvested: 0, currentValue: 0 },
     )
 
-    const position = totalInvested - currentValue
+    const position = currentValue - totalInvested
 
     return {
       totalInvested,
