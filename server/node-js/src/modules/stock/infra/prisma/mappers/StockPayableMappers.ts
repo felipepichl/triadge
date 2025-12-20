@@ -1,5 +1,6 @@
 import { Stock } from '@modules/stock/domain/Stock'
 import { IStockType } from '@modules/stock/domain/StockType'
+import { IStockOperationType } from '@modules/stock/domain/StockOperationType'
 import { Stock as RawStock } from '@prisma/client'
 import { IMapper } from '@shared/core/infra/Mapper'
 
@@ -16,6 +17,7 @@ class StockMappers implements IMapper<Stock, RawStock> {
     date,
     quantity,
     type,
+    operation,
     userId,
   }: RawStock): Stock {
     return Stock.createStock({
@@ -26,6 +28,7 @@ class StockMappers implements IMapper<Stock, RawStock> {
       date,
       quantity,
       type: { stockType: type } as IStockType,
+      operation: operation ? { stockOperationType: operation } as IStockOperationType : undefined,
       userId,
     })
   }
