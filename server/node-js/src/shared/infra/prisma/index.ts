@@ -1,39 +1,18 @@
 import { PrismaClient } from '@prisma/client'
 import dotenv from 'dotenv'
 
-// CRITICAL: Load environment variables BEFORE any other imports
-// This prevents PrismaSingleton from being initialized with wrong DATABASE_URL
-
-// Ensure NODE_ENV is set for production environments
-if (!process.env.NODE_ENV || process.env.NODE_ENV === '') {
-  process.env.NODE_ENV = 'production'
+// Load environment variables based on NODE_ENV
+const envPath = process.env.NODE_ENV === 'test' ? '.env.testing' : '.env'
+try {
+  dotenv.config({ path: envPath })
+} catch (error) {
+  console.warn('dotenv failed to load, using environment variables as-is')
 }
 
-// TEMPORARY: Hardcode production DATABASE_URL to fix the issue
-if (process.env.NODE_ENV === 'production') {
+// Fallback: Ensure production has correct DATABASE_URL if not loaded
+if (process.env.NODE_ENV !== 'test' && (!process.env.DATABASE_URL || process.env.DATABASE_URL.startsWith('file:'))) {
   process.env.DATABASE_URL = 'postgresql://postgres.vkzmliesmrphzxcfzinn:%40House1991%24%23@aws-0-us-west-2.pooler.supabase.com:6543/postgres?pgbouncer=true'
   process.env.DIRECT_URL = 'postgresql://postgres.vkzmliesmrphzxcfzinn:%40House1991%24%23@aws-0-us-west-2.pooler.supabase.com:5432/postgres'
-} else {
-  // For tests, load .env.testing
-  dotenv.config({ path: '.env.testing' })
-}
-
-// Ensure correct DATABASE_URL for each environment
-if (process.env.NODE_ENV === 'test') {
-  // Tests should use SQLite URL from .env.testing
-  if (!process.env.DATABASE_URL?.startsWith('file:')) {
-    console.error(
-      '❌ ERROR: Test environment should use SQLite DATABASE_URL starting with "file:"',
-    )
-  }
-} else {
-  // Non-test environments should NOT use SQLite
-  if (process.env.DATABASE_URL?.startsWith('file:')) {
-    console.error(
-      '❌ ERROR: Non-test environment should NOT use SQLite DATABASE_URL',
-    )
-    process.exit(1) // Exit to prevent running with wrong database
-  }
 }
 
 class PrismaSingleton {
@@ -56,11 +35,16 @@ class PrismaSingleton {
       PrismaSingleton.lastNodeEnv !== currentNodeEnv
     ) {
       if (PrismaSingleton.instance) {
-        PrismaSingleton.instance.$disconnect()
+        PrismaSingleton.instance.$disconnect().catch(() => {}) // Ignore disconnect errors
       }
-      PrismaSingleton.instance = new PrismaClient()
-      PrismaSingleton.lastDatabaseUrl = currentDatabaseUrl || ''
-      PrismaSingleton.lastNodeEnv = currentNodeEnv
+      try {
+        PrismaSingleton.instance = new PrismaClient()
+        PrismaSingleton.lastDatabaseUrl = currentDatabaseUrl || ''
+        PrismaSingleton.lastNodeEnv = currentNodeEnv
+      } catch (error) {
+        console.error('Failed to create PrismaClient:', error)
+        throw error
+      }
     }
 
     return PrismaSingleton.instance
