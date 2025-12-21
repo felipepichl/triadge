@@ -17,9 +17,9 @@ async function authenticateUser(): Promise<string> {
   return token
 }
 
-async function createStock(token: string) {
+async function buyStock(token: string) {
   await request(app)
-    .post('/stocks')
+    .post('/stocks/buy')
     .set({ Authorization: `Bearer ${token}` })
     .send({
       symbol: 'PETR4',
@@ -36,7 +36,7 @@ describe('[E2E] - Get user portifolio with total invested and current value', ()
   beforeEach(async () => {
     token = await authenticateUser()
 
-    await createStock(token)
+    await buyStock(token)
   })
 
   it('should be able to get user portifolio with invested and current value', async () => {
