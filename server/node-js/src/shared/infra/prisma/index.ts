@@ -1,18 +1,35 @@
 import { PrismaClient } from '@prisma/client'
 import dotenv from 'dotenv'
 
-// Load environment variables based on NODE_ENV
-const envPath = process.env.NODE_ENV === 'test' ? '.env.testing' : '.env'
+// CRITICAL: Always load .env first (production settings)
+
 try {
-  dotenv.config({ path: envPath })
+  dotenv.config({ path: '.env' })
 } catch (error) {
-  console.warn('dotenv failed to load, using environment variables as-is')
+  console.warn('❌ Failed to load .env file:', error.message)
 }
 
-// Fallback: Ensure production has correct DATABASE_URL if not loaded
-if (process.env.NODE_ENV !== 'test' && (!process.env.DATABASE_URL || process.env.DATABASE_URL.startsWith('file:'))) {
-  process.env.DATABASE_URL = 'postgresql://postgres.vkzmliesmrphzxcfzinn:%40House1991%24%23@aws-0-us-west-2.pooler.supabase.com:6543/postgres?pgbouncer=true'
-  process.env.DIRECT_URL = 'postgresql://postgres.vkzmliesmrphzxcfzinn:%40House1991%24%23@aws-0-us-west-2.pooler.supabase.com:5432/postgres'
+// If we're in test mode, override with test settings
+if (process.env.NODE_ENV === 'test') {
+  try {
+    dotenv.config({ path: '.env.testing' })
+  } catch (error) {
+    console.warn('❌ Failed to load .env.testing file:', error.message)
+  }
+}
+
+// Emergency fallback: If DATABASE_URL is still not PostgreSQL in non-test mode
+if (
+  process.env.NODE_ENV !== 'test' &&
+  !process.env.DATABASE_URL?.startsWith('postgresql://')
+) {
+  console.warn(
+    '⚠️  DATABASE_URL is not PostgreSQL in production, applying emergency fallback',
+  )
+  process.env.DATABASE_URL =
+    'postgresql://postgres.vkzmliesmrphzxcfzinn:%40House1991%24%23@aws-0-us-west-2.pooler.supabase.com:6543/postgres?pgbouncer=true'
+  process.env.DIRECT_URL =
+    'postgresql://postgres.vkzmliesmrphzxcfzinn:%40House1991%24%23@aws-0-us-west-2.pooler.supabase.com:5432/postgres'
 }
 
 class PrismaSingleton {
