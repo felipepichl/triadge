@@ -1,4 +1,5 @@
 import { StockPosition } from '../domain/StockPosition'
+import { IStockType } from '../domain/StockType'
 
 interface IStockPositionRepository {
   create(stockPosition: StockPosition): Promise<void>
@@ -7,6 +8,7 @@ interface IStockPositionRepository {
     userId: string,
     symbol: string,
   ): Promise<StockPosition | null>
+  listByType(userId: string, type: IStockType): Promise<StockPosition[]>
 }
 
 export { IStockPositionRepository }

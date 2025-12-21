@@ -1,4 +1,5 @@
 import { StockPosition } from '@modules/stock/domain/StockPosition'
+import { IStockType } from '@modules/stock/domain/StockType'
 import { IStockPositionRepository } from '@modules/stock/repositories/IStockPositionRepository'
 import { PrismaSingleton } from '@shared/infra/prisma'
 
@@ -60,6 +61,19 @@ class StockPositionRepository implements IStockPositionRepository {
     }
 
     return StockPositionMappers.getMapper().toDomain(result)
+  }
+
+  async listByType(userId: string, type: IStockType): Promise<StockPosition[]> {
+    const results = await PrismaSingleton.getInstance().stockPosition.findMany({
+      where: {
+        userId,
+        type: type.stockType,
+      },
+    })
+
+    return results.map((result) =>
+      StockPositionMappers.getMapper().toDomain(result),
+    )
   }
 }
 

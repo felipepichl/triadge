@@ -1,4 +1,5 @@
 import { StockPosition } from '@modules/stock/domain/StockPosition'
+import { IStockType } from '@modules/stock/domain/StockType'
 
 import { IStockPositionRepository } from '../IStockPositionRepository'
 
@@ -24,6 +25,13 @@ class StockPositionRepositoryInMemory implements IStockPositionRepository {
     return this.stocks.find(
       (stockPosition) =>
         stockPosition.userId === userId && stockPosition.symbol === symbol,
+    )
+  }
+
+  async listByType(userId: string, type: IStockType): Promise<StockPosition[]> {
+    return this.stocks.filter(
+      (stockPosition) =>
+        stockPosition.userId === userId && stockPosition.type.stockType === type.stockType,
     )
   }
 }
