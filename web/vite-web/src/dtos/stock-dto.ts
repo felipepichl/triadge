@@ -20,12 +20,14 @@ export type PortfolioResponseDTO = {
     quote: number
     minPrice: number
     maxPrice: number
+    
   }[]
 }
 
 export type InvestementResponseDTO = {
   totalInvested: number
   currentValue: number
+  position: number
 }
 
 export type BuyStockDTO = {

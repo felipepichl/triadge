@@ -53,7 +53,7 @@ export function Stock() {
         description: 'Posição',
         icon: TrendingUpDown,
         iconColor: '#fff',
-        value: 'R$ 250,00',
+        value: priceFormatter.format(investment?.position ?? 0),
       },
     ]
 
