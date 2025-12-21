@@ -5,7 +5,7 @@ import { IB3Provider } from '../providers/B3Provider/models/IB3Provider'
 export async function fetchStockQuotes(
   symbols: string[],
   b3Provider: IB3Provider,
-): Promise<{ symbol: string; price: number }[]> {
+): Promise<{ symbol: string; price: number; shortName: string }[]> {
   return await Promise.all(
     symbols.map(async (symbol) => {
       const quote = await b3Provider.getQuoteTickers(symbol)
@@ -17,6 +17,7 @@ export async function fetchStockQuotes(
       return {
         symbol,
         price: Number(quote.regularMarketPrice),
+        shortName: quote.shortName,
       }
     }),
   )

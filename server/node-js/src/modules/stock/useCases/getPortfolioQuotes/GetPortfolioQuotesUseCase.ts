@@ -1,8 +1,7 @@
 import { IStockType } from '@modules/stock/domain/StockType'
 import { IB3Provider } from '@modules/stock/providers/B3Provider/models/IB3Provider'
-import { IStockRepository } from '@modules/stock/repositories/IStockRepository'
+import { IStockPositionRepository } from '@modules/stock/repositories/IStockPositionRepository'
 import { fetchStockQuotes } from '@modules/stock/utils/fetch-stock-quotes'
-import { groupedStocksUtils } from '@modules/stock/utils/grouped-stocks-utils'
 import { IUseCase } from '@shared/core/domain/IUseCase'
 import { AppError } from '@shared/error/AppError'
 import { inject, injectable } from 'tsyringe'
@@ -30,39 +29,39 @@ interface IResponse {
 @injectable()
 class GetPortfolioQuotesUseCase implements IUseCase<IRequest, IResponse> {
   constructor(
-    @inject('StockRepository')
-    private stocksRepository: IStockRepository,
+    @inject('StockPositionRepository')
+    private stockPositionRepository: IStockPositionRepository,
     @inject('BrapiB3Provider')
     private b3Provider: IB3Provider,
   ) {}
 
   async execute({ userId, type }: IRequest): Promise<IResponse> {
-    const stocks = await this.stocksRepository.listByType(userId, type)
+    const stockPositions = await this.stockPositionRepository.listByType(
+      userId,
+      type,
+    )
 
-    if (!stocks) {
-      throw new AppError('User stock not found', 404)
+    if (!stockPositions || stockPositions.length === 0) {
+      throw new AppError('User stock positions not found', 404)
     }
 
-    const groupedStocks = groupedStocksUtils(stocks)
-
-    const symbols = Object.keys(groupedStocks)
+    const symbols = stockPositions.map((position) => position.symbol)
     const quotes = await fetchStockQuotes(symbols, this.b3Provider)
 
-    const portfolio = symbols.map((symbol) => {
-      const stockData = groupedStocks[symbol]
-      const quote = quotes.find((item) => item.symbol === symbol)
+    const portfolio = stockPositions.map((position) => {
+      const quote = quotes.find((item) => item.symbol === position.symbol)
 
       return {
         stock: {
-          shortName: stockData.shortName,
-          symbol,
-          totalStock: stockData.totalStock,
+          shortName: quote?.shortName ?? position.symbol,
+          symbol: position.symbol,
+          totalStock: position.quantity,
         },
-        totalInvested: stockData.totalInvested,
-        currentValue: stockData.totalStock * (quote?.price ?? 0),
-        quote: quote.price,
-        minPrice: stockData.minPrice,
-        maxPrice: stockData.maxPrice,
+        totalInvested: position.quantity * position.avgPrice,
+        currentValue: position.quantity * (quote?.price ?? 0),
+        quote: quote?.price ?? 0,
+        minPrice: position.avgPrice, // Usar avgPrice como min/max por enquanto
+        maxPrice: position.avgPrice,
       }
     })
 
