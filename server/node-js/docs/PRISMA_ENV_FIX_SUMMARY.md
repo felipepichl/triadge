@@ -1,31 +1,31 @@
-# Configuração de Ambiente de Teste Isolado - Resumo das Alterações
+# Isolated Test Environment Configuration - Changes Summary
 
-**Data:** Dezembro 2025  
-**Objetivo:** Configurar ambiente de teste com SQLite isolado do ambiente de produção com PostgreSQL
+**Date:** December 2025
+**Objective:** Configure test environment with SQLite isolated from production environment with PostgreSQL
 
-## Problemas Identificados e Soluções
+## Identified Problems and Solutions
 
-### 1. Problema: "secretOrPrivateKey must have a value"
-**Causa:** Variáveis de ambiente JWT não eram carregadas no momento correto durante inicialização
-**Impacto:** Login via frontend falhava com erro de chave secreta
+### 1. Problem: "secretOrPrivateKey must have a value"
+**Cause:** JWT environment variables were not loaded at the correct time during initialization
+**Impact:** Frontend login failed with secret key error
 
-### 2. Problema: Conexão com SQLite em produção
-**Causa:** Cliente Prisma gerado com schema de teste (SQLite) em vez de produção (PostgreSQL)
-**Impacto:** Aplicação tentava conectar no SQLite durante desenvolvimento
+### 2. Problem: SQLite Connection in Production
+**Cause:** Prisma client generated with test schema (SQLite) instead of production (PostgreSQL)
+**Impact:** Application tried to connect to SQLite during development
 
-## Arquivos Modificados
+## Modified Files
 
 ### 1. `src/config/auth.ts`
-**Alterações:**
+**Changes:**
 ```typescript
-// ANTES (problema: variáveis não eram validadas)
+// BEFORE (problem: variables were not validated)
 const authConfig = {
   secretToken: process.env.SECRET_TOKEN,
   expiresInToken: process.env.EXPIRES_IN_TOKEN,
   // ...
 }
 
-// DEPOIS (solução: validação e carregamento antecipado)
+// AFTER (solution: validation and early loading)
 import dotenv from 'dotenv'
 dotenv.config({ path: '.env' })
 
@@ -47,16 +47,16 @@ const authConfig = {
 ```
 
 ### 2. `src/shared/infra/http/start/app.ts`
-**Alterações:**
+**Changes:**
 ```typescript
-// ANTES
+// BEFORE
 import 'express-async-errors'
 import { AppError } from '@shared/error/AppError'
 import cors from 'cors'
 import express, { NextFunction, Request, Response } from 'express'
 import sweggerUi from 'swagger-ui-express'
 
-// DEPOIS (carregamento antecipado do dotenv)
+// AFTER (early dotenv loading)
 import 'express-async-errors'
 import dotenv from 'dotenv'
 import { AppError } from '@shared/error/AppError'
@@ -69,9 +69,9 @@ dotenv.config({ path: '.env' })
 ```
 
 ### 3. `src/shared/infra/prisma/index.ts`
-**Alterações:**
+**Changes:**
 ```typescript
-// ANTES (carregamento problemático)
+// BEFORE (problematic loading)
 import { PrismaClient } from '@prisma/client'
 import dotenv from 'dotenv'
 
@@ -81,7 +81,7 @@ try {
   console.warn('❌ Failed to load .env file:', error.message)
 }
 
-// DEPOIS (lógica melhorada de carregamento)
+// AFTER (improved loading logic)
 import { PrismaClient } from '@prisma/client'
 import dotenv from 'dotenv'
 
@@ -116,24 +116,24 @@ if (
 ```
 
 ### 4. `src/shared/infra/http/start/server.ts`
-**Alterações:**
+**Changes:**
 ```typescript
-// ANTES
+// BEFORE
 const server = app.listen(3331, () => {
   console.log('✅ Server running in port 3331')
   console.log('🌐 Listening on http://localhost:3331')
   console.log('🏥 Health check: http://localhost:3331/health')
 })
 
-// DEPOIS (removidos console.log excessivos)
+// AFTER (removed excessive console.log)
 const server = app.listen(3331, () => {
   console.log('✅ Server running in port 3331')
 })
 ```
 
-## Arquivos de Configuração
+## Configuration Files
 
-### 1. `.env` (Produção/Desenvolvimento)
+### 1. `.env` (Production/Development)
 ```
 #PRISMA
 DATABASE_URL="postgresql://postgres.vkzmliesmrphzxcfzinn:%40House1991%24%23@aws-0-us-west-2.pooler.supabase.com:6543/postgres?pgbouncer=true"
@@ -154,7 +154,7 @@ BRAPI_URL=https://brapi.dev/api
 BRAPI_TOKEN=ga7GdaD5rpNB8MHmRmYdpf
 ```
 
-### 2. `.env.testing` (Testes)
+### 2. `.env.testing` (Tests)
 ```
 DATABASE_URL=e2e_test
 
@@ -166,7 +166,7 @@ EXPIRES_IN_REFRESH_TOKEN=30d
 EXPIRES_IN_REFRESH_TOKEN_DAYS=30
 ```
 
-## Schemas Prisma
+## Prisma Schemas
 
 ### 1. `schema.prisma` (PostgreSQL)
 ```prisma
@@ -180,7 +180,7 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-// ... modelos da aplicação
+// ... application models
 ```
 
 ### 2. `schema.test.prisma` (SQLite)
@@ -194,10 +194,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// ... mesmos modelos, adaptados para SQLite
+// ... same models, adapted for SQLite
 ```
 
-## Configuração Jest
+## Jest Configuration
 
 ### `jest.config.ts`
 ```typescript
@@ -225,79 +225,79 @@ export default {
 }
 ```
 
-### Ambiente de Teste Customizado
+### Custom Test Environment
 
 **`src/shared/infra/prisma/prisma-test-environment.ts`**
-- Configura DATABASE_URL para arquivo SQLite único por teste
-- Gera schema de teste automaticamente
-- Limpa arquivos de teste após execução
+- Configures DATABASE_URL for unique SQLite file per test
+- Automatically generates test schema
+- Cleans up test files after execution
 
-## Comandos Importantes
+## Important Commands
 
-### Desenvolvimento
+### Development
 ```bash
-# Subir servidor
+# Start server
 yarn dev:server
 
-# Gerar cliente Prisma
+# Generate Prisma client
 yarn prisma:generate
 
-# Migrar banco (desenvolvimento)
+# Migrate database (development)
 yarn prisma:migrate
 
-# Studio Prisma
+# Prisma Studio
 yarn prisma:studio
 ```
 
-### Testes
+### Tests
 ```bash
-# Executar todos os testes
+# Run all tests
 yarn test
 
-# Executar testes E2E
+# Run E2E tests
 yarn test:e2e
 
-# Limpar arquivos de teste
+# Clean test files
 yarn test:clean
 ```
 
-## Resultado Final
+## Final Result
 
-### ✅ Ambiente de Produção
-- **Banco:** PostgreSQL (Supabase)
-- **JWT:** Funcionando corretamente
-- **Porta:** 3331
-- **Status:** Totalmente funcional
+### ✅ Production Environment
+- **Database:** PostgreSQL (Supabase)
+- **JWT:** Working correctly
+- **Port:** 3331
+- **Status:** Fully functional
 
-### ✅ Ambiente de Testes
-- **Banco:** SQLite (isolado por teste)
-- **JWT:** Funcionando corretamente
-- **Performance:** Testes rápidos e isolados
-- **Status:** Totalmente funcional
+### ✅ Test Environment
+- **Database:** SQLite (isolated per test)
+- **JWT:** Working correctly
+- **Performance:** Fast and isolated tests
+- **Status:** Fully functional
 
-## Problemas Resolvidos
+## Resolved Problems
 
-1. ✅ **JWT Token Error:** Resolvido com carregamento antecipado de dotenv
-2. ✅ **SQLite em Produção:** Resolvido com regeneração correta do cliente Prisma
-3. ✅ **Console.log Excessivos:** Removidos para saída limpa dos testes
-4. ✅ **Porta Ocupada:** Comandos para limpeza de processos
+1. ✅ **JWT Token Error:** Resolved with early dotenv loading
+2. ✅ **SQLite in Production:** Resolved with correct Prisma client regeneration
+3. ✅ **Excessive Console.log:** Removed for clean test output
+4. ✅ **Port Occupied:** Commands for process cleanup
 
-## Arquitetura Final
+## Final Architecture
 
 ```
-📁 Ambiente de Produção
-├── Banco: PostgreSQL (Supabase)
+📁 Production Environment
+├── Database: PostgreSQL (Supabase)
 ├── Schema: schema.prisma
-├── Variáveis: .env
-└── Cliente: Gerado com PostgreSQL
+├── Variables: .env
+└── Client: Generated with PostgreSQL
 
-📁 Ambiente de Testes
-├── Banco: SQLite (isolado)
+📁 Test Environment
+├── Database: SQLite (isolated)
 ├── Schema: schema.test.prisma
-├── Variáveis: .env.testing
-└── Cliente: Gerado com SQLite
+├── Variables: .env.testing
+└── Client: Generated with SQLite
 ```
 
 ---
 
-**Conclusão:** Ambiente completamente configurado com isolamento perfeito entre produção e testes. PostgreSQL para desenvolvimento/produção e SQLite para testes isolados e rápidos.
+**Conclusion:** Environment completely configured with perfect isolation between production and tests. PostgreSQL for development/production and SQLite for fast isolated tests.
