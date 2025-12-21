@@ -37,10 +37,13 @@ const StockContext = createContext({} as StockContextData)
 function StockProvider({ children }: StockProvidersProps) {
   const [portfolio, setPortfolio] = useState<PortfolioResponseDTO>()
   const [investment, setInvestment] = useState<InvestementResponseDTO>()
+  const [reload, setReload] = useState(false)
 
   const createStock = useCallback(
     async ({ symbol, price, date, quantity, type }: CreateStockDTO) => {
       await apiCreateStock({ symbol, price, date, quantity, type })
+
+      setReload((prev) => !prev)
     },
     [],
   )
@@ -64,6 +67,8 @@ function StockProvider({ children }: StockProvidersProps) {
   const buyStock = useCallback(
     async ({ symbol, price, date, quantity, type }: BuyStockDTO) => {
       await apiBuyStock({ symbol, price, date, quantity, type })
+
+      setReload((prev) => !prev)
     },
     [],
   )
@@ -71,13 +76,22 @@ function StockProvider({ children }: StockProvidersProps) {
   const sellStock = useCallback(
     async ({ symbol, price, date, quantity }: SellStockDTO) => {
       await apiSellStock({ symbol, price, date, quantity })
+
+      setReload((prev) => !prev)
     },
     [],
   )
 
   useEffect(() => {
     getTotalInvestedAndCurrentQuote()
-  }, [getTotalInvestedAndCurrentQuote])
+  }, [getTotalInvestedAndCurrentQuote, reload])
+
+  useEffect(() => {
+    if (portfolio) {
+      // Reload portfolio when reload changes and portfolio was already loaded
+      getPortfolioQuotes('fii')
+    }
+  }, [getPortfolioQuotes, portfolio, reload])
 
   return (
     <StockContext.Provider
