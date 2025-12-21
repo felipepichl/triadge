@@ -11,7 +11,6 @@ export async function fetchStockQuotes(
       const quote = await b3Provider.getQuoteTickers(symbol)
 
       if (!quote) {
-        console.log('error')
         throw new AppError(`Stock ${symbol} not found on BrAPI`, 404)
       }
 
