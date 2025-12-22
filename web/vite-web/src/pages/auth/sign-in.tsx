@@ -1,5 +1,6 @@
+import React from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { CreditCard, KeyRound } from 'lucide-react'
+import { Eye, EyeOff, KeyRound, Loader2, Mail } from 'lucide-react'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
@@ -14,7 +15,6 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import { useAuth } from '@/hooks/use-auth'
 
 const signInForm = z.object({
@@ -25,6 +25,9 @@ const signInForm = z.object({
 type SignInForm = z.infer<typeof signInForm>
 
 export function SignIn() {
+  const [showPassword, setShowPassword] = React.useState(false)
+  const [isSubmitting, setIsSubmitting] = React.useState(false)
+
   const form = useForm<SignInForm>({
     resolver: zodResolver(signInForm),
     defaultValues: {
@@ -37,13 +40,20 @@ export function SignIn() {
 
   const navigate = useNavigate()
 
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword)
+  }
+
   async function handleSign({ register, password }: SignInForm) {
+    setIsSubmitting(true)
     try {
       await signIn({ email: register, password })
 
       navigate('/')
     } catch (err) {
       toast.error('Verifique suas credenciais')
+    } finally {
+      setIsSubmitting(false)
     }
   }
   return (
@@ -73,13 +83,18 @@ export function SignIn() {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input
-                            className="h-10"
-                            placeholder="Matrícula"
-                            icon={<CreditCard />}
-                            {...field}
-                            {...form.register('register')}
-                          />
+                          <div className="relative">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 transform text-muted-foreground">
+                              <Mail size={18} />
+                            </span>
+                            <input
+                              type="email"
+                              className="flex h-10 w-full rounded-md border border-input bg-background py-2 pl-10 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                              placeholder="Email"
+                              {...field}
+                              {...form.register('register')}
+                            />
+                          </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -91,14 +106,29 @@ export function SignIn() {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <Input
-                            className="h-10"
-                            placeholder="Senha"
-                            icon={<KeyRound />}
-                            type="password"
-                            {...field}
-                            {...form.register('password')}
-                          />
+                          <div className="relative">
+                            <span className="absolute left-3 top-1/2 -translate-y-1/2 transform text-muted-foreground">
+                              <KeyRound size={18} />
+                            </span>
+                            <input
+                              type={showPassword ? 'text' : 'password'}
+                              className="flex h-10 w-full rounded-md border border-input bg-background py-2 pl-10 pr-10 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                              placeholder="Senha"
+                              {...field}
+                              {...form.register('password')}
+                            />
+                            <button
+                              type="button"
+                              onClick={handleTogglePassword}
+                              className="absolute right-3 top-1/2 -translate-y-1/2 transform text-muted-foreground hover:text-foreground"
+                            >
+                              {showPassword ? (
+                                <EyeOff size={18} />
+                              ) : (
+                                <Eye size={18} />
+                              )}
+                            </button>
+                          </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -107,11 +137,18 @@ export function SignIn() {
                 </div>
 
                 <Button
-                  // disabled={form.isSubmitting}
+                  disabled={isSubmitting}
                   className="h-10 w-full"
                   type="submit"
                 >
-                  <span className="font-semibold">Acessar Painel</span>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      <span className="font-semibold">Acessando...</span>
+                    </>
+                  ) : (
+                    <span className="font-semibold">Acessar Painel</span>
+                  )}
                 </Button>
               </form>
             </Form>
