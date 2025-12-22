@@ -28,6 +28,7 @@ type StockContextData = {
   buyStock(data: BuyStockDTO): Promise<void>
   sellStock(data: SellStockDTO): Promise<void>
   isLoadingPortfolio: boolean
+  isLoadingInvestment: boolean
 }
 
 type StockProvidersProps = {
@@ -42,6 +43,7 @@ function StockProvider({ children }: StockProvidersProps) {
   const [investment, setInvestment] = useState<InvestementResponseDTO>()
   const [reload, setReload] = useState(false)
   const [isLoadingPortfolio, setIsLoadingPortfolio] = useState(false)
+  const [isLoadingInvestment, setIsLoadingInvestment] = useState(false)
 
   const createStock = useCallback(
     async ({ symbol, price, date, quantity, type }: CreateStockDTO) => {
@@ -71,14 +73,26 @@ function StockProvider({ children }: StockProvidersProps) {
   }, [isAuthenticated])
 
   const getTotalInvestedAndCurrentQuote = useCallback(async (type?: string) => {
+    if (!isAuthenticated) {
+      setIsLoadingInvestment(false)
+      return
+    }
+
     if (!type) {
       type = 'fii'
     }
 
-    const investiment = await apiGetTotalInvestedAndCurrentQuote(type)
-
-    setInvestment(investiment)
-  }, [])
+    setIsLoadingInvestment(true)
+    try {
+      const investiment = await apiGetTotalInvestedAndCurrentQuote(type)
+      setInvestment(investiment)
+    } catch (error) {
+      console.error('Error fetching investment:', error)
+      setInvestment(undefined)
+    } finally {
+      setIsLoadingInvestment(false)
+    }
+  }, [isAuthenticated])
 
   const buyStock = useCallback(
     async ({ symbol, price, date, quantity, type }: BuyStockDTO) => {
@@ -119,6 +133,7 @@ function StockProvider({ children }: StockProvidersProps) {
         buyStock,
         sellStock,
         isLoadingPortfolio,
+        isLoadingInvestment,
       }}
     >
       {children}
