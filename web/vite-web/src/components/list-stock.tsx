@@ -9,7 +9,7 @@ type ListStockProps = {
 }
 
 export function ListStock({ type }: ListStockProps) {
-  const { portfolio } = useStock()
+  const { portfolio, isLoadingPortfolio } = useStock()
 
   return (
     <Card className="mb-4 flex max-h-[574px] min-h-[574px] flex-col lg:mr-4 lg:w-[480px]">
@@ -22,7 +22,7 @@ export function ListStock({ type }: ListStockProps) {
       <Separator />
 
       <CardContent className="max-sm:px-0">
-        <CardStock wallet={portfolio} />
+        <CardStock wallet={portfolio} isLoading={isLoadingPortfolio} />
       </CardContent>
     </Card>
   )

@@ -20,12 +20,34 @@ import {
 } from '../ui/carousel'
 import { Separator } from '../ui/separator'
 import { InfoRow } from './info-row'
+import { CardStockSkeleton } from './skeleton'
 
 type CardStockProps = {
   wallet: PortfolioResponseDTO | undefined
+  isLoading?: boolean
 }
 
-export function CardStock({ wallet }: CardStockProps) {
+export function CardStock({ wallet, isLoading = false }: CardStockProps) {
+  if (isLoading) {
+    return (
+      <Carousel>
+        <CarouselContent className="pt-6 max-sm:py-0">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <CarouselItem key={index}>
+              <CardStockSkeleton />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <div className="flex h-min w-full items-center justify-center pt-6">
+          <div className="flex justify-between space-x-16">
+            <CarouselPrevious />
+            <CarouselNext />
+          </div>
+        </div>
+      </Carousel>
+    )
+  }
+
   return (
     <Carousel>
       <CarouselContent className="pt-6 max-sm:py-0">
