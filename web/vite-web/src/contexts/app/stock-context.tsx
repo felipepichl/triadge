@@ -18,6 +18,7 @@ import {
   PortfolioResponseDTO,
   SellStockDTO,
 } from '@/dtos/stock-dto'
+import { useAuth } from '@/hooks/use-auth'
 
 type StockContextData = {
   createStock(data: CreateStockDTO): Promise<void>
@@ -26,6 +27,7 @@ type StockContextData = {
   investment: InvestementResponseDTO | undefined
   buyStock(data: BuyStockDTO): Promise<void>
   sellStock(data: SellStockDTO): Promise<void>
+  isLoadingPortfolio: boolean
 }
 
 type StockProvidersProps = {
@@ -35,9 +37,11 @@ type StockProvidersProps = {
 const StockContext = createContext({} as StockContextData)
 
 function StockProvider({ children }: StockProvidersProps) {
+  const { isAuthenticated } = useAuth()
   const [portfolio, setPortfolio] = useState<PortfolioResponseDTO>()
   const [investment, setInvestment] = useState<InvestementResponseDTO>()
   const [reload, setReload] = useState(false)
+  const [isLoadingPortfolio, setIsLoadingPortfolio] = useState(false)
 
   const createStock = useCallback(
     async ({ symbol, price, date, quantity, type }: CreateStockDTO) => {
@@ -49,10 +53,22 @@ function StockProvider({ children }: StockProvidersProps) {
   )
 
   const getPortfolioQuotes = useCallback(async (type: string) => {
-    const portfolio = await apiGetPortfolioQuotes(type)
+    if (!isAuthenticated) {
+      setIsLoadingPortfolio(false)
+      return
+    }
 
-    setPortfolio(portfolio)
-  }, [])
+    setIsLoadingPortfolio(true)
+    try {
+      const portfolio = await apiGetPortfolioQuotes(type)
+      setPortfolio(portfolio)
+    } catch (error) {
+      console.error('Error fetching portfolio:', error)
+      setPortfolio(undefined)
+    } finally {
+      setIsLoadingPortfolio(false)
+    }
+  }, [isAuthenticated])
 
   const getTotalInvestedAndCurrentQuote = useCallback(async (type?: string) => {
     if (!type) {
@@ -87,11 +103,11 @@ function StockProvider({ children }: StockProvidersProps) {
   }, [getTotalInvestedAndCurrentQuote, reload])
 
   useEffect(() => {
-    if (portfolio) {
-      // Reload portfolio when reload changes and portfolio was already loaded
+    if (reload && isAuthenticated) {
+      // Reload portfolio when reload changes and user is authenticated
       getPortfolioQuotes('fii')
     }
-  }, [getPortfolioQuotes, portfolio, reload])
+  }, [getPortfolioQuotes, reload, isAuthenticated])
 
   return (
     <StockContext.Provider
@@ -102,6 +118,7 @@ function StockProvider({ children }: StockProvidersProps) {
         investment,
         buyStock,
         sellStock,
+        isLoadingPortfolio,
       }}
     >
       {children}
