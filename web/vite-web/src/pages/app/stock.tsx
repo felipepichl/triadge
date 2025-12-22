@@ -24,6 +24,7 @@ export function Stock() {
     getPortfolioQuotes,
     investment,
     portfolio: portfolioResponse,
+    isLoadingInvestment,
   } = useStock()
 
   const portfolioQuotes = useCallback(async () => {
@@ -78,7 +79,7 @@ export function Stock() {
       <Helmet title="Ações e FIIs" />
       <NewStock />
 
-      <SummaryCarousel summaries={summaries} />
+      <SummaryCarousel summaries={summaries} isLoading={isLoadingInvestment} />
 
       <div className="mt-8 flex flex-col lg:flex-row">
         <ListStock type="fii" />
