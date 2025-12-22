@@ -11,10 +11,12 @@ import { SummaryProps } from '@/components/summary/summary'
 import { SummaryCarousel } from '@/components/summary/summary-carousel'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
+import { useAuth } from '@/hooks/use-auth'
 import { useStock } from '@/hooks/use-stock'
 import { priceFormatter } from '@/util/formatter'
 
 export function Stock() {
+  const { isAuthenticated } = useAuth()
   const [summaries, setSummaries] = useState<SummaryProps[]>([])
   const [chartData, setChartData] = useState<GenericBarChartProps['data']>([])
 
@@ -29,8 +31,10 @@ export function Stock() {
   }, [getPortfolioQuotes])
 
   useEffect(() => {
-    portfolioQuotes()
-  }, [portfolioQuotes])
+    if (isAuthenticated) {
+      portfolioQuotes()
+    }
+  }, [portfolioQuotes, isAuthenticated])
 
   useEffect(() => {
     const summariesResume: SummaryProps[] = [
