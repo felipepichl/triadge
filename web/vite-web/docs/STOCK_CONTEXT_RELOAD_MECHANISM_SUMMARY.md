@@ -6,116 +6,125 @@
 ## Identified Problems and Solutions
 
 ### 1. Problem: Manual Page Refresh Required
+
 **Cause:** Stock operations (buy/sell/create) didn't trigger automatic UI updates
 **Impact:** Users had to manually refresh the page to see updated portfolio data, charts, and stock list
 
 ### 2. Problem: Inconsistent User Experience
+
 **Cause:** Transactions page had automatic updates after operations, but stock page didn't
 **Impact:** Inconsistent behavior across different sections of the application
 
 ### 3. Problem: Charts and Components Not Updating
+
 **Cause:** Charts and ListStock component depended on portfolio data that wasn't automatically refreshed
 **Impact:** Charts showed stale data, stock list didn't reflect new purchases/sales
 
 ## Modified Files
 
 ### 1. `src/contexts/app/stock-context.tsx`
+
 **Changes:**
+
 ```typescript
 // BEFORE (no reload mechanism)
 function StockProvider({ children }: StockProvidersProps) {
-  const [portfolio, setPortfolio] = useState<PortfolioResponseDTO>()
-  const [investment, setInvestment] = useState<InvestementResponseDTO>()
+  const [portfolio, setPortfolio] = useState<PortfolioResponseDTO>();
+  const [investment, setInvestment] = useState<InvestementResponseDTO>();
 
   const createStock = useCallback(
     async ({ symbol, price, date, quantity, type }: CreateStockDTO) => {
-      await apiCreateStock({ symbol, price, date, quantity, type })
+      await apiCreateStock({ symbol, price, date, quantity, type });
       // No UI update trigger
     },
     [],
-  )
+  );
 
   const buyStock = useCallback(
     async ({ symbol, price, date, quantity, type }: BuyStockDTO) => {
-      await apiBuyStock({ symbol, price, date, quantity, type })
+      await apiBuyStock({ symbol, price, date, quantity, type });
       // No UI update trigger
     },
     [],
-  )
+  );
 
   const sellStock = useCallback(
     async ({ symbol, price, date, quantity }: SellStockDTO) => {
-      await apiSellStock({ symbol, price, date, quantity })
+      await apiSellStock({ symbol, price, date, quantity });
       // No UI update trigger
     },
     [],
-  )
+  );
 
   useEffect(() => {
-    getTotalInvestedAndCurrentQuote()
-  }, [getTotalInvestedAndCurrentQuote])
+    getTotalInvestedAndCurrentQuote();
+  }, [getTotalInvestedAndCurrentQuote]);
 }
 
 // AFTER (with reload mechanism)
 function StockProvider({ children }: StockProvidersProps) {
-  const [portfolio, setPortfolio] = useState<PortfolioResponseDTO>()
-  const [investment, setInvestment] = useState<InvestementResponseDTO>()
-  const [reload, setReload] = useState(false) // Added reload state
+  const [portfolio, setPortfolio] = useState<PortfolioResponseDTO>();
+  const [investment, setInvestment] = useState<InvestementResponseDTO>();
+  const [reload, setReload] = useState(false); // Added reload state
 
   const createStock = useCallback(
     async ({ symbol, price, date, quantity, type }: CreateStockDTO) => {
-      await apiCreateStock({ symbol, price, date, quantity, type })
-      setReload((prev) => !prev) // Added reload trigger
+      await apiCreateStock({ symbol, price, date, quantity, type });
+      setReload((prev) => !prev); // Added reload trigger
     },
     [],
-  )
+  );
 
   const buyStock = useCallback(
     async ({ symbol, price, date, quantity, type }: BuyStockDTO) => {
-      await apiBuyStock({ symbol, price, date, quantity, type })
-      setReload((prev) => !prev) // Added reload trigger
+      await apiBuyStock({ symbol, price, date, quantity, type });
+      setReload((prev) => !prev); // Added reload trigger
     },
     [],
-  )
+  );
 
   const sellStock = useCallback(
     async ({ symbol, price, date, quantity }: SellStockDTO) => {
-      await apiSellStock({ symbol, price, date, quantity })
-      setReload((prev) => !prev) // Added reload trigger
+      await apiSellStock({ symbol, price, date, quantity });
+      setReload((prev) => !prev); // Added reload trigger
     },
     [],
-  )
+  );
 
   useEffect(() => {
-    getTotalInvestedAndCurrentQuote()
-  }, [getTotalInvestedAndCurrentQuote, reload]) // Added reload dependency
+    getTotalInvestedAndCurrentQuote();
+  }, [getTotalInvestedAndCurrentQuote, reload]); // Added reload dependency
 
   useEffect(() => {
     if (portfolio) {
       // Reload portfolio when reload changes and portfolio was already loaded
-      getPortfolioQuotes('fii')
+      getPortfolioQuotes("fii");
     }
-  }, [getPortfolioQuotes, portfolio, reload]) // Added portfolio reload effect
+  }, [getPortfolioQuotes, portfolio, reload]); // Added portfolio reload effect
 }
 ```
 
 ## Key Changes Summary
 
 ### State Management Changes
+
 - **Added `reload` state:** Boolean that alternates on each operation to trigger updates
 - **Added portfolio reload effect:** Automatically refreshes portfolio data when reload changes
 
 ### Operation Functions Changes
+
 - **Added `setReload` calls:** All stock operations (create/buy/sell) now trigger UI updates
 - **Consistent pattern:** Same approach used in transactions-context
 
 ### Effect Dependencies Changes
+
 - **Investment effect:** Now depends on `reload` to automatically refresh investment data
 - **Portfolio effect:** New effect that reloads portfolio data when operations occur
 
 ## User Experience Improvements
 
 ### Before Implementation
+
 ```
 User Action (Buy/Sell/Create) → API Call Success → Page Stale ❌
                                       ↓
@@ -125,6 +134,7 @@ User Action (Buy/Sell/Create) → API Call Success → Page Stale ❌
 ```
 
 ### After Implementation
+
 ```
 User Action (Buy/Sell/Create) → API Call Success → Automatic Reload Trigger
                                       ↓
@@ -134,6 +144,7 @@ User Action (Buy/Sell/Create) → API Call Success → Automatic Reload Trigger
 ```
 
 **Benefits:**
+
 - **Immediate Feedback:** Users see updates instantly after operations
 - **Consistent Experience:** Same behavior across all app sections
 - **No Manual Actions:** No need to refresh page or wait for data
@@ -142,6 +153,7 @@ User Action (Buy/Sell/Create) → API Call Success → Automatic Reload Trigger
 ## Component Update Flow
 
 ### SummaryCarousel Component
+
 ```typescript
 // Automatically updates when investment data changes
 useEffect(() => {
@@ -150,28 +162,30 @@ useEffect(() => {
       value: priceFormatter.format(investment?.totalInvested ?? 0),
       // ... other summary data
     },
-  ]
-  setSummaries(summariesResume)
-}, [investment]) // Triggers when investment reloads
+  ];
+  setSummaries(summariesResume);
+}, [investment]); // Triggers when investment reloads
 ```
 
 ### Charts Components (PieChart & BarChart)
+
 ```typescript
 // Automatically updates when portfolio data changes
 useEffect(() => {
   const mappedData = (portfolioResponse?.portfolio ?? []).map((item) => ({
     name: item.stock.symbol,
     value: item.currentValue,
-  }))
-  setChartData(mappedData)
-}, [portfolioResponse]) // Triggers when portfolio reloads
+  }));
+  setChartData(mappedData);
+}, [portfolioResponse]); // Triggers when portfolio reloads
 ```
 
 ### ListStock Component
+
 ```typescript
 // Automatically updates when portfolio data changes
 export function ListStock({ type }: ListStockProps) {
-  const { portfolio } = useStock() // Gets updated portfolio data
+  const { portfolio } = useStock(); // Gets updated portfolio data
   // Renders updated stock list
 }
 ```
@@ -179,11 +193,13 @@ export function ListStock({ type }: ListStockProps) {
 ## Performance Considerations
 
 ### Efficient Updates
+
 - **Selective reloading:** Only investment and portfolio data are reloaded, not all app data
 - **Dependency-based effects:** Components only re-render when their specific data changes
 - **No unnecessary API calls:** Portfolio only reloads if it was previously loaded
 
 ### Memory Management
+
 - **State consistency:** All related states stay synchronized
 - **No memory leaks:** useCallback prevents unnecessary function recreations
 - **Controlled re-renders:** Only affected components update
@@ -191,6 +207,7 @@ export function ListStock({ type }: ListStockProps) {
 ## Testing the Changes
 
 ### Manual Testing Steps
+
 ```bash
 # 1. Navigate to Stock page
 # 2. Note current portfolio data, charts, and summary values
@@ -204,21 +221,23 @@ export function ListStock({ type }: ListStockProps) {
 ```
 
 ### Automated Testing
+
 ```typescript
 // Example test for reload mechanism
-describe('StockContext Reload Mechanism', () => {
-  it('should update all components after buy operation', async () => {
+describe("StockContext Reload Mechanism", () => {
+  it("should update all components after buy operation", async () => {
     // Setup context with initial data
     // Perform buy operation
     // Assert that investment and portfolio states were updated
     // Assert that components re-rendered with new data
-  })
-})
+  });
+});
 ```
 
 ## Important Commands
 
 ### Running the Application
+
 ```bash
 # Start development server
 cd web/vite-web
@@ -232,6 +251,7 @@ yarn test
 ```
 
 ### Debugging
+
 ```bash
 # Check React DevTools for component re-renders
 # Monitor Network tab for API calls
@@ -241,18 +261,21 @@ yarn test
 ## Final Result
 
 ### ✅ Context Layer
+
 - **State Management:** Added reload mechanism with boolean toggle
 - **Operation Functions:** All stock operations trigger UI updates
 - **Effects:** Automatic data reloading for investment and portfolio
 - **Status:** Fully functional
 
 ### ✅ Component Layer
+
 - **SummaryCarousel:** Updates automatically after operations
 - **Charts:** Pie and bar charts refresh with new data
 - **ListStock:** Stock list shows updated positions
 - **Status:** All components respond to data changes
 
 ### ✅ User Experience
+
 - **Immediate Updates:** No page refresh required
 - **Consistent Behavior:** Same pattern as transactions
 - **Real-time Data:** Charts and lists always current
