@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { HandCoins, Minus, Plus } from 'lucide-react'
+import { HandCoins, Loader2, Minus, Plus } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -30,7 +30,7 @@ type SellStockProps = {
 
 export function SellStock({ symbol, position, quote }: SellStockProps) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
-  const [quantity, setQuantity] = useState(0)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const { sellStock } = useStock()
 
@@ -42,19 +42,25 @@ export function SellStock({ symbol, position, quote }: SellStockProps) {
     },
   })
 
+  const quantity = Number(form.watch('quantity')) || 0
+
   function handleTogglePopover() {
     setIsPopoverOpen((prevState) => !prevState)
   }
 
   const handleSellStock = useCallback(
     async ({ quantity, amount }: SellStockForm) => {
+      console.log('handleSellStock called with:', { quantity, amount, symbol, position, quote })
+      setIsSubmitting(true)
       try {
         const formattedAmount = parseFloat(
           amount.replace('R$ ', '').replace('.', '').replace(',', '.'),
         )
 
+        console.log('formattedAmount:', formattedAmount, 'amount:', amount)
+
         if (amount && quantity > 0) {
-          console.log('Chama a rota e passa amount:', quantity, amount)
+          console.log('Chama a rota e passa amount:', quantity, formattedAmount)
 
           await sellStock({
             symbol,
@@ -79,8 +85,11 @@ export function SellStock({ symbol, position, quote }: SellStockProps) {
           toast.success('Venda realizada com sucesso!')
         }
       } catch (err) {
-        console.log(err)
+        console.log('Error in handleSellStock:', err)
         toast.error('Erro ao vender, tente novamente mais tarde!')
+      } finally {
+        console.log('Setting isSubmitting to false')
+        setIsSubmitting(false)
       }
     },
     [symbol, quote, form, sellStock],
@@ -122,8 +131,8 @@ export function SellStock({ symbol, position, quote }: SellStockProps) {
                         size="icon"
                         className="mr-2 h-8 w-8 shrink-0 rounded-full"
                         onClick={() => {
-                          setQuantity(quantity - 1)
-                          form.setValue('quantity', quantity - 1)
+                          const newQuantity = quantity - 1
+                          form.setValue('quantity', Math.max(0, newQuantity))
                         }}
                         disabled={quantity <= 0}
                         type="button"
@@ -133,17 +142,16 @@ export function SellStock({ symbol, position, quote }: SellStockProps) {
                       <Input
                         className="input-no-spinner"
                         placeholder="Quantidade"
-                        {...form.register('quantity')}
-                        value={quantity}
-                        disabled
+                        {...form.register('quantity', { valueAsNumber: true })}
+                        readOnly
                       />
                       <Button
                         variant="outline"
                         size="icon"
                         className="ml-2 h-8 w-8 shrink-0 rounded-full"
                         onClick={() => {
-                          setQuantity(quantity + 1)
-                          form.setValue('quantity', quantity + 1)
+                          const newQuantity = quantity + 1
+                          form.setValue('quantity', Math.min(position, newQuantity))
                         }}
                         disabled={quantity >= position}
                         type="button"
@@ -159,8 +167,19 @@ export function SellStock({ symbol, position, quote }: SellStockProps) {
 
             <Monetary placeholder="Valor da venda" name="amount" />
 
-            <Button type="submit" className="h-10 w-full">
-              Vender
+            <Button
+              disabled={isSubmitting}
+              type="submit"
+              className="h-10 w-full"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <span className="font-semibold">Vendendo...</span>
+                </>
+              ) : (
+                <span className="font-semibold">Vender</span>
+              )}
             </Button>
           </form>
         </Form>
