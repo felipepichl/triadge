@@ -475,3 +475,5 @@ Vou fazer o commit da documentação agora. 🚀
 ---
 
 **Resumo:** A documentação está completa e pronta. A implementação do skeleton para SummaryCarousel agora está totalmente documentada seguindo os padrões do projeto! 📝✨
+
+
