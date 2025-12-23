@@ -52,3 +52,5 @@ export function SummarySkeleton({ color = 'default' }: SummarySkeletonProps) {
     </Card>
   )
 }
+
+
