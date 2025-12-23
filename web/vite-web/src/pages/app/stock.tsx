@@ -54,7 +54,7 @@ export function Stock() {
         value: priceFormatter.format(investment?.currentValue ?? 0),
       },
       {
-        color: 'green',
+        color: (investment?.position ?? 0) < 0 ? 'rose' : 'green',
         description: 'Posição',
         icon: TrendingUpDown,
         iconColor: '#fff',
