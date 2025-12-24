@@ -1,6 +1,7 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "moduleResolution": "bundler",
     "strict": true,
     "paths": {
       "@dtos/*": [
@@ -32,6 +33,9 @@
       ],
       "@routes/*": [
         "./src/routes/*"
+      ],
+      "@config/*": [
+        "./src/config/*"
       ]
     }
   },

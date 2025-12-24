@@ -1,29 +1,29 @@
+import '@config/calendarLocale'
+
+import { Loading } from '@components/Loading'
 import {
   Roboto_400Regular,
   Roboto_700Bold,
   useFonts,
 } from '@expo-google-fonts/roboto'
-import { GluestackUIProvider, Text } from '@gluestack-ui/themed'
-import { StatusBar, View } from 'react-native'
+import { GluestackUIProvider } from '@gluestack-ui/themed'
+import { StatusBar } from 'react-native'
+
+import { config } from './config/gluestack-ui.config'
+import { Routes } from './src/routes'
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold })
 
   return (
-    <GluestackUIProvider>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <StatusBar
-          barStyle="light-content"
-          backgroundColor="transparent"
-          translucent
-        />
+    <GluestackUIProvider config={config}>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
 
-        {fontsLoaded ? (
-          <Text style={{ fontFamily: 'Roboto_700Bold' }}>Triadge</Text>
-        ) : (
-          <View />
-        )}
-      </View>
+      {fontsLoaded ? <Routes /> : <Loading />}
     </GluestackUIProvider>
   )
 }
