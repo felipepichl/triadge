@@ -11,8 +11,35 @@ import {
   VStack,
 } from '@gluestack-ui/themed'
 import { KeyRound, Mail } from 'lucide-react-native'
+import { useState } from 'react'
+
+import { useAuth } from '@/hooks/useAuth'
 
 export function SignIn() {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
+  const { signIn } = useAuth()
+
+  const handleSignIn = async () => {
+    if (!email || !password) {
+      return
+    }
+
+    setIsLoading(true)
+
+    try {
+      await signIn({ email, password })
+      // Navigation will be handled by the auth context and route protection
+    } catch (error) {
+      console.error('Sign in error:', error)
+      // TODO: Show error message to user
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -45,12 +72,25 @@ export function SignIn() {
                 keyboardType="email-address"
                 autoCapitalize="none"
                 icon={Mail}
+                value={email}
+                onChangeText={setEmail}
               />
-              <Input placeholder="Senha" icon={KeyRound} isPassword />
+              <Input
+                placeholder="Senha"
+                icon={KeyRound}
+                isPassword
+                value={password}
+                onChangeText={setPassword}
+              />
             </Center>
           </Center>
 
-          <Button type="default" title="Acessar Painel" />
+          <Button
+            type="default"
+            title="Acessar Painel"
+            isLoading={isLoading}
+            onPress={handleSignIn}
+          />
         </Center>
       </VStack>
     </ScrollView>

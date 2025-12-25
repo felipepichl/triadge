@@ -14,7 +14,6 @@ export type SummaryProps = {
   icon: React.ElementType
   iconColor: '$green500' | '$gray100' | '$rose500'
   value: string
-  totalAmount?: string
 }
 
 export function Summary({
@@ -23,7 +22,6 @@ export function Summary({
   icon,
   iconColor,
   value,
-  totalAmount,
 }: SummaryProps) {
   return (
     <VStack

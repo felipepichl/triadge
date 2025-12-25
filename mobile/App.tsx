@@ -10,6 +10,7 @@ import { GluestackUIProvider } from '@gluestack-ui/themed'
 import { StatusBar } from 'react-native'
 
 import { config } from './config/gluestack-ui.config'
+import { AuthProvider } from './src/contexts/auth/auth-context'
 import { Routes } from './src/routes'
 
 export default function App() {
@@ -23,7 +24,7 @@ export default function App() {
         translucent
       />
 
-      {fontsLoaded ? <Routes /> : <Loading />}
+      <AuthProvider>{fontsLoaded ? <Routes /> : <Loading />}</AuthProvider>
     </GluestackUIProvider>
   )
 }
