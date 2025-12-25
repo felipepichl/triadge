@@ -15,6 +15,7 @@ module.exports = (() => {
     assetExts: resolver.assetExts.filter((ext) => ext !== 'svg'),
     sourceExts: [...resolver.sourceExts, 'svg'],
     alias: {
+      '@': './src',
       '@dtos': './src/dtos',
       '@assets': './src/assets',
       '@components': './src/components',
@@ -26,6 +27,8 @@ module.exports = (() => {
       '@contexts': './src/contexts',
       '@routes': './src/routes',
       '@config': './src/config',
+      '@api': './src/api',
+      '@lib': './src/lib',
     },
   }
 
