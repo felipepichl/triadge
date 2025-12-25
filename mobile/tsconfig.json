@@ -1,8 +1,27 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
-    "moduleResolution": "bundler",
+    "target": "ESNext",
+    "lib": [
+      "DOM",
+      "ESNext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "customConditions": [
+      "react-native"
+    ],
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-native",
     "paths": {
       "@dtos/*": [
         "./src/dtos/*"
@@ -38,5 +57,5 @@
         "./src/config/*"
       ]
     }
-  },
+  }
 }

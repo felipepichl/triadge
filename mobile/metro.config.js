@@ -8,15 +8,25 @@ module.exports = (() => {
 
   config.transformer = {
     ...transformer,
-    // babelTransformerPath: require.resolve('react-native-svg-transformer/expo'),
-    babelTransformerPath: require.resolve(
-      '@react-native/metro-babel-transformer',
-    ),
+    babelTransformerPath: require.resolve('react-native-svg-transformer'),
   }
   config.resolver = {
     ...resolver,
     assetExts: resolver.assetExts.filter((ext) => ext !== 'svg'),
     sourceExts: [...resolver.sourceExts, 'svg'],
+    alias: {
+      '@dtos': './src/dtos',
+      '@assets': './src/assets',
+      '@components': './src/components',
+      '@screens': './src/screens',
+      '@storage': './src/storage',
+      '@utils': './src/utils',
+      '@services': './src/services',
+      '@hooks': './src/hooks',
+      '@contexts': './src/contexts',
+      '@routes': './src/routes',
+      '@config': './src/config',
+    },
   }
 
   return config
