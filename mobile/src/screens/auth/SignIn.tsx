@@ -14,6 +14,7 @@ import { KeyRound, Mail } from 'lucide-react-native'
 import { useState } from 'react'
 
 import { useAuth } from '@/hooks/useAuth'
+import { toast } from '@/utils/toast'
 
 export function SignIn() {
   const [email, setEmail] = useState('')
@@ -31,10 +32,11 @@ export function SignIn() {
 
     try {
       await signIn({ email, password })
+      toast.success('Login realizado com sucesso!')
       // Navigation will be handled by the auth context and route protection
     } catch (error) {
       console.error('Sign in error:', error)
-      // TODO: Show error message to user
+      toast.error('Verifique suas credenciais')
     } finally {
       setIsLoading(false)
     }

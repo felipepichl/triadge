@@ -1,6 +1,7 @@
 import { useAuth } from '@/hooks/useAuth'
 
-import { AppRoutes } from './app.routes'
+// import { AppRoutes } from './app.routes'
+import { StackRoutes } from './app/stack.routes'
 import { AuthRoutes } from './auth.routes'
 
 export function PrivateRoute() {
@@ -10,7 +11,7 @@ export function PrivateRoute() {
   // For now, we'll assume authentication check is synchronous
 
   if (isAuthenticated) {
-    return <AppRoutes />
+    return <StackRoutes />
   }
 
   return <AuthRoutes />

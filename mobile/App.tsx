@@ -8,6 +8,7 @@ import {
 } from '@expo-google-fonts/roboto'
 import { GluestackUIProvider } from '@gluestack-ui/themed'
 import { StatusBar } from 'react-native'
+import Toast from 'react-native-toast-message'
 
 import { config } from './config/gluestack-ui.config'
 import { AuthProvider } from './src/contexts/auth/auth-context'
@@ -25,6 +26,8 @@ export default function App() {
       />
 
       <AuthProvider>{fontsLoaded ? <Routes /> : <Loading />}</AuthProvider>
+
+      <Toast />
     </GluestackUIProvider>
   )
 }

@@ -60,6 +60,17 @@ This directory contains comprehensive technical documentation for all major feat
   - Login screen toast implementation
 - **Impact:** Consistent user feedback across the mobile app
 
+#### 🌐 **API Connectivity**
+
+**API_CONNECTIVITY_SETUP.md**
+- **Date:** December 2025
+- **Objective:** Configure API connectivity for mobile app across different development scenarios
+- **Key Changes:**
+  - Dynamic API URL configuration for different environments
+  - Automatic Expo tunnel detection
+  - Debug logging for network troubleshooting
+  - Comprehensive troubleshooting guide
+- **Impact:** Reliable API connectivity in all development scenarios
 
 ## 📊 Project Overview
 
@@ -156,7 +167,7 @@ Each documentation file follows a standardized structure:
 
 ### Documentation Coverage
 
-- 📄 **Total Documents:** 5
+- 📄 **Total Documents:** 6
 - 🎯 **Features Covered:** Development Setup, Authentication, UI Components, Notifications
 - 📊 **Code Examples:** Before/after implementations included
 - 📱 **Mobile Specific:** React Native, Expo, and AsyncStorage considerations documented
