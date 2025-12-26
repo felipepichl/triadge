@@ -31,11 +31,46 @@ try {
   process.exit(1)
 }
 
-app.use(
-  cors({
-    origin: 'http://localhost:3577',
-  }),
-)
+// Dynamic CORS configuration for development
+const allowedOrigins = [
+  'http://localhost:3577', // Web app
+  'http://localhost:8081', // Expo mobile (common port)
+  'http://localhost:3000', // Alternative web port
+  'http://192.168.1.1:8081', // Common local network IP + Expo port
+  'http://10.0.2.2:8081', // Android emulator to host
+  'exp://192.168.1.1:8081', // Expo development on local network
+  'exp://10.0.2.2:8081', // Expo on Android emulator
+]
+
+// For development, allow all localhost origins and common mobile development origins
+const corsOptions = {
+  origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
+    // Allow requests with no origin (mobile apps, Postman, etc.)
+    if (!origin) return callback(null, true)
+
+    // Allow localhost origins for development
+    if (origin.startsWith('http://localhost:') ||
+        origin.startsWith('http://127.0.0.1:') ||
+        origin.startsWith('exp://')) {
+      return callback(null, true)
+    }
+
+    // Allow common development IPs
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true)
+    }
+
+    // In production, you might want to restrict this
+    if (process.env.NODE_ENV === 'development') {
+      return callback(null, true)
+    }
+
+    return callback(new Error('Not allowed by CORS'))
+  },
+  credentials: true,
+}
+
+app.use(cors(corsOptions))
 
 app.use(express.json())
 app.use('/api-docs', sweggerUi.serve, sweggerUi.setup(sweggerFile))
