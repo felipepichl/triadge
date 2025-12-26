@@ -74,6 +74,7 @@ yarn prisma:studio
 ## 📚 Documentação
 
 - **[Configuração de Ambiente Isolado](./docs/PRISMA_ENV_FIX_SUMMARY.md)** - Detalhes completos sobre a configuração de testes isolados com SQLite e produção com PostgreSQL
+- **[Configuração CORS para Mobile](./docs/CORS_CONFIGURATION_UPDATE.md)** - Configuração de CORS para suporte a aplicações mobile junto com web
 
 ## 📝 Scripts Disponíveis
 
