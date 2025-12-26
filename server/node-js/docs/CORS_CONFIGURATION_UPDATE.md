@@ -67,6 +67,9 @@ The configuration now supports:
 - `http://localhost:8081` - Expo development server
 - `exp://*` - Expo development URLs
 - `http://127.0.0.1:*` - Localhost variations
+- `*.exp.direct` - Expo tunnel domains (--tunnel flag)
+- `*.expo.dev` - Alternative Expo tunnel domains
+- `*.expo.io` - Legacy Expo tunnel domains
 
 #### **Device Testing:**
 - `http://192.168.1.1:*` - Local network IP
@@ -113,6 +116,19 @@ Response: 400 Bad Request
 {"message":"Incorrect email/password combination"}
 ```
 
+### ✅ Expo Tunnel Test
+```
+OPTIONS /sessions HTTP/1.1
+Origin: https://abc123.exp.direct
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: Content-Type,Authorization
+
+Response:
+HTTP/1.1 204 No Content
+Access-Control-Allow-Origin: https://abc123.exp.direct
+Access-Control-Allow-Credentials: true
+```
+
 ## Mobile Development Setup
 
 ### For Physical Devices:
@@ -123,6 +139,13 @@ Response: 400 Bad Request
 ### For Emulators:
 - **Android Emulator**: Use `http://10.0.2.2:3331`
 - **iOS Simulator**: Can use `http://localhost:3331`
+
+### For Expo Tunnels:
+When using `expo start --tunnel`, the app runs on a public domain:
+- **Command**: `expo start --tunnel`
+- **Domain**: `https://[project-name]-[port].exp.direct`
+- **Example**: `https://my-app-8081.exp.direct`
+- **CORS**: Automatically supported by the server configuration
 
 ### Environment Variables (Recommended):
 ```typescript

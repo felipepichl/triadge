@@ -44,14 +44,32 @@ const allowedOrigins = [
 
 // For development, allow all localhost origins and common mobile development origins
 const corsOptions = {
-  origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
+  origin: function (
+    origin: string | undefined,
+    callback: (err: Error | null, allow?: boolean) => void,
+  ) {
     // Allow requests with no origin (mobile apps, Postman, etc.)
     if (!origin) return callback(null, true)
 
     // Allow localhost origins for development
-    if (origin.startsWith('http://localhost:') ||
-        origin.startsWith('http://127.0.0.1:') ||
-        origin.startsWith('exp://')) {
+    if (
+      origin.startsWith('http://localhost:') ||
+      origin.startsWith('http://127.0.0.1:') ||
+      origin.startsWith('exp://')
+    ) {
+      return callback(null, true)
+    }
+
+    // Allow Expo tunnel domains (--tunnel flag)
+    if (
+      origin.includes('.exp.direct') ||
+      origin.includes('.expo.dev') ||
+      origin.includes('.expo.io') ||
+      origin.includes('expo-development.app') ||
+      origin.match(/^https:\/\/[a-z0-9-]+\.exp\.direct/) ||
+      origin.match(/^https:\/\/[a-z0-9-]+\.expo\.dev/) ||
+      origin.match(/^https:\/\/[a-z0-9-]+\.expo\.io/)
+    ) {
       return callback(null, true)
     }
 
