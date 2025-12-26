@@ -37,8 +37,10 @@ const allowedOrigins = [
   'http://localhost:8081', // Expo mobile (common port)
   'http://localhost:3000', // Alternative web port
   'http://192.168.1.1:8081', // Common local network IP + Expo port
+  'http://192.168.1.4:8081', // Current machine IP + Expo port
   'http://10.0.2.2:8081', // Android emulator to host
   'exp://192.168.1.1:8081', // Expo development on local network
+  'exp://192.168.1.4:8081', // Current machine IP + Expo port
   'exp://10.0.2.2:8081', // Expo on Android emulator
 ]
 
