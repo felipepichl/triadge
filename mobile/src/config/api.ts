@@ -9,7 +9,7 @@ export const getApiConfig = () => {
     const hostUri = manifest?.hostUri
 
     console.log('🔍 Environment check:', {
-      __DEV__: __DEV__,
+      __DEV__,
       hostUri,
       platform: Constants.platform,
       expoVersion: Constants.expoVersion,
@@ -32,9 +32,13 @@ export const getApiConfig = () => {
     const apiUrl = `http://${machineIP}:3331`
     console.log('💻 Development mode: using machine IP for API')
     console.log('🏠 Using machine IP API URL:', apiUrl)
-    console.log('💡 Make sure your machine IP is accessible from the mobile device/simulator')
+    console.log(
+      '💡 Make sure your machine IP is accessible from the mobile device/simulator',
+    )
     console.log('💡 If using iOS Simulator: localhost should work')
-    console.log('💡 If using Android Emulator: use 10.0.2.2 instead of machine IP')
+    console.log(
+      '💡 If using Android Emulator: use 10.0.2.2 instead of machine IP',
+    )
     return { apiUrl, isTunnel: false }
   }
 
