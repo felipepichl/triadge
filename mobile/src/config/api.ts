@@ -4,11 +4,21 @@ export const getApiConfig = () => {
   const isDevelopment = __DEV__
 
   if (isDevelopment) {
-    // Check for Expo tunnel
+    // Check for Expo tunnel first
     const { manifest } = Constants
     const hostUri = manifest?.hostUri
 
-    if (hostUri && (hostUri.includes('exp.direct') || hostUri.includes('expo.dev'))) {
+    console.log('🔍 Environment check:', {
+      __DEV__: __DEV__,
+      hostUri,
+      platform: Constants.platform,
+      expoVersion: Constants.expoVersion,
+    })
+
+    if (
+      hostUri &&
+      (hostUri.includes('exp.direct') || hostUri.includes('expo.dev'))
+    ) {
       // Running on Expo Go with tunnel
       const tunnelDomain = hostUri.split(':')[0]
       const apiUrl = `https://${tunnelDomain.replace(/\d+$/, '3331')}`
@@ -16,11 +26,15 @@ export const getApiConfig = () => {
       return { apiUrl, isTunnel: true }
     }
 
-    // For physical devices/emulators, use machine IP
-    // Replace with your actual machine IP when testing on devices
-    const machineIP = '192.168.1.100' // Change this to your machine's IP
+    // For development: use machine IP (works on simulators/emulators and physical devices)
+    // localhost may not work from simulator/emulator as it refers to the mobile device itself
+    const machineIP = '192.168.1.4' // Replace with your machine's IP address
     const apiUrl = `http://${machineIP}:3331`
-    console.log('🏠 Using local machine IP API URL:', apiUrl)
+    console.log('💻 Development mode: using machine IP for API')
+    console.log('🏠 Using machine IP API URL:', apiUrl)
+    console.log('💡 Make sure your machine IP is accessible from the mobile device/simulator')
+    console.log('💡 If using iOS Simulator: localhost should work')
+    console.log('💡 If using Android Emulator: use 10.0.2.2 instead of machine IP')
     return { apiUrl, isTunnel: false }
   }
 

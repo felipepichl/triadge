@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 import { API_TIMEOUT, getApiConfig } from '@/config/api'
+
 import { APIInstanceProps } from './@types/api-types'
 
 const { apiUrl: API_URL } = getApiConfig()
@@ -19,7 +20,7 @@ api.interceptors.request.use(
   (error) => {
     console.error('📡 Request Error:', error)
     return Promise.reject(error)
-  }
+  },
 )
 
 // Add response interceptor for debugging
@@ -44,7 +45,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error)
-  }
+  },
 )
 
 // Implementa o método registerInterceptTokenManager na instância do axios
