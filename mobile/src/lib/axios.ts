@@ -14,11 +14,15 @@ const api = axios.create({
 // Add request interceptor for debugging
 api.interceptors.request.use(
   (config) => {
-    console.log('📡 API Request:', config.method?.toUpperCase(), config.url)
+    if (__DEV__) {
+      console.log('📡 API Request:', config.method?.toUpperCase(), config.url)
+    }
     return config
   },
   (error) => {
-    console.error('📡 Request Error:', error)
+    if (__DEV__) {
+      console.log('📡 Request Error:', error)
+    }
     return Promise.reject(error)
   },
 )
@@ -26,22 +30,28 @@ api.interceptors.request.use(
 // Add response interceptor for debugging
 api.interceptors.response.use(
   (response) => {
-    console.log('✅ API Response:', response.status, response.config.url)
+    if (__DEV__) {
+      console.log('✅ API Response:', response.status, response.config.url)
+    }
     return response
   },
   (error) => {
-    console.error('❌ API Error:', {
-      url: error.config?.url,
-      method: error.config?.method,
-      status: error.response?.status,
-      message: error.message,
-      code: error.code,
-    })
+    // API errors are handled by individual components (toasts)
+    // Only log in development terminal for debugging
+    if (__DEV__) {
+      console.log('❌ API Error (Dev Only):', {
+        url: error.config?.url,
+        method: error.config?.method,
+        status: error.response?.status,
+        message: error.message,
+        code: error.code,
+      })
 
-    // Handle network errors specifically
-    if (error.code === 'NETWORK_ERROR' || !error.response) {
-      console.error('🌐 Network Error - Check server connectivity and API URL')
-      console.error('🌐 Current API URL:', API_URL)
+      // Handle network errors specifically
+      if (error.code === 'NETWORK_ERROR' || !error.response) {
+        console.log('🌐 Network Error - Check server connectivity and API URL')
+        console.log('🌐 Current API URL:', API_URL)
+      }
     }
 
     return Promise.reject(error)
