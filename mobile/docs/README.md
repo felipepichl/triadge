@@ -85,6 +85,19 @@ This directory contains comprehensive technical documentation for all major feat
   - Comprehensive troubleshooting guide
 - **Impact:** Reliable API connectivity in all development scenarios
 
+#### 📊 **Dashboard Features**
+
+**DASHBOARD_PIE_CHART_API_IMPLEMENTATION.md**
+- **Date:** December 2025
+- **Objective:** Implement API integration for the pie chart in the Dashboard screen, following the web application pattern to fetch and display transaction balance data dynamically
+- **Key Changes:**
+  - Transaction DTOs creation matching web structure
+  - API function implementation for fetching transactions by month
+  - Dashboard component enhancement with state management
+  - Dynamic pie chart data population from API
+  - Month selection integration with automatic data fetching
+- **Impact:** Real-time financial data display in dashboard with consistent API patterns across platforms
+
 ## 📊 Project Overview
 
 ### Architecture
@@ -180,8 +193,8 @@ Each documentation file follows a standardized structure:
 
 ### Documentation Coverage
 
-- 📄 **Total Documents:** 7
-- 🎯 **Features Covered:** Development Setup, Authentication, UI Components, Notifications
+- 📄 **Total Documents:** 8
+- 🎯 **Features Covered:** Development Setup, Authentication, UI Components, Notifications, Dashboard Features
 - 📊 **Code Examples:** Before/after implementations included
 - 📱 **Mobile Specific:** React Native, Expo, and AsyncStorage considerations documented
 - 🧪 **Testing Strategies:** Development and manual testing approaches
