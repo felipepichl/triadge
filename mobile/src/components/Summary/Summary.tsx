@@ -1,4 +1,7 @@
-import { Box, Heading, Icon, VStack } from '@gluestack-ui/themed'
+import { Box } from '@components/ui/box'
+import { Heading } from '@components/ui/heading'
+import { VStack } from '@components/ui/vstack'
+import { Icon } from '@gluestack-ui/themed'
 
 type ColorType = 'default' | 'green' | 'rose'
 

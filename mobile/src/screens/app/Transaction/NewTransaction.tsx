@@ -2,7 +2,7 @@ import { StackHeader } from '@components/Headers/StackHeader'
 import { SharedFields } from '@components/NewTransactionAndAccount/SharedFields/'
 import { SubmitButton } from '@components/NewTransactionAndAccount/SubmitButton'
 import { TransactionTypeButton } from '@components/NewTransactionAndAccount/TransactionFileds/TransactionTypeButton'
-import { VStack } from '@gluestack-ui/themed'
+import { VStack } from '@components/ui/vstack'
 
 export function NewTransaction() {
   return (

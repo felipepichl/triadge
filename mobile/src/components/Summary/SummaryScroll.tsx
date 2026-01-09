@@ -1,4 +1,4 @@
-import { ScrollView } from '@gluestack-ui/themed'
+import { ScrollView } from '@components/ui/scroll-view'
 
 import { Summary, SummaryProps } from './Summary'
 

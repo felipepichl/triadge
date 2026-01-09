@@ -1,4 +1,5 @@
-import { Center, Text } from '@gluestack-ui/themed'
+import { Center } from '@components/ui/center'
+import { Text } from '@components/ui/text'
 
 export function Stock() {
   return (

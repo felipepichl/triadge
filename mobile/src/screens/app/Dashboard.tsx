@@ -2,7 +2,11 @@ import { BarChart } from '@components/Charts/BarChart'
 import { PieChart } from '@components/Charts/PieChart'
 import { MonthSelect } from '@components/GenericFormAndFileds/Fileds/MonthSelect'
 import { DashboardHeader } from '@components/Headers/DashboardHeader'
-import { Box, Heading, ScrollView, Text, VStack } from '@gluestack-ui/themed'
+import { Box } from '@components/ui/box'
+import { Heading } from '@components/ui/heading'
+import { ScrollView } from '@components/ui/scroll-view'
+import { Text } from '@components/ui/text'
+import { VStack } from '@components/ui/vstack'
 import { getMonth } from 'date-fns'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -11,18 +15,24 @@ import { apiListByMonth } from '@/api/app/transactions/list-by-month'
 export function Dashboard() {
   const [income, setIncome] = useState(0)
   const [outcome, setOutcome] = useState(0)
+  const [isLoadingChart, setIsLoadingChart] = useState(true)
 
   const fetchListByMonth = useCallback(async (monthNumber: number) => {
-    const response = await apiListByMonth({ month: Number(monthNumber) })
+    setIsLoadingChart(true)
+    try {
+      const response = await apiListByMonth({ month: Number(monthNumber) })
 
-    const { balance } = response
+      const { balance } = response
 
-    if (response.transactions.length === 0) {
-      setIncome(0)
-      setOutcome(0)
-    } else {
-      setIncome(balance?.income || 0)
-      setOutcome(balance?.outcome || 0)
+      if (response.transactions.length === 0) {
+        setIncome(0)
+        setOutcome(0)
+      } else {
+        setIncome(balance?.income || 0)
+        setOutcome(balance?.outcome || 0)
+      }
+    } finally {
+      setIsLoadingChart(false)
     }
   }, [])
 
@@ -57,7 +67,11 @@ export function Dashboard() {
 
         <MonthSelect onMonthSelect={handleMonthSelect} />
 
-        <PieChart income={income} outcome={outcome} />
+        <PieChart
+          income={income}
+          outcome={outcome}
+          isLoading={isLoadingChart}
+        />
 
         <Box px="$8" pt="$5" pb="$5">
           <Heading color="$gray100" fontSize="$xl">

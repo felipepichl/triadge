@@ -1,5 +1,5 @@
 import { Button } from '@components/Button'
-import { HStack } from '@gluestack-ui/themed'
+import { HStack } from '@components/ui/hstack'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigatorRoutesProps } from '@routes/app/stack.routes'
 import { CircleFadingPlus } from 'lucide-react-native'

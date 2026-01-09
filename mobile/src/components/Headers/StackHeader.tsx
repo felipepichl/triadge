@@ -1,5 +1,6 @@
 import { Button } from '@components/Button'
-import { Heading, HStack } from '@gluestack-ui/themed'
+import { Heading } from '@components/ui/heading'
+import { HStack } from '@components/ui/hstack'
 import { useNavigation } from '@react-navigation/native'
 import { StackNavigatorRoutesProps } from '@routes/app/stack.routes'
 import { ArrowLeft } from 'lucide-react-native'

@@ -1,5 +1,5 @@
-import { gluestackUIConfig } from '@gluestack-ui/config'
-import { Center } from '@gluestack-ui/themed'
+import { gluestackUIConfig } from '../../../config/gluestack-ui.config'
+import { Center } from '@components/ui/center'
 import {
   VictoryAxis,
   VictoryBar,

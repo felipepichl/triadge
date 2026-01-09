@@ -1,4 +1,4 @@
-import { Box } from '@gluestack-ui/themed'
+import { Box } from '@components/ui/box'
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native'
 
 import { gluestackUIConfig } from '../../config/gluestack-ui.config'

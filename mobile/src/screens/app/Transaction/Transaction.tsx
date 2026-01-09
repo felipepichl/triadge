@@ -1,7 +1,7 @@
 import { ScreenHeader } from '@components/Headers/ScreenHeader'
 import { SummaryProps } from '@components/Summary/Summary'
 import { SummaryScroll } from '@components/Summary/SummaryScroll'
-import { VStack } from '@gluestack-ui/themed'
+import { VStack } from '@components/ui/vstack'
 import { ArrowDownCircle, ArrowUpCircle, DollarSign } from 'lucide-react-native'
 import { useEffect, useState } from 'react'
 

@@ -2,8 +2,8 @@ import {
   Button as GluestackButton,
   ButtonSpinner,
   Icon,
-  Text,
 } from '@gluestack-ui/themed'
+import { Text } from '@components/ui/text'
 import { LucideIcon } from 'lucide-react-native'
 import { ComponentProps } from 'react'
 

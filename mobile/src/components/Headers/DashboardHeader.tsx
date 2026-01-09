@@ -1,11 +1,8 @@
-import {
-  Heading,
-  HStack,
-  Icon,
-  Pressable,
-  Text,
-  VStack,
-} from '@gluestack-ui/themed'
+import { Heading } from '@components/ui/heading'
+import { HStack } from '@components/ui/hstack'
+import { Text } from '@components/ui/text'
+import { VStack } from '@components/ui/vstack'
+import { Icon, Pressable } from '@gluestack-ui/themed'
 import { LogOut } from 'lucide-react-native'
 import { useState } from 'react'
 

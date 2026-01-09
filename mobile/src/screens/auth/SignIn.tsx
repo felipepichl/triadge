@@ -2,14 +2,12 @@ import BackgroundImage from '@assets/background.png'
 import Logo from '@assets/logo.svg'
 import { Button } from '@components/Button'
 import { Input } from '@components/GenericFormAndFileds/Fileds/Input'
-import {
-  Center,
-  Heading,
-  Image,
-  ScrollView,
-  Text,
-  VStack,
-} from '@gluestack-ui/themed'
+import { Center } from '@components/ui/center'
+import { Heading } from '@components/ui/heading'
+import { ScrollView } from '@components/ui/scroll-view'
+import { Text } from '@components/ui/text'
+import { VStack } from '@components/ui/vstack'
+import { Image } from '@gluestack-ui/themed'
 import { KeyRound, Mail } from 'lucide-react-native'
 import { useState } from 'react'
 

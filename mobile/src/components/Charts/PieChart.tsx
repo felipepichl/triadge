@@ -1,15 +1,30 @@
-import { gluestackUIConfig } from '@gluestack-ui/config'
-import { Center } from '@gluestack-ui/themed'
+import { Center } from '@components/ui/center'
+import { Skeleton } from '@components/ui/skeleton'
 import { VictoryPie } from 'victory-native'
+
+import { gluestackUIConfig } from '../../../config/gluestack-ui.config'
 
 type PieChartProps = {
   income: number
   outcome: number
+  isLoading?: boolean
 }
 
-export function PieChart({ income, outcome }: PieChartProps) {
+export function PieChart({
+  income,
+  outcome,
+  isLoading = false,
+}: PieChartProps) {
   const incomeColor = gluestackUIConfig.tokens.colors.green500
   const outcomeColor = gluestackUIConfig.tokens.colors.red500
+
+  if (isLoading) {
+    return (
+      <Center mt="$5">
+        <Skeleton variant="circular" style={{ width: 300, height: 300 }} />
+      </Center>
+    )
+  }
 
   return (
     <Center mt="$5">
