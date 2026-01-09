@@ -4,11 +4,11 @@ import {
   ActionsheetContent,
   ActionsheetDragIndicator,
   ActionsheetDragIndicatorWrapper,
-  Box,
-  HStack,
   Icon,
-  Text,
 } from '@gluestack-ui/themed'
+import { Box } from '@components/ui/box'
+import { HStack } from '@components/ui/hstack'
+import { Text } from '@components/ui/text'
 import { format, parseISO } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { Calendar } from 'lucide-react-native'

@@ -1,4 +1,4 @@
-import { HStack } from '@gluestack-ui/themed'
+import { HStack } from '@components/ui/hstack'
 import { useCallback, useState } from 'react'
 
 import { TypeButton } from './TypeButton'

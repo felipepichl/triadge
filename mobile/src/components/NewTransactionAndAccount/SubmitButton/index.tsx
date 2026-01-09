@@ -1,5 +1,7 @@
 import { Button } from '@components/Button'
-import { Box, Center, Divider } from '@gluestack-ui/themed'
+import { Box } from '@components/ui/box'
+import { Center } from '@components/ui/center'
+import { Divider } from '@gluestack-ui/themed'
 
 export function SubmitButton() {
   return (

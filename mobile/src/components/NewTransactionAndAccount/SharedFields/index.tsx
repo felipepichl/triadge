@@ -1,6 +1,6 @@
 import { DatePicker } from '@components/GenericFormAndFileds/Fileds/DatePicker'
 import { Input } from '@components/GenericFormAndFileds/Fileds/Input'
-import { VStack } from '@gluestack-ui/themed'
+import { VStack } from '@components/ui/vstack'
 import { useMonetaryMask } from '@hooks/useMonetaryMask'
 import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native'
 

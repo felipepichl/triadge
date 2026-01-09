@@ -1,6 +1,6 @@
 import { Button } from '@components/Button'
+import { HStack } from '@components/ui/hstack'
 import {
-  HStack,
   Select,
   SelectBackdrop,
   SelectContent,

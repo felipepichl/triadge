@@ -1,4 +1,5 @@
-import { Box, Button, ButtonIcon, ButtonText } from '@gluestack-ui/themed'
+import { Box } from '@components/ui/box'
+import { Button, ButtonIcon, ButtonText } from '@gluestack-ui/themed'
 import { ArrowDownCircle, ArrowUpCircle } from 'lucide-react-native'
 import { ComponentProps } from 'react'
 

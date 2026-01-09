@@ -1,5 +1,7 @@
+import { HStack } from '@components/ui/hstack'
+import { Text } from '@components/ui/text'
+import { VStack } from '@components/ui/vstack'
 import {
-  HStack,
   Select,
   SelectBackdrop,
   SelectContent,
@@ -12,8 +14,6 @@ import {
   SelectScrollView,
   SelectTrigger,
   Switch,
-  Text,
-  VStack,
 } from '@gluestack-ui/themed'
 import { ChevronDownIcon } from 'lucide-react-native'
 
