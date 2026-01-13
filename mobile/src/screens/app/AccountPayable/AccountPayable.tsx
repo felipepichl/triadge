@@ -1,9 +1,15 @@
+import { Button } from '@components/Button'
 import { ScreenHeader } from '@components/Headers/ScreenHeader'
 import { SummaryProps } from '@components/Summary/Summary'
 import { SummaryScroll } from '@components/Summary/SummaryScroll'
 import { VStack } from '@components/ui/vstack'
 import { DollarSign, HandCoins, Pin, TrendingUpDown } from 'lucide-react-native'
 import { useEffect, useState } from 'react'
+
+import {
+  testNotification,
+  testNotificationImmediate,
+} from '@/utils/test-notification'
 
 export function AccountPayable() {
   const [summaries, setSummaries] = useState<SummaryProps[]>([])
@@ -55,6 +61,21 @@ export function AccountPayable() {
       <ScreenHeader type="newAccountPayable" />
 
       <SummaryScroll summaries={summaries} />
+
+      {/* TEST BUTTONS - Remove after testing */}
+      {/* Added margin top to avoid overlapping with SummaryScroll (which is absolute positioned) */}
+      <VStack px="$4" pb="$4" gap="$2" mt="$64">
+        <Button
+          title="Testar Notificação (10s - Bloqueie o app)"
+          type="default"
+          onPress={testNotification}
+        />
+        <Button
+          title="Testar Notificação (Imediata)"
+          type="default"
+          onPress={testNotificationImmediate}
+        />
+      </VStack>
     </VStack>
   )
 }
