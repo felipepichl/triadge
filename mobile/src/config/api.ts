@@ -28,7 +28,7 @@ export const getApiConfig = () => {
 
     // For development: use machine IP (works on simulators/emulators and physical devices)
     // localhost may not work from simulator/emulator as it refers to the mobile device itself
-    const machineIP = '192.168.1.4' // Replace with your machine's IP address
+    const machineIP = '192.168.1.100' // Replace with your machine's IP address
     const apiUrl = `http://${machineIP}:3331`
     console.log('💻 Development mode: using machine IP for API')
     console.log('🏠 Using machine IP API URL:', apiUrl)
