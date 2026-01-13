@@ -16,7 +16,9 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.triadge.mobile",
       "infoPlist": {
-        "UIBackgroundModes": ["remote-notification"]
+        "UIBackgroundModes": [
+          "remote-notification"
+        ]
       }
     },
     "android": {
@@ -39,6 +41,11 @@
           "mode": "production"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "c75b7f4e-1859-4276-ab26-a0221af253ad"
+      }
+    }
   }
 }
