@@ -1,10 +1,21 @@
 import { AccountPayable } from '@modules/accountPayable/domain/AccountPayable'
 import { FinancialCategory } from '@modules/financialCategory/domain/FinancialCategory'
-import { AccountPayable as RawAccountPayable } from '@prisma/client'
+import { AccountPayable as RawAccountPayable, Decimal } from '@prisma/client'
 import { IMapper } from '@shared/core/infra/Mapper'
 
-interface AccountPayableWithCategory extends RawAccountPayable {
-  financialCategory?: FinancialCategory
+interface AccountPayableWithCategory {
+  id: string
+  description: string
+  amount: number | string | Decimal
+  dueDate: Date
+  paymentDate?: Date | null
+  isPaid: boolean
+  isFixed: boolean
+  userId: string
+  financialCategoryId: string
+  financialCategory?: FinancialCategory | { id: string; description: string } | null
+  subcategory?: FinancialCategory | { id: string; description: string } | null
+  subcategoryId?: string | null
 }
 
 class AccountPayableMappers
@@ -26,21 +37,39 @@ class AccountPayableMappers
     financialCategory,
     financialCategoryId,
   }: AccountPayableWithCategory): AccountPayable {
+    // Normalize financialCategory if it's a partial object
+    const normalizedFinancialCategory =
+      financialCategory && 'description' in financialCategory
+        ? FinancialCategory.createFinancialCategory({
+            id: financialCategory.id,
+            description: financialCategory.description,
+            userId,
+          })
+        : (financialCategory as FinancialCategory | undefined)
+
+    // Convert amount to number (handles Decimal, string, or number)
+    const amountNumber =
+      typeof amount === 'object' && 'toNumber' in amount
+        ? amount.toNumber()
+        : Number(amount)
+
     return AccountPayable.createAccountPayable({
       id,
       description,
-      amount: Number(amount),
+      amount: amountNumber,
       dueDate,
-      paymentDate,
+      paymentDate: paymentDate || undefined,
       isPaid,
       isFixed,
       userId,
-      financialCategory,
+      financialCategory: normalizedFinancialCategory,
       financialCategoryId,
     })
   }
 
-  toDomainArray(rawAccountsPayable: RawAccountPayable[]): AccountPayable[] {
+  toDomainArray(
+    rawAccountsPayable: AccountPayableWithCategory[],
+  ): AccountPayable[] {
     return rawAccountsPayable.map(this.toDomain)
   }
 

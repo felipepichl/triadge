@@ -75,6 +75,11 @@ yarn prisma:studio
 
 - **[Configuração de Ambiente Isolado](./docs/PRISMA_ENV_FIX_SUMMARY.md)** - Detalhes completos sobre a configuração de testes isolados com SQLite e produção com PostgreSQL
 - **[Configuração CORS para Mobile](./docs/CORS_CONFIGURATION_UPDATE.md)** - Configuração de CORS para suporte a aplicações mobile junto com web
+- **[Otimização de Índices - AccountPayable](./docs/ACCOUNT_PAYABLE_INDEXES_OPTIMIZATION.md)** - Implementação de índices compostos para otimização de queries do repositório AccountPayable
+- **[Normalização de Datas - AccountPayable](./docs/ACCOUNT_PAYABLE_DATE_NORMALIZATION.md)** - Normalização de cálculos de datas em queries mensais para prevenir inconsistências de timezone
+- **[Paginação - AccountPayable](./docs/ACCOUNT_PAYABLE_PAGINATION.md)** - Implementação de paginação no método listAll para suportar grandes volumes de dados
+- **[Tratamento de Erros - createMany](./docs/ACCOUNT_PAYABLE_CREATEMANY_ERROR_HANDLING.md)** - Implementação de tratamento de erros e gerenciamento de duplicatas no método createMany
+- **[Otimização de Seleção de Campos - AccountPayable](./docs/ACCOUNT_PAYABLE_SELECT_OPTIMIZATION.md)** - Otimização de queries utilizando `select` para reduzir transferência de dados e melhorar performance
 
 ## 📝 Scripts Disponíveis
 

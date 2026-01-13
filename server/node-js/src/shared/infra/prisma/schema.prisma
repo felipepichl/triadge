@@ -114,6 +114,11 @@ model AccountPayable {
 
   transaction   Transaction? @relation(fields: [transactionId], references: [id])
   transactionId String?
+
+  @@index([userId])
+  @@index([userId, dueDate])
+  @@index([userId, dueDate, isFixed])
+  @@index([userId, dueDate, isPaid])
 }
 
 // enum OperationType {

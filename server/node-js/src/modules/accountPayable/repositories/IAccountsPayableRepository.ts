@@ -4,7 +4,11 @@ interface IAccountsPayableRepository {
   create(accountPayable: AccountPayable): Promise<void>
   createMany(accounts: AccountPayable[]): Promise<void>
   update(accountPayable: AccountPayable): Promise<void>
-  listAll(userId: string): Promise<AccountPayable[]>
+  listAll(
+    userId: string,
+    page?: number,
+    pageSize?: number,
+  ): Promise<AccountPayable[]>
   listByDateRange(
     userId: string,
     startDate: Date,

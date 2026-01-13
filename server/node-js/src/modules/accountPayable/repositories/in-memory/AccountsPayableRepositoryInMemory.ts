@@ -23,10 +23,17 @@ class AccountsPayableRepositoryInMemory implements IAccountsPayableRepository {
     }
   }
 
-  async listAll(userId: string): Promise<AccountPayable[]> {
-    return this.accountsPayable.filter(
+  async listAll(
+    userId: string,
+    page: number = 1,
+    pageSize: number = 50,
+  ): Promise<AccountPayable[]> {
+    const filtered = this.accountsPayable.filter(
       (accountPayable) => accountPayable.userId === userId,
     )
+
+    const skip = (page - 1) * pageSize
+    return filtered.slice(skip, skip + pageSize)
   }
 
   async listByDateRange(
