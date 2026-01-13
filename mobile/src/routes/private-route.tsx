@@ -1,3 +1,4 @@
+import { NotificationNavigationHandler } from '@components/NotificationNavigationHandler'
 import { useAuth } from '@/hooks/useAuth'
 
 // import { AppRoutes } from './app.routes'
@@ -11,7 +12,12 @@ export function PrivateRoute() {
   // For now, we'll assume authentication check is synchronous
 
   if (isAuthenticated) {
-    return <StackRoutes />
+    return (
+      <>
+        <StackRoutes />
+        <NotificationNavigationHandler />
+      </>
+    )
   }
 
   return <AuthRoutes />
