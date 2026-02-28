@@ -10,7 +10,10 @@ import { IUsersRepository } from '@modules/accounts/repositories/IUsersRepositor
 import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository'
 import { FinancialCategoriesRepository } from '@modules/financialCategory/infra/prisma/repositories/FinancialCategoriesRepository'
 import { IFinancialCategoriesRepository } from '@modules/financialCategory/repositories/IFinancialCategoriesRepository'
+<<<<<<< HEAD
 import { StockPositionRepository } from '@modules/stock/infra/prisma/repositories/StockPositionRepository'
+=======
+>>>>>>> ba67404 (refactor: remove category and subcategory modules)
 import { StockRepository } from '@modules/stock/infra/prisma/repositories/StockRepository'
 import { IStockPositionRepository } from '@modules/stock/repositories/IStockPositionRepository'
 import { IStockRepository } from '@modules/stock/repositories/IStockRepository'
