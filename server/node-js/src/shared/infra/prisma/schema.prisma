@@ -94,7 +94,11 @@ model AccountPayable {
   paymentDate DateTime?
   isPaid      Boolean   @default(false)
 
+<<<<<<< HEAD
   isFixed Boolean @default(false)
+=======
+  isFixed          Boolean @default(false)
+>>>>>>> 9ba6268 (fix: interest paid to account payable)
   //isAmountVariable Boolean @default(false)
 
   interestPaid   Decimal?
