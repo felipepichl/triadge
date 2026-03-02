@@ -1,0 +1,44 @@
+{
+  "name": "umabel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sistema de Controle Financeiro - Turborepo Monorepo",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
+    "db:generate": "turbo run db:generate",
+    "db:push": "turbo run db:push",
+    "db:seed": "turbo run db:seed",
+    "clean": "turbo run clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "turbo": "^2.8.10"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@10.28.1",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "bcrypt",
+      "esbuild",
+      "prisma"
+    ],
+    "peerDependencyRules": {
+      "ignoreMissing": ["react", "react-dom", "react-native"]
+    },
+    "packageExtensions": {
+      "lucide-react": {
+        "dependencies": {
+          "@types/react": "^18.2.71"
+        }
+      }
+    }
+  }
+}
