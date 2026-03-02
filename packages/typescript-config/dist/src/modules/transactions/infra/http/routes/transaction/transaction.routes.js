@@ -1,0 +1,22 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.transactionsRoutes = void 0;
+const express_1 = require("express");
+const CreateTransactionController_1 = require("../../controllers/transaction/createTransaction/CreateTransactionController");
+const ListAllTransactionsController_1 = require("../../controllers/transaction/listAllTransactions/ListAllTransactionsController");
+const ListByDateRangeController_1 = require("../../controllers/transaction/listByDateRange/ListByDateRangeController");
+const ListByMonthController_1 = require("../../controllers/transaction/listByMonth/ListByMonthController");
+const ListByTypeController_1 = require("../../controllers/transaction/listByType/ListByTypeController");
+const transactionsRoutes = (0, express_1.Router)();
+exports.transactionsRoutes = transactionsRoutes;
+const createTransactionController = new CreateTransactionController_1.CreateTransactionController();
+const listAllTransactionsController = new ListAllTransactionsController_1.ListAllTransactionsController();
+const listByDateRangeController = new ListByDateRangeController_1.ListByDateRangeController();
+const listByType = new ListByTypeController_1.ListByTypeController();
+const listByMonth = new ListByMonthController_1.ListByMonthController();
+transactionsRoutes.post('/', createTransactionController.handle);
+transactionsRoutes.get('/', listAllTransactionsController.handle);
+transactionsRoutes.get('/date-range', listByDateRangeController.handle);
+transactionsRoutes.get('/type', listByType.handle);
+transactionsRoutes.get('/month', listByMonth.handle);
+//# sourceMappingURL=transaction.routes.js.map

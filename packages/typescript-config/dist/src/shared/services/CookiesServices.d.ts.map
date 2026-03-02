@@ -1,0 +1,1 @@
+{"version":3,"file":"CookiesServices.d.ts","sourceRoot":"","sources":["../../../../../../apps/api/src/shared/services/CookiesServices.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAA;AAElC,cAAM,aAAa;IACjB,MAAM,CAAC,qBAAqB,CAAC,QAAQ,EAAE,QAAQ,EAAE,YAAY,EAAE,MAAM,GAAG,IAAI;CAU7E;AAED,OAAO,EAAE,aAAa,EAAE,CAAA"}

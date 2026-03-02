@@ -1,0 +1,1 @@
+{"version":3,"file":"UniqueEntityID.d.ts","sourceRoot":"","sources":["../../../../../../../apps/api/src/shared/core/domain/UniqueEntityID.ts"],"names":[],"mappings":"AAEA,cAAM,cAAc;IAClB,OAAO,CAAC,KAAK,CAAQ;gBAET,EAAE,CAAC,EAAE,MAAM;IAIhB,MAAM,CAAC,EAAE,CAAC,EAAE,cAAc,GAAG,OAAO;IAY3C,QAAQ,IAAI,MAAM;IAIlB,OAAO,IAAI,MAAM;CAGlB;AAED,OAAO,EAAE,cAAc,EAAE,CAAA"}

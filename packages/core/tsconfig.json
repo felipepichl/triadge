@@ -1,0 +1,4 @@
+{
+  "extends": "@umabel/typescript-config/library.json",
+  "include": ["src"]
+}

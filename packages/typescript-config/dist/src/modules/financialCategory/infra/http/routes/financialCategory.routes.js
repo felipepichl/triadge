@@ -1,0 +1,28 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.financialCategoryRoutes = void 0;
+const express_1 = require("express");
+const CreateFinancialCategoryController_1 = require("../controllers/financialCategory/createFinancialCategory/CreateFinancialCategoryController");
+const ListAllCategoriesByUserController_1 = require("../controllers/financialCategory/listAllCategoriesByUser/ListAllCategoriesByUserController");
+const ListTotalSpentByFinancialCategoryController_1 = require("../controllers/financialCategory/listTotalSpentByFinancialCategory/ListTotalSpentByFinancialCategoryController");
+const ListTotalSpentToFixedAccountPayableController_1 = require("../controllers/financialCategory/listTotalSpentToFixedAccountPayable/ListTotalSpentToFixedAccountPayableController");
+const ListTotalSpentToUnfixedAccountsPayableController_1 = require("../controllers/financialCategory/listTotalSpentToUnfixedAccountsPayable/ListTotalSpentToUnfixedAccountsPayableController");
+const CreateSubcategoryController_1 = require("../controllers/subcategory/createSubcategory/CreateSubcategoryController");
+const ListSubcategoryByCategoryIdController_1 = require("../controllers/subcategory/listSubcategoryByCategoryId/ListSubcategoryByCategoryIdController");
+const financialCategoryRoutes = (0, express_1.Router)();
+exports.financialCategoryRoutes = financialCategoryRoutes;
+const createFinancialCategoryController = new CreateFinancialCategoryController_1.CreateFinancialCategoryController();
+const listAllCategoriesByUserController = new ListAllCategoriesByUserController_1.ListAllCategoriesByUserController();
+const createSubcategoryController = new CreateSubcategoryController_1.CreateSubcategoryController();
+const listSubcategoryByCategoryIdController = new ListSubcategoryByCategoryIdController_1.ListSubcategoryByCategoryIdController();
+const listTotalSpentByFinancialCategoryController = new ListTotalSpentByFinancialCategoryController_1.ListTotalSpentByFinancialCategoryController();
+const listTotalSpentToFixedAccountPayableController = new ListTotalSpentToFixedAccountPayableController_1.ListTotalSpentToFixedAccountPayableController();
+const listTotalSpentToUnfixedAccountsPayableController = new ListTotalSpentToUnfixedAccountsPayableController_1.ListTotalSpentToUnfixedAccountsPayableController();
+financialCategoryRoutes.post('/', createFinancialCategoryController.handle);
+financialCategoryRoutes.get('/', listAllCategoriesByUserController.handle);
+financialCategoryRoutes.post('/subcategory', createSubcategoryController.handle);
+financialCategoryRoutes.get('/subcategory/:parentCategoryId', listSubcategoryByCategoryIdController.handle);
+financialCategoryRoutes.get('/total-spent', listTotalSpentByFinancialCategoryController.handle);
+financialCategoryRoutes.get('/total-spent/fixed/account-payable', listTotalSpentToFixedAccountPayableController.handle);
+financialCategoryRoutes.get('/total-spent/unfixed/account-payable', listTotalSpentToUnfixedAccountsPayableController.handle);
+//# sourceMappingURL=financialCategory.routes.js.map

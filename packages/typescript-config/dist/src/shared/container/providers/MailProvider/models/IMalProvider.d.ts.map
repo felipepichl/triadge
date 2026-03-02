@@ -1,0 +1,1 @@
+{"version":3,"file":"IMalProvider.d.ts","sourceRoot":"","sources":["../../../../../../../../../apps/api/src/shared/container/providers/MailProvider/models/IMalProvider.ts"],"names":[],"mappings":"AAAA,UAAU,YAAY;IACpB,QAAQ,CACN,EAAE,EAAE,MAAM,EACV,OAAO,EAAE,MAAM,EACf,SAAS,EAAE,GAAG,EACd,IAAI,EAAE,MAAM,GACX,OAAO,CAAC,IAAI,CAAC,CAAA;CACjB;AAED,OAAO,EAAE,YAAY,EAAE,CAAA"}
