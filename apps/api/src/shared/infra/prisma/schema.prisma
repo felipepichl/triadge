@@ -1,0 +1,164 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// enum UserRole {
+//   ADMIN
+//   MEMBER
+//   GUEST
+// }
+
+model User {
+  id          String  @id @default(uuid())
+  name        String
+  email       String? @unique
+  password    String?
+  phoneNumber String
+  avatar      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  UsersTokens       UserTokens[]
+  Transaction       Transaction[]
+  AccountPayable    AccountPayable[]
+  FinancialCategory FinancialCategory[]
+  Stock             Stock[]
+  StockPosition     StockPosition[]
+}
+
+model UserTokens {
+  id           String   @id @default(uuid())
+  refreshToken String
+  expiresDate  DateTime
+
+  users  User   @relation(fields: [userId], references: [id])
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FinancialCategory {
+  id          String @id @default(uuid())
+  description String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  parentCategoryId String?
+  parentCategory   FinancialCategory?  @relation("Subcategories", fields: [parentCategoryId], references: [id])
+  subcategories    FinancialCategory[] @relation("Subcategories")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  transactions            Transaction[] @relation("MainCategoryTransactions")
+  subcategoryTransactions Transaction[] @relation("SubcategoryTransactions")
+
+  accountsPayable            AccountPayable[] @relation("MainCategoryAccountsPayable")
+  subcategoryAccountsPayable AccountPayable[] @relation("SubcategoryAccountsPayable")
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  description String
+  amount      Decimal
+  date        DateTime @default(now())
+  type        String
+  detail      String?
+
+  users  User   @relation(fields: [userId], references: [id])
+  userId String
+
+  financialCategoryId String
+  financialCategory   FinancialCategory @relation("MainCategoryTransactions", fields: [financialCategoryId], references: [id])
+
+  subcategoryId String?
+  subcategory   FinancialCategory? @relation("SubcategoryTransactions", fields: [subcategoryId], references: [id])
+
+  AccountPayable AccountPayable[]
+}
+
+model AccountPayable {
+  id          String    @id @default(uuid())
+  description String
+  amount      Decimal
+  dueDate     DateTime
+  paymentDate DateTime?
+  isPaid      Boolean   @default(false)
+
+  isFixed Boolean @default(false)
+  //isAmountVariable Boolean @default(false)
+
+  interestPaid   Decimal?
+  isInterestPaid Boolean  @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  financialCategoryId String
+  financialCategory   FinancialCategory @relation("MainCategoryAccountsPayable", fields: [financialCategoryId], references: [id])
+
+  subcategoryId String?
+  subcategory   FinancialCategory? @relation("SubcategoryAccountsPayable", fields: [subcategoryId], references: [id])
+
+  transaction   Transaction? @relation(fields: [transactionId], references: [id])
+  transactionId String?
+
+  @@index([userId])
+  @@index([userId, dueDate])
+  @@index([userId, dueDate, isFixed])
+  @@index([userId, dueDate, isPaid])
+}
+
+// enum OperationType {
+//   BUY
+//   SELL
+// }
+
+model Stock {
+  id        String   @id @default(uuid())
+  shortName String
+  symbol    String
+  type      String
+  operation String?
+  price     Decimal
+  date      DateTime
+  quantity  Int
+
+  users  User   @relation(fields: [userId], references: [id])
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// enum AssetType {
+//   STOCK      // ação
+//   REIT       // fundo imobiliário
+//   ETF        // fundo de índice
+// }
+
+model StockPosition {
+  id       String  @id @default(uuid())
+  symbol   String
+  type     String
+  quantity Int
+  avgPrice Decimal
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

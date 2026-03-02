@@ -1,0 +1,19 @@
+{
+  "extends": "@umabel/typescript-config/node.json",
+  "compilerOptions": {
+    "strict": false,
+    "allowJs": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@modules/*": ["modules/*"],
+      "@config/*": ["config/*"],
+      "@shared/*": ["shared/*"],
+      "@errors/*": ["errors/*"],
+      "@utils/*": ["utils/*"],
+      "@tests/*": ["test-utils/*"]
+    },
+    "typeRoots": ["./node_modules/@types", "./src/@types/env"]
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}
