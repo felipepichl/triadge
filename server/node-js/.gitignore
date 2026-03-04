@@ -1,8 +1,0 @@
-node_modules
-dist
-tmp/avatar/*
-!tmp/avatar/.gitkeep
-.env
-src/shared/infra/prisma/dev.db
-src/shared/infra/prisma/test*.db
-src/shared/infra/prisma/*.db-journal
