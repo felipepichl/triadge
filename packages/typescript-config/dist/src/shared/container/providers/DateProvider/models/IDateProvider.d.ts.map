@@ -1,1 +1,0 @@
-{"version":3,"file":"IDateProvider.d.ts","sourceRoot":"","sources":["../../../../../../../../../apps/api/src/shared/container/providers/DateProvider/models/IDateProvider.ts"],"names":[],"mappings":"AAAA,UAAU,aAAa;IACrB,OAAO,CAAC,IAAI,EAAE,MAAM,GAAG,IAAI,CAAA;IAC3B,QAAQ,CAAC,KAAK,EAAE,MAAM,GAAG,IAAI,CAAA;CAC9B;AAED,OAAO,EAAE,aAAa,EAAE,CAAA"}

@@ -23,6 +23,10 @@
   },
   "packageManager": "pnpm@10.28.1",
   "pnpm": {
+    "overrides": {
+      "@types/react": "^18.2.71",
+      "@types/react-dom": "^18.2.22"
+    },
     "onlyBuiltDependencies": [
       "@prisma/client",
       "@prisma/engines",

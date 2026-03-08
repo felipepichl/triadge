@@ -1,5 +1,7 @@
 node_modules
+dist
 _docs
 .pnpm-store
 .turbo
 .DS_Store
+.claude

@@ -1,1 +1,0 @@
-{"version":3,"file":"BuyController.d.ts","sourceRoot":"","sources":["../../../../../../../../../../apps/api/src/modules/stock/infra/http/controllers/buy/BuyController.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAA;AAG3C,cAAM,aAAa;IACX,MAAM,CAAC,OAAO,EAAE,OAAO,EAAE,QAAQ,EAAE,QAAQ,GAAG,OAAO,CAAC,QAAQ,CAAC;CAiBtE;AAED,OAAO,EAAE,aAAa,EAAE,CAAA"}
