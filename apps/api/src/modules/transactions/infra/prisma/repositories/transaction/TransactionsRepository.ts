@@ -52,6 +52,7 @@ class TransactionsRepository implements ITransactionsRepository {
         userId,
         AND: [{ date: { gte: startDate } }, { date: { lte: endDate } }],
       },
+      include: { financialCategory: true },
       orderBy: { date: 'asc' },
     })
 
