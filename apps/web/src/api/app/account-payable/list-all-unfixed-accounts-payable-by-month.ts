@@ -29,7 +29,12 @@ export async function apiListAllUnfixedAccountsPayableByMonth({
       amount,
       dueDate,
       isPaid,
-      financialCategory,
+      financialCategory: financialCategory
+        ? {
+            _id: financialCategory._id,
+            description: financialCategory.props.description,
+          }
+        : undefined,
     }),
   )
 

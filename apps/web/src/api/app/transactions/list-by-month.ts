@@ -17,12 +17,21 @@ export async function apiListByMonth({
   )
 
   const transactions = data.transactions.map(
-    ({ _id, props: { description, type, amount, date } }) => ({
+    ({
+      _id,
+      props: { description, type, amount, date, financialCategory },
+    }) => ({
       _id,
       description,
       type,
       amount,
       date,
+      financialCategory: financialCategory
+        ? {
+            _id: financialCategory._id,
+            description: financialCategory.props.description,
+          }
+        : undefined,
     }),
   )
 

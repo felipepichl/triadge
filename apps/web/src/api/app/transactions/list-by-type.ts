@@ -23,7 +23,12 @@ export async function apiListByType({
       type,
       amount,
       date,
-      financialCategory,
+      financialCategory: financialCategory
+        ? {
+            _id: financialCategory._id,
+            description: financialCategory.props.description,
+          }
+        : undefined,
     }),
   )
 
