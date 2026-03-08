@@ -70,7 +70,13 @@ type TransactionDetailDTO = {
 type TransactionResponseDTO = {
     transactions: {
         _id: string;
-        props: TransactionDetailDTO;
+        props: {
+            description: string;
+            type: string;
+            amount: number;
+            date: Date;
+            financialCategory?: FinancialCategoryResponseDTO;
+        };
     }[];
     balance: BalanceDTO;
 };
@@ -79,6 +85,15 @@ type TransactionDTO = {
     balance?: BalanceDTO;
 };
 
+type AccountPayableResponseProps = {
+    description: string;
+    amount: number;
+    isPaid: boolean;
+    dueDate: Date;
+    paymentDate?: Date;
+    isFixed?: boolean;
+    financialCategory?: FinancialCategoryResponseDTO;
+};
 type CreateAccountPayableDTO = {
     description: string;
     amount: number;
@@ -103,7 +118,7 @@ type AccountPayableDetailDTO = {
 type FixedAccountPayableResponseDTO = {
     fixedAccountsPayable: {
         _id: string;
-        props: AccountPayableDetailDTO;
+        props: AccountPayableResponseProps;
     }[];
     fixedAccountsPayableTotalAmount: number;
 };
@@ -114,7 +129,7 @@ type FixedAccountPayableDTO = {
 type UnfixedAccountPayableResponseDTO = {
     unfixedAccountsPayable: {
         _id: string;
-        props: AccountPayableDetailDTO;
+        props: AccountPayableResponseProps;
     }[];
     unfixedAccountsPayableTotalAmount: number;
 };
@@ -125,7 +140,7 @@ type UnfixedAccountPayableDTO = {
 type UnpaidAccountPayableResponseDTO = {
     unpaidAccountsPayable: {
         _id: string;
-        props: AccountPayableDetailDTO;
+        props: AccountPayableResponseProps;
     }[];
     unpaidAccountsPayableTotalAmount: number;
 };
@@ -136,7 +151,7 @@ type UnpaidAccountPayableDTO = {
 type PaidAccountPayableResponseDTO = {
     paidAccountsPayable: {
         _id: string;
-        props: AccountPayableDetailDTO;
+        props: AccountPayableResponseProps;
     }[];
     paidAccountsPayableTotalAmount: number;
 };
@@ -147,7 +162,7 @@ type PaidAccountPayableDTO = {
 type AccountPayableResponseDTO = {
     accountsPayable: {
         _id: string;
-        props: AccountPayableDetailDTO;
+        props: AccountPayableResponseProps;
     }[];
 };
 type AccountPayableDTO = {
