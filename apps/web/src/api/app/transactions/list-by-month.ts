@@ -28,8 +28,8 @@ export async function apiListByMonth({
       date,
       financialCategory: financialCategory
         ? {
-            _id: financialCategory._id,
-            description: financialCategory.props.description,
+            _id: financialCategory.id,
+            description: financialCategory.description,
           }
         : undefined,
     }),
