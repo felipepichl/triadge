@@ -1,7 +1,4 @@
-import {
-  FinancialCategoryDetailDTO,
-  FinancialCategoryResponseDTO,
-} from './financial-category-dto'
+import { FinancialCategoryDetailDTO } from './financial-category-dto'
 
 export type CreateTransactionDTO = {
   description: string
@@ -36,7 +33,10 @@ export type TransactionResponseDTO = {
       type: string
       amount: number
       date: Date
-      financialCategory?: FinancialCategoryResponseDTO
+      financialCategory?: {
+        id: string
+        description: string
+      }
     }
   }[]
   balance: BalanceDTO

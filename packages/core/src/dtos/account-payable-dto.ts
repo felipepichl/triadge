@@ -1,7 +1,4 @@
-import {
-  FinancialCategoryDetailDTO,
-  FinancialCategoryResponseDTO,
-} from './financial-category-dto'
+import { FinancialCategoryDetailDTO } from './financial-category-dto'
 
 type AccountPayableResponseProps = {
   description: string
@@ -10,7 +7,12 @@ type AccountPayableResponseProps = {
   dueDate: Date
   paymentDate?: Date
   isFixed?: boolean
-  financialCategory?: FinancialCategoryResponseDTO
+  financialCategory?: {
+    _id: string
+    props: {
+      description: string
+    }
+  }
 }
 
 export type CreateAccountPayableDTO = {
