@@ -1,7 +1,7 @@
+import { IUsersTokensRepository } from '@modules/accounts/repositories/IUsersTokensRepository'
 import { AppError } from '@shared/error/AppError'
 import { NextFunction, Request, Response } from 'express'
-
-import { UsersTokensRepository } from '../../prisma/repositories/UsersTokensRepository'
+import { container } from 'tsyringe'
 
 async function ensureRefreshToken(
   request: Request,
@@ -16,7 +16,9 @@ async function ensureRefreshToken(
 
   const { id: userId } = request.user
 
-  const userTokensRepository = new UsersTokensRepository()
+  const userTokensRepository = container.resolve<IUsersTokensRepository>(
+    'UsersTokensRepository',
+  )
   const userToken = await userTokensRepository.findByUserIdAndRefreshToken(
     userId,
     refreshToken,
