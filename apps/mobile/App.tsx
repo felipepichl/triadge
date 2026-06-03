@@ -7,24 +7,21 @@ import {
   useFonts,
 } from '@expo-google-fonts/roboto'
 import { GluestackUIProvider } from '@gluestack-ui/themed'
+import * as Notifications from 'expo-notifications'
 import { useEffect, useRef } from 'react'
 import { StatusBar } from 'react-native'
 import Toast from 'react-native-toast-message'
-import * as Notifications from 'expo-notifications'
 
 import { config } from './config/gluestack-ui.config'
 import { AuthProvider } from './src/contexts/auth/auth-context'
 import { useAccountPayableNotifications } from './src/hooks/useAccountPayableNotifications'
-import { toast } from './src/utils/toast'
 import { Routes } from './src/routes'
+import { toast } from './src/utils/toast'
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold })
-  const {
-    initialize,
-    setupForegroundListener,
-    setupResponseListener,
-  } = useAccountPayableNotifications()
+  const { initialize, setupForegroundListener, setupResponseListener } =
+    useAccountPayableNotifications()
   const notificationListener = useRef<Notifications.Subscription>()
   const responseListener = useRef<Notifications.Subscription>()
 

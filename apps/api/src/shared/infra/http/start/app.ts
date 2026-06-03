@@ -2,6 +2,7 @@ import 'express-async-errors'
 import '@shared/container'
 
 import { AppError } from '@shared/error/AppError'
+import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import express, { NextFunction, Request, Response } from 'express'
@@ -85,6 +86,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 
+app.use(cookieParser())
 app.use(express.json())
 app.use('/api-docs', sweggerUi.serve, sweggerUi.setup(sweggerFile))
 app.use(routes)

@@ -1,5 +1,9 @@
 import {
+  apiRefreshToken,
   apiSignIn,
+  decodeTokenExp,
+  getAccessToken,
+  type OnTokenRefreshed,
   registerInterceptorTokenManager,
   setAccessToken,
   type SignInBody,
@@ -11,32 +15,27 @@ import {
   ReactNode,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react'
 
 import { apiGoogleHeaders, apiGoogleSignIn } from '@/api/google/sign-in'
 import { initializeGoogleClient } from '@/lib/google/google-client'
 import {
-  storageAuthTokenGet,
-  storageAuthTokenRemove,
-  storageAuthTokenSave,
-} from '@/storage/storage-auth-token'
-import {
   storageUserGet,
   storageUserRemove,
   storageUserSave,
 } from '@/storage/storage-user'
 
-type AuthState = {
-  token: string
-  user: UserDTO
-}
+const SESSION_WARNING_BEFORE_MS = 30 * 1000 // TODO: restore to 2 * 60 * 1000 after testing
 
 type AuthContextData = {
   signIn(credentials: SignInBody): Promise<void>
   signOut(immediate?: boolean): void
   signInWithGoogle(): Promise<void>
+  renewSession(): Promise<void>
   isAuthenticated: boolean
+  isSessionExpiring: boolean
   isSignOut: boolean
   user: UserDTO | undefined
 }
@@ -55,66 +54,106 @@ const GOOGLE_SCOPES = [
   'https://www.googleapis.com/auth/yt-analytics.readonly',
 ]
 
-function storageUserAndTokenSave(user: UserDTO, token: string) {
-  storageUserSave(user)
-  storageAuthTokenSave(token)
-}
-
-function storageUserAndTokenRemove() {
-  storageUserRemove()
-  storageAuthTokenRemove()
-}
-
-function getUserAndToken(): [UserDTO, string | null] {
-  const user = storageUserGet()
-  const token = storageAuthTokenGet()
-
-  return [user, token]
-}
-
 function AuthProvider({ children }: AuthProviderProps) {
-  const [data, setData] = useState<AuthState>(() => {
-    const [user, token] = getUserAndToken()
-
-    if (token && user) {
-      setAccessToken(token)
-
-      return { token, user }
-    }
-
-    return {} as AuthState
+  const [user, setUser] = useState<UserDTO | undefined>(() => {
+    const stored = storageUserGet()
+    return stored?.name ? stored : undefined
   })
-  const isAuthenticated = !!data.user
+
+  const isAuthenticated = !!user
   const [isGoogleInitialized, setIsGoogleInitialized] = useState(false)
   const [isSignOut, setIsSignOut] = useState(false)
+  const [isSessionExpiring, setIsSessionExpiring] = useState(false)
+  const sessionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const signIn = useCallback(async ({ email, password }: SignInBody) => {
-    const { user, token }: SignInResponse = await apiSignIn({ email, password })
-
-    storageUserAndTokenSave(user, token)
-
-    setAccessToken(token)
-
-    setData({
-      token,
-      user,
-    })
-  }, [])
-
-  const signOut = useCallback((immediate = false) => {
-    const performLogout = () => {
-      storageUserAndTokenRemove()
-      setData({} as AuthState)
-      setIsSignOut(false)
-    }
-
-    if (immediate) {
-      performLogout()
-    } else {
-      setIsSignOut(true)
-      setTimeout(performLogout, 7000)
+  const clearSessionTimer = useCallback(() => {
+    if (sessionTimerRef.current) {
+      clearTimeout(sessionTimerRef.current)
+      sessionTimerRef.current = null
     }
   }, [])
+
+  const scheduleSessionWarning = useCallback(
+    (token: string) => {
+      clearSessionTimer()
+
+      const exp = decodeTokenExp(token)
+      if (!exp) return
+
+      const now = Math.floor(Date.now() / 1000)
+      const msUntilExpiry = (exp - now) * 1000
+      const msUntilWarning = msUntilExpiry - SESSION_WARNING_BEFORE_MS
+
+      if (msUntilWarning <= 0) {
+        setIsSessionExpiring(true)
+        return
+      }
+
+      sessionTimerRef.current = setTimeout(() => {
+        setIsSessionExpiring(true)
+      }, msUntilWarning)
+    },
+    [clearSessionTimer],
+  )
+
+  const signIn = useCallback(
+    async ({ email, password }: SignInBody) => {
+      const { user: userData, token }: SignInResponse = await apiSignIn({
+        email,
+        password,
+      })
+
+      storageUserSave(userData)
+      setAccessToken(token)
+      setUser(userData)
+      scheduleSessionWarning(token)
+    },
+    [scheduleSessionWarning],
+  )
+
+  const signOut = useCallback(
+    (immediate = false) => {
+      const performLogout = () => {
+        clearSessionTimer()
+        setAccessToken(null)
+        storageUserRemove()
+        setUser(undefined)
+        setIsSignOut(false)
+        setIsSessionExpiring(false)
+      }
+
+      if (immediate) {
+        performLogout()
+      } else {
+        setIsSignOut(true)
+        setTimeout(performLogout, 7000)
+      }
+    },
+    [clearSessionTimer],
+  )
+
+  const renewSession = useCallback(async () => {
+    try {
+      const { user: userData, token } = await apiRefreshToken()
+
+      setAccessToken(token)
+      storageUserSave(userData)
+      setUser(userData)
+      setIsSessionExpiring(false)
+      scheduleSessionWarning(token)
+    } catch {
+      signOut(true)
+    }
+  }, [scheduleSessionWarning, signOut])
+
+  const onTokenRefreshed: OnTokenRefreshed = useCallback(
+    (token: string, userData: { name: string; email: string }) => {
+      storageUserSave(userData)
+      setUser(userData)
+      scheduleSessionWarning(token)
+    },
+    [scheduleSessionWarning],
+  )
 
   const signInWithGoogle = useCallback(async () => {
     if (!isGoogleInitialized) {
@@ -124,12 +163,31 @@ function AuthProvider({ children }: AuthProviderProps) {
 
     const { accessToken } = await apiGoogleSignIn()
 
-    console.log('GoogleAccessToken => ', accessToken)
-
     localStorage.setItem('@triadge:googleToken', accessToken)
 
     apiGoogleHeaders(accessToken)
   }, [isGoogleInitialized])
+
+  // Restore session on page reload via refresh token (skip if token already in memory from fresh login)
+  useEffect(() => {
+    const storedUser = storageUserGet()
+    if (!storedUser?.name) return
+
+    // If access token is already in memory, user just logged in — no need to refresh
+    if (getAccessToken()) return
+
+    apiRefreshToken()
+      .then(({ user: userData, token }) => {
+        setAccessToken(token)
+        storageUserSave(userData)
+        setUser(userData)
+        scheduleSessionWarning(token)
+      })
+      .catch(() => {
+        storageUserRemove()
+        setUser(undefined)
+      })
+  }, [scheduleSessionWarning])
 
   useEffect(() => {
     initializeGoogleClient({
@@ -146,12 +204,15 @@ function AuthProvider({ children }: AuthProviderProps) {
   }, [])
 
   useEffect(() => {
-    const subcribe = registerInterceptorTokenManager(signOut)
+    const unsubscribe = registerInterceptorTokenManager(
+      signOut,
+      onTokenRefreshed,
+    )
 
     return () => {
-      subcribe()
+      unsubscribe()
     }
-  }, [signOut])
+  }, [signOut, onTokenRefreshed])
 
   return (
     <AuthContext.Provider
@@ -159,9 +220,11 @@ function AuthProvider({ children }: AuthProviderProps) {
         signIn,
         signOut,
         signInWithGoogle,
+        renewSession,
         isAuthenticated,
+        isSessionExpiring,
         isSignOut,
-        user: data.user,
+        user,
       }}
     >
       {children}

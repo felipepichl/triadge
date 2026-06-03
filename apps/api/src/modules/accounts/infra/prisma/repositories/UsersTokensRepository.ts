@@ -34,11 +34,15 @@ class UsersTokensRepository implements IUsersTokensRepository {
       where: { userId, refreshToken },
     })
 
+    if (!result) {
+      return null
+    }
+
     return UserTokensMappers.getMapper().toDomain(result)
   }
 
   async deleteById(id: string): Promise<void> {
-    await PrismaSingleton.getInstance().userTokens.delete({
+    await PrismaSingleton.getInstance().userTokens.deleteMany({
       where: { id },
     })
   }

@@ -5,15 +5,26 @@ import { container } from 'tsyringe'
 
 class RefreshTokenController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const token = request.cookies.refreshToken
+    const token = request.cookies?.refreshToken
+
+    if (!token) {
+      return response.status(401).json({ message: 'Refresh token not provided' })
+    }
 
     const refreshTokenUseCase = container.resolve(RefreshTokenUseCase)
 
-    const { refreshToken } = await refreshTokenUseCase.execute(token)
+    const {
+      token: newToken,
+      refreshToken,
+      user,
+    } = await refreshTokenUseCase.execute({ token })
 
     CookieService.setRefreshTokenCookie(response, refreshToken)
 
-    return response.status(201).send()
+    return response.json({
+      user,
+      token: newToken,
+    })
   }
 }
 
