@@ -14,6 +14,7 @@ interface IFinancialCategoriesRepository {
     userId: string,
     type: ITransactionType,
     month: number,
+    year: number,
   ): Promise<
     Array<{
       financialCategory: FinancialCategory
@@ -23,6 +24,7 @@ interface IFinancialCategoriesRepository {
   listFinancialCategoriesWithFixedAccountsPayable(
     userId: string,
     month: number,
+    year: number,
   ): Promise<
     Array<{
       financialCategory: FinancialCategory
@@ -32,6 +34,7 @@ interface IFinancialCategoriesRepository {
   listFinancialCategoriesWithUnfixedAccountsPayable(
     userId: string,
     month: number,
+    year: number,
   ): Promise<
     Array<{
       financialCategory: FinancialCategory

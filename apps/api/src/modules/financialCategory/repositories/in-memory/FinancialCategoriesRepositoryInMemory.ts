@@ -35,13 +35,13 @@ class FinancialCategoriesRepositoryInMemory implements IFinancialCategoriesRepos
     userId: string,
     type: ITransactionType,
     month: number,
+    year: number,
   ): Promise<
     Array<{
       financialCategory: FinancialCategory
       financialCategoryTransactions: Transaction[]
     }>
   > {
-    const year = new Date().getFullYear()
 
     const userFinancialCategories = this.financialCategories.filter(
       (financialCategory) => financialCategory.userId === userId,
@@ -66,13 +66,13 @@ class FinancialCategoriesRepositoryInMemory implements IFinancialCategoriesRepos
   async listFinancialCategoriesWithFixedAccountsPayable(
     userId: string,
     month: number,
+    year: number,
   ): Promise<
     Array<{
       financialCategory: FinancialCategory
       financialCategoryAccountsPayable: AccountPayable[]
     }>
   > {
-    const year = new Date().getFullYear()
 
     const userFinancialCategories = this.financialCategories.filter(
       (financialCategory) => financialCategory.userId === userId,
@@ -98,13 +98,13 @@ class FinancialCategoriesRepositoryInMemory implements IFinancialCategoriesRepos
   async listFinancialCategoriesWithUnfixedAccountsPayable(
     userId: string,
     month: number,
+    year: number,
   ): Promise<
     Array<{
       financialCategory: FinancialCategory
       financialCategoryAccountsPayable: AccountPayable[]
     }>
   > {
-    const year = new Date().getFullYear()
 
     const userFinancialCategories = this.financialCategories.filter(
       (financialCategory) => financialCategory.userId === userId,

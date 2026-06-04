@@ -4,7 +4,7 @@ import { ITransactionType } from '../../domain/transaction/TransactionType'
 interface ITransactionsRepository {
   create(transaction: Transaction): Promise<void>
   listAll(): Promise<Transaction[]>
-  listByMonth(userId: string, month: number): Promise<Transaction[]>
+  listByMonth(userId: string, month: number, year: number): Promise<Transaction[]>
   listByDateRange(
     userId: string,
     startDate: Date,

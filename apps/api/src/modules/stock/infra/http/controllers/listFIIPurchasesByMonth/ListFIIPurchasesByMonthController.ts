@@ -4,7 +4,7 @@ import { container } from 'tsyringe'
 
 class ListFIIPurchasesByMonthController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { month } = request.query
+    const { month, year } = request.query
     const { id: userId } = request.user
 
     const useCase = container.resolve(ListFIIPurchasesByMonthUseCase)
@@ -12,6 +12,7 @@ class ListFIIPurchasesByMonthController {
     const result = await useCase.execute({
       userId,
       month: Number(month),
+      year: year ? Number(year) : new Date().getFullYear(),
     })
 
     return response.status(200).json(result)

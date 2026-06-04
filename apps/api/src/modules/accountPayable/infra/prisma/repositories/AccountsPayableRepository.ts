@@ -200,8 +200,8 @@ class AccountsPayableRepository implements IAccountsPayableRepository {
   async listAllFixedAccountsByMonth(
     userId: string,
     month: number,
+    year: number,
   ): Promise<AccountPayable[]> {
-    const year = new Date().getFullYear()
     const { startDate, endDate } = getMonthDateRange(month, year)
 
     const result = await PrismaSingleton.getInstance().accountPayable.findMany({
@@ -236,8 +236,8 @@ class AccountsPayableRepository implements IAccountsPayableRepository {
   async listAllUnfixedAccountsByMonth(
     userId: string,
     month: number,
+    year: number,
   ): Promise<AccountPayable[]> {
-    const year = new Date().getFullYear()
     const { startDate, endDate } = getMonthDateRange(month, year)
 
     const result = await PrismaSingleton.getInstance().accountPayable.findMany({
@@ -272,8 +272,8 @@ class AccountsPayableRepository implements IAccountsPayableRepository {
   async listAllUnpaidAccountsByMonth(
     userId: string,
     month: number,
+    year: number,
   ): Promise<AccountPayable[]> {
-    const year = new Date().getFullYear()
     const { startDate, endDate } = getMonthDateRange(month, year)
 
     const result = await PrismaSingleton.getInstance().accountPayable.findMany({
@@ -308,8 +308,8 @@ class AccountsPayableRepository implements IAccountsPayableRepository {
   async listAllPaidAccountsByMonth(
     userId: string,
     month: number,
+    year: number,
   ): Promise<AccountPayable[]> {
-    const year = new Date().getFullYear()
     const { startDate, endDate } = getMonthDateRange(month, year)
 
     const result = await PrismaSingleton.getInstance().accountPayable.findMany({

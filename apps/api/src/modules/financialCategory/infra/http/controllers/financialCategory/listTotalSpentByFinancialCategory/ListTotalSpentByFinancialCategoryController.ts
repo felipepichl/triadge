@@ -5,7 +5,7 @@ import { container } from 'tsyringe'
 
 class ListTotalSpentByFinancialCategoryController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { type, month } = request.query
+    const { type, month, year } = request.query
     const { id } = request.user
 
     const listTotalSpentByFinancialCategoryUseCase = container.resolve(
@@ -16,6 +16,7 @@ class ListTotalSpentByFinancialCategoryController {
       userId: id,
       type: { type } as ITransactionType,
       month: Number(month),
+      year: year ? Number(year) : new Date().getFullYear(),
     })
 
     return response.status(200).json(result)

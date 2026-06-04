@@ -7,6 +7,7 @@ import { inject, injectable } from 'tsyringe'
 interface IRequest {
   userId: string
   month: number
+  year: number
 }
 
 interface Balance {
@@ -27,10 +28,11 @@ class ListByMonthUseCase implements IUseCase<IRequest, IResponse> {
     private transactionsRepository: ITransactionsRepository,
   ) {}
 
-  async execute({ userId, month }: IRequest): Promise<IResponse> {
+  async execute({ userId, month, year }: IRequest): Promise<IResponse> {
     const transactions = await this.transactionsRepository.listByMonth(
       userId,
       month,
+      year,
     )
 
     const { income, outcome } = calculateTransactionTotals(transactions)

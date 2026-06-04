@@ -7,6 +7,7 @@ import { inject, injectable } from 'tsyringe'
 interface IRequest {
   userId: string
   month: number
+  year: number
 }
 
 interface IResponse {
@@ -24,11 +25,12 @@ class ListAllFixedAccountsByMonthUseCase implements IUseCase<
     private accountsPayableRepository: IAccountsPayableRepository,
   ) {}
 
-  async execute({ userId, month }: IRequest): Promise<IResponse> {
+  async execute({ userId, month, year }: IRequest): Promise<IResponse> {
     const fixedAccountsPayable =
       await this.accountsPayableRepository.listAllFixedAccountsByMonth(
         userId,
         month,
+        year,
       )
 
     const { total } = calculateAccountsPayableTotals(fixedAccountsPayable)

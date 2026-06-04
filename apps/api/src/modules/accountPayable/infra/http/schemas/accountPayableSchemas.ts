@@ -19,6 +19,7 @@ const createFixedAccountPayableSchema = z.object({
 
 const monthQuerySchema = z.object({
   month: z.string().regex(/^\d{1,2}$/).transform(Number).pipe(z.number().int().min(1).max(12)),
+  year: z.string().regex(/^\d{4}$/).transform(Number).pipe(z.number().int().min(2000)).optional(),
 })
 
 const accountPayableIdParamSchema = z.object({

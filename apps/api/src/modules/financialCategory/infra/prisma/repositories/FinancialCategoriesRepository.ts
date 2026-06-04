@@ -58,13 +58,13 @@ class FinancialCategoriesRepository implements IFinancialCategoriesRepository {
     userId: string,
     type: ITransactionType,
     month: number,
+    year: number,
   ): Promise<
     Array<{
       financialCategory: FinancialCategory
       financialCategoryTransactions: Transaction[]
     }>
   > {
-    const year = new Date().getFullYear()
 
     const financialCategoriesWithTransactions =
       await PrismaSingleton.getInstance().transaction.groupBy({
@@ -117,13 +117,13 @@ class FinancialCategoriesRepository implements IFinancialCategoriesRepository {
   async listFinancialCategoriesWithFixedAccountsPayable(
     userId: string,
     month: number,
+    year: number,
   ): Promise<
     Array<{
       financialCategory: FinancialCategory
       financialCategoryAccountsPayable: AccountPayable[]
     }>
   > {
-    const year = new Date().getFullYear()
 
     const financialCategoriesWithAccountPayable =
       await PrismaSingleton.getInstance().accountPayable.groupBy({
@@ -178,13 +178,13 @@ class FinancialCategoriesRepository implements IFinancialCategoriesRepository {
   async listFinancialCategoriesWithUnfixedAccountsPayable(
     userId: string,
     month: number,
+    year: number,
   ): Promise<
     Array<{
       financialCategory: FinancialCategory
       financialCategoryAccountsPayable: AccountPayable[]
     }>
   > {
-    const year = new Date().getFullYear()
 
     const financialCategoriesWithAccountPayable =
       await PrismaSingleton.getInstance().accountPayable.groupBy({

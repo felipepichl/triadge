@@ -8,6 +8,7 @@ interface IRequest {
   userId: string
   type: ITransactionType
   month: number
+  year: number
 }
 
 interface IResponse {
@@ -27,12 +28,13 @@ class ListTotalSpentByFinancialCategoryUseCase implements IUseCase<
     private financialCategoriesRepository: IFinancialCategoriesRepository,
   ) {}
 
-  async execute({ userId, type, month }: IRequest): Promise<IResponse> {
+  async execute({ userId, type, month, year }: IRequest): Promise<IResponse> {
     const financialCategoriesWithTransactions =
       await this.financialCategoriesRepository.listFinancialCategoriesWithTransactionsByType(
         userId,
         type,
         month,
+        year,
       )
 
     const totalExpensesByFinancialCategory =

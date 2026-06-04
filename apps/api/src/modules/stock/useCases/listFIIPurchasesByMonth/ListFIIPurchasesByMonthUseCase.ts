@@ -6,6 +6,7 @@ import { inject, injectable } from 'tsyringe'
 interface IRequest {
   userId: string
   month: number
+  year: number
 }
 
 interface IResponse {
@@ -19,8 +20,8 @@ class ListFIIPurchasesByMonthUseCase implements IUseCase<IRequest, IResponse> {
     private stocksRepository: IStockRepository,
   ) {}
 
-  async execute({ userId, month }: IRequest): Promise<IResponse> {
-    const stocksByMonth = await this.stocksRepository.listByMonth(userId, month)
+  async execute({ userId, month, year }: IRequest): Promise<IResponse> {
+    const stocksByMonth = await this.stocksRepository.listByMonth(userId, month, year)
 
     const stocks = stocksByMonth.filter((items) => {
       return items.type.stockType === 'fii'

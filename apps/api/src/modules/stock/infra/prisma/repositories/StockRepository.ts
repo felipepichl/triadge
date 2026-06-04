@@ -70,8 +70,7 @@ class StockRepository implements IStockRepository {
     return StockMappers.getMapper().toDomainArray(result)
   }
 
-  async listByMonth(userId: string, month: number): Promise<Stock[]> {
-    const year = new Date().getFullYear()
+  async listByMonth(userId: string, month: number, year: number): Promise<Stock[]> {
     const startDate = new Date(year, month - 1, 1)
     const endDate = new Date(year, month, 0)
 

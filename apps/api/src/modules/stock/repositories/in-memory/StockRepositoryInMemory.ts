@@ -34,9 +34,9 @@ class StockRepositoryInMemory implements IStockRepository {
     )
   }
 
-  async listByMonth(userId: string, month: number): Promise<Stock[]> {
+  async listByMonth(userId: string, month: number, year: number): Promise<Stock[]> {
     return this.stocks.filter((stock) => {
-      return stock.userId === userId && stock.date.getUTCMonth() + 1 === month
+      return stock.userId === userId && stock.date.getFullYear() === year && stock.date.getUTCMonth() + 1 === month
     })
   }
 

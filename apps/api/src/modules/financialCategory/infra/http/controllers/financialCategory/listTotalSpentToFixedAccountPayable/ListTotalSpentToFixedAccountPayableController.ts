@@ -4,7 +4,7 @@ import { container } from 'tsyringe'
 
 class ListTotalSpentToFixedAccountPayableController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { month } = request.query
+    const { month, year } = request.query
     const { id: userId } = request.user
 
     const listTotalSpentToFixedAccountPayableUseCase = container.resolve(
@@ -14,6 +14,7 @@ class ListTotalSpentToFixedAccountPayableController {
     const result = await listTotalSpentToFixedAccountPayableUseCase.execute({
       userId,
       month: Number(month),
+      year: year ? Number(year) : new Date().getFullYear(),
     })
 
     return response.status(200).json(result)

@@ -17,18 +17,22 @@ interface IAccountsPayableRepository {
   listAllFixedAccountsByMonth(
     userId: string,
     month: number,
+    year: number,
   ): Promise<AccountPayable[]>
   listAllUnfixedAccountsByMonth(
     userId: string,
     month: number,
+    year: number,
   ): Promise<AccountPayable[]>
   listAllUnpaidAccountsByMonth(
     userId: string,
     month: number,
+    year: number,
   ): Promise<AccountPayable[]>
   listAllPaidAccountsByMonth(
     userId: string,
     month: number,
+    year: number,
   ): Promise<AccountPayable[]>
   findById(accountPayableId: string): Promise<AccountPayable>
   markAccountAsPaid(accountPayableId: string): Promise<void>

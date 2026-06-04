@@ -4,7 +4,7 @@ import { container } from 'tsyringe'
 
 class ListAllUnfixedAccountsByMonthController {
   async handle(request: Request, response: Response): Promise<Response> {
-    const { month } = request.query
+    const { month, year } = request.query
     const { id: userId } = request.user
 
     const listAllUnfixedAccountsByMonthUseCase = container.resolve(
@@ -13,6 +13,7 @@ class ListAllUnfixedAccountsByMonthController {
 
     const result = await listAllUnfixedAccountsByMonthUseCase.execute({
       month: Number(month),
+      year: year ? Number(year) : new Date().getFullYear(),
       userId,
     })
 

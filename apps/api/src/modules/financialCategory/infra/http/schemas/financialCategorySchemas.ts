@@ -16,10 +16,12 @@ const parentCategoryIdParamSchema = z.object({
 const totalSpentQuerySchema = z.object({
   type: z.enum(['income', 'outcome']),
   month: z.string().regex(/^\d{1,2}$/).transform(Number).pipe(z.number().int().min(1).max(12)),
+  year: z.string().regex(/^\d{4}$/).transform(Number).pipe(z.number().int().min(2000)).optional(),
 })
 
 const monthQuerySchema = z.object({
   month: z.string().regex(/^\d{1,2}$/).transform(Number).pipe(z.number().int().min(1).max(12)),
+  year: z.string().regex(/^\d{4}$/).transform(Number).pipe(z.number().int().min(2000)).optional(),
 })
 
 export {

@@ -14,10 +14,11 @@ class TransactionsRepositoryInMemory implements ITransactionsRepository {
     return this.transactions
   }
 
-  async listByMonth(userId: string, month: number): Promise<Transaction[]> {
+  async listByMonth(userId: string, month: number, year: number): Promise<Transaction[]> {
     return this.transactions.filter((transaction) => {
       return (
         transaction.userId === userId &&
+        transaction.date.getFullYear() === year &&
         transaction.date.getUTCMonth() + 1 === month
       )
     })

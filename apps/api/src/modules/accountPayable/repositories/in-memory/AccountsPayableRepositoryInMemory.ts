@@ -52,11 +52,13 @@ class AccountsPayableRepositoryInMemory implements IAccountsPayableRepository {
   async listAllFixedAccountsByMonth(
     userId: string,
     month: number,
+    year: number,
   ): Promise<AccountPayable[]> {
     return this.accountsPayable.filter(
       (accountPayable) =>
         accountPayable.userId === userId &&
         accountPayable.isFixed === true &&
+        accountPayable.dueDate.getFullYear() === year &&
         accountPayable.dueDate.getUTCMonth() + 1 === month,
     )
   }
@@ -64,11 +66,13 @@ class AccountsPayableRepositoryInMemory implements IAccountsPayableRepository {
   async listAllUnfixedAccountsByMonth(
     userId: string,
     month: number,
+    year: number,
   ): Promise<AccountPayable[]> {
     return this.accountsPayable.filter(
       (accountPayable) =>
         accountPayable.userId === userId &&
         accountPayable.isFixed === false &&
+        accountPayable.dueDate.getFullYear() === year &&
         accountPayable.dueDate.getUTCMonth() + 1 === month,
     )
   }
@@ -76,11 +80,13 @@ class AccountsPayableRepositoryInMemory implements IAccountsPayableRepository {
   async listAllUnpaidAccountsByMonth(
     userId: string,
     month: number,
+    year: number,
   ): Promise<AccountPayable[]> {
     return this.accountsPayable.filter(
       (accountPayable) =>
         accountPayable.userId === userId &&
         accountPayable.isPaid === false &&
+        accountPayable.dueDate.getFullYear() === year &&
         accountPayable.dueDate.getUTCMonth() + 1 === month,
     )
   }
@@ -88,11 +94,13 @@ class AccountsPayableRepositoryInMemory implements IAccountsPayableRepository {
   async listAllPaidAccountsByMonth(
     userId: string,
     month: number,
+    year: number,
   ): Promise<AccountPayable[]> {
     return this.accountsPayable.filter(
       (accountPayable) =>
         accountPayable.userId === userId &&
         accountPayable.isPaid === true &&
+        accountPayable.dueDate.getFullYear() === year &&
         accountPayable.dueDate.getUTCMonth() + 1 === month,
     )
   }
