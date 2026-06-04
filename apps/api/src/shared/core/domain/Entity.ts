@@ -25,6 +25,13 @@ abstract class Entity<T> {
 
     return this._id.equals(object._id)
   }
+
+  public toJSON(): Record<string, unknown> {
+    return {
+      _id: this._id.toValue(),
+      ...this.props,
+    }
+  }
 }
 
 export { Entity }

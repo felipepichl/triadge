@@ -26,6 +26,10 @@ class UniqueEntityID {
   toValue(): string {
     return this.value
   }
+
+  toJSON(): string {
+    return this.value
+  }
 }
 
 export { UniqueEntityID }
