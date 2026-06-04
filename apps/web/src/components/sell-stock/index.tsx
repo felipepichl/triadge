@@ -90,8 +90,7 @@ export function SellStock({ symbol, position, quote }: SellStockProps) {
           form.reset()
           toast.success('Venda realizada com sucesso!')
         }
-      } catch (err) {
-        console.log('Error in handleSellStock:', err)
+      } catch {
         toast.error('Erro ao vender, tente novamente mais tarde!')
       } finally {
         console.log('Setting isSubmitting to false')

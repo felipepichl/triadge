@@ -144,8 +144,7 @@ export function NewTransactionAccount({
         handleToggleDrawer()
         transactionForm.reset()
         toast.success('Transação salva com sucesso!')
-      } catch (err) {
-        console.log(err)
+      } catch {
         toast.error('Erro ao salvar, tente novamente mais tarde!')
       }
     },
@@ -183,8 +182,7 @@ export function NewTransactionAccount({
         handleToggleDrawer()
         accountPayableForm.reset()
         toast.success('Conta a Pagar salva com sucesso!')
-      } catch (err) {
-        console.log(err)
+      } catch {
         toast.error('Erro ao salvar, tente novamente mais tarde!')
       }
     },

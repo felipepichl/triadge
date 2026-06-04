@@ -73,8 +73,7 @@ export function UpdateAmountVariableToAccountPayable({
         handleTogglePopover()
         form.reset()
         toast.success('Valor atualizado com sucesso!')
-      } catch (err) {
-        console.log(err)
+      } catch {
         toast.error('Erro ao autualizar, tente novamente mais tarde!')
       }
     },
