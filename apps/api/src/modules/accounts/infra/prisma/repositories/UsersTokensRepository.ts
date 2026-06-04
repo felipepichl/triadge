@@ -29,7 +29,7 @@ class UsersTokensRepository implements IUsersTokensRepository {
   async findByUserIdAndRefreshToken(
     userId: string,
     refreshToken: string,
-  ): Promise<UserTokens> {
+  ): Promise<UserTokens | null> {
     const result = await PrismaSingleton.getInstance().userTokens.findFirst({
       where: { userId, refreshToken },
     })

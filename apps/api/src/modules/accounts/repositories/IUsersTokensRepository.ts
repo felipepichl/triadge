@@ -5,7 +5,7 @@ interface IUsersTokensRepository {
   findByUserIdAndRefreshToken(
     userId: string,
     refreshToken: string,
-  ): Promise<UserTokens>
+  ): Promise<UserTokens | null>
   deleteById(id: string): Promise<void>
   deleteExpiredByUserId(userId: string): Promise<void>
 }
