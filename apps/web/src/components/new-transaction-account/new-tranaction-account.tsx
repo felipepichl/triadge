@@ -132,7 +132,7 @@ export function NewTransactionAccount({
       subcategoryId,
     }: CreateTransactionForm) => {
       try {
-        createTransaction({
+        await createTransaction({
           description,
           amount,
           type,
@@ -175,9 +175,9 @@ export function NewTransactionAccount({
         }
 
         if (isFixed) {
-          createFixedAccountPayable(data)
+          await createFixedAccountPayable(data)
         } else {
-          createAccountPayable(data)
+          await createAccountPayable(data)
         }
 
         handleToggleDrawer()

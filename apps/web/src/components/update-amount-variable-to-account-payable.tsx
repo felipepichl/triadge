@@ -59,12 +59,12 @@ export function UpdateAmountVariableToAccountPayable({
         )
 
         if (isSwitchOn) {
-          updateInterestPaid({
+          await updateInterestPaid({
             amount: formattedAmount,
             accountPayableId,
           })
         } else {
-          updateAmountVariableToAccountPayable({
+          await updateAmountVariableToAccountPayable({
             amount: formattedAmount,
             accountPayableId,
           })
