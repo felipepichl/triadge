@@ -16,20 +16,8 @@ export async function apiListByMonth({
     },
   )
 
-  const transactions = data.transactions.map(
-    ({ _id, props: { description, type, amount, date } }) => ({
-      _id,
-      description,
-      type,
-      amount,
-      date,
-    }),
-  )
-
-  const { balance } = data
-
   return {
-    transactions,
-    balance,
+    transactions: data.transactions,
+    balance: data.balance,
   }
 }

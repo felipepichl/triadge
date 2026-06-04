@@ -15,17 +15,14 @@ export async function apiListUnpaidAccountsPayable({
   const { data } = await api.get<{
     unpaidAccountsPayable: {
       _id: string
-      props: {
-        _id: string
-        description: string
-        amount: number
-        isPaid: boolean
-        dueDate: string
-        paymentDate?: string
-        isFixed: boolean
-        financialCategoryId: string
-        subcategoryId?: string
-      }
+      description: string
+      amount: number
+      isPaid: boolean
+      dueDate: string
+      paymentDate?: string
+      isFixed: boolean
+      financialCategoryId: string
+      subcategoryId?: string
     }[]
     unpaidAccountsPayableTotalAmount: number
   }>('/accounts-payable/unpaid/month', {
@@ -36,16 +33,14 @@ export async function apiListUnpaidAccountsPayable({
     data.unpaidAccountsPayable?.map(
       ({
         _id,
-        props: {
-          description,
-          amount,
-          isPaid,
-          dueDate,
-          paymentDate,
-          isFixed,
-          financialCategoryId,
-          subcategoryId,
-        },
+        description,
+        amount,
+        isPaid,
+        dueDate,
+        paymentDate,
+        isFixed,
+        financialCategoryId,
+        subcategoryId,
       }) => ({
         _id,
         description,
