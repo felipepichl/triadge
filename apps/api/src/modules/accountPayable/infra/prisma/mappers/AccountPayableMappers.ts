@@ -25,10 +25,6 @@ class AccountPayableMappers implements IMapper<
   AccountPayable,
   RawAccountPayable
 > {
-  toPersistence(accountPayable: AccountPayable): AccountPayable {
-    return accountPayable
-  }
-
   toDomain({
     id,
     description,

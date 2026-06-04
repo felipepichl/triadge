@@ -8,10 +8,6 @@ interface TransactionWithCategory extends RawTransaction {
 }
 
 class TransactionMappers implements IMapper<Transaction, RawTransaction> {
-  toPersistence(transaction: Transaction): Transaction {
-    return transaction
-  }
-
   toDomain({
     id,
     description,

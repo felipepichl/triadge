@@ -5,10 +5,6 @@ import { Stock as RawStock } from '@prisma/client'
 import { IMapper } from '@shared/core/infra/Mapper'
 
 class StockMappers implements IMapper<Stock, RawStock> {
-  toPersistence(stock: Stock): Stock {
-    return stock
-  }
-
   toDomain({
     id,
     shortName,

@@ -6,10 +6,6 @@ class FinancialCategoryMappers implements IMapper<
   FinancialCategory,
   RawFinancialCategory
 > {
-  toPersistence(financialCategory: FinancialCategory): FinancialCategory {
-    return financialCategory
-  }
-
   toDomain(raw: RawFinancialCategory): FinancialCategory {
     return FinancialCategory.createFinancialCategory(raw)
   }

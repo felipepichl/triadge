@@ -4,10 +4,6 @@ import { StockPosition as RawStockPosition } from '@prisma/client'
 import { IMapper } from '@shared/core/infra/Mapper'
 
 class StockPositionMappers implements IMapper<StockPosition, RawStockPosition> {
-  toPersistence(stockPosition: StockPosition): StockPosition {
-    return stockPosition
-  }
-
   toDomain({
     id,
     symbol,
