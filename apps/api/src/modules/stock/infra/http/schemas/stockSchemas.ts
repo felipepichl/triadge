@@ -3,7 +3,7 @@ import { z } from 'zod'
 const buyStockSchema = z.object({
   symbol: z.string().min(1),
   price: z.number().positive(),
-  date: z.string().or(z.date()),
+  date: z.string().or(z.date()).optional(),
   quantity: z.number().int().positive(),
   type: z.enum(['stock', 'fii']),
 })
@@ -11,7 +11,7 @@ const buyStockSchema = z.object({
 const sellStockSchema = z.object({
   symbol: z.string().min(1),
   price: z.number().positive(),
-  date: z.string().or(z.date()),
+  date: z.string().or(z.date()).optional(),
   quantity: z.number().int().positive(),
 })
 

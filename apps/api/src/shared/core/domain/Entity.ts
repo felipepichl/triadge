@@ -5,8 +5,8 @@ abstract class Entity<T> {
 
   protected readonly props: T
 
-  constructor(props: T, id?: UniqueEntityID) {
-    this._id = id || new UniqueEntityID()
+  constructor(props: T, id?: UniqueEntityID | string) {
+    this._id = id instanceof UniqueEntityID ? id : new UniqueEntityID(id)
     this.props = props
   }
 

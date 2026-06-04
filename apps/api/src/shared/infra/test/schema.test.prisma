@@ -7,14 +7,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// enum UserRole {
-//   ADMIN
-//   MEMBER
-//   GUEST
-// }
-
 model User {
-  id          String  @id @default(cuid())
+  id          String  @id @default(uuid())
   name        String
   email       String? @unique
   password    String?
@@ -33,7 +27,7 @@ model User {
 }
 
 model UserTokens {
-  id           String   @id @default(cuid())
+  id           String   @id @default(uuid())
   refreshToken String
   expiresDate  DateTime
 
@@ -45,7 +39,7 @@ model UserTokens {
 }
 
 model FinancialCategory {
-  id          String @id @default(cuid())
+  id          String @id @default(uuid())
   description String
 
   userId String
@@ -66,7 +60,7 @@ model FinancialCategory {
 }
 
 model Transaction {
-  id          String   @id @default(cuid())
+  id          String   @id @default(uuid())
   description String
   amount      Float
   date        DateTime @default(now())
@@ -86,7 +80,7 @@ model Transaction {
 }
 
 model AccountPayable {
-  id          String    @id @default(cuid())
+  id          String    @id @default(uuid())
   description String
   amount      Float
   dueDate     DateTime
@@ -94,7 +88,6 @@ model AccountPayable {
   isPaid      Boolean   @default(false)
 
   isFixed Boolean @default(false)
-  //isAmountVariable Boolean @default(false)
 
   interestPaid   Float?
   isInterestPaid Boolean  @default(false)
@@ -115,13 +108,8 @@ model AccountPayable {
   transactionId String?
 }
 
-// enum OperationType {
-//   BUY
-//   SELL
-// }
-
 model Stock {
-  id        String   @id @default(cuid())
+  id        String   @id @default(uuid())
   shortName String
   symbol    String
   type      String
@@ -137,14 +125,8 @@ model Stock {
   updatedAt DateTime @updatedAt
 }
 
-// enum AssetType {
-//   STOCK      // ação
-//   REIT       // fundo imobiliário
-//   ETF        // fundo de índice
-// }
-
 model StockPosition {
-  id       String  @id @default(cuid())
+  id       String  @id @default(uuid())
   symbol   String
   type     String
   quantity Int
@@ -156,9 +138,3 @@ model StockPosition {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
-
-
-
-
-
