@@ -19,8 +19,6 @@ import {
   useState,
 } from 'react'
 
-import { apiGoogleHeaders, apiGoogleSignIn } from '@/api/google/sign-in'
-import { initializeGoogleClient } from '@/lib/google/google-client'
 import {
   storageUserGet,
   storageUserRemove,
@@ -32,7 +30,6 @@ const SESSION_WARNING_BEFORE_MS = 30 * 1000 // TODO: restore to 2 * 60 * 1000 af
 type AuthContextData = {
   signIn(credentials: SignInBody): Promise<void>
   signOut(immediate?: boolean): void
-  signInWithGoogle(): Promise<void>
   renewSession(): Promise<void>
   isAuthenticated: boolean
   isSessionExpiring: boolean
@@ -46,14 +43,6 @@ type AuthProviderProps = {
 
 const AuthContext = createContext({} as AuthContextData)
 
-const GOOGLE_CLIENT_ID =
-  '710477401276-uv7mfuprcsrr00vp9ufno3h8tmdsphkq.apps.googleusercontent.com'
-const GOOGLE_API_KEY = 'AIzaSyBv6TNn9uJESNKF3_EqLicr8hxYZRNxfW4'
-const GOOGLE_SCOPES = [
-  'https://www.googleapis.com/auth/youtube.readonly',
-  'https://www.googleapis.com/auth/yt-analytics.readonly',
-]
-
 function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<UserDTO | undefined>(() => {
     const stored = storageUserGet()
@@ -61,7 +50,6 @@ function AuthProvider({ children }: AuthProviderProps) {
   })
 
   const isAuthenticated = !!user
-  const [isGoogleInitialized, setIsGoogleInitialized] = useState(false)
   const [isSignOut, setIsSignOut] = useState(false)
   const [isSessionExpiring, setIsSessionExpiring] = useState(false)
   const sessionTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -155,19 +143,6 @@ function AuthProvider({ children }: AuthProviderProps) {
     [scheduleSessionWarning],
   )
 
-  const signInWithGoogle = useCallback(async () => {
-    if (!isGoogleInitialized) {
-      console.error('Google API client não foi inicializado')
-      return
-    }
-
-    const { accessToken } = await apiGoogleSignIn()
-
-    localStorage.setItem('@triadge:googleToken', accessToken)
-
-    apiGoogleHeaders(accessToken)
-  }, [isGoogleInitialized])
-
   // Restore session on page reload via refresh token (skip if token already in memory from fresh login)
   useEffect(() => {
     const storedUser = storageUserGet()
@@ -190,20 +165,6 @@ function AuthProvider({ children }: AuthProviderProps) {
   }, [scheduleSessionWarning])
 
   useEffect(() => {
-    initializeGoogleClient({
-      apiKey: GOOGLE_API_KEY,
-      clientId: GOOGLE_CLIENT_ID,
-      scopes: GOOGLE_SCOPES,
-    })
-      .then(() => {
-        setIsGoogleInitialized(true)
-      })
-      .catch((error) => {
-        console.error('Erro ao inicializar cliente Google:', error)
-      })
-  }, [])
-
-  useEffect(() => {
     const unsubscribe = registerInterceptorTokenManager(
       signOut,
       onTokenRefreshed,
@@ -219,7 +180,6 @@ function AuthProvider({ children }: AuthProviderProps) {
       value={{
         signIn,
         signOut,
-        signInWithGoogle,
         renewSession,
         isAuthenticated,
         isSessionExpiring,
