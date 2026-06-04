@@ -74,11 +74,6 @@ const corsOptions = {
       return callback(null, true)
     }
 
-    // In production, you might want to restrict this
-    if (process.env.NODE_ENV === 'development') {
-      return callback(null, true)
-    }
-
     return callback(new Error('Not allowed by CORS'))
   },
   credentials: true,
