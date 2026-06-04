@@ -10,21 +10,29 @@ import { Button } from './ui/button'
 type PaginationProps = {
   pageIndex: number
   totalCount: number
-  parPage: number
+  perPage: number
+  onPageChange: (pageIndex: number) => void
 }
 
 type NavigationButtonType = {
   icon: React.ReactElement
   label: string
   onClick: () => void
+  disabled?: boolean
 }
 
-function NavigationButton({ icon, label, onClick }: NavigationButtonType) {
+function NavigationButton({
+  icon,
+  label,
+  onClick,
+  disabled,
+}: NavigationButtonType) {
   return (
     <Button
       variant="outline"
       className="h-8 w-8 rounded-full p-0"
       onClick={onClick}
+      disabled={disabled}
     >
       {icon}
       <span className="sr-only">{label}</span>
@@ -35,9 +43,12 @@ function NavigationButton({ icon, label, onClick }: NavigationButtonType) {
 export function Pagination({
   pageIndex,
   totalCount,
-  parPage,
+  perPage,
+  onPageChange,
 }: PaginationProps) {
-  const pages = Math.ceil(totalCount / parPage) || 1
+  const pages = Math.ceil(totalCount / perPage) || 1
+  const isFirstPage = pageIndex === 0
+  const isLastPage = pageIndex >= pages - 1
 
   return (
     <div className="mt-4 flex items-center justify-between">
@@ -53,22 +64,26 @@ export function Pagination({
           <NavigationButton
             icon={<ChevronsLeft className="h-4 w-4" />}
             label="Primeira Página"
-            onClick={() => console.log('Primeira página')}
+            onClick={() => onPageChange(0)}
+            disabled={isFirstPage}
           />
           <NavigationButton
             icon={<ChevronLeft className="h-4 w-4" />}
             label="Página anterior"
-            onClick={() => console.log('Página anterior')}
+            onClick={() => onPageChange(pageIndex - 1)}
+            disabled={isFirstPage}
           />
           <NavigationButton
             icon={<ChevronRight className="h-4 w-4" />}
             label="Próxima página"
-            onClick={() => console.log('Próxima página')}
+            onClick={() => onPageChange(pageIndex + 1)}
+            disabled={isLastPage}
           />
           <NavigationButton
             icon={<ChevronsRight className="h-4 w-4" />}
             label="Última página"
-            onClick={() => console.log('Última página')}
+            onClick={() => onPageChange(pages - 1)}
+            disabled={isLastPage}
           />
         </div>
       </div>

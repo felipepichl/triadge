@@ -54,7 +54,7 @@ export function TableTransactions({ transactions: data }: TransactionDTO) {
 
       {/* <Separator orientation="horizontal" />
 
-      <Pagination pageIndex={0} totalCount={105} parPage={10} /> */}
+      <Pagination pageIndex={0} totalCount={105} perPage={10} onPageChange={() => {}} /> */}
     </>
   )
 }
