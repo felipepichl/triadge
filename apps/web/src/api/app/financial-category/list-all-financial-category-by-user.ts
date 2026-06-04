@@ -12,8 +12,5 @@ export async function apiListAllFinancialCategoryByUser(): Promise<
     financialCategories: FinancialCategoryResponseDTO[]
   }>('/financial-category')
 
-  return data.financialCategories.map(({ _id, props: { description } }) => ({
-    _id,
-    description,
-  }))
+  return data.financialCategories
 }

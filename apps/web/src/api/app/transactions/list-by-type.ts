@@ -13,26 +13,7 @@ export async function apiListByType({
     params: { type },
   })
 
-  const transactions = data.transactions.map(
-    ({
-      _id,
-      props: { description, type, amount, date, financialCategory },
-    }) => ({
-      _id,
-      description,
-      type,
-      amount,
-      date,
-      financialCategory: financialCategory
-        ? {
-            _id: financialCategory.id,
-            description: financialCategory.description,
-          }
-        : undefined,
-    }),
-  )
-
   return {
-    transactions,
+    transactions: data.transactions,
   }
 }

@@ -21,29 +21,8 @@ export async function apiListByDateRange({
     },
   )
 
-  const transactions = data.transactions.map(
-    ({
-      _id,
-      props: { description, type, amount, date, financialCategory },
-    }) => ({
-      _id,
-      description,
-      type,
-      amount,
-      date,
-      financialCategory: financialCategory
-        ? {
-            _id: financialCategory.id,
-            description: financialCategory.description,
-          }
-        : undefined,
-    }),
-  )
-
-  const { balance } = data
-
   return {
-    transactions,
-    balance,
+    transactions: data.transactions,
+    balance: data.balance,
   }
 }

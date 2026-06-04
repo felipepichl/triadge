@@ -56,7 +56,7 @@ function FinancialCategoryAndSubcategoryProvider({
 
     const result = totalExpensesByFinancialCategory.map(
       ({ financialCategory, totalSpent }) => ({
-        financialCategory: financialCategory.props.description,
+        financialCategory: financialCategory.description,
         value: totalSpent,
       }),
     )

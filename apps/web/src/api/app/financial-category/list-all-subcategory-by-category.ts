@@ -13,8 +13,5 @@ export async function apiListAllSubcategoryByCategory({
     subcategories: SubcategoryResponseDTO[]
   }>(`/financial-category/subcategory/${parentCategoryId}`)
 
-  return data.subcategories.map(({ _id, props: { description } }) => ({
-    _id,
-    description,
-  }))
+  return data.subcategories
 }
