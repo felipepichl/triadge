@@ -28,37 +28,11 @@ class BrapiB3Provider implements IB3Provider {
 
   async getPortfolioQuotes(tickets: string[]): Promise<IB3DTO[]> {
     try {
-      // const ticket = tickets.join(',')
-      // const { data } = await brapi.get(
-      //   `/quote/${ticket}`,
-      // )
-      // return data.results.map((result: any) => ({
-      //   shortName: result.shortName,
-      //   symbol: result.symbol,
-      //   regularMarketPrice: result.regularMarketPrice,
-      // }))
+      const results = await Promise.all(
+        tickets.map((ticket) => this.getQuoteTickers(ticket)),
+      )
 
-      const stocks: IB3DTO[] = []
-
-      for (const ticket of tickets) {
-        const { data } = await brapi.get(
-          `/quote/${ticket}`,
-        )
-
-        const { shortName, symbol, regularMarketPrice } = data.results[0]
-
-        if (!shortName) {
-          return null
-        }
-
-        stocks.push({
-          shortName,
-          symbol,
-          regularMarketPrice,
-        })
-      }
-
-      return stocks
+      return results.filter((stock): stock is IB3DTO => stock !== null)
     } catch (error) {
       BrapiErrorHandler.handle(error)
     }
