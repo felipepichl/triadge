@@ -25,7 +25,7 @@ import {
   storageUserSave,
 } from '@/storage/storage-user'
 
-const SESSION_WARNING_BEFORE_MS = 30 * 1000 // TODO: restore to 2 * 60 * 1000 after testing
+const SESSION_WARNING_BEFORE_MS = 2 * 60 * 1000
 
 type AuthContextData = {
   signIn(credentials: SignInBody): Promise<void>
