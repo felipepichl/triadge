@@ -8,11 +8,20 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-// enum UserRole {
-//   ADMIN
-//   MEMBER
-//   GUEST
-// }
+enum TransactionType {
+  income
+  outcome
+}
+
+enum AssetType {
+  stock
+  fii
+}
+
+enum OperationType {
+  buy
+  sell
+}
 
 model User {
   id          String  @id @default(uuid())
@@ -67,11 +76,11 @@ model FinancialCategory {
 }
 
 model Transaction {
-  id          String   @id @default(uuid())
+  id          String          @id @default(uuid())
   description String
   amount      Decimal
-  date        DateTime @default(now())
-  type        String
+  date        DateTime        @default(now())
+  type        TransactionType
   detail      String?
 
   users  User   @relation(fields: [userId], references: [id])
@@ -121,17 +130,12 @@ model AccountPayable {
   @@index([userId, dueDate, isPaid])
 }
 
-// enum OperationType {
-//   BUY
-//   SELL
-// }
-
 model Stock {
-  id        String   @id @default(uuid())
+  id        String         @id @default(uuid())
   shortName String
   symbol    String
-  type      String
-  operation String?
+  type      AssetType
+  operation OperationType?
   price     Decimal
   date      DateTime
   quantity  Int
@@ -143,16 +147,10 @@ model Stock {
   updatedAt DateTime @updatedAt
 }
 
-// enum AssetType {
-//   STOCK      // ação
-//   REIT       // fundo imobiliário
-//   ETF        // fundo de índice
-// }
-
 model StockPosition {
-  id       String  @id @default(uuid())
+  id       String    @id @default(uuid())
   symbol   String
-  type     String
+  type     AssetType
   quantity Int
   avgPrice Decimal
 
