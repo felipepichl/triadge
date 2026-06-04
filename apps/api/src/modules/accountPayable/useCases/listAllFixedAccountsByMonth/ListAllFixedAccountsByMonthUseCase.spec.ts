@@ -49,6 +49,7 @@ describe('[AccountPayable] - List all fixed accounts payable by month', () => {
       await listAllFixedAccountsByMonthUseCase.execute({
         userId: 'user_id',
         month: 4,
+        year: 2025,
       })
 
     expect(fixedAccountsPayable[0]).toBeDefined()

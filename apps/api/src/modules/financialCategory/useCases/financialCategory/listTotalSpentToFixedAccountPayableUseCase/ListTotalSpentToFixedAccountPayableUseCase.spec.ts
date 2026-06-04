@@ -79,6 +79,7 @@ describe('[FinancialCategory] - List total spent by financial category to accoun
     const result = await listTotalSpentToFixedAccountPayableUseCase.execute({
       userId: 'userId',
       month: currentMonth,
+      year: new Date().getFullYear(),
     })
 
     expect(result.totalExpensesByFinancialCategory).toHaveLength(2)
@@ -104,6 +105,7 @@ describe('[FinancialCategory] - List total spent by financial category to accoun
     const result = await listTotalSpentToFixedAccountPayableUseCase.execute({
       userId: 'userWithoutAccountsPayable',
       month: currentMonth,
+      year: new Date().getFullYear(),
     })
 
     expect(result.totalExpensesByFinancialCategory).toHaveLength(0)

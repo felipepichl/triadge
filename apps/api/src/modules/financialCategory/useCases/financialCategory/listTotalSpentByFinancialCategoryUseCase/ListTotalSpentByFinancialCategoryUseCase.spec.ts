@@ -74,6 +74,7 @@ describe('[FinancialCategory] - List total spent by financial category', () => {
       userId: 'userId',
       type: { type: 'outcome' },
       month: currentMonth,
+      year: new Date().getFullYear(),
     })
 
     expect(result.totalExpensesByFinancialCategory).toHaveLength(2)
@@ -100,6 +101,7 @@ describe('[FinancialCategory] - List total spent by financial category', () => {
       userId: 'userWithoutTransactions',
       type: { type: 'outcome' },
       month: currentMonth,
+      year: new Date().getFullYear(),
     })
 
     expect(result.totalExpensesByFinancialCategory).toHaveLength(0)

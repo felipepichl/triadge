@@ -60,6 +60,7 @@ describe('[AccountPayable] - List all unpaid accounts payable by month', () => {
       await listAllUnpaidAccountsByMonthUseCase.execute({
         userId: 'user_id',
         month: 4,
+        year: 2025,
       })
 
     expect(unpaidAccountsPayable[0]).toBeDefined()

@@ -93,6 +93,7 @@ describe('[Transaction] - List all transacition by month', () => {
     const result = await listByMonth.execute({
       userId,
       month: 4,
+      year: 2024,
     })
 
     expect(result.transactions).toHaveLength(1)
@@ -109,6 +110,7 @@ describe('[Transaction] - List all transacition by month', () => {
     const result = await listByMonth.execute({
       userId: '',
       month: 13,
+      year: new Date().getFullYear(),
     })
 
     expect(result.transactions).toHaveLength(0)

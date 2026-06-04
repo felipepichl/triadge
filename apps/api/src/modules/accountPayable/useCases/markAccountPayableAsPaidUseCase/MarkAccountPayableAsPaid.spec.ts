@@ -60,6 +60,7 @@ describe('[AccountPayable] - Mark account payable as to paid', () => {
       await accountsPayableRepositoryInMemory.listAllPaidAccountsByMonth(
         'user_id',
         4,
+        2025,
       )
 
     expect(result[0]).toBeDefined()

@@ -65,6 +65,7 @@ describe('[Stock] - List all fii purchases by month', () => {
     const result = await useCase.execute({
       userId: 'userId',
       month: 8,
+      year: 2024,
     })
 
     const { stocks } = result
