@@ -7,7 +7,7 @@ class BrapiB3Provider implements IB3Provider {
   async getQuoteTickers(ticket: string): Promise<IB3DTO> {
     try {
       const { data } = await brapi.get(
-        `/quote/${ticket}?token=${process.env.BRAPI_TOKEN}`,
+        `/quote/${ticket}`,
       )
 
       const { shortName, symbol, regularMarketPrice } = data.results[0]
@@ -30,7 +30,7 @@ class BrapiB3Provider implements IB3Provider {
     try {
       // const ticket = tickets.join(',')
       // const { data } = await brapi.get(
-      //   `/quote/${ticket}?token=${process.env.BRAPI_TOKEN}`,
+      //   `/quote/${ticket}`,
       // )
       // return data.results.map((result: any) => ({
       //   shortName: result.shortName,
@@ -42,7 +42,7 @@ class BrapiB3Provider implements IB3Provider {
 
       for (const ticket of tickets) {
         const { data } = await brapi.get(
-          `/quote/${ticket}?token=${process.env.BRAPI_TOKEN}`,
+          `/quote/${ticket}`,
         )
 
         const { shortName, symbol, regularMarketPrice } = data.results[0]
