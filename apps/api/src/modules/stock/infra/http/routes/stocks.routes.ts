@@ -1,3 +1,4 @@
+import { validateRequest } from '@shared/infra/http/middlewares/validateRequest'
 import { Router } from 'express'
 
 import { BuyController } from '../controllers/buy/BuyController'
@@ -6,6 +7,12 @@ import { GetTotalInvestedAndCurrentQuoteController } from '../controllers/getTot
 import { ListByTypeController } from '../controllers/listByType/ListByTypeController'
 import { ListFIIPurchasesByMonthController } from '../controllers/listFIIPurchasesByMonth/ListFIIPurchasesByMonthController'
 import { SellController } from '../controllers/sell/SellController'
+import {
+  buyStockSchema,
+  monthQuerySchema,
+  sellStockSchema,
+  stockTypeQuerySchema,
+} from '../schemas/stockSchemas'
 
 const stocksRoutes = Router()
 
@@ -18,13 +25,34 @@ const getTotalInvestedAndCurrentQuote =
 const listFIIPurchasesByMonthController =
   new ListFIIPurchasesByMonthController()
 
-stocksRoutes.post('/buy', buyController.handle)
-stocksRoutes.post('/sell', sellController.handle)
-stocksRoutes.get('/type', listByType.handle)
-stocksRoutes.get('/portfolio', getPortfolioQuotes.handle)
-stocksRoutes.get('/investement', getTotalInvestedAndCurrentQuote.handle)
+stocksRoutes.post(
+  '/buy',
+  validateRequest({ body: buyStockSchema }),
+  buyController.handle,
+)
+stocksRoutes.post(
+  '/sell',
+  validateRequest({ body: sellStockSchema }),
+  sellController.handle,
+)
+stocksRoutes.get(
+  '/type',
+  validateRequest({ query: stockTypeQuerySchema }),
+  listByType.handle,
+)
+stocksRoutes.get(
+  '/portfolio',
+  validateRequest({ query: stockTypeQuerySchema }),
+  getPortfolioQuotes.handle,
+)
+stocksRoutes.get(
+  '/investement',
+  validateRequest({ query: stockTypeQuerySchema }),
+  getTotalInvestedAndCurrentQuote.handle,
+)
 stocksRoutes.get(
   '/fii-purchases/by-month',
+  validateRequest({ query: monthQuerySchema }),
   listFIIPurchasesByMonthController.handle,
 )
 

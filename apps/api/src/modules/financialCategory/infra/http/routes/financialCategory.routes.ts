@@ -1,3 +1,4 @@
+import { validateRequest } from '@shared/infra/http/middlewares/validateRequest'
 import { Router } from 'express'
 
 import { CreateFinancialCategoryController } from '../controllers/financialCategory/createFinancialCategory/CreateFinancialCategoryController'
@@ -7,6 +8,13 @@ import { ListTotalSpentToFixedAccountPayableController } from '../controllers/fi
 import { ListTotalSpentToUnfixedAccountsPayableController } from '../controllers/financialCategory/listTotalSpentToUnfixedAccountsPayable/ListTotalSpentToUnfixedAccountsPayableController'
 import { CreateSubcategoryController } from '../controllers/subcategory/createSubcategory/CreateSubcategoryController'
 import { ListSubcategoryByCategoryIdController } from '../controllers/subcategory/listSubcategoryByCategoryId/ListSubcategoryByCategoryIdController'
+import {
+  createFinancialCategorySchema,
+  createSubcategorySchema,
+  monthQuerySchema,
+  parentCategoryIdParamSchema,
+  totalSpentQuerySchema,
+} from '../schemas/financialCategorySchemas'
 
 const financialCategoryRoutes = Router()
 
@@ -24,23 +32,35 @@ const listTotalSpentToFixedAccountPayableController =
 const listTotalSpentToUnfixedAccountsPayableController =
   new ListTotalSpentToUnfixedAccountsPayableController()
 
-financialCategoryRoutes.post('/', createFinancialCategoryController.handle)
+financialCategoryRoutes.post(
+  '/',
+  validateRequest({ body: createFinancialCategorySchema }),
+  createFinancialCategoryController.handle,
+)
 financialCategoryRoutes.get('/', listAllCategoriesByUserController.handle)
-financialCategoryRoutes.post('/subcategory', createSubcategoryController.handle)
+financialCategoryRoutes.post(
+  '/subcategory',
+  validateRequest({ body: createSubcategorySchema }),
+  createSubcategoryController.handle,
+)
 financialCategoryRoutes.get(
   '/subcategory/:parentCategoryId',
+  validateRequest({ params: parentCategoryIdParamSchema }),
   listSubcategoryByCategoryIdController.handle,
 )
 financialCategoryRoutes.get(
   '/total-spent',
+  validateRequest({ query: totalSpentQuerySchema }),
   listTotalSpentByFinancialCategoryController.handle,
 )
 financialCategoryRoutes.get(
   '/total-spent/fixed/account-payable',
+  validateRequest({ query: monthQuerySchema }),
   listTotalSpentToFixedAccountPayableController.handle,
 )
 financialCategoryRoutes.get(
   '/total-spent/unfixed/account-payable',
+  validateRequest({ query: monthQuerySchema }),
   listTotalSpentToUnfixedAccountsPayableController.handle,
 )
 

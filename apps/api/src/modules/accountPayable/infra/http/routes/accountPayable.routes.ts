@@ -1,3 +1,4 @@
+import { validateRequest } from '@shared/infra/http/middlewares/validateRequest'
 import { Router } from 'express'
 
 import { CreateAccountsPayableController } from '../controllers/createAccountsPayable/CreateAccountsPayableController'
@@ -9,6 +10,13 @@ import { ListAllUnpaidAccountsByMonthController } from '../controllers/listAllUn
 import { MarkAccountPayableAsPaidController } from '../controllers/markAccountPayableAsPaidController/MarkAccountPayableAsPaidController'
 import { UpdateAmountVariableController } from '../controllers/updateAmountVariableController/UpdateAmountVariableController'
 import { UpdateInterestPaidController } from '../controllers/updateInterestPaid/UpdateInterestPaidController'
+import {
+  accountPayableIdParamSchema,
+  createAccountPayableSchema,
+  createFixedAccountPayableSchema,
+  monthQuerySchema,
+  updateAmountSchema,
+} from '../schemas/accountPayableSchemas'
 
 const accounsPayableRoutes = Router()
 
@@ -28,36 +36,57 @@ const markAccountPayableAsPaidController =
 const updateAmountVariableController = new UpdateAmountVariableController()
 const updateInterestPaidController = new UpdateInterestPaidController()
 
-accounsPayableRoutes.post('', createAccountsPayableController.handle)
-accounsPayableRoutes.post('/fixed', createFixedAccountsPayableController.handle)
+accounsPayableRoutes.post(
+  '',
+  validateRequest({ body: createAccountPayableSchema }),
+  createAccountsPayableController.handle,
+)
+accounsPayableRoutes.post(
+  '/fixed',
+  validateRequest({ body: createFixedAccountPayableSchema }),
+  createFixedAccountsPayableController.handle,
+)
 accounsPayableRoutes.get(
   '/fixed/month',
+  validateRequest({ query: monthQuerySchema }),
   listAllFixedAccountsByMonthController.handle,
 )
 accounsPayableRoutes.get(
   '/paid/month',
+  validateRequest({ query: monthQuerySchema }),
   listAllPaidAccountsByMonthController.handle,
 )
 accounsPayableRoutes.get(
   '/unfixed/month',
+  validateRequest({ query: monthQuerySchema }),
   listAllUnfixedAccountsByMonthController.handle,
 )
 accounsPayableRoutes.get(
   '/unpaid/month',
+  validateRequest({ query: monthQuerySchema }),
   listAllUnpaidAccountsByMonthController.handle,
 )
 accounsPayableRoutes.patch(
   '/:id/pay',
+  validateRequest({ params: accountPayableIdParamSchema }),
   markAccountPayableAsPaidController.handle,
 )
 
 accounsPayableRoutes.patch(
   '/:id/amount-variable',
+  validateRequest({
+    params: accountPayableIdParamSchema,
+    body: updateAmountSchema,
+  }),
   updateAmountVariableController.handle,
 )
 
 accounsPayableRoutes.patch(
   '/:id/interest-paid',
+  validateRequest({
+    params: accountPayableIdParamSchema,
+    body: updateAmountSchema,
+  }),
   updateInterestPaidController.hanlde,
 )
 
