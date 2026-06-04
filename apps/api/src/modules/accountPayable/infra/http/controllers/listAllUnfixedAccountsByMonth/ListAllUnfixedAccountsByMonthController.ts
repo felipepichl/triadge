@@ -1,4 +1,4 @@
-import { ListAllUnfixedAccountsByMonthUseCase } from '@modules/accountPayable/useCases/listAllUnfixedAcountsByMonthUseCase/ListAllUnfixedAccountsByMonthUseCase'
+import { ListAllUnfixedAccountsByMonthUseCase } from '@modules/accountPayable/useCases/listAllUnfixedAccountsByMonthUseCase/ListAllUnfixedAccountsByMonthUseCase'
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 

@@ -4,10 +4,10 @@ import { brapi } from '../services/brapi'
 import { BrapiErrorHandler } from '../utils/BrapiErrorHandler'
 
 class BrapiB3Provider implements IB3Provider {
-  async getQuoteTickers(ticket: string): Promise<IB3DTO> {
+  async getQuoteTickers(ticker: string): Promise<IB3DTO> {
     try {
       const { data } = await brapi.get(
-        `/quote/${ticket}`,
+        `/quote/${ticker}`,
       )
 
       const { shortName, symbol, regularMarketPrice } = data.results[0]
@@ -26,10 +26,10 @@ class BrapiB3Provider implements IB3Provider {
     }
   }
 
-  async getPortfolioQuotes(tickets: string[]): Promise<IB3DTO[]> {
+  async getPortfolioQuotes(tickers: string[]): Promise<IB3DTO[]> {
     try {
       const results = await Promise.all(
-        tickets.map((ticket) => this.getQuoteTickers(ticket)),
+        tickers.map((ticker) => this.getQuoteTickers(ticker)),
       )
 
       return results.filter((stock): stock is IB3DTO => stock !== null)

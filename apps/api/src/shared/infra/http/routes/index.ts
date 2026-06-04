@@ -1,4 +1,4 @@
-import { accounsPayableRoutes } from '@modules/accountPayable/infra/http/routes/accountPayable.routes'
+import { accountsPayableRoutes } from '@modules/accountPayable/infra/http/routes/accountPayable.routes'
 import { authenticateRoutes } from '@modules/accounts/infra/http/routes/authenticate.routes'
 import { refreshTokenRoutes } from '@modules/accounts/infra/http/routes/refreshToken.routes'
 import { usersRouter } from '@modules/accounts/infra/http/routes/users.routes'
@@ -20,7 +20,7 @@ routes.use(ensureAuthenticated)
 
 routes.use('/financial-category', financialCategoryRoutes)
 routes.use('/transactions', transactionsRoutes)
-routes.use('/accounts-payable', accounsPayableRoutes)
+routes.use('/accounts-payable', accountsPayableRoutes)
 routes.use('/stocks', stocksRoutes)
 
 export { routes }

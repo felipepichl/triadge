@@ -18,7 +18,7 @@ import {
   updateAmountSchema,
 } from '../schemas/accountPayableSchemas'
 
-const accounsPayableRoutes = Router()
+const accountsPayableRoutes = Router()
 
 const createAccountsPayableController = new CreateAccountsPayableController()
 const createFixedAccountsPayableController =
@@ -36,43 +36,43 @@ const markAccountPayableAsPaidController =
 const updateAmountVariableController = new UpdateAmountVariableController()
 const updateInterestPaidController = new UpdateInterestPaidController()
 
-accounsPayableRoutes.post(
+accountsPayableRoutes.post(
   '',
   validateRequest({ body: createAccountPayableSchema }),
   createAccountsPayableController.handle,
 )
-accounsPayableRoutes.post(
+accountsPayableRoutes.post(
   '/fixed',
   validateRequest({ body: createFixedAccountPayableSchema }),
   createFixedAccountsPayableController.handle,
 )
-accounsPayableRoutes.get(
+accountsPayableRoutes.get(
   '/fixed/month',
   validateRequest({ query: monthQuerySchema }),
   listAllFixedAccountsByMonthController.handle,
 )
-accounsPayableRoutes.get(
+accountsPayableRoutes.get(
   '/paid/month',
   validateRequest({ query: monthQuerySchema }),
   listAllPaidAccountsByMonthController.handle,
 )
-accounsPayableRoutes.get(
+accountsPayableRoutes.get(
   '/unfixed/month',
   validateRequest({ query: monthQuerySchema }),
   listAllUnfixedAccountsByMonthController.handle,
 )
-accounsPayableRoutes.get(
+accountsPayableRoutes.get(
   '/unpaid/month',
   validateRequest({ query: monthQuerySchema }),
   listAllUnpaidAccountsByMonthController.handle,
 )
-accounsPayableRoutes.patch(
+accountsPayableRoutes.patch(
   '/:id/pay',
   validateRequest({ params: accountPayableIdParamSchema }),
   markAccountPayableAsPaidController.handle,
 )
 
-accounsPayableRoutes.patch(
+accountsPayableRoutes.patch(
   '/:id/amount-variable',
   validateRequest({
     params: accountPayableIdParamSchema,
@@ -81,7 +81,7 @@ accounsPayableRoutes.patch(
   updateAmountVariableController.handle,
 )
 
-accounsPayableRoutes.patch(
+accountsPayableRoutes.patch(
   '/:id/interest-paid',
   validateRequest({
     params: accountPayableIdParamSchema,
@@ -90,4 +90,4 @@ accounsPayableRoutes.patch(
   updateInterestPaidController.hanlde,
 )
 
-export { accounsPayableRoutes }
+export { accountsPayableRoutes }

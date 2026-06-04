@@ -4,19 +4,19 @@ import { IB3Provider } from '../models/IB3Provider'
 class B3ProviderInMemory implements IB3Provider {
   stocks: IB3DTO[] = []
 
-  async getQuoteTickers(ticket: string): Promise<IB3DTO> {
-    const ticketInMemory = {
+  async getQuoteTickers(ticker: string): Promise<IB3DTO> {
+    const tickerInMemory = {
       shortName: 'RAAA Name',
       symbol: 'RAAA11',
     }
 
-    this.stocks.push(ticketInMemory)
+    this.stocks.push(tickerInMemory)
 
-    return this.stocks.find((item) => item.symbol === ticket)
+    return this.stocks.find((item) => item.symbol === ticker)
   }
 
-  async getPortfolioQuotes(tickets: string[]): Promise<IB3DTO[]> {
-    return this.stocks.filter((item) => tickets.includes(item.symbol))
+  async getPortfolioQuotes(tickers: string[]): Promise<IB3DTO[]> {
+    return this.stocks.filter((item) => tickers.includes(item.symbol))
   }
 
   async addSymbol(symbols: string[]): Promise<void> {

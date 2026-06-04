@@ -6,9 +6,9 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import express, { NextFunction, Request, Response } from 'express'
-import sweggerUi from 'swagger-ui-express'
+import swaggerUi from 'swagger-ui-express'
 
-import sweggerFile from '../../../../../swegger.json'
+import swaggerFile from '../../../../../swagger.json'
 import { routes } from '../routes'
 
 // Load environment variables early in the process
@@ -88,7 +88,7 @@ app.use(cors(corsOptions))
 
 app.use(cookieParser())
 app.use(express.json())
-app.use('/api-docs', sweggerUi.serve, sweggerUi.setup(sweggerFile))
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 app.use(routes)
 
 app.use(

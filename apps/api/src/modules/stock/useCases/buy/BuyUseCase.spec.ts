@@ -69,7 +69,7 @@ describe('[StockPosition] - Buy a stock', () => {
     expect(position.quantity).toBe(14)
   })
 
-  it('should not be able to create a new stock with nonexistent ticket', async () => {
+  it('should not be able to create a new stock with nonexistent ticker', async () => {
     await expect(
       buyUseCase.execute({
         symbol: 'nonexistent',
@@ -78,6 +78,6 @@ describe('[StockPosition] - Buy a stock', () => {
         type: { stockType: 'fii' },
         userId: 'userId',
       }),
-    ).rejects.toEqual(new AppError('Ticket does not exists', 404))
+    ).rejects.toEqual(new AppError('Ticker does not exist', 404))
   })
 })

@@ -1,6 +1,6 @@
 import { AccountsPayableRepositoryInMemory } from '@modules/accountPayable/repositories/in-memory/AccountsPayableRepositoryInMemory'
 
-import { CreateFixedAccountsPayableUseCase } from './CreateFixedAccounsPayableUseCase'
+import { CreateFixedAccountsPayableUseCase } from './CreateFixedAccountsPayableUseCase'
 
 let accountsPayableRepositoryInMemory: AccountsPayableRepositoryInMemory
 let createFixedAccountsPayableUseCase: CreateFixedAccountsPayableUseCase

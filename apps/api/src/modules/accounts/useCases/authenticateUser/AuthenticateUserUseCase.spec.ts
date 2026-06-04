@@ -69,7 +69,7 @@ describe('[Account] - Authenticate User', () => {
         email: 'non_existing@example.com',
         password: 'hash123',
       }),
-    ).rejects.toEqual(new AppError('Incorret email/password combination'))
+    ).rejects.toEqual(new AppError('Incorrect email/password combination'))
   })
 
   it('should not be able to authenticate with wrong password', async () => {
@@ -89,6 +89,6 @@ describe('[Account] - Authenticate User', () => {
         email,
         password: 'wrong-password',
       }),
-    ).rejects.toEqual(new AppError('Incorret email/password combination'))
+    ).rejects.toEqual(new AppError('Incorrect email/password combination'))
   })
 })

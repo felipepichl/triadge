@@ -14,7 +14,7 @@ describe('[BrAPI] - Get Quote Tickers', () => {
     brapiProvider = new BrapiB3Provider()
   })
 
-  it('should be able to return symbol and short name by ticket', async () => {
+  it('should be able to return symbol and short name by ticker', async () => {
     const mockedResponse = {
       data: {
         results: [{ shortName: 'XXX RRRR ASDFG', symbol: 'RRRR11' }],

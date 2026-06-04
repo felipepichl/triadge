@@ -50,7 +50,7 @@ class AuthenticateUserUseCase implements IUseCase<IRequest, IResponse> {
     const user = await this.usersRepository.findByEmail(email)
 
     if (!user) {
-      throw new AppError('Incorret email/password combination')
+      throw new AppError('Incorrect email/password combination')
     }
 
     const passwordMatch = await this.hashProvider.compareHash(
@@ -59,7 +59,7 @@ class AuthenticateUserUseCase implements IUseCase<IRequest, IResponse> {
     )
 
     if (!passwordMatch) {
-      throw new AppError('Incorret email/password combination')
+      throw new AppError('Incorrect email/password combination')
     }
 
     const { id, name } = user

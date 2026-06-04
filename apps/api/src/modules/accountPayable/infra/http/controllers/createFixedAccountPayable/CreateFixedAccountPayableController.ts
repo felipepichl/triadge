@@ -1,4 +1,4 @@
-import { CreateFixedAccountsPayableUseCase } from '@modules/accountPayable/useCases/createFixedAccountsPayable/CreateFixedAccounsPayableUseCase'
+import { CreateFixedAccountsPayableUseCase } from '@modules/accountPayable/useCases/createFixedAccountsPayable/CreateFixedAccountsPayableUseCase'
 import { Request, Response } from 'express'
 import { container } from 'tsyringe'
 
