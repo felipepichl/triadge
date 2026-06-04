@@ -13,15 +13,7 @@ abstract class AggregateRoot<T> extends Entity<T> {
   ) {
     const { props, id } = params
 
-    const updatedProps = {
-      ...props,
-      created_at: props.created_at ?? new Date(),
-      updated_at: props.updated_at ?? new Date(),
-    } as U
-
-    const uniqueId = id
-
-    const instance = new Clazz(updatedProps, uniqueId)
+    const instance = new Clazz(props as U, id)
 
     return instance
   }
