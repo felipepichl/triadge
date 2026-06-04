@@ -10,7 +10,5 @@ export type SubcategoryDetailDTO = {
 
 export type SubcategoryResponseDTO = {
   _id: string
-  props: {
-    description: string
-  }
+  description: string
 }

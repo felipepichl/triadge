@@ -9,17 +9,13 @@ export type FinancialCategoryDetailDTO = {
 
 export type FinancialCategoryResponseDTO = {
   _id: string
-  props: {
-    description: string
-  }
+  description: string
 }
 
 export type ListTotalSpentByFinancialCategoryResponseDTO = {
   totalExpensesByFinancialCategory: {
     financialCategory: {
-      props: {
-        description: string
-      }
+      description: string
     }
     totalSpent: number
   }[]

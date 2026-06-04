@@ -28,15 +28,13 @@ export type TransactionDetailDTO = {
 export type TransactionResponseDTO = {
   transactions: {
     _id: string
-    props: {
+    description: string
+    type: string
+    amount: number
+    date: Date
+    financialCategory?: {
+      _id: string
       description: string
-      type: string
-      amount: number
-      date: Date
-      financialCategory?: {
-        id: string
-        description: string
-      }
     }
   }[]
   balance: BalanceDTO
