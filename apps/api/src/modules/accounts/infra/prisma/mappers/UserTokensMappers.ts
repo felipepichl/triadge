@@ -20,8 +20,13 @@ class UserTokensMappers implements IMapper<UserTokens, RawUserTokens> {
     return new UserTokensMappers()
   }
 
+  private static instance: UserTokensMappers
+
   static getMapper(): UserTokensMappers {
-    return new UserTokensMappers()
+    if (!UserTokensMappers.instance) {
+      UserTokensMappers.instance = new UserTokensMappers()
+    }
+    return UserTokensMappers.instance
   }
 }
 

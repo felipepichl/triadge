@@ -44,8 +44,13 @@ class TransactionMappers implements IMapper<Transaction, RawTransaction> {
     return TransactionMappers.getMapper()
   }
 
+  private static instance: TransactionMappers
+
   static getMapper(): TransactionMappers {
-    return new TransactionMappers()
+    if (!TransactionMappers.instance) {
+      TransactionMappers.instance = new TransactionMappers()
+    }
+    return TransactionMappers.instance
   }
 }
 

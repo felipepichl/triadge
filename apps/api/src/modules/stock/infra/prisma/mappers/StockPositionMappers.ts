@@ -34,8 +34,13 @@ class StockPositionMappers implements IMapper<StockPosition, RawStockPosition> {
     return StockPositionMappers.getMapper()
   }
 
+  private static instance: StockPositionMappers
+
   static getMapper(): StockPositionMappers {
-    return new StockPositionMappers()
+    if (!StockPositionMappers.instance) {
+      StockPositionMappers.instance = new StockPositionMappers()
+    }
+    return StockPositionMappers.instance
   }
 }
 

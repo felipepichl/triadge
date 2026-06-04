@@ -24,8 +24,13 @@ class FinancialCategoryMappers implements IMapper<
     return FinancialCategoryMappers.getMapper()
   }
 
+  private static instance: FinancialCategoryMappers
+
   static getMapper(): FinancialCategoryMappers {
-    return new FinancialCategoryMappers()
+    if (!FinancialCategoryMappers.instance) {
+      FinancialCategoryMappers.instance = new FinancialCategoryMappers()
+    }
+    return FinancialCategoryMappers.instance
   }
 }
 

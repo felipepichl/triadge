@@ -19,8 +19,13 @@ class UserMappers implements IMapper<User, RawUser> {
     return UserMappers.getMapper()
   }
 
+  private static instance: UserMappers
+
   static getMapper(): UserMappers {
-    return new UserMappers()
+    if (!UserMappers.instance) {
+      UserMappers.instance = new UserMappers()
+    }
+    return UserMappers.instance
   }
 }
 

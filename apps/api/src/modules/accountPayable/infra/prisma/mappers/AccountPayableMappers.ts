@@ -81,8 +81,13 @@ class AccountPayableMappers implements IMapper<
     return AccountPayableMappers.getMapper()
   }
 
+  private static instance: AccountPayableMappers
+
   static getMapper(): AccountPayableMappers {
-    return new AccountPayableMappers()
+    if (!AccountPayableMappers.instance) {
+      AccountPayableMappers.instance = new AccountPayableMappers()
+    }
+    return AccountPayableMappers.instance
   }
 }
 
