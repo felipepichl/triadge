@@ -93,9 +93,7 @@ describe('[E2E] - List total spent by financial category', () => {
       expect.arrayContaining([
         expect.objectContaining({
           financialCategory: expect.objectContaining({
-            props: expect.objectContaining({
-              description: 'Category Test 1',
-            }),
+            description: 'Category Test 1',
           }),
           totalSpent: 100,
         }),

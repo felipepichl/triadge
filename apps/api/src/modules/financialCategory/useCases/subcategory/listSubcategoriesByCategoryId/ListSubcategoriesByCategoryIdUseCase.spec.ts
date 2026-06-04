@@ -42,9 +42,7 @@ describe('[FinancialCategory]/[Subcategory] - List all subcategories to financia
     expect(result.subcategories).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          props: expect.objectContaining({
-            parentCategoryId: parentCategoryId.toString(),
-          }),
+          parentCategoryId: parentCategoryId.toString(),
         }),
       ]),
     )
