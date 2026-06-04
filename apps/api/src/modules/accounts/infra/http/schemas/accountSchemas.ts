@@ -12,8 +12,4 @@ const authenticateUserSchema = z.object({
   password: z.string().min(1),
 })
 
-const forgotPasswordSchema = z.object({
-  email: z.string().email(),
-})
-
-export { authenticateUserSchema, createUserSchema, forgotPasswordSchema }
+export { authenticateUserSchema, createUserSchema }
