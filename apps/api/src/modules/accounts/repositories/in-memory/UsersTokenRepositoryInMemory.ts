@@ -8,7 +8,7 @@ class UsersTokenRepositoryInMemory implements IUsersTokensRepository {
   async create(userTokens: UserTokens): Promise<UserTokens> {
     this.usersTokens.push(userTokens)
 
-    return this.usersTokens[0]
+    return userTokens
   }
 
   async findByUserIdAndRefreshToken(
@@ -27,7 +27,14 @@ class UsersTokenRepositoryInMemory implements IUsersTokensRepository {
       (userTokens) => userTokens.id.toString() === id,
     )
 
-    this.usersTokens.splice(index)
+    this.usersTokens.splice(index, 1)
+  }
+
+  async deleteExpiredByUserId(userId: string): Promise<void> {
+    const now = new Date()
+    this.usersTokens = this.usersTokens.filter(
+      (token) => !(token.userId === userId && token.expiresDate < now),
+    )
   }
 }
 

@@ -58,6 +58,7 @@ class RefreshTokenUseCase implements IUseCase<IRequest, IResponse> {
     }
 
     await this.usersTokensRepository.deleteById(userToken.id.toString())
+    await this.usersTokensRepository.deleteExpiredByUserId(userId.toString())
 
     const refreshToken = this.tokenProvider.encodeToken(
       {

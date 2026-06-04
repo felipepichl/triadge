@@ -46,6 +46,15 @@ class UsersTokensRepository implements IUsersTokensRepository {
       where: { id },
     })
   }
+
+  async deleteExpiredByUserId(userId: string): Promise<void> {
+    await PrismaSingleton.getInstance().userTokens.deleteMany({
+      where: {
+        userId,
+        expiresDate: { lt: new Date() },
+      },
+    })
+  }
 }
 
 export { UsersTokensRepository }
