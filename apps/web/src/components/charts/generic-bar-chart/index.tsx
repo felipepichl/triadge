@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 
 import { NotFound } from '@/components/not-found'
+import { useIsWideScreen } from '@/hooks/use-is-wide-screen'
 
 import { GenericBarChartProps } from './dtos/generic-bar-chart-dto'
 import { Horizontal } from './horizontal'
 import { Vertical } from './vertical'
 
 export function GenericBarChart({ data }: GenericBarChartProps) {
-  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 690)
+  const isWideScreen = useIsWideScreen()
   const [internalData, setInternalData] = useState<typeof data>([])
 
   useEffect(() => {
@@ -17,18 +18,6 @@ export function GenericBarChart({ data }: GenericBarChartProps) {
 
     return () => clearTimeout(timeout)
   }, [data])
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsWideScreen(window.innerWidth >= 690)
-    }
-
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
 
   return (
     <>

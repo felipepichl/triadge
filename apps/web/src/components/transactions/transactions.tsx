@@ -1,7 +1,7 @@
 import { TransactionDTO } from '@umabel/core'
-import { useEffect, useState } from 'react'
 
 import { CardTransactionAccount } from '@/components/card-transaction-account/card-transaction-account'
+import { useIsWideScreen } from '@/hooks/use-is-wide-screen'
 
 import { TableTransactions } from './table-transactions'
 
@@ -10,19 +10,7 @@ type TransactionsProps = {
 }
 
 export function Transactions({ transactions }: TransactionsProps) {
-  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 768)
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsWideScreen(window.innerWidth >= 768)
-    }
-
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
+  const isWideScreen = useIsWideScreen(768)
 
   return (
     <>

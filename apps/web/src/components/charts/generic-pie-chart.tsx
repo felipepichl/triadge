@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Cell, Pie, PieChart, PieLabelRenderProps } from 'recharts'
 
 import { ChartContainer, ChartLegend } from '@/components/ui/chart'
+import { useIsWideScreen } from '@/hooks/use-is-wide-screen'
 
 export type GenericPieChartProps = {
   data:
@@ -13,7 +14,7 @@ export type GenericPieChartProps = {
 }
 
 export function GenericPieChart({ data }: GenericPieChartProps) {
-  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 690)
+  const isWideScreen = useIsWideScreen()
   const [internalData, setInternalData] = useState<typeof data>([])
 
   function generateColors(length: number) {
@@ -66,18 +67,6 @@ export function GenericPieChart({ data }: GenericPieChartProps) {
 
     return () => clearTimeout(timeout)
   }, [data])
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsWideScreen(window.innerWidth >= 690)
-    }
-
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
-  }, [])
 
   return (
     <ChartContainer

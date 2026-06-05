@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import {
   Bar,
   BarChart,
@@ -27,6 +27,7 @@ import {
 } from '@/components/ui/chart'
 import { Separator } from '@/components/ui/separator'
 import { useFinancialCategoryAndSubcategory } from '@/hooks/use-financial-category-and-subcategory'
+import { useIsWideScreen } from '@/hooks/use-is-wide-screen'
 import { priceFormatter } from '@/util/formatter'
 
 const chartConfig = {
@@ -47,7 +48,7 @@ type LineChartFinancialCategoryProps = {
 export function LineChartFinancialCategory({
   type,
 }: LineChartFinancialCategoryProps) {
-  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 690)
+  const isWideScreen = useIsWideScreen()
   const [chartData, setChartData] = useState<
     { financialCategory: string; value: number }[]
   >([])
@@ -95,16 +96,6 @@ export function LineChartFinancialCategory({
   useEffect(() => {
     const currentMonth = new Date().getMonth() + 1
     fetchTotalSpent(currentMonth)
-
-    const handleResize = () => {
-      setIsWideScreen(window.innerWidth >= 690)
-    }
-
-    window.addEventListener('resize', handleResize)
-
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
   }, [fetchTotalSpent])
 
   useEffect(() => {
