@@ -7,6 +7,7 @@ import { z } from 'zod'
 
 import { Form, FormField } from '@/components/ui/form'
 import { useAccountPayable } from '@/hooks/use-account-payable'
+import { parseCurrency } from '@/util/formatter'
 
 import { Monetary } from './generic-form-and-fields/fields/monetary'
 import { Button } from './ui/button'
@@ -54,9 +55,7 @@ export function UpdateAmountVariableToAccountPayable({
   const handleUpdateAmountVariableToAccountPayable = useCallback(
     async ({ amount }: UpdateAmountVariableToAccountPayableForm) => {
       try {
-        const formattedAmount = parseFloat(
-          amount.replace('R$ ', '').replace('.', '').replace(',', '.'),
-        )
+        const formattedAmount = parseCurrency(amount)
 
         if (isSwitchOn) {
           await updateInterestPaid({

@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import z from 'zod'
 
 import { useStock } from '@/hooks/use-stock'
+import { parseCurrency } from '@/util/formatter'
 
 import { Monetary } from '../generic-form-and-fields/fields/monetary'
 import { Button } from '../ui/button'
@@ -52,9 +53,7 @@ export function SellStock({ symbol, position, quote }: SellStockProps) {
     async ({ quantity, amount }: SellStockForm) => {
       setIsSubmitting(true)
       try {
-        const formattedAmount = parseFloat(
-          amount.replace('R$ ', '').replace('.', '').replace(',', '.'),
-        )
+        const formattedAmount = parseCurrency(amount)
 
         if (amount && quantity > 0) {
           await sellStock({

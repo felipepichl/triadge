@@ -7,6 +7,7 @@ import { z } from 'zod'
 
 import { ApiError } from '@/api/app/utils/api-error'
 import { useStock } from '@/hooks/use-stock'
+import { parseCurrency } from '@/util/formatter'
 
 import { DrawerForm } from '../drawer-form'
 import { DatePicker } from '../generic-form-and-fields/fields/date-picker'
@@ -64,9 +65,7 @@ export function NewStock() {
       try {
         const data = {
           symbol,
-          price: parseFloat(
-            price.replace('R$ ', '').replace('.', '').replace(',', '.'),
-          ),
+          price: parseCurrency(price),
           date,
           quantity: Number(quantity),
           type,

@@ -9,6 +9,7 @@ import {
 } from 'react'
 
 import { apiCreateTransaction } from '@/api/app/transactions/create-transaction'
+import { parseCurrency } from '@/util/formatter'
 import { apiListAllTransaction } from '@/api/app/transactions/list-all-transaction'
 import { apiListByDateRange } from '@/api/app/transactions/list-by-date-range'
 import { apiListByType } from '@/api/app/transactions/list-by-type'
@@ -59,9 +60,7 @@ function TransactionsProvider({ children }: TransactionProviderProps) {
     }: TransactionBody) => {
       await apiCreateTransaction({
         description,
-        amount: parseFloat(
-          amount.replace('R$ ', '').replace('.', '').replace(',', '.'),
-        ),
+        amount: parseCurrency(amount),
         type,
         date,
         financialCategoryId,

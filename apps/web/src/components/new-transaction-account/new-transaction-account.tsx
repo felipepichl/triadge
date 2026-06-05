@@ -7,6 +7,7 @@ import { z } from 'zod'
 import { useAccountPayable } from '@/hooks/use-account-payable'
 import { useFinancialCategoryAndSubcategory } from '@/hooks/use-financial-category-and-subcategory'
 import { useTransaction } from '@/hooks/use-transaction'
+import { parseCurrency } from '@/util/formatter'
 
 import { DrawerForm } from '../drawer-form'
 import { Button } from '../ui/button'
@@ -164,9 +165,7 @@ export function NewTransactionAccount({
       try {
         const data = {
           description,
-          amount: parseFloat(
-            amount.replace('R$ ', '').replace('.', '').replace(',', '.'),
-          ),
+          amount: parseCurrency(amount),
           dueDate: date,
           installments: Number(installments),
           financialCategoryId,
