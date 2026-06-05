@@ -4,7 +4,6 @@ import {
   ArrowUpCircle,
   Calendar as CalendarIcon,
   DollarSign,
-  Search,
 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { DateRange } from 'react-day-picker'
@@ -16,7 +15,6 @@ import { SummaryCarousel } from '@/components/summary/summary-carousel'
 import { Transactions } from '@/components/transactions/transactions'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
-import { Input } from '@/components/ui/input'
 import {
   Popover,
   PopoverContent,
@@ -126,7 +124,7 @@ export function Finances() {
                       format(date.from, 'LLL dd, y')
                     )
                   ) : (
-                    <span>Pick a date</span>
+                    <span>Selecione uma data</span>
                   )}
                 </Button>
               </PopoverTrigger>
@@ -163,17 +161,6 @@ export function Finances() {
           </div>
         </div>
 
-        <div className="flex w-full gap-2 lg:flex-1">
-          <Input placeholder="Buscar uma transação" className="flex-grow" />
-          <Button
-            variant="outline"
-            className="flex w-10 items-center justify-center rounded-sm border-green-500 text-green-500 hover:border-green-700 hover:bg-green-700 hover:text-slate-100 md:w-40"
-            size="icon"
-          >
-            <Search className="mr-0 h-4 w-4 md:mr-1 md:h-5 md:w-5" />
-            <span className="hidden md:inline">Buscar</span>
-          </Button>
-        </div>
       </div>
 
       <Transactions
