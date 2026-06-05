@@ -18,7 +18,7 @@ import { PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { useFinancialCategoryAndSubcategory } from '@/hooks/use-financial-category-and-subcategory'
 import { useMonetaryMask } from '@/hooks/use-monetary-mask'
 
-import { getFieldPaths } from '../@types/filed-paths'
+import { getFieldPaths } from '../@types/field-paths'
 import { CategorySelect } from './category-select'
 
 export function SharedField() {

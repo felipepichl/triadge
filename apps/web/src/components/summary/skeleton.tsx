@@ -1,10 +1,4 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '../ui/card'
+import { Card, CardContent, CardHeader } from '../ui/card'
 import { Skeleton } from '../ui/skeleton'
 
 type ColorType = 'default' | 'green' | 'rose'
