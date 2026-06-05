@@ -74,7 +74,7 @@ export function UpdateAmountVariableToAccountPayable({
         form.reset()
         toast.success('Valor atualizado com sucesso!')
       } catch {
-        toast.error('Erro ao autualizar, tente novamente mais tarde!')
+        toast.error('Erro ao atualizar, tente novamente mais tarde!')
       }
     },
     [
