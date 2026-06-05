@@ -10,10 +10,9 @@ import { useTransaction } from '@/hooks/use-transaction'
 import { parseCurrency } from '@/util/formatter'
 
 import { DrawerForm } from '../drawer-form'
-import { Button } from '../ui/button'
-import { Separator } from '../ui/separator'
+import { GenericForm } from '../generic-form-and-fields/generic-form'
+import { SubmitButton } from '../generic-form-and-fields/submit-button'
 import { AccountPayableField } from './account-payable-field/account-payable-field'
-import { GenericForm } from './generic-form/generic-form'
 import { SharedField } from './shared-field/shared-field'
 import { TransactionField } from './transaction-field/transaction-field'
 
@@ -54,20 +53,6 @@ export function NewTransactionAccount({
   const { createTransaction } = useTransaction()
   const { createAccountPayable, createFixedAccountPayable } =
     useAccountPayable()
-
-  const SubmitButton = () => (
-    <>
-      <Separator />
-
-      <Button
-        className="h-12 w-full font-bold hover:bg-green-700  hover:text-slate-100"
-        type="submit"
-        disabled={false}
-      >
-        Cadastrar
-      </Button>
-    </>
-  )
 
   const accountPayableForm = useForm<CreateAccountPayableForm>({
     resolver: zodResolver(

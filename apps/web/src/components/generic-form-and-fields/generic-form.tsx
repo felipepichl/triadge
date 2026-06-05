@@ -3,8 +3,6 @@ import { FieldValues, UseFormReturn } from 'react-hook-form'
 
 import { Form } from '@/components/ui/form'
 
-import { SubmitButton } from './submit-button'
-
 type GenericFormProps<T extends FieldValues> = {
   onSubmit: (data: T) => Promise<void>
   form: UseFormReturn<T>
@@ -20,7 +18,6 @@ export function GenericForm<T extends FieldValues>({
     <Form {...form}>
       <form className="mt-3 space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="space-y-2">{fields}</div>
-        <SubmitButton />
       </form>
     </Form>
   )

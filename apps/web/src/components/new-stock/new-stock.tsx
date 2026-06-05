@@ -13,6 +13,7 @@ import { DrawerForm } from '../drawer-form'
 import { DatePicker } from '../generic-form-and-fields/fields/date-picker'
 import { Monetary } from '../generic-form-and-fields/fields/monetary'
 import { GenericForm } from '../generic-form-and-fields/generic-form'
+import { SubmitButton } from '../generic-form-and-fields/submit-button'
 import { Button } from '../ui/button'
 import { FormControl, FormField, FormItem, FormMessage } from '../ui/form'
 import { Input } from '../ui/input'
@@ -184,6 +185,7 @@ export function NewStock() {
                 </FormItem>
               )}
             />
+            <SubmitButton />
           </>
         }
       />
