@@ -37,7 +37,7 @@ export function TableTransactions({ transactions: data }: TransactionDTO) {
                   </TableHead>
                   <TableHead className="w-1/5">
                     <span className="flex items-center justify-center">
-                      <Link to="/finance/details">
+                      <Link to="/finances">
                         <ArrowRightCircle />
                       </Link>
                     </span>

@@ -10,10 +10,10 @@ export function storageUserRemove() {
   localStorage.removeItem(USER_STORAGE)
 }
 
-export function storageUserGet(): UserDTO {
+export function storageUserGet(): UserDTO | null {
   const storage = localStorage.getItem(USER_STORAGE)
 
-  const user: UserDTO = storage ? JSON.parse(storage) : {}
+  if (!storage) return null
 
-  return user
+  return JSON.parse(storage) as UserDTO
 }

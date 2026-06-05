@@ -122,7 +122,6 @@ export function NewFinancialCategoryOrSubcategory({
                     <Input
                       placeholder="Descrição"
                       {...field}
-                      {...form.register('description')}
                     />
                   </FormControl>
                   <FormMessage />
