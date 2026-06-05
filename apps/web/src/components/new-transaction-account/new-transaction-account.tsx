@@ -11,7 +11,7 @@ import { useTransaction } from '@/hooks/use-transaction'
 import { DrawerForm } from '../drawer-form'
 import { Button } from '../ui/button'
 import { Separator } from '../ui/separator'
-import { AccountPayableFiled } from './account-payable-field/account-payable-field'
+import { AccountPayableField } from './account-payable-field/account-payable-field'
 import { GenericForm } from './generic-form/generic-form'
 import { SharedField } from './shared-field/shared-field'
 import { TransactionField } from './transaction-field/transaction-field'
@@ -207,7 +207,7 @@ export function NewTransactionAccount({
           fields={
             <>
               <SharedField />
-              <AccountPayableFiled />
+              <AccountPayableField />
               <SubmitButton />
             </>
           }

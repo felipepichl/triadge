@@ -12,9 +12,9 @@ import {
 } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 
-import { getFieldPaths } from '../@types/filed-paths'
+import { getFieldPaths } from '../@types/field-paths'
 
-export function AccountPayableFiled() {
+export function AccountPayableField() {
   const [isSwitchOn, setIsSwitchOn] = useState(false)
 
   const form = useFormContext()
