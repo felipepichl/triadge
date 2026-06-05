@@ -6,25 +6,9 @@ export function registerInterceptorTokenManager(signOut: SignOut) {
     (response) => response,
     (requestError) => {
       if (requestError?.response?.status === 401) {
-        if (requestError.response.data?.message === 'Invalid JWT Token') {
-          // here
-          console.log('=> Invalid JWT Token')
-        }
-
         signOut()
       }
 
-      // if (isAxiosError(error)) {
-      //   const status = error.response?.status
-      //   const message = error.response?.data.message
-
-      //   console.log(`STATUS HERE=>`, status)
-      //   console.log(`CODE HERE=>`, message)
-
-      //   if (status === 401) {
-      //     // signOut()
-      //   }
-      // }
       return Promise.reject(requestError)
     },
   )

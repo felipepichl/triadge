@@ -50,50 +50,32 @@ export function SellStock({ symbol, position, quote }: SellStockProps) {
 
   const handleSellStock = useCallback(
     async ({ quantity, amount }: SellStockForm) => {
-      console.log('handleSellStock called with:', {
-        quantity,
-        amount,
-        symbol,
-        position,
-        quote,
-      })
       setIsSubmitting(true)
       try {
         const formattedAmount = parseFloat(
           amount.replace('R$ ', '').replace('.', '').replace(',', '.'),
         )
 
-        console.log('formattedAmount:', formattedAmount, 'amount:', amount)
-
         if (amount && quantity > 0) {
-          console.log('Chama a rota e passa amount:', quantity, formattedAmount)
-
           await sellStock({
             symbol,
             price: formattedAmount,
             quantity,
           })
-
-          handleTogglePopover()
-          form.reset()
-          toast.success('Venda realizada com sucesso!')
         } else {
-          console.log('Chama a rota e passa quote:', quantity, quote, amount)
-
           await sellStock({
             symbol,
             price: quote,
             quantity,
           })
-
-          handleTogglePopover()
-          form.reset()
-          toast.success('Venda realizada com sucesso!')
         }
+
+        handleTogglePopover()
+        form.reset()
+        toast.success('Venda realizada com sucesso!')
       } catch {
         toast.error('Erro ao vender, tente novamente mais tarde!')
       } finally {
-        console.log('Setting isSubmitting to false')
         setIsSubmitting(false)
       }
     },
