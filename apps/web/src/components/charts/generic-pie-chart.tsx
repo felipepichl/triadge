@@ -74,7 +74,7 @@ export function GenericPieChart({ data }: GenericPieChartProps) {
       config={{}}
     >
       <PieChart>
-        {internalData! && (
+        {internalData && (
           <Pie
             data={internalData}
             dataKey="value"
