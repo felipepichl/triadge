@@ -1,6 +1,7 @@
 import { TransactionDTO, TransactionResponseDTO } from '@umabel/core'
 
 import { api } from '@/lib/axios'
+import { handleApiError } from '../utils/api-error-handler'
 
 export type ListByTypeBody = {
   type: 'income' | 'outcome'
@@ -9,11 +10,18 @@ export type ListByTypeBody = {
 export async function apiListByType({
   type,
 }: ListByTypeBody): Promise<TransactionDTO> {
-  const { data } = await api.get<TransactionResponseDTO>('/transactions/type', {
-    params: { type },
-  })
+  try {
+    const { data } = await api.get<TransactionResponseDTO>(
+      '/transactions/type',
+      {
+        params: { type },
+      },
+    )
 
-  return {
-    transactions: data.transactions,
+    return {
+      transactions: data.transactions,
+    }
+  } catch (error) {
+    throw handleApiError(error)
   }
 }

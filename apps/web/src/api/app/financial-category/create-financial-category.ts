@@ -1,9 +1,14 @@
 import { CreateFinancialCategoryDTO } from '@umabel/core'
 
 import { api } from '@/lib/axios'
+import { handleApiError } from '../utils/api-error-handler'
 
 export async function apiCreateFinancialCategory({
   description,
 }: CreateFinancialCategoryDTO): Promise<void> {
-  await api.post('/financial-category', { description })
+  try {
+    await api.post('/financial-category', { description })
+  } catch (error) {
+    throw handleApiError(error)
+  }
 }

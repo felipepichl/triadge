@@ -1,12 +1,17 @@
 import { UpdateAmountVariableDTO } from '@umabel/core'
 
 import { api } from '@/lib/axios'
+import { handleApiError } from '../utils/api-error-handler'
 
 export async function apiUpdateAmountVariableToAccountPayable({
   amount,
   accountPayableId,
 }: UpdateAmountVariableDTO): Promise<void> {
-  await api.patch(`/accounts-payable/${accountPayableId}/amount-variable`, {
-    amount,
-  })
+  try {
+    await api.patch(`/accounts-payable/${accountPayableId}/amount-variable`, {
+      amount,
+    })
+  } catch (error) {
+    throw handleApiError(error)
+  }
 }

@@ -1,6 +1,7 @@
 import { CreateTransactionDTO } from '@umabel/core'
 
 import { api } from '@/lib/axios'
+import { handleApiError } from '../utils/api-error-handler'
 
 export async function apiCreateTransaction({
   description,
@@ -11,13 +12,17 @@ export async function apiCreateTransaction({
   financialCategoryId,
   subcategoryId,
 }: CreateTransactionDTO): Promise<void> {
-  await api.post('/transactions', {
-    description,
-    detail,
-    type,
-    date,
-    amount,
-    financialCategoryId,
-    subcategoryId,
-  })
+  try {
+    await api.post('/transactions', {
+      description,
+      detail,
+      type,
+      date,
+      amount,
+      financialCategoryId,
+      subcategoryId,
+    })
+  } catch (error) {
+    throw handleApiError(error)
+  }
 }

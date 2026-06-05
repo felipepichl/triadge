@@ -4,13 +4,18 @@ import {
 } from '@umabel/core'
 
 import { api } from '@/lib/axios'
+import { handleApiError } from '../utils/api-error-handler'
 
 export async function apiListAllFinancialCategoryByUser(): Promise<
   FinancialCategoryDetailDTO[]
 > {
-  const { data } = await api.get<{
-    financialCategories: FinancialCategoryResponseDTO[]
-  }>('/financial-category')
+  try {
+    const { data } = await api.get<{
+      financialCategories: FinancialCategoryResponseDTO[]
+    }>('/financial-category')
 
-  return data.financialCategories
+    return data.financialCategories
+  } catch (error) {
+    throw handleApiError(error)
+  }
 }

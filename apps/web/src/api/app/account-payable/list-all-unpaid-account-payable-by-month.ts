@@ -4,6 +4,7 @@ import {
 } from '@umabel/core'
 
 import { api } from '@/lib/axios'
+import { handleApiError } from '../utils/api-error-handler'
 
 type ListAllUnpaidAccountsPayableByMonthBody = {
   month: number
@@ -12,15 +13,19 @@ type ListAllUnpaidAccountsPayableByMonthBody = {
 export async function apiListAllUnpaidAccountsPayableByMonth({
   month,
 }: ListAllUnpaidAccountsPayableByMonthBody): Promise<UnpaidAccountPayableDTO> {
-  const { data } = await api.get<UnpaidAccountPayableResponseDTO>(
-    '/accounts-payable/unpaid/month',
-    {
-      params: { month },
-    },
-  )
+  try {
+    const { data } = await api.get<UnpaidAccountPayableResponseDTO>(
+      '/accounts-payable/unpaid/month',
+      {
+        params: { month },
+      },
+    )
 
-  return {
-    unpaidAccountsPayable: data.unpaidAccountsPayable,
-    unpaidAccountsPayableTotalAmount: data.unpaidAccountsPayableTotalAmount,
+    return {
+      unpaidAccountsPayable: data.unpaidAccountsPayable,
+      unpaidAccountsPayableTotalAmount: data.unpaidAccountsPayableTotalAmount,
+    }
+  } catch (error) {
+    throw handleApiError(error)
   }
 }
