@@ -1,0 +1,5 @@
+export { StockProvider } from './contexts/stock-context'
+export { useStock } from './hooks/use-stock'
+export { Stock } from './pages/stock'
+export { NewStock } from './components/new-stock/new-stock'
+export { ListStock } from './components/list-stock'

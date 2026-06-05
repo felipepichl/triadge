@@ -1,4 +1,4 @@
-import '@/styles/global.css'
+import '@/shared/styles/global.css'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
@@ -6,12 +6,12 @@ import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { RouterProvider } from 'react-router-dom'
 import { Toaster } from 'sonner'
 
-import { THEME_STORAGE } from './storage/storage-config'
-import { ThemeProvider } from './components/theme/theme-provider'
-import { FinancialCategoryAndSubcategoryProvider } from './contexts/app/financial-category-and-subcategory-context'
-import { TransactionsProvider } from './contexts/app/transactions-context'
-import { AuthProvider } from './contexts/auth/auth-context'
-import { router } from './routes'
+import { THEME_STORAGE } from '@/shared/storage/storage-config'
+import { ThemeProvider } from '@/shared/components/theme/theme-provider'
+import { FinancialCategoryAndSubcategoryProvider } from '@/features/financial-categories/contexts/financial-category-and-subcategory-context'
+import { TransactionsProvider } from '@/features/transactions/contexts/transactions-context'
+import { AuthProvider } from '@/features/auth/contexts/auth-context'
+import { router } from './app/routes'
 
 const queryClient = new QueryClient()
 
