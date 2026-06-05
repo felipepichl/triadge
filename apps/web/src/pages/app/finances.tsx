@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react'
 import { DateRange } from 'react-day-picker'
 import { Helmet } from 'react-helmet-async'
 
-import { NewTransactionAccount } from '@/components/new-transaction-account/new-tranaction-account'
+import { NewTransactionAccount } from '@/components/new-transaction-account/new-transaction-account'
 import { SummaryProps } from '@/components/summary/summary'
 import { SummaryCarousel } from '@/components/summary/summary-carousel'
 import { Transactions } from '@/components/transactions/transactions'
