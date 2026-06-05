@@ -1,7 +1,7 @@
 import { TransactionDTO } from '@umabel/core'
 import { useEffect, useState } from 'react'
 
-import { CardTransactionAccount } from '@/components/card-transaction-accout/card-transaction-account'
+import { CardTransactionAccount } from '@/components/card-transaction-account/card-transaction-account'
 
 // import { CardTransactions } from './card-transactions'
 import { TableTransactions } from './table-transactions'

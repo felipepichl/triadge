@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 
 import { useAccountPayable } from '@/hooks/use-account-payable'
 
-import { CardTransactionAccount } from './card-transaction-accout/card-transaction-account'
+import { CardTransactionAccount } from './card-transaction-account/card-transaction-account'
 import { MonthSelect } from './month-select'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { Separator } from './ui/separator'
