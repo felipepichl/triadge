@@ -4,6 +4,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { RouterProvider } from 'react-router-dom'
 import { Toaster } from 'sonner'
 
+import { THEME_STORAGE } from './storage/storage-config'
 import { ThemeProvider } from './components/theme/theme-provider'
 import { FinancialCategoryAndSubcategoryProvider } from './contexts/app/financial-category-and-subcategory-context'
 import { TransactionsProvider } from './contexts/app/transactions-context'
@@ -12,7 +13,7 @@ import { router } from './routes'
 
 export default function App() {
   return (
-    <ThemeProvider storageKey="mm-theme" defaultTheme="system">
+    <ThemeProvider storageKey={THEME_STORAGE} defaultTheme="system">
       <AuthProvider>
         <HelmetProvider>
           <Helmet titleTemplate="%s | Umabel" />
