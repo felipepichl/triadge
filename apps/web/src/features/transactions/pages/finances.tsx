@@ -5,7 +5,7 @@ import {
   Calendar as CalendarIcon,
   DollarSign,
 } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { DateRange } from 'react-day-picker'
 import { Helmet } from 'react-helmet-async'
 
@@ -28,44 +28,35 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select'
-import { useTransaction } from '@/features/transactions/hooks/use-transaction'
+import { useTransactions } from '@/features/transactions/hooks/use-transactions'
+import { useTransactionsByDateRange } from '@/features/transactions/hooks/use-transactions-by-date-range'
 import { priceFormatter } from '@/shared/util/formatter'
 
 export function Finances() {
-  const {
-    transactions,
-    transactionByDateRangeAndType,
-    loadTransactionByDateRangeAndType,
-  } = useTransaction()
-
-  const [summaries, setSummaries] = useState<SummaryProps[]>([])
-  const [selectedType, setSelectedType] = useState<string | undefined>(
-    undefined,
-  )
-
   const today = new Date()
   const firstDayOfMonth = startOfMonth(today)
   const firstDayOfNextMonth = startOfMonth(addMonths(today, 1))
+
+  const [selectedType, setSelectedType] = useState<
+    'income' | 'outcome' | undefined
+  >(undefined)
 
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: firstDayOfMonth,
     to: firstDayOfNextMonth,
   })
 
-  useEffect(() => {
-    if (date?.from && date?.to) {
-      loadTransactionByDateRangeAndType(
-        date.from,
-        date.to,
-        selectedType as 'income' | 'outcome',
-      )
-    }
-  }, [date, loadTransactionByDateRangeAndType, selectedType])
+  const { data: transactions } = useTransactions()
+  const { data: transactionByDateRangeAndType } = useTransactionsByDateRange(
+    date?.from,
+    date?.to,
+    selectedType,
+  )
 
-  useEffect(() => {
-    if (!transactionByDateRangeAndType) return
+  const summaries = useMemo<SummaryProps[]>(() => {
+    if (!transactionByDateRangeAndType) return []
 
-    const summariesResume: SummaryProps[] = [
+    return [
       {
         color: 'default',
         description: 'Entradas',
@@ -95,8 +86,6 @@ export function Finances() {
         totalAmount: priceFormatter.format(transactions?.balance?.total ?? 0),
       },
     ]
-
-    setSummaries(summariesResume)
   }, [transactionByDateRangeAndType, transactions])
 
   return (
@@ -144,7 +133,11 @@ export function Finances() {
           <div className="w-full min-w-0 lg:flex-1">
             <Select
               onValueChange={(value) =>
-                setSelectedType(value === 'all' ? undefined : value)
+                setSelectedType(
+                  value === 'all'
+                    ? undefined
+                    : (value as 'income' | 'outcome'),
+                )
               }
             >
               <SelectTrigger className="w-full">

@@ -18,7 +18,7 @@ import {
 type CategorySelectProps = {
   name: Path<FieldValues>
   onValueChange?: (value: string) => void
-  onOpenChange: () => void
+  onOpenChange?: () => void
   placeholder: string
   options: Array<{ _id: string; description: string }>
   disabled?: boolean

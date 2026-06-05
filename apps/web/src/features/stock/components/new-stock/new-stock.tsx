@@ -6,7 +6,7 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { ApiError } from '@/shared/api/api-error'
-import { useStock } from '@/features/stock/hooks/use-stock'
+import { useBuyStock } from '@/features/stock/hooks/use-stock-mutations'
 import { parseCurrency } from '@/shared/util/formatter'
 
 import { DrawerForm } from '@/shared/components/drawer-form'
@@ -43,7 +43,7 @@ export function NewStock() {
     undefined,
   )
 
-  const { buyStock } = useStock()
+  const buyStock = useBuyStock()
 
   const form = useForm<CreateAssetForm>({
     resolver: zodResolver(formSchema),
@@ -72,7 +72,7 @@ export function NewStock() {
           type,
         }
 
-        await buyStock(data)
+        await buyStock.mutateAsync(data)
         handleToggleDrawer()
         form.reset()
         toast.success('Ativo salvo com sucesso!')

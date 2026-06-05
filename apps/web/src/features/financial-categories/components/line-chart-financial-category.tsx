@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   Bar,
   BarChart,
@@ -26,7 +26,7 @@ import {
   ChartTooltipContent,
 } from '@/shared/components/ui/chart'
 import { Separator } from '@/shared/components/ui/separator'
-import { useFinancialCategoryAndSubcategory } from '@/features/financial-categories/hooks/use-financial-category-and-subcategory'
+import { useTotalSpent } from '@/features/financial-categories/hooks/use-total-spent'
 import { useIsWideScreen } from '@/shared/hooks/use-is-wide-screen'
 import { priceFormatter } from '@/shared/util/formatter'
 
@@ -49,69 +49,10 @@ export function LineChartFinancialCategory({
   type,
 }: LineChartFinancialCategoryProps) {
   const isWideScreen = useIsWideScreen()
-  const [chartData, setChartData] = useState<
-    { financialCategory: string; value: number }[]
-  >([])
+  const currentMonth = new Date().getMonth() + 1
+  const [month, setMonth] = useState(currentMonth)
 
-  const {
-    totalSpentByFinancialCategory,
-    listTotalSpentByFinancialCategory,
-    totalSpentToFixedAccount,
-    listTotalSpentToFixedAccountPayable,
-    totalSpentToUnfixedAccount,
-    listTotalSpentToUnfixedAccountPayable,
-  } = useFinancialCategoryAndSubcategory()
-
-  const fetchTotalSpent = useCallback(
-    async (monthNumber: number) => {
-      const typeToFunctionMap = {
-        transaction: listTotalSpentByFinancialCategory,
-        fixedAccountPayable: listTotalSpentToFixedAccountPayable,
-        unfixedAccountPayable: listTotalSpentToUnfixedAccountPayable,
-      }
-
-      const fetchFunction = typeToFunctionMap[type]
-
-      if (!fetchFunction) {
-        throw new Error('Tipo inválido')
-      }
-
-      await fetchFunction(monthNumber)
-    },
-    [
-      type,
-      listTotalSpentByFinancialCategory,
-      listTotalSpentToFixedAccountPayable,
-      listTotalSpentToUnfixedAccountPayable,
-    ],
-  )
-
-  const handleMonthSelect = useCallback(
-    async (monthNumber: string) => {
-      await fetchTotalSpent(Number(monthNumber))
-    },
-    [fetchTotalSpent],
-  )
-
-  useEffect(() => {
-    const currentMonth = new Date().getMonth() + 1
-    fetchTotalSpent(currentMonth)
-  }, [fetchTotalSpent])
-
-  useEffect(() => {
-    const updatedChartData = {
-      transaction: totalSpentByFinancialCategory,
-      fixedAccountPayable: totalSpentToFixedAccount,
-      unfixedAccountPayable: totalSpentToUnfixedAccount,
-    }[type]
-
-    setChartData(updatedChartData.length > 0 ? [...updatedChartData] : [])
-  }, [
-    totalSpentByFinancialCategory,
-    totalSpentToFixedAccount,
-    totalSpentToUnfixedAccount,
-    type,
-  ])
+  const { data: chartData = [] } = useTotalSpent(type, month)
 
   return (
     <Card className="mb-4 flex w-full flex-col lg:mr-2 lg:h-[400px]">
@@ -121,7 +62,9 @@ export function LineChartFinancialCategory({
           <CardDescription>{descriptions[type]}</CardDescription>
         </CardHeader>
         <div className="flex-1 px-4 pb-4 lg:pb-0">
-          <MonthSelect onMonthSelect={handleMonthSelect} />
+          <MonthSelect
+            onMonthSelect={(monthNumber) => setMonth(Number(monthNumber))}
+          />
         </div>
       </div>
       <Separator />

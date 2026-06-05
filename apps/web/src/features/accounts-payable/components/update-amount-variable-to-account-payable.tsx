@@ -6,7 +6,10 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { Form, FormField } from '@/shared/components/ui/form'
-import { useAccountPayable } from '@/features/accounts-payable/hooks/use-account-payable'
+import {
+  useUpdateAmountVariable,
+  useUpdateInterestPaid,
+} from '@/features/accounts-payable/hooks/use-accounts-payable-mutations'
 import { parseCurrency } from '@/shared/util/formatter'
 
 import { Monetary } from '@/shared/components/generic-form-and-fields/fields/monetary'
@@ -33,8 +36,8 @@ export function UpdateAmountVariableToAccountPayable({
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
   const [isSwitchOn, setIsSwitchOn] = useState(false)
 
-  const { updateAmountVariableToAccountPayable, updateInterestPaid } =
-    useAccountPayable()
+  const updateAmountVariable = useUpdateAmountVariable()
+  const updateInterestPaid = useUpdateInterestPaid()
 
   const form = useForm<UpdateAmountVariableToAccountPayableForm>({
     resolver: zodResolver(updateAmountVariableToAccountPayableForm),
@@ -58,12 +61,12 @@ export function UpdateAmountVariableToAccountPayable({
         const formattedAmount = parseCurrency(amount)
 
         if (isSwitchOn) {
-          await updateInterestPaid({
+          await updateInterestPaid.mutateAsync({
             amount: formattedAmount,
             accountPayableId,
           })
         } else {
-          await updateAmountVariableToAccountPayable({
+          await updateAmountVariable.mutateAsync({
             amount: formattedAmount,
             accountPayableId,
           })
@@ -79,7 +82,7 @@ export function UpdateAmountVariableToAccountPayable({
     [
       form,
       accountPayableId,
-      updateAmountVariableToAccountPayable,
+      updateAmountVariable,
       updateInterestPaid,
       isSwitchOn,
     ],

@@ -1,9 +1,8 @@
 import { Activity, DollarSign, TrendingUpDown } from 'lucide-react'
-import { useCallback, useEffect, useState } from 'react'
+import { useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 
 import { GenericBarChart } from '@/shared/components/charts/generic-bar-chart'
-import { GenericBarChartProps } from '@/shared/components/charts/generic-bar-chart/dtos/generic-bar-chart-dto'
 import { GenericPieChart } from '@/shared/components/charts/generic-pie-chart'
 import { ListStock } from '@/features/stock/components/list-stock'
 import { NewStock } from '@/features/stock/components/new-stock/new-stock'
@@ -11,34 +10,16 @@ import { SummaryProps } from '@/shared/components/summary/summary'
 import { SummaryCarousel } from '@/shared/components/summary/summary-carousel'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
 import { Separator } from '@/shared/components/ui/separator'
-import { useAuth } from '@/features/auth/hooks/use-auth'
-import { useStock } from '@/features/stock/hooks/use-stock'
+import { useInvestment } from '@/features/stock/hooks/use-investment'
+import { usePortfolio } from '@/features/stock/hooks/use-portfolio'
 import { priceFormatter } from '@/shared/util/formatter'
 
 export function Stock() {
-  const { isAuthenticated } = useAuth()
-  const [summaries, setSummaries] = useState<SummaryProps[]>([])
-  const [chartData, setChartData] = useState<GenericBarChartProps['data']>([])
+  const { data: investment, isLoading: isLoadingInvestment } = useInvestment()
+  const { data: portfolioResponse } = usePortfolio('fii')
 
-  const {
-    getPortfolioQuotes,
-    investment,
-    portfolio: portfolioResponse,
-    isLoadingInvestment,
-  } = useStock()
-
-  const portfolioQuotes = useCallback(async () => {
-    await getPortfolioQuotes('fii')
-  }, [getPortfolioQuotes])
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      portfolioQuotes()
-    }
-  }, [portfolioQuotes, isAuthenticated])
-
-  useEffect(() => {
-    const summariesResume: SummaryProps[] = [
+  const summaries = useMemo<SummaryProps[]>(
+    () => [
       {
         color: 'default',
         description: 'Total Investido',
@@ -60,19 +41,18 @@ export function Stock() {
         iconColor: '#fff',
         value: priceFormatter.format(investment?.position ?? 0),
       },
-    ]
+    ],
+    [investment],
+  )
 
-    setSummaries(summariesResume)
-  }, [investment])
-
-  useEffect(() => {
-    const mappedData = (portfolioResponse?.portfolio ?? []).map((item) => ({
-      name: item.stock.symbol,
-      value: item.currentValue,
-    }))
-
-    setChartData(mappedData)
-  }, [portfolioResponse])
+  const chartData = useMemo(
+    () =>
+      (portfolioResponse?.portfolio ?? []).map((item) => ({
+        name: item.stock.symbol,
+        value: item.currentValue,
+      })),
+    [portfolioResponse],
+  )
 
   return (
     <>

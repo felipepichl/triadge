@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import z from 'zod'
 
-import { useStock } from '@/features/stock/hooks/use-stock'
+import { useSellStock } from '@/features/stock/hooks/use-stock-mutations'
 import { parseCurrency } from '@/shared/util/formatter'
 
 import { Monetary } from '@/shared/components/generic-form-and-fields/fields/monetary'
@@ -31,9 +31,8 @@ type SellStockProps = {
 
 export function SellStock({ symbol, position, quote }: SellStockProps) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false)
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const { sellStock } = useStock()
+  const sellStock = useSellStock()
 
   const form = useForm<SellStockForm>({
     resolver: zodResolver(sellStockForm),
@@ -51,18 +50,17 @@ export function SellStock({ symbol, position, quote }: SellStockProps) {
 
   const handleSellStock = useCallback(
     async ({ quantity, amount }: SellStockForm) => {
-      setIsSubmitting(true)
       try {
         const formattedAmount = parseCurrency(amount)
 
         if (amount && quantity > 0) {
-          await sellStock({
+          await sellStock.mutateAsync({
             symbol,
             price: formattedAmount,
             quantity,
           })
         } else {
-          await sellStock({
+          await sellStock.mutateAsync({
             symbol,
             price: quote,
             quantity,
@@ -74,8 +72,6 @@ export function SellStock({ symbol, position, quote }: SellStockProps) {
         toast.success('Venda realizada com sucesso!')
       } catch {
         toast.error('Erro ao vender, tente novamente mais tarde!')
-      } finally {
-        setIsSubmitting(false)
       }
     },
     [symbol, quote, form, sellStock],
@@ -157,11 +153,11 @@ export function SellStock({ symbol, position, quote }: SellStockProps) {
             <Monetary placeholder="Valor da venda" name="amount" />
 
             <Button
-              disabled={isSubmitting}
+              disabled={sellStock.isPending}
               type="submit"
               className="h-10 w-full"
             >
-              {isSubmitting ? (
+              {sellStock.isPending ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   <span className="font-semibold">Vendendo...</span>

@@ -3,7 +3,7 @@ import { format } from 'date-fns'
 import { Calendar, Tag } from 'lucide-react'
 import { useCallback, useState } from 'react'
 
-import { useAccountPayable } from '@/features/accounts-payable/hooks/use-account-payable'
+import { useMarkAccountPayableAsPaid } from '@/features/accounts-payable/hooks/use-accounts-payable-mutations'
 import { priceFormatter } from '@/shared/util/formatter'
 
 import { NotFound } from '@/shared/components/not-found'
@@ -58,15 +58,15 @@ export function CardTransactionAccount({
   const [isOpen, setIsOpen] = useState(false)
   const [accountPayableId, setAccountPayableId] = useState<string>('')
 
-  const { markAccountPayableAsPaid } = useAccountPayable()
+  const markAsPaid = useMarkAccountPayableAsPaid()
 
   const data = transactions || accountsPayable
 
   const handleMarkAsPaid = useCallback(async () => {
     setIsOpen((prevState) => !prevState)
 
-    await markAccountPayableAsPaid({ accountPayableId })
-  }, [accountPayableId, markAccountPayableAsPaid])
+    await markAsPaid.mutateAsync(accountPayableId)
+  }, [accountPayableId, markAsPaid])
 
   return (
     <>

@@ -1,7 +1,7 @@
 import { Popover } from '@radix-ui/react-popover'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
-import { ChangeEvent, useCallback, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 
 import { NewFinancialCategoryOrSubcategory } from '@/features/financial-categories/components/new-financial-category-or-subcategory'
@@ -15,7 +15,8 @@ import {
 } from '@/shared/components/ui/form'
 import { Input } from '@/shared/components/ui/input'
 import { PopoverContent, PopoverTrigger } from '@/shared/components/ui/popover'
-import { useFinancialCategoryAndSubcategory } from '@/features/financial-categories/hooks/use-financial-category-and-subcategory'
+import { useFinancialCategories } from '@/features/financial-categories/hooks/use-financial-categories'
+import { useSubcategories } from '@/features/financial-categories/hooks/use-subcategories'
 import { useMonetaryMask } from '@/shared/hooks/use-monetary-mask'
 
 import { getFieldPaths } from '../@types/field-paths'
@@ -25,27 +26,12 @@ export function SharedField() {
   const [parentCategoryId, setParentCategoryId] = useState<string>('')
 
   const { formattedValue, handleMaskChange } = useMonetaryMask()
-  const {
-    financialCategories,
-    listAllFinancialCategoriesByUser,
-    subcategories,
-    listSubcategoryByCategory,
-  } = useFinancialCategoryAndSubcategory()
+  const { data: financialCategories = [] } = useFinancialCategories()
+  const { data: subcategories = [] } = useSubcategories(parentCategoryId)
 
   const form = useFormContext()
   const { description, amount, date, financialCategoryId, subcategoryId } =
     getFieldPaths()
-
-  const handleAllFinancialCategoryByUser = useCallback(async () => {
-    await listAllFinancialCategoriesByUser()
-  }, [listAllFinancialCategoriesByUser])
-
-  const handleAllSubcategoryByCategory = useCallback(
-    async (parentCategoryId: string) => {
-      await listSubcategoryByCategory(parentCategoryId)
-    },
-    [listSubcategoryByCategory],
-  )
 
   return (
     <>
@@ -125,9 +111,7 @@ export function SharedField() {
           options={financialCategories}
           onValueChange={(value) => {
             setParentCategoryId(value)
-            handleAllSubcategoryByCategory(value)
           }}
-          onOpenChange={handleAllFinancialCategoryByUser}
           placeholder="Categoria"
         />
 
@@ -141,7 +125,6 @@ export function SharedField() {
         <CategorySelect
           name={subcategoryId}
           options={subcategories}
-          onOpenChange={() => handleAllSubcategoryByCategory(parentCategoryId)}
           placeholder="Subcategorias"
           disabled={!parentCategoryId}
         />

@@ -6,12 +6,11 @@ import { Helmet, HelmetProvider } from 'react-helmet-async'
 import { RouterProvider } from 'react-router-dom'
 import { Toaster } from 'sonner'
 
-import { THEME_STORAGE } from '@/shared/storage/storage-config'
-import { ThemeProvider } from '@/shared/components/theme/theme-provider'
-import { FinancialCategoryAndSubcategoryProvider } from '@/features/financial-categories/contexts/financial-category-and-subcategory-context'
-import { TransactionsProvider } from '@/features/transactions/contexts/transactions-context'
 import { AuthProvider } from '@/features/auth/contexts/auth-context'
-import { router } from './app/routes'
+import { ThemeProvider } from '@/shared/components/theme/theme-provider'
+import { THEME_STORAGE } from '@/shared/storage/storage-config'
+
+import { router } from '@/app/routes'
 
 const queryClient = new QueryClient()
 
@@ -24,11 +23,7 @@ export default function App() {
             <Helmet titleTemplate="%s | Umabel" />
             <Toaster richColors position="top-right" />
 
-            <TransactionsProvider>
-              <FinancialCategoryAndSubcategoryProvider>
-                <RouterProvider router={router} />
-              </FinancialCategoryAndSubcategoryProvider>
-            </TransactionsProvider>
+            <RouterProvider router={router} />
           </HelmetProvider>
         </AuthProvider>
       </ThemeProvider>

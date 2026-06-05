@@ -1,5 +1,5 @@
 import { DollarSign, HandCoins, Pin, TrendingUpDown } from 'lucide-react'
-import { useCallback, useEffect, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
 import { LineChartFinancialCategory } from '@/features/financial-categories/components/line-chart-financial-category'
@@ -9,47 +9,27 @@ import { NewTransactionAccount } from '@/features/transactions/components/new-tr
 import { SummaryProps } from '@/shared/components/summary/summary'
 import { SummaryCarousel } from '@/shared/components/summary/summary-carousel'
 import { Separator } from '@/shared/components/ui/separator'
-import { useAccountPayable } from '@/features/accounts-payable/hooks/use-account-payable'
-import { useFinancialCategoryAndSubcategory } from '@/features/financial-categories/hooks/use-financial-category-and-subcategory'
+import { useFixedAccountsPayable } from '@/features/accounts-payable/hooks/use-fixed-accounts-payable'
+import { useUnfixedAccountsPayable } from '@/features/accounts-payable/hooks/use-unfixed-accounts-payable'
+import { useUnpaidAccountsPayable } from '@/features/accounts-payable/hooks/use-unpaid-accounts-payable'
+import { usePaidAccountsPayable } from '@/features/accounts-payable/hooks/use-paid-accounts-payable'
 import { priceFormatter } from '@/shared/util/formatter'
 
 export function AccountPayable() {
-  const [summaries, setSummaries] = useState<SummaryProps[]>([])
+  const currentMonth = new Date().getMonth() + 1
+  const [month, setMonth] = useState(currentMonth)
 
-  const {
-    fixedAccountsPayable,
-    unfixedAccountsPayable,
-    unpaidAccountsPayable,
-    paidAccountsPayable,
-    listAllFixedAccountsPayableByMonth,
-    listAllUnfixedAccountsPayableByMonth,
-    listAllUnpaidAccountsPayableByMonth,
-    listAllPaidAccountsPayableByMonth,
-  } = useAccountPayable()
+  const { data: fixedAccountsPayable } = useFixedAccountsPayable(month)
+  const { data: unfixedAccountsPayable } = useUnfixedAccountsPayable(month)
+  const { data: unpaidAccountsPayable } = useUnpaidAccountsPayable(month)
+  const { data: paidAccountsPayable } = usePaidAccountsPayable(month)
 
-  const { listTotalSpentToUnfixedAccountPayable } =
-    useFinancialCategoryAndSubcategory()
+  const handleMonthSelect = (monthNumber: string) => {
+    setMonth(Number(monthNumber))
+  }
 
-  const handleMonthSelect = useCallback(
-    async (monthNumber: string) => {
-      listAllFixedAccountsPayableByMonth(monthNumber)
-      listAllUnfixedAccountsPayableByMonth(monthNumber)
-      listAllUnpaidAccountsPayableByMonth(monthNumber)
-      listAllPaidAccountsPayableByMonth(monthNumber)
-
-      listTotalSpentToUnfixedAccountPayable(Number(monthNumber))
-    },
-    [
-      listAllFixedAccountsPayableByMonth,
-      listAllUnfixedAccountsPayableByMonth,
-      listAllUnpaidAccountsPayableByMonth,
-      listAllPaidAccountsPayableByMonth,
-      listTotalSpentToUnfixedAccountPayable,
-    ],
-  )
-
-  useEffect(() => {
-    const summariesResume: SummaryProps[] = [
+  const summaries = useMemo<SummaryProps[]>(
+    () => [
       {
         color: 'default',
         description: 'Gastos Fixos',
@@ -86,15 +66,15 @@ export function AccountPayable() {
           paidAccountsPayable?.paidAccountsPayableTotalAmount ?? 0,
         ),
       },
-    ]
+    ],
+    [
+      fixedAccountsPayable,
+      unfixedAccountsPayable,
+      unpaidAccountsPayable,
+      paidAccountsPayable,
+    ],
+  )
 
-    setSummaries(summariesResume)
-  }, [
-    fixedAccountsPayable,
-    unfixedAccountsPayable,
-    unpaidAccountsPayable,
-    paidAccountsPayable,
-  ])
   return (
     <>
       <Helmet title="Contas a Pagar" />
@@ -115,7 +95,11 @@ export function AccountPayable() {
       <Separator className="mb-4 mt-4 max-md:mt-0" />
 
       <div className="flex flex-col lg:flex-row">
-        <ListAccountsPayable type="fixed" title="Gastos Fixos" />
+        <ListAccountsPayable
+          type="fixed"
+          title="Gastos Fixos"
+          month={month}
+        />
         <div className="flex-1">
           <LineChartFinancialCategory type="fixedAccountPayable" />
         </div>
@@ -124,7 +108,11 @@ export function AccountPayable() {
       <Separator className="mb-4 mt-1" />
 
       <div className="flex flex-col lg:flex-row">
-        <ListAccountsPayable type="unfixed" title="Gastos Variáveis" />
+        <ListAccountsPayable
+          type="unfixed"
+          title="Gastos Variáveis"
+          month={month}
+        />
         <div className="flex-1">
           <LineChartFinancialCategory type="unfixedAccountPayable" />
         </div>

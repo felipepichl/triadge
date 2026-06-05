@@ -1,4 +1,4 @@
-import { useStock } from '@/features/stock/hooks/use-stock'
+import { usePortfolio } from '@/features/stock/hooks/use-portfolio'
 
 import { CardStock } from './card-stock'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
@@ -9,7 +9,7 @@ type ListStockProps = {
 }
 
 export function ListStock({ type }: ListStockProps) {
-  const { portfolio, isLoadingPortfolio } = useStock()
+  const { data: portfolio, isLoading: isLoadingPortfolio } = usePortfolio(type)
 
   return (
     <Card className="mb-4 flex max-h-[574px] min-h-[574px] flex-col lg:mr-4 lg:w-[480px]">

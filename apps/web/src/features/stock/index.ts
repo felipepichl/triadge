@@ -1,5 +1,6 @@
-export { StockProvider } from './contexts/stock-context'
-export { useStock } from './hooks/use-stock'
+export { usePortfolio } from './hooks/use-portfolio'
+export { useInvestment } from './hooks/use-investment'
+export { useBuyStock, useSellStock } from './hooks/use-stock-mutations'
 export { Stock } from './pages/stock'
 export { NewStock } from './components/new-stock/new-stock'
 export { ListStock } from './components/list-stock'

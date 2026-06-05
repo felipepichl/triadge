@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { apiCreateFinancialCategory } from '@/features/financial-categories/api/create-financial-category'
-import { apiCreateSubcategory } from '@/features/financial-categories/api/create-subcategory'
+import { useCreateFinancialCategory } from '@/features/financial-categories/hooks/use-create-financial-category'
+import { useCreateSubcategory } from '@/features/financial-categories/hooks/use-create-subcategory'
 import { Button } from '@/shared/components/ui/button'
 import {
   Form,
@@ -26,7 +26,6 @@ import {
 
 const createFinancialCategoryOrSubcategoryForm = z.object({
   description: z.string().min(1, { message: 'Campo obrigatório' }),
-  // parentCategoryId: z.string().optional(),
 })
 
 type CreateFinancialCategoryOrSubcategoryForm = z.infer<
@@ -54,25 +53,23 @@ export function NewFinancialCategoryOrSubcategory({
   })
   const [isSheetOpen, setIsSheetOpen] = useState(false)
 
+  const createFinancialCategory = useCreateFinancialCategory()
+  const createSubcategory = useCreateSubcategory()
+
   function handleToggleSheet() {
     setIsSheetOpen((prevState) => !prevState)
   }
 
   const handleCreateFinancialCategoryOrSubcategory = useCallback(
     async ({ description }: CreateFinancialCategoryOrSubcategoryForm) => {
-      const actionMap = {
-        financialCategory: () => apiCreateFinancialCategory({ description }),
-        subcategory: () => {
-          if (parentCategoryId) {
-            return apiCreateSubcategory({ description, parentCategoryId })
-          }
-        },
-      }
-
       try {
-        const action = actionMap[type]
-        if (action) {
-          await action()
+        if (type === 'financialCategory') {
+          await createFinancialCategory.mutateAsync(description)
+        } else if (parentCategoryId) {
+          await createSubcategory.mutateAsync({
+            description,
+            parentCategoryId,
+          })
         }
 
         handleToggleSheet()
@@ -86,7 +83,7 @@ export function NewFinancialCategoryOrSubcategory({
         toast.error('Erro ao salvar, tente novamente mais tarde!')
       }
     },
-    [form, type, parentCategoryId],
+    [form, type, parentCategoryId, createFinancialCategory, createSubcategory],
   )
 
   return (

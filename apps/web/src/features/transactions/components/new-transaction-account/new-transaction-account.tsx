@@ -4,9 +4,11 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { useAccountPayable } from '@/features/accounts-payable/hooks/use-account-payable'
-import { useFinancialCategoryAndSubcategory } from '@/features/financial-categories/hooks/use-financial-category-and-subcategory'
-import { useTransaction } from '@/features/transactions/hooks/use-transaction'
+import {
+  useCreateAccountPayable,
+  useCreateFixedAccountPayable,
+} from '@/features/accounts-payable/hooks/use-accounts-payable-mutations'
+import { useCreateTransaction } from '@/features/transactions/hooks/use-create-transaction'
 import { parseCurrency } from '@/shared/util/formatter'
 
 import { DrawerForm } from '@/shared/components/drawer-form'
@@ -49,26 +51,12 @@ export function NewTransactionAccount({
     undefined,
   )
 
-  const { subcategories } = useFinancialCategoryAndSubcategory()
-  const { createTransaction } = useTransaction()
-  const { createAccountPayable, createFixedAccountPayable } =
-    useAccountPayable()
+  const createTransaction = useCreateTransaction()
+  const createAccountPayable = useCreateAccountPayable()
+  const createFixedAccountPayable = useCreateFixedAccountPayable()
 
   const accountPayableForm = useForm<CreateAccountPayableForm>({
-    resolver: zodResolver(
-      createAccountPayableForm.refine(
-        (data) => {
-          if (subcategories.length > 0 && !data.subcategoryId) {
-            return false
-          }
-          return true
-        },
-        {
-          message: 'Selecione uma opção',
-          path: ['subcategoryId'],
-        },
-      ),
-    ),
+    resolver: zodResolver(createAccountPayableForm),
     defaultValues: {
       description: '',
       amount: '',
@@ -80,20 +68,7 @@ export function NewTransactionAccount({
   })
 
   const transactionForm = useForm<CreateTransactionForm>({
-    resolver: zodResolver(
-      createTransactionForm.refine(
-        (data) => {
-          if (subcategories.length > 0 && !data.subcategoryId) {
-            return false
-          }
-          return true
-        },
-        {
-          message: 'Selecione uma opção',
-          path: ['subcategoryId'],
-        },
-      ),
-    ),
+    resolver: zodResolver(createTransactionForm),
     defaultValues: {
       description: '',
       amount: '',
@@ -118,7 +93,7 @@ export function NewTransactionAccount({
       subcategoryId,
     }: CreateTransactionForm) => {
       try {
-        await createTransaction({
+        await createTransaction.mutateAsync({
           description,
           amount,
           type,
@@ -158,9 +133,9 @@ export function NewTransactionAccount({
         }
 
         if (isFixed) {
-          await createFixedAccountPayable(data)
+          await createFixedAccountPayable.mutateAsync(data)
         } else {
-          await createAccountPayable(data)
+          await createAccountPayable.mutateAsync(data)
         }
 
         handleToggleDrawer()

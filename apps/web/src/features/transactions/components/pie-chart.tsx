@@ -1,8 +1,8 @@
 import { getMonth } from 'date-fns'
-import { useCallback, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Pie, PieChart } from 'recharts'
 
-import { apiListByMonth } from '@/features/transactions/api/list-by-month'
+import { useTransactionsByMonth } from '@/features/transactions/hooks/use-transactions-by-month'
 import { MonthSelect } from '@/shared/components/month-select'
 import { NotFound } from '@/shared/components/not-found'
 import {
@@ -33,53 +33,27 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function PieChartTransactions() {
-  const [chartData, setChartData] = useState([
-    {
-      transactionType: 'income',
-      value: 0,
-      fill: THEME.COLORS.INCOME,
-    },
-    {
-      transactionType: 'outcome',
-      value: 0,
-      fill: THEME.COLORS.OUTCOME,
-    },
-  ])
+  const currentMonth = getMonth(new Date()) + 1
+  const [month, setMonth] = useState(currentMonth)
 
-  const fetchListByMonth = useCallback(async (monthNumber: number) => {
-    const response = await apiListByMonth({ month: Number(monthNumber) })
+  const { data } = useTransactionsByMonth(month)
 
-    const { balance } = response
+  const hasTransactions = data && data.transactions.length > 0
 
-    setChartData([
-      {
-        transactionType: 'income',
-        value: balance?.income || 0,
-        fill: THEME.COLORS.INCOME,
-      },
-      {
-        transactionType: 'outcome',
-        value: balance?.outcome || 0,
-        fill: THEME.COLORS.OUTCOME,
-      },
-    ])
-
-    if (response.transactions.length === 0) {
-      setChartData([])
-    }
-  }, [])
-
-  const handleMonthSelect = useCallback(
-    async (monthNumber: string) => {
-      await fetchListByMonth(Number(monthNumber))
-    },
-    [fetchListByMonth],
-  )
-
-  useEffect(() => {
-    const currentMonth = getMonth(new Date()) + 1
-    fetchListByMonth(currentMonth)
-  }, [fetchListByMonth])
+  const chartData = hasTransactions
+    ? [
+        {
+          transactionType: 'income',
+          value: data.balance?.income || 0,
+          fill: THEME.COLORS.INCOME,
+        },
+        {
+          transactionType: 'outcome',
+          value: data.balance?.outcome || 0,
+          fill: THEME.COLORS.OUTCOME,
+        },
+      ]
+    : []
 
   return (
     <Card className="mb-4 flex h-[400px] w-full flex-col lg:mr-2 lg:w-[480px]">
@@ -90,7 +64,9 @@ export function PieChartTransactions() {
       <Separator />
       <CardContent>
         <div className="mt-4 w-full">
-          <MonthSelect onMonthSelect={handleMonthSelect} />
+          <MonthSelect
+            onMonthSelect={(monthNumber) => setMonth(Number(monthNumber))}
+          />
         </div>
         {chartData.length === 0 ? (
           <NotFound />
