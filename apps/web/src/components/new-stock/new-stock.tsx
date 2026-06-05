@@ -40,7 +40,6 @@ export function NewStock() {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(
     undefined,
   )
-  // const [quantity, setQuantity] = useState(0)
 
   const { buyStock } = useStock()
 

@@ -44,7 +44,6 @@ export function Vertical({ data }: GenericBarChartProps) {
           tickLine={false}
           tickMargin={10}
           axisLine={false}
-          // tickFormatter={(value) => value.slice(0, 3)}
         />
         <Bar
           dataKey="value"

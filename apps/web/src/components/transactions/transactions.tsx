@@ -3,29 +3,7 @@ import { useEffect, useState } from 'react'
 
 import { CardTransactionAccount } from '@/components/card-transaction-account/card-transaction-account'
 
-// import { CardTransactions } from './card-transactions'
 import { TableTransactions } from './table-transactions'
-
-// export type TransactionsProps = {
-//   descrition: string
-//   value: string
-//   category: string
-// }
-
-// export type TransactionsData = {
-//   transactions: {
-//     _id: string
-//     props: {
-//       description: string
-//       type: string
-//       value: number
-//       transactionCategory: {
-//         id: string
-//         description: string
-//       }
-//     }
-//   }[]
-// }
 
 type TransactionsProps = {
   transactions: TransactionDTO['transactions']

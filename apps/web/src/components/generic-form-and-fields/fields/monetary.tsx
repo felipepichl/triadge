@@ -31,8 +31,6 @@ export function Monetary({ name, placeholder }: MonetaryProps) {
               className="h-10"
               placeholder={placeholder}
               value={formattedValue}
-              // inputMode="numeric"
-              // type="number"
               {...register(name, {
                 onChange: (e: ChangeEvent<HTMLInputElement>) => {
                   handleMaskChange(e)

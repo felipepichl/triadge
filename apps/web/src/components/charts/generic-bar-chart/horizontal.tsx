@@ -59,13 +59,6 @@ export function Horizontal({ data }: GenericBarChartProps) {
             fontSize={12}
             width={window.innerWidth}
           />
-          {/* <LabelList
-            position="insideRight"
-            className="fill-foreground"
-            fontSize={12}
-            width={window.innerWidth}
-            formatter={(value: number) => priceFormatter.format(value)}
-          /> */}
         </Bar>
       </BarChart>
     </ChartContainer>

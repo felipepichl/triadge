@@ -1,4 +1,3 @@
-// import { TransactionsData } from './transactions'
 import { TransactionDTO } from '@umabel/core'
 import { format } from 'date-fns'
 import { ArrowRightCircle } from 'lucide-react'
@@ -12,7 +11,6 @@ import { Table, TableBody, TableHead, TableRow } from '../ui/table'
 export function TableTransactions({ transactions: data }: TransactionDTO) {
   return (
     <>
-      {/* <Table className="mt-8 hidden md:table md:basis-1/2"></Table> */}
       <Table className="mt-10">
         <TableBody>
           <ScrollArea className="h-72">
@@ -37,7 +35,6 @@ export function TableTransactions({ transactions: data }: TransactionDTO) {
                   <TableHead className={`${rowClass} `}>
                     {formattedDate}
                   </TableHead>
-                  {/* <TableHead className="flex items-center justify-center text-right"></TableHead> */}
                   <TableHead className="w-1/5">
                     <span className="flex items-center justify-center">
                       <Link to="/finance/details">
@@ -52,9 +49,6 @@ export function TableTransactions({ transactions: data }: TransactionDTO) {
         </TableBody>
       </Table>
 
-      {/* <Separator orientation="horizontal" />
-
-      <Pagination pageIndex={0} totalCount={105} perPage={10} onPageChange={() => {}} /> */}
     </>
   )
 }

@@ -56,7 +56,6 @@ export function SummaryCarousel({
       <CarouselContent>
         {summaries?.map((summary) => (
           <CarouselItem
-            // className={`md:basis-1/2 lg:basis-1/3 xl:basis-1/${summaries?.length}`}
             className={clsx('md:basis-1/2 lg:basis-1/3', xlBasisClass)}
             key={summary.description}
           >

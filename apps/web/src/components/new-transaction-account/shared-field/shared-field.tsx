@@ -72,8 +72,6 @@ export function SharedField() {
                 className="h-10"
                 placeholder="Valor"
                 value={formattedValue}
-                // inputMode="numeric"
-                // type="number"
                 {...form.register(amount, {
                   onChange: (e: ChangeEvent<HTMLInputElement>) => {
                     handleMaskChange(e)
