@@ -2,10 +2,10 @@ import { useContext } from 'react'
 
 import {
   FinancialCategoryAndSubcategoriesContext,
-  FinancialCaterogyAndSubcategoryContextData,
+  FinancialCategoryAndSubcategoryContextData,
 } from '@/contexts/app/financial-category-and-subcategory-context'
 
-export function useFinancialCategoryAndSubcategory(): FinancialCaterogyAndSubcategoryContextData {
+export function useFinancialCategoryAndSubcategory(): FinancialCategoryAndSubcategoryContextData {
   const context = useContext(FinancialCategoryAndSubcategoriesContext)
 
   if (!context) {

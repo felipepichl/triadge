@@ -12,7 +12,7 @@ import { apiListTotalSpentByFinancialCategory } from '@/api/app/financial-catego
 import { apiListTotalSpentToFixedAccountPayable } from '@/api/app/financial-category/list-total-spent-to-fixed-account-payable'
 import { apiListTotalSpentToUnfixedAccountPayable } from '@/api/app/financial-category/list-total-spent-to-unfixed-account-payable'
 
-type FinancialCaterogyAndSubcategoryContextData = {
+type FinancialCategoryAndSubcategoryContextData = {
   financialCategories: FinancialCategoryDetailDTO[]
   listAllFinancialCategoriesByUser(): Promise<void>
   subcategories: SubcategoryDetailDTO[]
@@ -30,7 +30,7 @@ type FinancialCategoryAndSubcategoryProviderProps = {
 }
 
 const FinancialCategoryAndSubcategoriesContext = createContext(
-  {} as FinancialCaterogyAndSubcategoryContextData,
+  {} as FinancialCategoryAndSubcategoryContextData,
 )
 
 function FinancialCategoryAndSubcategoryProvider({
@@ -141,7 +141,7 @@ function FinancialCategoryAndSubcategoryProvider({
   )
 }
 
-export type { FinancialCaterogyAndSubcategoryContextData }
+export type { FinancialCategoryAndSubcategoryContextData }
 export {
   FinancialCategoryAndSubcategoriesContext,
   FinancialCategoryAndSubcategoryProvider,

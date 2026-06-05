@@ -10,7 +10,7 @@ export function useAccountPayable(): AccountPayableContextData {
 
   if (!context) {
     throw new Error(
-      'useTransaction must be used within an AccountPayableProvider',
+      'useAccountPayable must be used within an AccountPayableProvider',
     )
   }
 
