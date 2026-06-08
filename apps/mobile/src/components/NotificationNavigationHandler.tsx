@@ -1,5 +1,6 @@
 import { CommonActions, useNavigation } from '@react-navigation/native'
 import * as Notifications from 'expo-notifications'
+import type { Subscription } from 'expo-notifications'
 import { useEffect, useRef } from 'react'
 
 import type { StackNavigatorRoutesProps } from '@/routes/app/stack.routes'
@@ -12,7 +13,7 @@ import type { StackNavigatorRoutesProps } from '@/routes/app/stack.routes'
  */
 export function NotificationNavigationHandler() {
   const navigation = useNavigation<StackNavigatorRoutesProps>()
-  const responseListener = useRef<Notifications.Subscription>()
+  const responseListener = useRef<Subscription>()
 
   useEffect(() => {
     // Setup notification response listener (when user taps notification)
@@ -46,9 +47,7 @@ export function NotificationNavigationHandler() {
 
     // Cleanup listener on unmount
     return () => {
-      if (responseListener.current) {
-        Notifications.removeNotificationSubscription(responseListener.current)
-      }
+      responseListener.current?.remove()
     }
   }, [navigation])
 

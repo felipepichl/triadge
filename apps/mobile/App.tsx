@@ -7,7 +7,7 @@ import {
   useFonts,
 } from '@expo-google-fonts/roboto'
 import { GluestackUIProvider } from '@gluestack-ui/themed'
-import * as Notifications from 'expo-notifications'
+import type { Subscription } from 'expo-notifications'
 import { useEffect, useRef } from 'react'
 import { StatusBar } from 'react-native'
 import Toast from 'react-native-toast-message'
@@ -22,8 +22,8 @@ export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold })
   const { initialize, setupForegroundListener, setupResponseListener } =
     useAccountPayableNotifications()
-  const notificationListener = useRef<Notifications.Subscription>()
-  const responseListener = useRef<Notifications.Subscription>()
+  const notificationListener = useRef<Subscription>()
+  const responseListener = useRef<Subscription>()
 
   useEffect(() => {
     // Initialize notifications when app starts
@@ -40,14 +40,8 @@ export default function App() {
 
     // Cleanup listeners on unmount
     return () => {
-      if (notificationListener.current) {
-        Notifications.removeNotificationSubscription(
-          notificationListener.current,
-        )
-      }
-      if (responseListener.current) {
-        Notifications.removeNotificationSubscription(responseListener.current)
-      }
+      notificationListener.current?.remove()
+      responseListener.current?.remove()
     }
   }, [initialize, setupForegroundListener, setupResponseListener])
 
