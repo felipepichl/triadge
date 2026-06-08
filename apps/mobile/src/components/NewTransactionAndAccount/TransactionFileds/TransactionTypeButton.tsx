@@ -3,15 +3,21 @@ import { useCallback, useState } from 'react'
 
 import { TypeButton } from './TypeButton'
 
-export function TransactionTypeButton() {
+type TransactionTypeButtonProps = {
+  onTypeChange?: (type: 'income' | 'outcome') => void
+}
+
+export function TransactionTypeButton({
+  onTypeChange,
+}: TransactionTypeButtonProps) {
   const [transactionType, setTransactionType] = useState('')
 
   const handleTransactionTypeSelect = useCallback(
     (type: 'income' | 'outcome') => {
-      console.log('here', type)
       setTransactionType(type)
+      onTypeChange?.(type)
     },
-    [],
+    [onTypeChange],
   )
 
   return (

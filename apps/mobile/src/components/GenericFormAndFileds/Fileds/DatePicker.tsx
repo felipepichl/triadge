@@ -18,7 +18,11 @@ import { Calendar as CustomCalendar, DateData } from 'react-native-calendars'
 
 import { gluestackUIConfig } from '../../../../config/gluestack-ui.config'
 
-export function DatePicker() {
+type DatePickerProps = {
+  onDateChange?: (date: Date) => void
+}
+
+export function DatePicker({ onDateChange }: DatePickerProps) {
   const [isPressed, setIsPressed] = useState(false)
   const [selectedDate, setSelectedDate] = useState(() =>
     format(new Date(), 'yyyy-MM-dd'),
@@ -63,6 +67,7 @@ export function DatePicker() {
                     locale: ptBR,
                   }),
                 )
+                onDateChange?.(new Date(parsed))
                 setIsPressed(false)
               }}
               theme={{

@@ -21,9 +21,16 @@ import { useCallback, useState } from 'react'
 type CategorySelectProps = {
   type: 'financialCategory' | 'subcategory'
   options: Array<{ _id: string; description: string }>
+  onValueChange?: (value: string) => void
+  disabled?: boolean
 }
 
-export function CategorySelect({ type, options }: CategorySelectProps) {
+export function CategorySelect({
+  type,
+  options,
+  onValueChange,
+  disabled = false,
+}: CategorySelectProps) {
   const [parentCategoryId, setParentCategoryId] = useState<string>('')
   const navigator = useNavigation<StackNavigatorRoutesProps>()
 
@@ -38,8 +45,10 @@ export function CategorySelect({ type, options }: CategorySelectProps) {
     <HStack alignItems="center">
       <Select
         flex={1}
+        isDisabled={disabled}
         onValueChange={(value) => {
           setParentCategoryId(value)
+          onValueChange?.(value)
         }}
       >
         <SelectTrigger borderRadius="$xl" h="$14" borderColor="$gray300">
