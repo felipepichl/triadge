@@ -1,7 +1,6 @@
 {
   "extends": "@umabel/typescript-config/react.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     },
