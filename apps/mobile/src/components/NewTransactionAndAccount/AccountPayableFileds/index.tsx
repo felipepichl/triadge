@@ -19,7 +19,15 @@ import { ChevronDownIcon } from 'lucide-react-native'
 
 import { gluestackUIConfig } from '../../../../config/gluestack-ui.config'
 
-export function AccountPayableFileds() {
+type AccountPayableFiledsProps = {
+  onFixedChange?: (isFixed: boolean) => void
+  onInstallmentsChange?: (installments: number) => void
+}
+
+export function AccountPayableFileds({
+  onFixedChange,
+  onInstallmentsChange,
+}: AccountPayableFiledsProps) {
   const { green500, gray500 } = gluestackUIConfig.tokens.colors
 
   return (
@@ -39,10 +47,11 @@ export function AccountPayableFileds() {
             false: gray500,
             true: green500,
           }}
+          onValueChange={onFixedChange}
         />
         <Text color="$gray300">Gasto Recorrente</Text>
       </HStack>
-      <Select>
+      <Select onValueChange={(v) => onInstallmentsChange?.(Number(v))}>
         <SelectTrigger borderRadius="$xl" h="$14" borderColor="$gray300">
           <SelectInput
             placeholder="Quantidade de Parcelas"

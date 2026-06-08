@@ -1,7 +1,7 @@
 import { AccountPayableDetailDTO } from '@umabel/core'
 import { addDays, startOfDay } from 'date-fns'
 
-import { apiListUnpaidAccountsPayable } from '@/api/app/accounts-payable/list-unpaid'
+import { apiListUnpaidAccountsPayableByMonth } from '@/api/app/accounts-payable/list-unpaid'
 import { notificationRepository } from '@/repositories/notifications/notification.repository'
 
 import { notificationSchedulerService } from './notification-scheduler.service'
@@ -31,14 +31,14 @@ class NotificationSyncService {
       const nextMonth = currentMonth === 12 ? 1 : currentMonth + 1
 
       const [currentMonthAccounts, nextMonthAccounts] = await Promise.all([
-        apiListUnpaidAccountsPayable({ month: currentMonth }),
-        apiListUnpaidAccountsPayable({ month: nextMonth }),
+        apiListUnpaidAccountsPayableByMonth(currentMonth),
+        apiListUnpaidAccountsPayableByMonth(nextMonth),
       ])
 
       // Combine accounts from both months
       const allAccounts = [
-        ...currentMonthAccounts.accountsPayable,
-        ...nextMonthAccounts.accountsPayable,
+        ...currentMonthAccounts.unpaidAccountsPayable,
+        ...nextMonthAccounts.unpaidAccountsPayable,
       ]
 
       // Get currently scheduled notifications
