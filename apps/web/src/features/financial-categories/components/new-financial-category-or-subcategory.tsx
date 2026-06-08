@@ -116,10 +116,7 @@ export function NewFinancialCategoryOrSubcategory({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input
-                      placeholder="Descrição"
-                      {...field}
-                    />
+                    <Input placeholder="Descrição" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

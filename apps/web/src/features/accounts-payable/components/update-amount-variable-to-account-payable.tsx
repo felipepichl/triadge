@@ -5,17 +5,20 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { Form, FormField } from '@/shared/components/ui/form'
 import {
   useUpdateAmountVariable,
   useUpdateInterestPaid,
 } from '@/features/accounts-payable/hooks/use-accounts-payable-mutations'
-import { parseCurrency } from '@/shared/util/formatter'
-
 import { Monetary } from '@/shared/components/generic-form-and-fields/fields/monetary'
 import { Button } from '@/shared/components/ui/button'
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/components/ui/popover'
+import { Form, FormField } from '@/shared/components/ui/form'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/shared/components/ui/popover'
 import { Switch } from '@/shared/components/ui/switch'
+import { parseCurrency } from '@/shared/util/formatter'
 
 const updateAmountVariableToAccountPayableForm = z.object({
   amount: z.string().min(1, { message: 'Campo obrigatórios' }),

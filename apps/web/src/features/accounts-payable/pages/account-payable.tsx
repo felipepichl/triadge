@@ -2,17 +2,17 @@ import { DollarSign, HandCoins, Pin, TrendingUpDown } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 
-import { LineChartFinancialCategory } from '@/features/financial-categories/components/line-chart-financial-category'
 import { ListAccountsPayable } from '@/features/accounts-payable/components/list-accounts-payable'
-import { MonthSelect } from '@/shared/components/month-select'
+import { useFixedAccountsPayable } from '@/features/accounts-payable/hooks/use-fixed-accounts-payable'
+import { usePaidAccountsPayable } from '@/features/accounts-payable/hooks/use-paid-accounts-payable'
+import { useUnfixedAccountsPayable } from '@/features/accounts-payable/hooks/use-unfixed-accounts-payable'
+import { useUnpaidAccountsPayable } from '@/features/accounts-payable/hooks/use-unpaid-accounts-payable'
+import { LineChartFinancialCategory } from '@/features/financial-categories/components/line-chart-financial-category'
 import { NewTransactionAccount } from '@/features/transactions/components/new-transaction-account/new-transaction-account'
+import { MonthSelect } from '@/shared/components/month-select'
 import { SummaryProps } from '@/shared/components/summary/summary'
 import { SummaryCarousel } from '@/shared/components/summary/summary-carousel'
 import { Separator } from '@/shared/components/ui/separator'
-import { useFixedAccountsPayable } from '@/features/accounts-payable/hooks/use-fixed-accounts-payable'
-import { useUnfixedAccountsPayable } from '@/features/accounts-payable/hooks/use-unfixed-accounts-payable'
-import { useUnpaidAccountsPayable } from '@/features/accounts-payable/hooks/use-unpaid-accounts-payable'
-import { usePaidAccountsPayable } from '@/features/accounts-payable/hooks/use-paid-accounts-payable'
 import { priceFormatter } from '@/shared/util/formatter'
 
 export function AccountPayable() {
@@ -95,11 +95,7 @@ export function AccountPayable() {
       <Separator className="mb-4 mt-4 max-md:mt-0" />
 
       <div className="flex flex-col lg:flex-row">
-        <ListAccountsPayable
-          type="fixed"
-          title="Gastos Fixos"
-          month={month}
-        />
+        <ListAccountsPayable type="fixed" title="Gastos Fixos" month={month} />
         <div className="flex-1">
           <LineChartFinancialCategory type="fixedAccountPayable" />
         </div>

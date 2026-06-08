@@ -1,5 +1,5 @@
-import { TotalSpentDTO } from '@umabel/core'
 import { useQuery } from '@tanstack/react-query'
+import { TotalSpentDTO } from '@umabel/core'
 
 import { useAuth } from '@/features/auth/hooks/use-auth'
 import { apiListTotalSpentByFinancialCategory } from '@/features/financial-categories/api/list-total-spent-by-financial-category'

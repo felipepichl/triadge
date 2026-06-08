@@ -4,7 +4,5 @@ export const priceFormatter = new Intl.NumberFormat('pt-BR', {
 })
 
 export function parseCurrency(value: string): number {
-  return parseFloat(
-    value.replace('R$ ', '').replace('.', '').replace(',', '.'),
-  )
+  return parseFloat(value.replace('R$ ', '').replace('.', '').replace(',', '.'))
 }

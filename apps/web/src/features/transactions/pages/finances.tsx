@@ -10,9 +10,11 @@ import { DateRange } from 'react-day-picker'
 import { Helmet } from 'react-helmet-async'
 
 import { NewTransactionAccount } from '@/features/transactions/components/new-transaction-account/new-transaction-account'
+import { Transactions } from '@/features/transactions/components/transactions'
+import { useTransactions } from '@/features/transactions/hooks/use-transactions'
+import { useTransactionsByDateRange } from '@/features/transactions/hooks/use-transactions-by-date-range'
 import { SummaryProps } from '@/shared/components/summary/summary'
 import { SummaryCarousel } from '@/shared/components/summary/summary-carousel'
-import { Transactions } from '@/features/transactions/components/transactions'
 import { Button } from '@/shared/components/ui/button'
 import { Calendar } from '@/shared/components/ui/calendar'
 import {
@@ -28,8 +30,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select'
-import { useTransactions } from '@/features/transactions/hooks/use-transactions'
-import { useTransactionsByDateRange } from '@/features/transactions/hooks/use-transactions-by-date-range'
 import { priceFormatter } from '@/shared/util/formatter'
 
 export function Finances() {
@@ -134,9 +134,7 @@ export function Finances() {
             <Select
               onValueChange={(value) =>
                 setSelectedType(
-                  value === 'all'
-                    ? undefined
-                    : (value as 'income' | 'outcome'),
+                  value === 'all' ? undefined : (value as 'income' | 'outcome'),
                 )
               }
             >
@@ -153,7 +151,6 @@ export function Finances() {
             </Select>
           </div>
         </div>
-
       </div>
 
       <Transactions

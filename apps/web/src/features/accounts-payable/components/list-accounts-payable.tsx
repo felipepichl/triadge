@@ -1,8 +1,13 @@
-import { CardTransactionAccount } from '@/features/transactions/components/card-transaction-account/card-transaction-account'
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
-import { Separator } from '@/shared/components/ui/separator'
 import { useFixedAccountsPayable } from '@/features/accounts-payable/hooks/use-fixed-accounts-payable'
 import { useUnfixedAccountsPayable } from '@/features/accounts-payable/hooks/use-unfixed-accounts-payable'
+import { CardTransactionAccount } from '@/features/transactions/components/card-transaction-account/card-transaction-account'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/shared/components/ui/card'
+import { Separator } from '@/shared/components/ui/separator'
 
 type ListAccountsPayableProps = {
   type: 'fixed' | 'unfixed'

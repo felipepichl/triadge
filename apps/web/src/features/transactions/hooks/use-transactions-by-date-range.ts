@@ -1,5 +1,5 @@
-import { TransactionDTO } from '@umabel/core'
 import { useQuery } from '@tanstack/react-query'
+import { TransactionDTO } from '@umabel/core'
 
 import { useAuth } from '@/features/auth/hooks/use-auth'
 import { apiListByDateRange } from '@/features/transactions/api/list-by-date-range'
@@ -24,12 +24,12 @@ export function useTransactionsByDateRange(
 
       const transactionsByType = await apiListByType({ type })
 
-      const filteredTransactions =
-        transactionsByDateRange.transactions.filter((transaction) =>
+      const filteredTransactions = transactionsByDateRange.transactions.filter(
+        (transaction) =>
           transactionsByType.transactions.some(
             (t) => t._id === transaction._id,
           ),
-        )
+      )
 
       return {
         ...transactionsByDateRange,

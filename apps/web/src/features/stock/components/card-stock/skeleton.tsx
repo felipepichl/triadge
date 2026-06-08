@@ -1,4 +1,9 @@
-import { Card, CardContent, CardFooter, CardHeader } from '@/shared/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@/shared/components/ui/card'
 import { Separator } from '@/shared/components/ui/separator'
 import { Skeleton } from '@/shared/components/ui/skeleton'
 

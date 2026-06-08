@@ -1,7 +1,7 @@
 import { SubcategoryDetailDTO, SubcategoryResponseDTO } from '@umabel/core'
 
-import { api } from '@/shared/lib/axios'
 import { handleApiError } from '@/shared/api/api-error-handler'
+import { api } from '@/shared/lib/axios'
 
 export type SubcategoryBody = {
   parentCategoryId: string

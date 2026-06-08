@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import { useAuth } from '@/features/auth/hooks/use-auth'
 import { Button } from '@/shared/components/ui/button'
 import {
   Form,
@@ -15,7 +16,6 @@ import {
   FormItem,
   FormMessage,
 } from '@/shared/components/ui/form'
-import { useAuth } from '@/features/auth/hooks/use-auth'
 
 const signInForm = z.object({
   register: z.string().min(1, { message: 'Campo obrigatório' }),

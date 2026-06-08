@@ -1,5 +1,5 @@
-import { CreateAccountPayableDTO, UpdateAmountVariableDTO } from '@umabel/core'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { CreateAccountPayableDTO, UpdateAmountVariableDTO } from '@umabel/core'
 
 import { apiCreateAccountPayable } from '@/features/accounts-payable/api/create-account-payable'
 import { apiCreateFixedAccountPayable } from '@/features/accounts-payable/api/create-fixed-account-payable'
@@ -59,8 +59,7 @@ export function useUpdateInterestPaid() {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (data: UpdateAmountVariableDTO) =>
-      apiUpdateInterestPaid(data),
+    mutationFn: (data: UpdateAmountVariableDTO) => apiUpdateInterestPaid(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['accounts-payable'] })
     },

@@ -1,7 +1,7 @@
 import { PortfolioResponseDTO } from '@umabel/core'
 
-import { api } from '@/shared/lib/axios'
 import { handleApiError } from '@/shared/api/api-error-handler'
+import { api } from '@/shared/lib/axios'
 
 export async function apiGetPortfolioQuotes(
   type: string,

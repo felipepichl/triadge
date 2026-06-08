@@ -1,6 +1,7 @@
 import { Loader2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
+import { useAuth } from '@/features/auth/hooks/use-auth'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,7 +12,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/shared/components/ui/alert-dialog'
-import { useAuth } from '@/features/auth/hooks/use-auth'
 
 export function AutomaticSignoutAlert() {
   const { isSessionExpiring, isSignOut, signOut, renewSession } = useAuth()

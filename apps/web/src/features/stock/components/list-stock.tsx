@@ -1,8 +1,13 @@
 import { usePortfolio } from '@/features/stock/hooks/use-portfolio'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/shared/components/ui/card'
+import { Separator } from '@/shared/components/ui/separator'
 
 import { CardStock } from './card-stock'
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
-import { Separator } from '@/shared/components/ui/separator'
 
 type ListStockProps = {
   type: 'fii' | 'stock'

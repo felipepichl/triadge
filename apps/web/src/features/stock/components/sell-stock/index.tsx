@@ -6,14 +6,24 @@ import { toast } from 'sonner'
 import z from 'zod'
 
 import { useSellStock } from '@/features/stock/hooks/use-stock-mutations'
-import { parseCurrency } from '@/shared/util/formatter'
-
 import { Monetary } from '@/shared/components/generic-form-and-fields/fields/monetary'
 import { Button } from '@/shared/components/ui/button'
 import { CardDescription } from '@/shared/components/ui/card'
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/shared/components/ui/form'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/shared/components/ui/form'
 import { Input } from '@/shared/components/ui/input'
-import { Popover, PopoverContent, PopoverTrigger } from '@/shared/components/ui/popover'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/shared/components/ui/popover'
+import { parseCurrency } from '@/shared/util/formatter'
+
 import { InfoRow } from './info-row'
 
 const sellStockForm = z.object({

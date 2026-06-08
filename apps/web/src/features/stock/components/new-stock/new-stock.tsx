@@ -5,17 +5,20 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { ApiError } from '@/shared/api/api-error'
 import { useBuyStock } from '@/features/stock/hooks/use-stock-mutations'
-import { parseCurrency } from '@/shared/util/formatter'
-
+import { ApiError } from '@/shared/api/api-error'
 import { DrawerForm } from '@/shared/components/drawer-form'
 import { DatePicker } from '@/shared/components/generic-form-and-fields/fields/date-picker'
 import { Monetary } from '@/shared/components/generic-form-and-fields/fields/monetary'
 import { GenericForm } from '@/shared/components/generic-form-and-fields/generic-form'
 import { SubmitButton } from '@/shared/components/generic-form-and-fields/submit-button'
 import { Button } from '@/shared/components/ui/button'
-import { FormControl, FormField, FormItem, FormMessage } from '@/shared/components/ui/form'
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/shared/components/ui/form'
 import { Input } from '@/shared/components/ui/input'
 import {
   Select,
@@ -25,6 +28,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/components/ui/select'
+import { parseCurrency } from '@/shared/util/formatter'
 
 const formSchema = z.object({
   symbol: z.string().min(1, { message: 'Campo obrigatório' }),

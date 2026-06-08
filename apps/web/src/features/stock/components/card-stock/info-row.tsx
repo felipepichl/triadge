@@ -1,6 +1,5 @@
-import { priceFormatter } from '@/shared/util/formatter'
-
 import { CardDescription } from '@/shared/components/ui/card'
+import { priceFormatter } from '@/shared/util/formatter'
 
 type InfoRowProps = {
   label: string

@@ -3,10 +3,14 @@ import { format } from 'date-fns'
 import { ArrowRightCircle } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
-import { priceFormatter } from '@/shared/util/formatter'
-
 import { ScrollArea } from '@/shared/components/ui/scroll-area'
-import { Table, TableBody, TableHead, TableRow } from '@/shared/components/ui/table'
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
+} from '@/shared/components/ui/table'
+import { priceFormatter } from '@/shared/util/formatter'
 
 export function TableTransactions({ transactions: data }: TransactionDTO) {
   return (
@@ -48,7 +52,6 @@ export function TableTransactions({ transactions: data }: TransactionDTO) {
           </ScrollArea>
         </TableBody>
       </Table>
-
     </>
   )
 }

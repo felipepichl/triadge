@@ -1,8 +1,8 @@
 import { PortfolioResponseDTO } from '@umabel/core'
 import { ChevronUp } from 'lucide-react'
 
-import { NotFound } from '@/shared/components/not-found'
 import { SellStock } from '@/features/stock/components/sell-stock'
+import { NotFound } from '@/shared/components/not-found'
 import {
   Card,
   CardContent,
@@ -18,6 +18,7 @@ import {
   CarouselPrevious,
 } from '@/shared/components/ui/carousel'
 import { Separator } from '@/shared/components/ui/separator'
+
 import { InfoRow } from './info-row'
 import { CardStockSkeleton } from './skeleton'
 

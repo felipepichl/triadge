@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { useAuth } from '@/features/auth/hooks/use-auth'
 import { apiListAllUnpaidAccountsPayableByMonth } from '@/features/accounts-payable/api/list-all-unpaid-account-payable-by-month'
+import { useAuth } from '@/features/auth/hooks/use-auth'
 
 export function useUnpaidAccountsPayable(month: number) {
   const { user } = useAuth()

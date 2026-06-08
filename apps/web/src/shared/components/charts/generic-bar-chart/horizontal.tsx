@@ -1,12 +1,12 @@
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from 'recharts'
 
+import { priceFormatter } from '@/shared/util/formatter'
+
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from '../../ui/chart'
-import { priceFormatter } from '@/shared/util/formatter'
-
 import { GenericBarChartProps } from './dtos/generic-bar-chart-dto'
 
 export function Horizontal({ data }: GenericBarChartProps) {

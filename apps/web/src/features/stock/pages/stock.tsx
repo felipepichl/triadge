@@ -2,16 +2,21 @@ import { Activity, DollarSign, TrendingUpDown } from 'lucide-react'
 import { useMemo } from 'react'
 import { Helmet } from 'react-helmet-async'
 
-import { GenericBarChart } from '@/shared/components/charts/generic-bar-chart'
-import { GenericPieChart } from '@/shared/components/charts/generic-pie-chart'
 import { ListStock } from '@/features/stock/components/list-stock'
 import { NewStock } from '@/features/stock/components/new-stock/new-stock'
-import { SummaryProps } from '@/shared/components/summary/summary'
-import { SummaryCarousel } from '@/shared/components/summary/summary-carousel'
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card'
-import { Separator } from '@/shared/components/ui/separator'
 import { useInvestment } from '@/features/stock/hooks/use-investment'
 import { usePortfolio } from '@/features/stock/hooks/use-portfolio'
+import { GenericBarChart } from '@/shared/components/charts/generic-bar-chart'
+import { GenericPieChart } from '@/shared/components/charts/generic-pie-chart'
+import { SummaryProps } from '@/shared/components/summary/summary'
+import { SummaryCarousel } from '@/shared/components/summary/summary-carousel'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@/shared/components/ui/card'
+import { Separator } from '@/shared/components/ui/separator'
 import { priceFormatter } from '@/shared/util/formatter'
 
 export function Stock() {

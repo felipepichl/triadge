@@ -3,9 +3,8 @@ import { format } from 'date-fns'
 import { Calendar, Tag } from 'lucide-react'
 import { useCallback, useState } from 'react'
 
+import { UpdateAmountVariableToAccountPayable } from '@/features/accounts-payable/components/update-amount-variable-to-account-payable'
 import { useMarkAccountPayableAsPaid } from '@/features/accounts-payable/hooks/use-accounts-payable-mutations'
-import { priceFormatter } from '@/shared/util/formatter'
-
 import { NotFound } from '@/shared/components/not-found'
 import {
   AlertDialog,
@@ -33,7 +32,7 @@ import {
   CarouselPrevious,
 } from '@/shared/components/ui/carousel'
 import { Switch } from '@/shared/components/ui/switch'
-import { UpdateAmountVariableToAccountPayable } from '@/features/accounts-payable/components/update-amount-variable-to-account-payable'
+import { priceFormatter } from '@/shared/util/formatter'
 
 type BaseCardTransactionAccount = {
   transactions?: TransactionDetailDTO[] | undefined

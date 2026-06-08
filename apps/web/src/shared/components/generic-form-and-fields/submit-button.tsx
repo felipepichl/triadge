@@ -4,7 +4,9 @@ import { Button } from '../ui/button'
 import { Separator } from '../ui/separator'
 
 export function SubmitButton() {
-  const { formState: { isSubmitting } } = useFormContext()
+  const {
+    formState: { isSubmitting },
+  } = useFormContext()
 
   return (
     <>

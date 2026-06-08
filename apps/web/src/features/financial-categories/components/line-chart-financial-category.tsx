@@ -10,6 +10,7 @@ import {
   YAxis,
 } from 'recharts'
 
+import { useTotalSpent } from '@/features/financial-categories/hooks/use-total-spent'
 import { MonthSelect } from '@/shared/components/month-select'
 import { NotFound } from '@/shared/components/not-found'
 import {
@@ -26,7 +27,6 @@ import {
   ChartTooltipContent,
 } from '@/shared/components/ui/chart'
 import { Separator } from '@/shared/components/ui/separator'
-import { useTotalSpent } from '@/features/financial-categories/hooks/use-total-spent'
 import { useIsWideScreen } from '@/shared/hooks/use-is-wide-screen'
 import { priceFormatter } from '@/shared/util/formatter'
 

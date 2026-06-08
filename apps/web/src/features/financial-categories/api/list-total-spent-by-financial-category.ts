@@ -1,7 +1,7 @@
 import { ListTotalSpentByFinancialCategoryResponseDTO } from '@umabel/core'
 
-import { api } from '@/shared/lib/axios'
 import { handleApiError } from '@/shared/api/api-error-handler'
+import { api } from '@/shared/lib/axios'
 
 export type ListTotalSpentByFinancialCategoryBody = {
   type: 'income' | 'outcome'
@@ -13,12 +13,13 @@ export async function apiListTotalSpentByFinancialCategory({
   month,
 }: ListTotalSpentByFinancialCategoryBody): Promise<ListTotalSpentByFinancialCategoryResponseDTO> {
   try {
-    const { data } = await api.get<ListTotalSpentByFinancialCategoryResponseDTO>(
-      '/financial-category/total-spent',
-      {
-        params: { type, month },
-      },
-    )
+    const { data } =
+      await api.get<ListTotalSpentByFinancialCategoryResponseDTO>(
+        '/financial-category/total-spent',
+        {
+          params: { type, month },
+        },
+      )
 
     const totalExpensesByFinancialCategory =
       data.totalExpensesByFinancialCategory.map(
