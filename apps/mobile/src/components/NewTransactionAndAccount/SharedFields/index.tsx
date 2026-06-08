@@ -2,7 +2,8 @@ import { DatePicker } from '@components/GenericFormAndFileds/Fileds/DatePicker'
 import { Input } from '@components/GenericFormAndFileds/Fileds/Input'
 import { VStack } from '@components/ui/vstack'
 import { useMonetaryMask } from '@hooks/useMonetaryMask'
-import { useCallback, useEffect, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import { useCallback, useState } from 'react'
 import { NativeSyntheticEvent, TextInputChangeEventData } from 'react-native'
 
 import { apiListFinancialCategories } from '@/api/app/financial-categories/list-categories'
@@ -53,21 +54,19 @@ export function SharedFields({
     }
   }, [])
 
-  useEffect(() => {
-    fetchCategories()
-  }, [fetchCategories])
-
-  useEffect(() => {
-    if (selectedCategoryId) {
-      fetchSubcategories(selectedCategoryId)
-    } else {
-      setSubcategories([])
-    }
-  }, [selectedCategoryId, fetchSubcategories])
+  useFocusEffect(
+    useCallback(() => {
+      fetchCategories()
+      if (selectedCategoryId) {
+        fetchSubcategories(selectedCategoryId)
+      }
+    }, [fetchCategories, fetchSubcategories, selectedCategoryId]),
+  )
 
   const handleCategoryChange = useCallback(
     (value: string) => {
       setSelectedCategoryId(value)
+      setSubcategories([])
       onCategoryChange?.(value)
     },
     [onCategoryChange],
