@@ -1,60 +1,22 @@
-import { AccountPayableDTO } from '@umabel/core'
+import {
+  UnpaidAccountPayableDTO,
+  UnpaidAccountPayableResponseDTO,
+} from '@umabel/core'
 
 import { api } from '@/lib/axios'
 
-export type ListUnpaidAccountsPayableBody = {
-  month?: number
-}
-
-export async function apiListUnpaidAccountsPayable({
-  month,
-}: ListUnpaidAccountsPayableBody = {}): Promise<AccountPayableDTO> {
-  const today = new Date()
-  const currentMonth = month || today.getMonth() + 1
-
-  const { data } = await api.get<{
-    unpaidAccountsPayable: {
-      _id: string
-      description: string
-      amount: number
-      isPaid: boolean
-      dueDate: string
-      paymentDate?: string
-      isFixed: boolean
-      financialCategoryId: string
-      subcategoryId?: string
-    }[]
-    unpaidAccountsPayableTotalAmount: number
-  }>('/accounts-payable/unpaid/month', {
-    params: { month: currentMonth },
-  })
-
-  const accountsPayable =
-    data.unpaidAccountsPayable?.map(
-      ({
-        _id,
-        description,
-        amount,
-        isPaid,
-        dueDate,
-        paymentDate,
-        isFixed,
-        financialCategoryId,
-        subcategoryId,
-      }) => ({
-        _id,
-        description,
-        amount,
-        isPaid,
-        dueDate: new Date(dueDate),
-        paymentDate: paymentDate ? new Date(paymentDate) : undefined,
-        isFixed,
-        financialCategoryId,
-        subcategoryId,
-      }),
-    ) || []
+export async function apiListUnpaidAccountsPayableByMonth(
+  month: number,
+): Promise<UnpaidAccountPayableDTO> {
+  const { data } = await api.get<UnpaidAccountPayableResponseDTO>(
+    '/accounts-payable/unpaid/month',
+    {
+      params: { month },
+    },
+  )
 
   return {
-    accountsPayable,
+    unpaidAccountsPayable: data.unpaidAccountsPayable,
+    unpaidAccountsPayableTotalAmount: data.unpaidAccountsPayableTotalAmount,
   }
 }
