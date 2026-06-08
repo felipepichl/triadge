@@ -12,13 +12,13 @@ import {
 } from '@/shared/components/ui/select'
 import { Switch } from '@/shared/components/ui/switch'
 
-import { getFieldPaths } from '../@types/field-paths'
+import { fieldPaths } from '../@types/field-paths'
 
 export function AccountPayableField() {
   const [isSwitchOn, setIsSwitchOn] = useState(false)
 
   const form = useFormContext()
-  const { installments, isFixed } = getFieldPaths()
+  const { installments, isFixed } = fieldPaths
 
   function handleSwitchChange() {
     setIsSwitchOn(!isSwitchOn)

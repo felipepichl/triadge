@@ -11,13 +11,13 @@ import {
 } from '@/shared/components/ui/form'
 import { RadioGroup, RadioGroupItem } from '@/shared/components/ui/radio-group'
 
-import { getFieldPaths } from '../@types/field-paths'
+import { fieldPaths } from '../@types/field-paths'
 
 export function TransactionField() {
   const [selectedValue, setSelectedValue] = useState<string | null>('')
 
   const form = useFormContext()
-  const fields = getFieldPaths()
+  const fields = fieldPaths
 
   const handleTypeChange = useCallback(
     (type: string) => {

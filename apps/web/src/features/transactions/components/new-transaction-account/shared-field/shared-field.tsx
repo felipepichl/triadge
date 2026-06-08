@@ -5,6 +5,8 @@ import { ChangeEvent, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 
 import { NewFinancialCategoryOrSubcategory } from '@/features/financial-categories/components/new-financial-category-or-subcategory'
+import { useFinancialCategories } from '@/features/financial-categories/hooks/use-financial-categories'
+import { useSubcategories } from '@/features/financial-categories/hooks/use-subcategories'
 import { Button } from '@/shared/components/ui/button'
 import { Calendar } from '@/shared/components/ui/calendar'
 import {
@@ -15,11 +17,9 @@ import {
 } from '@/shared/components/ui/form'
 import { Input } from '@/shared/components/ui/input'
 import { PopoverContent, PopoverTrigger } from '@/shared/components/ui/popover'
-import { useFinancialCategories } from '@/features/financial-categories/hooks/use-financial-categories'
-import { useSubcategories } from '@/features/financial-categories/hooks/use-subcategories'
 import { useMonetaryMask } from '@/shared/hooks/use-monetary-mask'
 
-import { getFieldPaths } from '../@types/field-paths'
+import { fieldPaths } from '../@types/field-paths'
 import { CategorySelect } from './category-select'
 
 export function SharedField() {
@@ -31,7 +31,7 @@ export function SharedField() {
 
   const form = useFormContext()
   const { description, amount, date, financialCategoryId, subcategoryId } =
-    getFieldPaths()
+    fieldPaths
 
   return (
     <>
