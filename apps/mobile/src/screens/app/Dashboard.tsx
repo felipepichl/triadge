@@ -10,17 +10,25 @@ import { VStack } from '@components/ui/vstack'
 import { getMonth } from 'date-fns'
 import { useCallback, useEffect, useState } from 'react'
 
+import { apiListTotalSpentByFinancialCategory } from '@/api/app/financial-categories/list-total-spent'
 import { apiListByMonth } from '@/api/app/transactions/list-by-month'
 
 export function Dashboard() {
   const [income, setIncome] = useState(0)
   const [outcome, setOutcome] = useState(0)
-  const [isLoadingChart, setIsLoadingChart] = useState(true)
+  const [isLoadingPieChart, setIsLoadingPieChart] = useState(true)
 
-  const fetchListByMonth = useCallback(async (monthNumber: number) => {
-    setIsLoadingChart(true)
+  const [categoryData, setCategoryData] = useState<{ x: string; y: number }[]>(
+    [],
+  )
+  const [isLoadingBarChart, setIsLoadingBarChart] = useState(true)
+
+  const [selectedMonth, setSelectedMonth] = useState(getMonth(new Date()) + 1)
+
+  const fetchTransactions = useCallback(async (month: number) => {
+    setIsLoadingPieChart(true)
     try {
-      const response = await apiListByMonth({ month: Number(monthNumber) })
+      const response = await apiListByMonth({ month })
 
       const { balance } = response
 
@@ -32,21 +40,44 @@ export function Dashboard() {
         setOutcome(balance?.outcome || 0)
       }
     } finally {
-      setIsLoadingChart(false)
+      setIsLoadingPieChart(false)
+    }
+  }, [])
+
+  const fetchCategories = useCallback(async (month: number) => {
+    setIsLoadingBarChart(true)
+    try {
+      const response = await apiListTotalSpentByFinancialCategory({
+        type: 'outcome',
+        month,
+      })
+
+      const chartData = response.totalExpensesByFinancialCategory.map(
+        ({ financialCategory, totalSpent }) => ({
+          x: financialCategory.description,
+          y: totalSpent,
+        }),
+      )
+
+      setCategoryData(chartData)
+    } finally {
+      setIsLoadingBarChart(false)
     }
   }, [])
 
   const handleMonthSelect = useCallback(
     async (monthNumber: string) => {
-      await fetchListByMonth(Number(monthNumber))
+      const month = Number(monthNumber)
+      setSelectedMonth(month)
+      await Promise.all([fetchTransactions(month), fetchCategories(month)])
     },
-    [fetchListByMonth],
+    [fetchTransactions, fetchCategories],
   )
 
   useEffect(() => {
-    const currentMonth = getMonth(new Date()) + 1
-    fetchListByMonth(currentMonth)
-  }, [fetchListByMonth])
+    fetchTransactions(selectedMonth)
+    fetchCategories(selectedMonth)
+  }, [fetchTransactions, fetchCategories, selectedMonth])
 
   return (
     <VStack flex={1}>
@@ -70,7 +101,7 @@ export function Dashboard() {
         <PieChart
           income={income}
           outcome={outcome}
-          isLoading={isLoadingChart}
+          isLoading={isLoadingPieChart}
         />
 
         <Box px="$8" pt="$5" pb="$5">
@@ -82,9 +113,7 @@ export function Dashboard() {
           </Text>
         </Box>
 
-        <MonthSelect onMonthSelect={handleMonthSelect} />
-
-        <BarChart />
+        <BarChart data={categoryData} isLoading={isLoadingBarChart} />
       </ScrollView>
     </VStack>
   )
