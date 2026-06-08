@@ -1,11 +1,10 @@
+import { Loading } from '@components/Loading'
 import { ScreenHeader } from '@components/Headers/ScreenHeader'
 import { SummaryProps } from '@components/Summary/Summary'
 import { SummaryScroll } from '@components/Summary/SummaryScroll'
 import { VStack } from '@components/ui/vstack'
 import {
   endOfMonth,
-  getMonth,
-  getYear,
   startOfMonth,
 } from 'date-fns'
 import { ArrowDownCircle, ArrowUpCircle, DollarSign } from 'lucide-react-native'
@@ -16,8 +15,10 @@ import { priceFormatter } from '@/utils/formatter'
 
 export function Transaction() {
   const [summaries, setSummaries] = useState<SummaryProps[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   const fetchTransactions = useCallback(async () => {
+    setIsLoading(true)
     const now = new Date()
     const start = startOfMonth(now)
     const end = endOfMonth(now)
@@ -57,12 +58,18 @@ export function Transaction() {
       ])
     } catch {
       setSummaries([])
+    } finally {
+      setIsLoading(false)
     }
   }, [])
 
   useEffect(() => {
     fetchTransactions()
   }, [fetchTransactions])
+
+  if (isLoading) {
+    return <Loading />
+  }
 
   return (
     <VStack>

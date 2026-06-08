@@ -1,3 +1,4 @@
+import { Loading } from '@components/Loading'
 import { MonthSelect } from '@components/GenericFormAndFileds/Fileds/MonthSelect'
 import { ScreenHeader } from '@components/Headers/ScreenHeader'
 import { SummaryProps } from '@components/Summary/Summary'
@@ -15,8 +16,10 @@ import { priceFormatter } from '@/utils/formatter'
 
 export function AccountPayable() {
   const [summaries, setSummaries] = useState<SummaryProps[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   const fetchAccountsPayable = useCallback(async (month: number) => {
+    setIsLoading(true)
     try {
       const [fixed, unfixed, unpaid, paid] = await Promise.all([
         apiListFixedAccountsPayableByMonth(month),
@@ -65,6 +68,8 @@ export function AccountPayable() {
       ])
     } catch {
       setSummaries([])
+    } finally {
+      setIsLoading(false)
     }
   }, [])
 
@@ -79,6 +84,10 @@ export function AccountPayable() {
     const currentMonth = getMonth(new Date()) + 1
     fetchAccountsPayable(currentMonth)
   }, [fetchAccountsPayable])
+
+  if (isLoading) {
+    return <Loading />
+  }
 
   return (
     <VStack flex={1}>
