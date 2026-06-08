@@ -23,6 +23,7 @@ type CategorySelectProps = {
   options: Array<{ _id: string; description: string }>
   onValueChange?: (value: string) => void
   disabled?: boolean
+  parentCategoryId?: string
 }
 
 export function CategorySelect({
@@ -30,16 +31,20 @@ export function CategorySelect({
   options,
   onValueChange,
   disabled = false,
+  parentCategoryId: externalParentCategoryId,
 }: CategorySelectProps) {
-  const [parentCategoryId, setParentCategoryId] = useState<string>('')
+  const [selectedValue, setSelectedValue] = useState<string>('')
   const navigator = useNavigation<StackNavigatorRoutesProps>()
+
+  const navigateParentId =
+    type === 'subcategory' ? externalParentCategoryId : selectedValue
 
   const handleNewCategoryOrSubcategory = useCallback(() => {
     navigator.navigate('newFinancialCategoryOrSubcategory', {
       type,
-      parentCategoryId,
+      parentCategoryId: navigateParentId,
     })
-  }, [navigator, type, parentCategoryId])
+  }, [navigator, type, navigateParentId])
 
   return (
     <HStack alignItems="center">
@@ -47,7 +52,7 @@ export function CategorySelect({
         flex={1}
         isDisabled={disabled}
         onValueChange={(value) => {
-          setParentCategoryId(value)
+          setSelectedValue(value)
           onValueChange?.(value)
         }}
       >
@@ -102,8 +107,8 @@ export function CategorySelect({
         h="$14"
         w="$14"
         onPress={handleNewCategoryOrSubcategory}
-        disabled={parentCategoryId === ''}
-        opacity={parentCategoryId === '' ? '$30' : '$100'}
+        disabled={!navigateParentId}
+        opacity={!navigateParentId ? '$30' : '$100'}
       />
     </HStack>
   )

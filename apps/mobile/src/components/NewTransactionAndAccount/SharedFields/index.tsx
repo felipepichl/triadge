@@ -101,6 +101,7 @@ export function SharedFields({
         options={subcategories}
         onValueChange={onSubcategoryChange}
         disabled={!selectedCategoryId}
+        parentCategoryId={selectedCategoryId}
       />
     </VStack>
   )
