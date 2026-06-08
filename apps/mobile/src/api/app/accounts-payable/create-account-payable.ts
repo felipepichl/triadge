@@ -1,5 +1,6 @@
 import { CreateAccountPayableDTO } from '@umabel/core'
 
+import { handleApiError } from '@/api/api-error-handler'
 import { api } from '@/lib/axios'
 
 export async function apiCreateAccountPayable({
@@ -10,12 +11,16 @@ export async function apiCreateAccountPayable({
   financialCategoryId,
   subcategoryId,
 }: CreateAccountPayableDTO): Promise<void> {
-  await api.post('/accounts-payable', {
-    description,
-    amount,
-    dueDate,
-    installments,
-    financialCategoryId,
-    subcategoryId,
-  })
+  try {
+    await api.post('/accounts-payable', {
+      description,
+      amount,
+      dueDate,
+      installments,
+      financialCategoryId,
+      subcategoryId,
+    })
+  } catch (error) {
+    throw handleApiError(error)
+  }
 }

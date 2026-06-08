@@ -1,5 +1,6 @@
 import { TransactionDTO, TransactionResponseDTO } from '@umabel/core'
 
+import { handleApiError } from '@/api/api-error-handler'
 import { api } from '@/lib/axios'
 
 export type ListByMonthBody = {
@@ -9,15 +10,19 @@ export type ListByMonthBody = {
 export async function apiListByMonth({
   month,
 }: ListByMonthBody): Promise<TransactionDTO> {
-  const { data } = await api.get<TransactionResponseDTO>(
-    '/transactions/month',
-    {
-      params: { month },
-    },
-  )
+  try {
+    const { data } = await api.get<TransactionResponseDTO>(
+      '/transactions/month',
+      {
+        params: { month },
+      },
+    )
 
-  return {
-    transactions: data.transactions,
-    balance: data.balance,
+    return {
+      transactions: data.transactions,
+      balance: data.balance,
+    }
+  } catch (error) {
+    throw handleApiError(error)
   }
 }
