@@ -25,7 +25,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#24242e"
-      }
+      },
+      "package": "com.triadge.mobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -12,7 +12,7 @@ import {
   ScanBarcode,
   School,
 } from 'lucide-react-native'
-import { Platform } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { gluestackUIConfig } from '../../../config/gluestack-ui.config'
 
@@ -30,6 +30,7 @@ const { Navigator, Screen } = createBottomTabNavigator<TabsRoutes>()
 export function TabsRoutes() {
   const { tokens } = gluestackUIConfig
   const iconSize = tokens.space['6']
+  const insets = useSafeAreaInsets()
 
   return (
     <Navigator
@@ -41,8 +42,8 @@ export function TabsRoutes() {
         tabBarStyle: {
           backgroundColor: tokens.colors.gray600,
           borderTopWidth: 0,
-          height: Platform.OS === 'android' ? 'auto' : 96,
-          paddingBottom: tokens.space['14'],
+          height: 60 + insets.bottom,
+          paddingBottom: insets.bottom,
           paddingTop: tokens.space['4'],
         },
       }}

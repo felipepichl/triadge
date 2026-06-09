@@ -10,6 +10,7 @@ import { GluestackUIProvider } from '@gluestack-ui/themed'
 import type { Subscription } from 'expo-notifications'
 import { useEffect, useRef } from 'react'
 import { StatusBar } from 'react-native'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import Toast from 'react-native-toast-message'
 
 import { config } from './config/gluestack-ui.config'
@@ -46,16 +47,18 @@ export default function App() {
   }, [initialize, setupForegroundListener, setupResponseListener])
 
   return (
-    <GluestackUIProvider config={config}>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor="transparent"
-        translucent
-      />
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <GluestackUIProvider config={config}>
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor="transparent"
+          translucent
+        />
 
-      <AuthProvider>{fontsLoaded ? <Routes /> : <Loading />}</AuthProvider>
+        <AuthProvider>{fontsLoaded ? <Routes /> : <Loading />}</AuthProvider>
 
-      <Toast />
-    </GluestackUIProvider>
+        <Toast />
+      </GluestackUIProvider>
+    </GestureHandlerRootView>
   )
 }
