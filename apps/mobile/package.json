@@ -10,7 +10,8 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "gluestack:add": "node scripts/add-gluestack-component.js"
+    "gluestack:add": "node scripts/add-gluestack-component.js",
+    "eas-build-post-install": "cd ../../packages/core && pnpm build"
   },
   "dependencies": {
     "@expo-google-fonts/roboto": "^0.3.0",
