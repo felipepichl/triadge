@@ -3,6 +3,8 @@
   "compilerOptions": {
     "strict": false,
     "allowJs": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
     "baseUrl": "./src",
     "paths": {
       "@modules/*": ["modules/*"],
